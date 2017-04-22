@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170304113051) do
+ActiveRecord::Schema.define(version: 20170422032102) do
+
+  create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "priority",                 default: 0, null: false
+    t.integer  "attempts",                 default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by"
+    t.string   "queue"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+  end
 
   create_table "hiring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "start_date"
@@ -69,8 +84,20 @@ ActiveRecord::Schema.define(version: 20170304113051) do
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at",                                             null: false
     t.datetime "updated_at",                                             null: false
+    t.string   "sex",                    limit: 1
+    t.string   "phone",                  limit: 15
+    t.text     "address",                limit: 65535
+    t.string   "languages"
+    t.integer  "pref_commute_distance"
+    t.string   "occupation",             limit: 20
+    t.string   "speciality",             limit: 50
+    t.integer  "experience"
+    t.string   "referal_code",           limit: 10
+    t.boolean  "accept_terms"
+    t.integer  "hospital_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end
