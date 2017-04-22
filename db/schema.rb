@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422032102) do
+ActiveRecord::Schema.define(version: 20170422050823) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -58,6 +58,36 @@ ActiveRecord::Schema.define(version: 20170422032102) do
     t.float    "base_rate",  limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "staffing_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "hospital_id"
+    t.integer  "user_id"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.float    "rate_per_hour",  limit: 24
+    t.string   "request_status", limit: 20
+    t.float    "auto_deny_in",   limit: 24
+    t.integer  "response_count"
+    t.string   "payment_status", limit: 20
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["hospital_id"], name: "index_staffing_requests_on_hospital_id", using: :btree
+    t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree
+  end
+
+  create_table "staffing_responses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "staffing_request_id"
+    t.integer  "user_id"
+    t.string   "start_code",          limit: 10
+    t.string   "end_code",            limit: 10
+    t.string   "response_status",     limit: 20
+    t.boolean  "accepted"
+    t.boolean  "rated"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
+    t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

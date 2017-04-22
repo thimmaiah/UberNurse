@@ -1,6 +1,20 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :staffing_response do
+    accepted false
+    rated false
+  end
+
+  factory :staffing_request do
+    start_date {Date.today + 1.day}
+    end_date {start_date + 8.hours}
+    rate_per_hour 15
+    request_status {StaffingRequest::REQ_STATUS[rand(StaffingRequest::REQ_STATUS.length)]}
+    auto_deny_in 12
+    response_count 0
+    payment_status {"Unpaid"}
+  end
 
   factory :hospital do
     name {Faker::Company.name}

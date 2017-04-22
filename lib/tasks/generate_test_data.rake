@@ -53,6 +53,7 @@ namespace :uber_nurse do
   	User.delete_all
   	Hospital.delete_all
   	Delayed::Job.delete_all
+    StaffingRequest.delete_all
   end
   
   
@@ -152,10 +153,63 @@ namespace :uber_nurse do
     end
     
   end  
+
+  desc "generates fake req for testing" 
+  task :generateFakeReq => :environment do
+    
+    begin    
+      
+      hospitals = Hospital.all
+    
+      hospitals.each do |c|
+          count = rand(3) + 1
+            (1..count).each do |j|    
+                u = FactoryGirl.build(:staffing_request)
+                u.hospital = c
+                u.user = c.users[0]                       
+                u.save
+              #puts u.to_xml
+              puts "StaffingRequest #{u.id}"              
+              end 
+      end  
+
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+    
+  end 
+
+  desc "generates fake responses for testing" 
+  task :generateFakeResp => :environment do
+    
+    begin    
+      
+      reqs = StaffingRequest.all
+      care_givers = User.care_givers.sort_by { rand }
+    
+      reqs.each do |req|
+          count = rand(3) + 1
+            (1..count).each do |j|    
+                u = FactoryGirl.build(:staffing_response)
+                u.staffing_request = req
+                u.user = care_givers[j]                       
+                u.save
+              #puts u.to_xml
+              puts "StaffingResponse #{u.id}"              
+              end 
+      end  
+
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+  end 
   
   
   desc "Generating all Fake Data"
-  task :generateFakeAll => [:emptyDB, :generateFakehospitals, :generateFakeUsers, :generateFakeAdmin] do
+  task :generateFakeAll => [:emptyDB, :generateFakehospitals, :generateFakeUsers, 
+    :generateFakeAdmin, :generateFakeReq, :generateFakeResp] do
     puts "Generating all Fake Data"
   end	
 	
