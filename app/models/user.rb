@@ -1,11 +1,13 @@
 class User < ApplicationRecord
-  
+  belongs_to :hospital, optional: true
+  has_many :staffing_requests
+  has_many :staffing_responses
+
   SEX = ["M", "F"]
   SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]
   ROLE =["Care Giver", "Employee", "Admin"]
 
-  belongs_to :hospital, optional: true
-
+  
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
@@ -14,6 +16,9 @@ class User < ApplicationRecord
 
 
   scope :care_givers, -> { where role: "Care Giver" }
+  scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
+  scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
+
 
   def self.guest
     u = User.new

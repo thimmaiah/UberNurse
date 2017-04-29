@@ -1,5 +1,5 @@
 class StaffingRequest < ApplicationRecord
-	REQ_STATUS = ["Pending Approval", "Approved", "UnApproved", "Closed"]
+	REQ_STATUS = ["Pending Approval", "Approved", "Denied", "Closed"]
 	belongs_to :hospital
 	belongs_to :user
 	has_many :staffing_responses

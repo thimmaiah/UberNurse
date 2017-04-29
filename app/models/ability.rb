@@ -30,17 +30,19 @@ class Ability
     def guest_privilages
         can :read, Hospital
         can :read, PostCode
+        can :read, StaffingRequest, :request_status=>"Approved"
     end
 
     def care_giver_privilages
         guest_privilages
-        can :manage, StaffingRequest, :user_id=>@user.id
         can :manage, StaffingResponse, :user_id=>@user.id
         can :manage, User, :id=>@user.id
     end
 
     def employee_privilages
-        care_giver_privilages
+        can :read, Hospital
+        can :read, PostCode
+        can :manage, StaffingRequest, :user_id=>@user.id
         can :read, User, :hospital_id=>@user.hospital_id
         can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
         can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
@@ -48,7 +50,9 @@ class Ability
 
     def admin_privilages
         employee_privilages
+        can :manage, Hospital, :id=>@user.hospital_id
         can :manage, User, :hospital_id=>@user.hospital_id
         can :manage, StaffingRequest, :hospital_id=>@user.hospital_id
+        can [:read, :update], StaffingResponse, :hospital_id=>@user.hospital_id         
     end
 end

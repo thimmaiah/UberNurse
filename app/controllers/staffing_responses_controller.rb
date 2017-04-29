@@ -4,6 +4,10 @@ class StaffingResponsesController < ApplicationController
 
   # GET /staffing_responses
   def index
+    if (params[:staffing_request_id].present?)
+        @staffing_responses = @staffing_responses.where(staffing_request_id: params[:staffing_request_id])
+        @staffing_responses = @staffing_responses.where(hospital_id: current_user.hospital_id)
+    end
     render json: @staffing_responses.includes(:user), include: "user"
   end
 
@@ -45,6 +49,6 @@ class StaffingResponsesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def staffing_response_params
-      params.require(:staffing_response).permit(:staffing_request_id, :user_id, :start_code, :end_code, :response_status, :accepted, :rated)
+      params.require(:staffing_response).permit(:staffing_request_id, :user_id, :start_code, :end_code, :response_status, :accepted, :rated, :hospital_id)
     end
 end
