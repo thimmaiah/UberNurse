@@ -141,6 +141,24 @@ namespace :uber_nurse do
     u.save
     #puts u.to_xml
     puts "User #{u.id}"  
+
+    u = FactoryGirl.build(:user)
+    u.email = "employee@ubernurse.com"
+    u.password = u.email
+    u.role = "Employee"
+    u.hospital = Hospital.first        
+    u.save
+    #puts u.to_xml
+    puts "User #{u.id}"  
+
+    u = FactoryGirl.build(:user)
+    u.email = "admin@ubernurse.com"
+    u.password = u.email
+    u.role = "Admin"
+    u.hospital = Hospital.first        
+    u.save
+    #puts u.to_xml
+    puts "User #{u.id}"  
     
     rescue Exception => exception
       puts exception.backtrace.join("\n")
@@ -204,6 +222,7 @@ namespace :uber_nurse do
             (1..count).each do |j|    
                 u = FactoryGirl.build(:staffing_response)
                 u.staffing_request = req
+                u.hospital_id = req.hospital_id
                 u.user = care_givers[j]                       
                 u.save
               #puts u.to_xml

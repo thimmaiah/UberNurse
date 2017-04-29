@@ -29,13 +29,13 @@ class Ability
   
     def guest_privilages
         can :read, Hospital
-        can :read, StaffingRequest
         can :read, PostCode
     end
 
     def care_giver_privilages
         guest_privilages
         can :manage, StaffingRequest, :user_id=>@user.id
+        can :manage, StaffingResponse, :user_id=>@user.id
         can :manage, User, :id=>@user.id
     end
 
@@ -43,6 +43,7 @@ class Ability
         care_giver_privilages
         can :read, User, :hospital_id=>@user.hospital_id
         can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
+        can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
     end
 
     def admin_privilages

@@ -1,12 +1,10 @@
 class StaffingResponsesController < ApplicationController
-  before_action :authenticate_user!  
-  before_action :set_staffing_response, only: [:show, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :staffing_response_params
 
   # GET /staffing_responses
   def index
-    @staffing_responses = StaffingResponse.all.includes(:user)
-
-    render json: @staffing_responses, include: "user"
+    render json: @staffing_responses.includes(:user), include: "user"
   end
 
   # GET /staffing_responses/1

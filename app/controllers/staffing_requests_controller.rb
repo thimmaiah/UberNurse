@@ -1,9 +1,9 @@
 class StaffingRequestsController < ApplicationController
+  before_action :authenticate_user!
   load_and_authorize_resource param_method: :staffing_request_params
   
   # GET /staffing_requests
   def index
-    #@staffing_requests = StaffingRequest.all
     render json: @staffing_requests.includes(:user, :hospital), include: "user,hospital"
   end
 

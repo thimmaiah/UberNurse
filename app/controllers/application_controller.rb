@@ -9,4 +9,13 @@ class ApplicationController < ActionController::API
     end
   end
 
+
+  before_action :prepare_exception_notifier
+  private
+  def prepare_exception_notifier
+    request.env["exception_notifier.exception_data"] = {
+      :current_user => current_user
+    }
+  end
+  
 end
