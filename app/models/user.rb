@@ -15,4 +15,15 @@ class User < ApplicationRecord
 
   scope :care_givers, -> { where role: "Care Giver" }
 
+  def self.guest
+    u = User.new
+    u.role = "Guest"
+    u.first_name = "Guest"
+    u.last_name = "User"
+    u.email = "guest.user@ubernurse.com"
+    u.active = true
+  
+    return u
+  end
+
 end

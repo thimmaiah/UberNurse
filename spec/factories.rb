@@ -1,6 +1,11 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :post_code do
+    postcode "MyString"
+    latitude ""
+    longitude ""
+  end
   factory :staffing_response do
     accepted false
     rated false

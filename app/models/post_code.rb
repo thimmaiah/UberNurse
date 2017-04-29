@@ -1,0 +1,2 @@
+class PostCode < ApplicationRecord
+end

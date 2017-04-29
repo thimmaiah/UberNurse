@@ -49,6 +49,7 @@ GEM
     bcrypt (3.1.11)
     builder (3.2.3)
     byebug (9.0.6)
+    cancancan (1.16.0)
     capistrano (3.7.2)
       airbrussh (>= 1.0.0)
       capistrano-harrow
@@ -209,6 +210,7 @@ DEPENDENCIES
   active_model_serializers
   bcrypt (~> 3.1.7)
   byebug
+  cancancan
   capistrano-rails
   delayed_job
   delayed_job_active_record

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :post_codes
   resources :staffing_responses
   resources :staffing_requests
   mount_devise_token_auth_for 'User', at: 'auth'

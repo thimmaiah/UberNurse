@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170422053321) do
+ActiveRecord::Schema.define(version: 20170429012344) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 20170422053321) do
     t.float    "base_rate",  limit: 24
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "post_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "postcode",  limit: 10
+    t.decimal "latitude",             precision: 10
+    t.decimal "longitude",            precision: 10
+    t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
   end
 
   create_table "staffing_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -127,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170422053321) do
     t.string   "referal_code",           limit: 10
     t.boolean  "accept_terms"
     t.integer  "hospital_id"
+    t.boolean  "active"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree

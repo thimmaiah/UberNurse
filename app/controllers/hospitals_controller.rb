@@ -1,11 +1,10 @@
 class HospitalsController < ApplicationController
-  before_action :set_hospital, only: [:show, :update, :destroy]
-
+  #before_action :set_hospital, only: [:show, :update, :destroy]
+  load_and_authorize_resource param_method: :hospital_params
+  
   # GET /hospitals
   def index
-    @hospitals = Hospital.all
-
-    render json: @hospitals
+   render json: @hospitals
   end
 
   # GET /hospitals/1

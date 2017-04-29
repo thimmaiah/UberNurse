@@ -1,4 +1,5 @@
 class StaffingResponsesController < ApplicationController
+  before_action :authenticate_user!  
   before_action :set_staffing_response, only: [:show, :update, :destroy]
 
   # GET /staffing_responses

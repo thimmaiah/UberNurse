@@ -1,10 +1,11 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :update, :destroy]
 
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :user_params
+  
   # GET /users
   def index
-    @users = User.all
-
+    #@users = User.all
     render json: @users
   end
 
@@ -46,6 +47,8 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :role, :nurse_type)
+      params.require(:user).permit(:first_name, :last_name, :email, :role, :nurse_type, 
+        :sex, :phone, :address, :languages, :pref_commute_distance, :occupation, :speciality, :experience, 
+        :referal_code, :accept_terms, :hospital_id)
     end
 end

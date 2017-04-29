@@ -1,11 +1,10 @@
 class StaffingRequestsController < ApplicationController
-  before_action :set_staffing_request, only: [:show, :update, :destroy]
-
+  load_and_authorize_resource param_method: :staffing_request_params
+  
   # GET /staffing_requests
   def index
-    @staffing_requests = StaffingRequest.all.includes(:user, :hospital)
-
-    render json: @staffing_requests, include: "user,hospital"
+    #@staffing_requests = StaffingRequest.all
+    render json: @staffing_requests.includes(:user, :hospital), include: "user,hospital"
   end
 
   # GET /staffing_requests/1

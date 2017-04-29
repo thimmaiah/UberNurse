@@ -23,7 +23,8 @@ gem 'capistrano-rails', group: :development
 gem 'mysql2'
 gem 'oauth'
 gem 'active_model_serializers'
-gem 'rack-cors'
+gem 'rack-cors', :require => 'rack/cors'
+gem 'cancancan'
 
 gem 'rack-attack'
 gem 'omniauth'
