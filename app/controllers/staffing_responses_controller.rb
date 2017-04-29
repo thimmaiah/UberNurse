@@ -19,6 +19,7 @@ class StaffingResponsesController < ApplicationController
   # POST /staffing_responses
   def create
     @staffing_response = StaffingResponse.new(staffing_response_params)
+    @staffing_response.user_id = current_user.id
 
     if @staffing_response.save
       render json: @staffing_response, status: :created, location: @staffing_response
