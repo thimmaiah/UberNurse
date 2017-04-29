@@ -22,7 +22,8 @@ class StaffingRequestsController < ApplicationController
   # POST /staffing_requests
   def create
     @staffing_request = StaffingRequest.new(staffing_request_params)
-
+    @staffing_request.user_id = current_user.id
+    @staffing_request.hospital_id = current_user.hospital_id
     if @staffing_request.save
       render json: @staffing_request, status: :created, location: @staffing_request
     else
