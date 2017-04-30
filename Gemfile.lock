@@ -229,7 +229,6 @@ DEPENDENCIES
   capistrano-rails
   delayed_job
   delayed_job_active_record
-  devise
   devise_token_auth
   exception_notification
   factory_girl_rails

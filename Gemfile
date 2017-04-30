@@ -31,7 +31,6 @@ gem 'cancancan'
 
 gem 'rack-attack'
 gem 'omniauth'
-gem 'devise'
 gem 'devise_token_auth'
 # for background tasks
 gem 'delayed_job'

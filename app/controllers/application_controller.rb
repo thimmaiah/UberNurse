@@ -1,5 +1,9 @@
 class ApplicationController < ActionController::API
+  
+  # Devise stuff
   include DeviseTokenAuth::Concerns::SetUserByToken
+  
+  # Authorization
   include CanCan::ControllerAdditions
   include ActionController::MimeResponds
 
@@ -9,8 +13,16 @@ class ApplicationController < ActionController::API
     end
   end
 
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-  before_action :prepare_exception_notifier
+  protected
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :role, :nurse_type, 
+        :sex, :phone, :address, :languages, :pref_commute_distance, :occupation, :speciality, :experience, 
+        :referal_code, :accept_terms, :hospital_id, :password])
+  end
+  # Exception handling via email notification
+  # before_action :prepare_exception_notifier
   private
   def prepare_exception_notifier
     request.env["exception_notifier.exception_data"] = {

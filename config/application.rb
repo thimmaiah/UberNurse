@@ -38,12 +38,12 @@ module UberNurse
     end
 
 
-    config.middleware.use ExceptionNotification::Rack,
-      :email => {
-        :email_prefix => "[Error] ",
-        :sender_address => %{"Thimmaiah" <thimmaiah@gmail.com>},
-        :exception_recipients => %w{thimmaiah@gmail.com}
-      }
+    # config.middleware.use ExceptionNotification::Rack,
+    #   :email => {
+    #     :email_prefix => "[Error] ",
+    #     :sender_address => %{"Thimmaiah" <thimmaiah@gmail.com>},
+    #     :exception_recipients => %w{thimmaiah@gmail.com}
+    #   }
 
   end
 end

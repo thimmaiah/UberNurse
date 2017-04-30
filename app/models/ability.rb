@@ -31,6 +31,7 @@ class Ability
         can :read, Hospital
         can :read, PostCode
         can :read, StaffingRequest, :request_status=>"Approved"
+        can :create, User
     end
 
     def care_giver_privilages
