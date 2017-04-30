@@ -84,6 +84,7 @@ namespace :uber_nurse do
         
           (1..10).each do | i |
             h = FactoryGirl.build(:hospital) 
+            h.image_url = logos[rand(logos.length)]
             h.save
             #puts u.to_xml(:include => :hospital_industry_mappings)
             puts "Hospital #{h.id}"  
