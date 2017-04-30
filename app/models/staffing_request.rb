@@ -10,4 +10,6 @@ class StaffingRequest < ApplicationRecord
 		self.start_code = rand.to_s[2..6]
 		self.end_code = rand.to_s[2..6]
 	end
+
+	after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 end

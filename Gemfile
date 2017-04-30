@@ -21,6 +21,9 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'capistrano-rails', group: :development
 
 gem 'mysql2'
+gem 'jdbc-mysql',      '= 5.1.35', :platform => :jruby
+gem 'thinking-sphinx', '~> 3.3.0'
+
 gem 'oauth'
 gem 'active_model_serializers'
 gem 'rack-cors', :require => 'rack/cors'
