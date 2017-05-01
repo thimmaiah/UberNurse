@@ -16,11 +16,13 @@ class RequestNotifier
         User.care_givers.verified.order("auto_selected_date ASC").each do |user|
         
           # Check if this user has been assigned another request on the same day
-          # StaffingRequest.includes(:staffing_responses).where("staffing_responses.user_id = ? and staffing_requests.start_date >=? and staffing_requests.start_date <=? ", user.id).references(:staffing_responses)
-          same_day_bookings = user.staffing_responses.includes(:staffing_request)
+          # Get the not rejected responses of this user and see if they are for the same day
+          same_day_bookings = user.staffing_responses.not_rejected.includes(:staffing_request)
           .where("staffing_requests.start_date <= ? and staffing_requests.end_date >= ?", 
-            staffing_request.start_date, staffing_request.start_date).references(:staffing_request)
+                  staffing_request.start_date, staffing_request.start_date).references(:staffing_request)
+          
           logger.debug "same_day_bookings = #{same_day_bookings.length}"
+
           if(same_day_bookings.length == 0) 
             selected_user = user
             break
