@@ -53,6 +53,8 @@ class StaffingRequestsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def staffing_request_params
-      params.require(:staffing_request).permit(:hospital_id, :user_id, :start_date, :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count, :payment_status)
+      params.require(:staffing_request).permit(:hospital_id, :user_id, :start_date, 
+        :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count, 
+        :payment_status, :start_code, :end_code)
     end
 end

@@ -31,4 +31,7 @@ class User < ApplicationRecord
     return u
   end
 
+  def image
+    self.image_url ? self.image_url : "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
+  end
 end

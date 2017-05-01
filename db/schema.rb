@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170430014010) do
+ActiveRecord::Schema.define(version: 20170501082840) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 20170430014010) do
     t.boolean  "accept_terms"
     t.integer  "hospital_id"
     t.boolean  "active"
+    t.text     "image_url",              limit: 65535
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree

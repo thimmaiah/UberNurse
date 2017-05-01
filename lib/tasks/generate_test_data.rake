@@ -102,6 +102,14 @@ namespace :uber_nurse do
   desc "generates fake users for testing" 
   task :generateFakeUsers => :environment do
     
+    images = ["http://cdn2.hubspot.net/hub/494551/file-2603676543-jpg/jacksonnursing/images/top-quality-rns.jpg",
+      "http://globe-views.com/dcim/dreams/nurse/nurse-06.jpg",
+      "http://i01.i.aliimg.com/wsphoto/v0/1897854059_1/Free-Shipping-Dentist-Medical-Workwear-Clothes-Doctor-Medical-Gowns-Medical-font-b-Coat-b-font-Medical.jpg",
+      "http://www.pngall.com/wp-content/uploads/2016/06/Nurse-PNG-Picture.png",
+      "http://s23.postimg.org/54ctzeumj/nurse_22.png",
+      "https://www.colourbox.com/preview/2703293-nurse-or-doctor-stands-confidently-with-arms-crossed-on-a-white-background.jpg",
+      "http://www.greysrecruitment.co.uk/wp-content/uploads/2015/02/nurse-1.png",
+      "http://howtobecomeanurse.yolasite.com/resources/male-nurse1.jpg"]
     begin    
       
 		hospitals = Hospital.all
@@ -127,6 +135,7 @@ namespace :uber_nurse do
       u = FactoryGirl.build(:user)
       # Ensure User role is USER_ROLE_ID
       u.role = "Care Giver"        
+      u.image_url = images[rand(images.length)]
       u.save
       #puts u.to_xml
       puts "User #{u.id}"  
