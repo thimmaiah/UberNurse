@@ -18,7 +18,7 @@ class ApplicationController < ActionController::API
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :role, :nurse_type, 
         :sex, :phone, :address, :languages, :pref_commute_distance, :occupation, :speciality, :experience, 
-        :referal_code, :accept_terms, :hospital_id, :password, :image_url])
+        :referal_code, :accept_terms, :hospital_id, :password, :image_url, :verified, :sort_code, :bank_account])
   end
   # Exception handling via email notification
   before_action :prepare_exception_notifier

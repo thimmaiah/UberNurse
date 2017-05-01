@@ -16,6 +16,7 @@ class User < ApplicationRecord
 
 
   scope :care_givers, -> { where role: "Care Giver" }
+  scope :verified, -> { where verified: true }
   scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
   scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
