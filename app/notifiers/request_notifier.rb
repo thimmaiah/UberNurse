@@ -4,7 +4,7 @@ class RequestNotifier
     logger ||= Rails.logger
     
     begin
-      StaffingRequest.not_broadcasted.each do |staffing_request|
+      StaffingRequest.approved.not_broadcasted.each do |staffing_request|
         # Select a 
         # 1 care giver 
         # 2 who is verified 
@@ -37,9 +37,11 @@ class RequestNotifier
               user_id: selected_user.id, 
               hospital_id:staffing_request.hospital_id,
               response_status: "Pending")
+          staffing_request.broadcast_status = "Sent"
           StaffingResponse.transaction do
             staffing_response.save        
             selected_user.save
+            staffing_request.save
           end
 
           # Notify the selected_user TODO

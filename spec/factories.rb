@@ -1,6 +1,11 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :user_doc do
+    name "MyString"
+    doc_type "MyString"
+    user_id 1
+  end
   factory :post_code do
     postcode "MyString"
     latitude ""

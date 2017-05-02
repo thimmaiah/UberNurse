@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170501114827) do
+ActiveRecord::Schema.define(version: 20170502030223) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -101,6 +101,18 @@ ActiveRecord::Schema.define(version: 20170501114827) do
     t.index ["hospital_id"], name: "index_staffing_responses_on_hospital_id", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
+  end
+
+  create_table "user_docs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "doc_type"
+    t.integer  "user_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.string   "doc_file_name"
+    t.string   "doc_content_type"
+    t.integer  "doc_file_size"
+    t.datetime "doc_updated_at"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
