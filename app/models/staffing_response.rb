@@ -5,6 +5,7 @@ class StaffingResponse < ApplicationRecord
 	belongs_to :hospital
 
 	scope :not_rejected, -> {where("response_status <> 'Rejected'")}
+	scope :accepted, -> {where("response_status = 'Accepted'")}
 
 	before_save :process_rejected
 

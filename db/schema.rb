@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502030223) do
+ActiveRecord::Schema.define(version: 20170504101500) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -59,6 +59,22 @@ ActiveRecord::Schema.define(version: 20170502030223) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.text     "image_url",  limit: 65535
+  end
+
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "staffing_response_id"
+    t.integer  "user_id"
+    t.integer  "hospital_id"
+    t.integer  "paid_by_id"
+    t.float    "amount",               limit: 24
+    t.text     "notes",                limit: 65535
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "staffing_request_id"
+    t.index ["hospital_id"], name: "index_payments_on_hospital_id", using: :btree
+    t.index ["staffing_request_id"], name: "index_payments_on_staffing_request_id", using: :btree
+    t.index ["staffing_response_id"], name: "index_payments_on_staffing_response_id", using: :btree
+    t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
   create_table "post_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

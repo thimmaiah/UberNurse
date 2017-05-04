@@ -1,6 +1,14 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :payment do
+    staffing_response_id 1
+    user_id 1
+    hospital_id 1
+    paid_by_id 1
+    amount 1.5
+    notes "MyText"
+  end
   factory :user_doc do
     name "MyString"
     doc_type "MyString"

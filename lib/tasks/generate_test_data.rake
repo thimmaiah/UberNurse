@@ -245,6 +245,33 @@ namespace :uber_nurse do
       raise exception
     end
   end 
+
+
+  desc "generates fake responses for testing" 
+  task :generateFakePayments => :environment do
+    
+    begin    
+      
+      resps = StaffingResponse.accepted
+      
+      resps.each do |resp|
+          u = FactoryGirl.build(:payment)
+          u.staffing_response = resp
+          u.staffing_request_id = resp.staffing_request_id
+          u.hospital_id = resp.hospital_id
+          u.user_id = resp.user_id                       
+          u.paid_by_id = resp.hospital.users.first
+          u.save
+          #puts u.to_xml
+          puts "Payment #{u.id}"              
+      end 
+   
+
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+  end 
   
   
   desc "Generating all Fake Data"
