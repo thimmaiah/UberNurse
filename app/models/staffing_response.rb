@@ -3,6 +3,7 @@ class StaffingResponse < ApplicationRecord
 	belongs_to :user
 	belongs_to :staffing_request
 	belongs_to :hospital
+	has_one :payment
 
 	scope :not_rejected, -> {where("response_status <> 'Rejected'")}
 	scope :accepted, -> {where("response_status = 'Accepted'")}

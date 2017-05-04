@@ -54,6 +54,8 @@ namespace :uber_nurse do
   	Hospital.delete_all
   	Delayed::Job.delete_all
     StaffingRequest.delete_all
+    StaffingResponse.delete_all
+    Payment.delete_all
   end
   
   
@@ -228,12 +230,13 @@ namespace :uber_nurse do
       care_givers = User.care_givers.sort_by { rand }
     
       reqs.each do |req|
-          count = rand(3) + 1
-            (1..count).each do |j|    
+          count = 1
+            (0..count).each do |j|    
                 u = FactoryGirl.build(:staffing_response)
                 u.staffing_request = req
                 u.hospital_id = req.hospital_id
                 u.user = care_givers[j]                       
+                u.response_status = rand(2) > 0 ? "Accepted" : "Rejected"
                 u.save
               #puts u.to_xml
               puts "StaffingResponse #{u.id}"              
@@ -261,7 +264,9 @@ namespace :uber_nurse do
           u.hospital_id = resp.hospital_id
           u.user_id = resp.user_id                       
           u.paid_by_id = resp.hospital.users.first
-          u.save
+          if rand(2) > 0 
+            u.save # Generate payments only for some accepted responses
+          end
           #puts u.to_xml
           puts "Payment #{u.id}"              
       end 
@@ -276,7 +281,7 @@ namespace :uber_nurse do
   
   desc "Generating all Fake Data"
   task :generateFakeAll => [:emptyDB, :generateFakehospitals, :generateFakeUsers, 
-    :generateFakeAdmin, :generateFakeReq, :generateFakeResp] do
+    :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments] do
     puts "Generating all Fake Data"
   end	
 	

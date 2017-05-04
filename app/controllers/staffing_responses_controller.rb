@@ -50,6 +50,7 @@ class StaffingResponsesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def staffing_response_params
-      params.require(:staffing_response).permit(:staffing_request_id, :user_id, :start_code, :end_code, :response_status, :accepted, :rated, :hospital_id)
+      params.require(:staffing_response).permit(:staffing_request_id, :user_id, :start_code, 
+        :end_code, :response_status, :accepted, :rated, :hospital_id, :payment_status)
     end
 end

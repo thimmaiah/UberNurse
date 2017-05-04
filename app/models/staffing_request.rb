@@ -5,6 +5,7 @@ class StaffingRequest < ApplicationRecord
 	belongs_to :hospital
 	belongs_to :user
 	has_many :staffing_responses
+	has_one :payment
 
 	#after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
