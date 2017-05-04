@@ -59,13 +59,6 @@ namespace :uber_nurse do
   end
   
   
-  desc "generates Affiliates" 
-  task :generateAffiliates => :environment do
-  	FactoryGirl.create(:affiliate, {name: "GNYCC", url: "http://www.ny-chamber.com/", logo: "GNYCC.gif"})
-  	FactoryGirl.create(:affiliate,{name: "MCC", url: "http://www.manhattancc.org", logo: "MCC.jpg"})
-  	FactoryGirl.create(:affiliate,{name: "GVCCC", url: "www.villagechelsea.com/", logo: "GVCCC.png"})
-  	FactoryGirl.create(:affiliate,{name: "BCC", url: "www.bronxchamber.com/", logo: "bronx_cc.png"})
-  end
   
   desc "generates fake Hospitals for testing" 
   task :generateFakehospitals => :environment do
@@ -203,10 +196,11 @@ namespace :uber_nurse do
       hospitals = Hospital.all
     
       hospitals.each do |c|
-          count = rand(3) + 1
+          count = rand(5) + 3
             (1..count).each do |j|    
                 u = FactoryGirl.build(:staffing_request)
                 u.hospital = c
+                u.request_status = rand(10) > 2 ? "Approved" : "Rejected"
                 u.user = c.users[0]                       
                 u.save
               #puts u.to_xml
@@ -226,18 +220,21 @@ namespace :uber_nurse do
     
     begin    
       
-      reqs = StaffingRequest.all
+      reqs = StaffingRequest.approved
       care_givers = User.care_givers.sort_by { rand }
     
       reqs.each do |req|
           count = 1
-            (0..count).each do |j|    
+            (1..count).each do |j|    
                 u = FactoryGirl.build(:staffing_response)
                 u.staffing_request = req
                 u.hospital_id = req.hospital_id
                 u.user = care_givers[j]                       
-                u.response_status = rand(2) > 0 ? "Accepted" : "Rejected"
+                u.response_status =  "Accepted" #rand(2) > 0 ? "Accepted" : "Rejected"
                 u.save
+
+                req.broadcast_status = "Sent"
+                req.save
               #puts u.to_xml
               puts "StaffingResponse #{u.id}"              
               end 

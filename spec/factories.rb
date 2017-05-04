@@ -6,19 +6,10 @@ FactoryGirl.define do
     user_id 1
     hospital_id 1
     paid_by_id 1
-    amount 1.5
-    notes "MyText"
+    amount 100
+    notes "Thanks for your service"
   end
-  factory :user_doc do
-    name "MyString"
-    doc_type "MyString"
-    user_id 1
-  end
-  factory :post_code do
-    postcode "MyString"
-    latitude ""
-    longitude ""
-  end
+
   factory :staffing_response do
     accepted false
     rated false
@@ -64,7 +55,7 @@ FactoryGirl.define do
     accept_terms {true}
     pref_commute_distance {rand(10) + 1 }
     languages {"English"}
-
+    verified {rand(2) > 0 ? true : false}
     trait :new_user do
       confirmed_at nil
       confirmation_sent_at nil
