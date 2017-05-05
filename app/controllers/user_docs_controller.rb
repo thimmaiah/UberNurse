@@ -1,4 +1,7 @@
 class UserDocsController < ApplicationController
+  before_action :authenticate_user!
+  #load_and_authorize_resource param_method: :user_doc_params
+
   before_action :set_user_doc, only: [:show, :update, :destroy]
 
   # GET /user_docs
@@ -16,10 +19,12 @@ class UserDocsController < ApplicationController
   # POST /user_docs
   def create
     @user_doc = UserDoc.new(user_doc_params)
-
+    @user_doc.user_id = current_user.id
     if @user_doc.save
       render json: @user_doc, status: :created, location: @user_doc
     else
+      puts "Errors #### " 
+      puts @user_doc.errors.full_messages
       render json: @user_doc.errors, status: :unprocessable_entity
     end
   end
