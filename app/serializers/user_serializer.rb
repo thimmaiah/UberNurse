@@ -4,6 +4,8 @@ class UserSerializer < ActiveModel::Serializer
   :occupation, :speciality, :experience, :referal_code, :accept_terms, :hospital_id,
   :image, :can_manage, :verified, :sort_code, :bank_account, :user_docs
 
+  has_many :user_docs, serializer: UserDocSerializer
+
   def can_manage
   	Ability.new(scope).can?(:manage, object)
   end
