@@ -2,6 +2,7 @@ class User < ApplicationRecord
   belongs_to :hospital, optional: true
   has_many :staffing_requests
   has_many :staffing_responses
+  has_many :user_docs
 
   SEX = ["M", "F"]
   SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]

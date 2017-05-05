@@ -1,5 +1,5 @@
 class UserDocsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:create]
   #load_and_authorize_resource param_method: :user_doc_params
 
   before_action :set_user_doc, only: [:show, :update, :destroy]
@@ -19,7 +19,6 @@ class UserDocsController < ApplicationController
   # POST /user_docs
   def create
     @user_doc = UserDoc.new(user_doc_params)
-    @user_doc.user_id = current_user.id
     if @user_doc.save
       render json: @user_doc, status: :created, location: @user_doc
     else
