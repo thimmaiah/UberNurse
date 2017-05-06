@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506065955) do
+ActiveRecord::Schema.define(version: 20170506153712) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -84,6 +84,18 @@ ActiveRecord::Schema.define(version: 20170506065955) do
     t.decimal "latitude",            precision: 18, scale: 15, null: false
     t.decimal "longitude",           precision: 18, scale: 15, null: false
     t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
+  end
+
+  create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "staffing_response_id"
+    t.integer  "stars"
+    t.text     "comments",             limit: 65535
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.integer  "created_by_id"
+    t.index ["staffing_response_id"], name: "index_ratings_on_staffing_response_id", using: :btree
+    t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
 
   create_table "staffing_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -24,9 +24,11 @@ class User < ApplicationRecord
   before_save :update_coordinates
 
   def update_coordinates
-    post_code = PostCode.where(postcode: self.postcode).first
-    self.lat = post_code.latitude
-    self.lng = post_code.longitude
+    if(self.postcode_changed?)
+      post_code = PostCode.where(postcode: self.postcode).first
+      self.lat = post_code.latitude
+      self.lng = post_code.longitude
+    end
   end
 
   def self.guest

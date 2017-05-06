@@ -38,8 +38,9 @@ class Ability
         guest_privilages
         can :manage, StaffingResponse, :user_id=>@user.id
         can :manage, User, :id=>@user.id
-        can :manage, UserDoc
+        can :manage, UserDoc, :user_id =>@user.id
         can :read, Payment, :user_id =>@user.id
+        can :read, Rating, :user_id =>@user.id
     end
 
     def employee_privilages
@@ -50,6 +51,8 @@ class Ability
         can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
         can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
         can :read, UserDoc
+        can :read, Rating
+        can :manage, Rating, :created_by_id => @user.id 
     end
 
     def admin_privilages

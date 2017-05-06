@@ -1,6 +1,12 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  
+  factory :rating do
+    stars {rand(4) + 1}
+    comments {Rating::COMMENTS[rand(Rating::COMMENTS.length)]}
+  end
+
   factory :payment do
     staffing_response_id 1
     user_id 1

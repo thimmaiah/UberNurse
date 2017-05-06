@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  resources :ratings
   resources :payments
   resources :user_docs
   mount_devise_token_auth_for 'User', at: 'auth'

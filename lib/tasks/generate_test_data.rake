@@ -56,6 +56,7 @@ namespace :uber_nurse do
     StaffingRequest.delete_all
     StaffingResponse.delete_all
     Payment.delete_all
+    Rating.delete_all
   end
   
   
@@ -229,7 +230,7 @@ namespace :uber_nurse do
     
     begin    
       
-      reqs = StaffingRequest.approved
+      reqs = StaffingRequest.open
       care_givers = User.care_givers.sort_by { rand }
     
       reqs.each do |req|
@@ -283,11 +284,36 @@ namespace :uber_nurse do
       raise exception
     end
   end 
+
+
+  desc "generates fake ratings for testing" 
+  task :generateFakeRatings => :environment do
+    
+    begin    
+      
+      resps = StaffingResponse.accepted
+      
+      resps.each do |resp|
+          u = FactoryGirl.build(:rating)
+          u.staffing_response = resp
+          u.user_id = resp.user_id 
+          u.created_by_id = resp.staffing_request.user_id                                 
+          u.save # Generate payments only for some accepted responses
+          #puts u.to_xml
+          puts "Rating #{u.id}"              
+      end 
+   
+
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+  end 
   
   
   desc "Generating all Fake Data"
   task :generateFakeAll => [:emptyDB, :generateFakehospitals, :generateFakeUsers, 
-    :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments] do
+    :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments, :generateFakeRatings] do
     puts "Generating all Fake Data"
   end	
 	
