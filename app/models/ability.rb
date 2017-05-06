@@ -30,7 +30,7 @@ class Ability
     def guest_privilages
         can :read, Hospital
         can :read, PostCode
-        can :read, StaffingRequest, :request_status=>"Approved"
+        can :read, StaffingRequest
         can :create, User
     end
 

@@ -4,7 +4,7 @@ class RequestNotifier
     logger ||= Rails.logger
     
     begin
-      StaffingRequest.approved.not_broadcasted.each do |staffing_request|
+      StaffingRequest.open.not_broadcasted.each do |staffing_request|
         # Select a 
         # 1 care giver 
         # 2 who is verified 
