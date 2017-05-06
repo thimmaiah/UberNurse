@@ -31,7 +31,7 @@ FactoryGirl.define do
     town { Faker::Address.city }
     #county { Faker::Address.county }
     street { Faker::Address.street_name }
-    postcode { Faker::Address.postcode }
+    postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
   end
 
   factory :user do
@@ -45,6 +45,7 @@ FactoryGirl.define do
     password {email}
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     address { Faker::Address.street_address }
+    postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
     confirmation_sent_at { Time.now }
     confirmed_at { Time.now }
     sign_in_count { 5 }

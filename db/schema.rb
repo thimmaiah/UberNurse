@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505162912) do
+ActiveRecord::Schema.define(version: 20170506044019) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -56,9 +56,11 @@ ActiveRecord::Schema.define(version: 20170505162912) do
     t.string   "town"
     t.string   "postcode"
     t.float    "base_rate",  limit: 24
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.text     "image_url",  limit: 65535
+    t.decimal  "lat",                      precision: 18, scale: 15
+    t.decimal  "lng",                      precision: 18, scale: 15
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -77,10 +79,10 @@ ActiveRecord::Schema.define(version: 20170505162912) do
     t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
-  create_table "post_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string  "postcode",  limit: 10
-    t.decimal "latitude",             precision: 10
-    t.decimal "longitude",            precision: 10
+  create_table "postcodelatlng", force: :cascade, options: "ENGINE=MyISAM DEFAULT CHARSET=latin1" do |t|
+    t.string  "postcode",  limit: 8,                           null: false
+    t.decimal "latitude",            precision: 18, scale: 15, null: false
+    t.decimal "longitude",           precision: 18, scale: 15, null: false
     t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
   end
 
@@ -134,13 +136,13 @@ ActiveRecord::Schema.define(version: 20170505162912) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "provider",                             default: "email", null: false
-    t.string   "uid",                                  default: "",      null: false
-    t.string   "encrypted_password",                   default: "",      null: false
+    t.string   "provider",                                                       default: "email", null: false
+    t.string   "uid",                                                            default: "",      null: false
+    t.string   "encrypted_password",                                             default: "",      null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                        default: 0,       null: false
+    t.integer  "sign_in_count",                                                  default: 0,       null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -155,8 +157,8 @@ ActiveRecord::Schema.define(version: 20170505162912) do
     t.string   "role",                   limit: 10
     t.string   "nurse_type",             limit: 20
     t.text     "tokens",                 limit: 65535
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at",                                                                       null: false
+    t.datetime "updated_at",                                                                       null: false
     t.string   "sex",                    limit: 1
     t.string   "phone",                  limit: 15
     t.text     "address",                limit: 65535
@@ -174,6 +176,9 @@ ActiveRecord::Schema.define(version: 20170505162912) do
     t.string   "bank_account",           limit: 8
     t.boolean  "verified"
     t.date     "auto_selected_date"
+    t.decimal  "lat",                                  precision: 18, scale: 15
+    t.decimal  "lng",                                  precision: 18, scale: 15
+    t.string   "postcode",               limit: 10
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree

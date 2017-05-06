@@ -21,6 +21,13 @@ class User < ApplicationRecord
   scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
   scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
+  before_save :update_coordinates
+
+  def update_coordinates
+    post_code = PostCode.where(postcode: self.postcode).first
+    self.lat = post_code.latitude
+    self.lng = post_code.longitude
+  end
 
   def self.guest
     u = User.new
