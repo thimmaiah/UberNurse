@@ -165,6 +165,15 @@ namespace :uber_nurse do
     #puts u.to_xml
     puts "User #{u.id}"  
     
+    u = FactoryGirl.build(:user)
+    u.email = "root@ubernurse.com"
+    u.password = u.email
+    u.role = "Super User"
+    u.save
+    #puts u.to_xml
+    puts "User #{u.id}"  
+    
+
     rescue Exception => exception
       puts exception.backtrace.join("\n")
       raise exception
