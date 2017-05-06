@@ -46,5 +46,7 @@ module UberNurse
     #     :exception_recipients => %w{thimmaiah@gmail.com}
     #   }
 
+    config.active_job.queue_adapter = :delayed_job
+    
   end
 end

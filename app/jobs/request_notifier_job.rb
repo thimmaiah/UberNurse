@@ -1,4 +1,5 @@
-class RequestNotifier 
+class RequestNotifierJob < ApplicationJob
+  queue_as :default 
 
   def perform
     logger ||= Rails.logger
@@ -51,22 +52,22 @@ class RequestNotifier
       end
 
     rescue Exception => e
-      logger.error "Error in RequestNotifier"
+      logger.error "Error in RequestNotifierJob"
       logger.error e.backtrace
     ensure  
       # Run this again
-      Delayed::Backend::ActiveRecord::Job.enqueue(RequestNotifier.new, :priority=> 0, :run_at=>1.minute.from_now)
+      RequestNotifierJob.set(wait: 1.minute).perform_later
     end
     return nil
     
   end
 
   def self.add_to_queue
-    if Delayed::Backend::ActiveRecord::Job.where("handler like '%RequestNotifier%'").count == 0
-      puts "RequestNotifier queued"
-      Delayed::Backend::ActiveRecord::Job.enqueue(RequestNotifier.new, :priority=> 0)
+    if Delayed::Backend::ActiveRecord::Job.where("handler like '%RequestNotifierJob%'").count == 0
+      puts "RequestNotifierJob queued"
+      RequestNotifierJob.set(wait: 1.minute).perform_later
     else
-      puts "RequestNotifier already queued. Nothing done"
+      puts "RequestNotifierJob already queued. Nothing done"
     end    
   end
 
