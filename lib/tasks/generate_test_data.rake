@@ -114,12 +114,9 @@ namespace :uber_nurse do
 				count = rand(1) + 1
 		   		(1..count).each do |j|    
 			        u = FactoryGirl.build(:user)
-			        if(rand(2) > 0)
-	            		u.role = "Employee"
-	            	else
-	            		u.role = "Admin"
-	            	end
-			        u.hospital_id = c.id				               
+			        
+	            u.role = "Admin"
+	            u.hospital_id = c.id				               
 			        u.save
 				    #puts u.to_xml
 				    puts "User #{u.id}"              

@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   SEX = ["M", "F"]
   SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]
-  ROLE =["Care Giver", "Employee", "Admin"]
+  ROLE =["Care Giver", "Admin"]
 
   
   # Include default devise modules.
