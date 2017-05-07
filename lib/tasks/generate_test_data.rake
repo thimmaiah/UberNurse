@@ -241,6 +241,7 @@ namespace :uber_nurse do
                 u.hospital_id = req.hospital_id
                 u.user = care_givers[rand(care_givers.length)]                       
                 u.response_status =  "Accepted" #rand(2) > 0 ? "Accepted" : "Rejected"
+                u.accepted = true
                 u.save
 
                 req.broadcast_status = "Sent"
@@ -298,6 +299,7 @@ namespace :uber_nurse do
           u.staffing_response = resp
           u.user_id = resp.user_id 
           u.created_by_id = resp.staffing_request.user_id                                 
+          u.hospital_id = resp.staffing_request.hospital_id   
           u.save # Generate payments only for some accepted responses
           #puts u.to_xml
           puts "Rating #{u.id}"              

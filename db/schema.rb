@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507042849) do
+ActiveRecord::Schema.define(version: 20170507061443) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170507042849) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.integer  "created_by_id"
+    t.integer  "hospital_id"
     t.index ["staffing_response_id"], name: "index_ratings_on_staffing_response_id", using: :btree
     t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
