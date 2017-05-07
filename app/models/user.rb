@@ -22,6 +22,8 @@ class User < ApplicationRecord
   scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
   before_save :update_coordinates
+  before_create :update_rating
+
 
   def update_coordinates
     if(self.postcode_changed?)
@@ -29,6 +31,11 @@ class User < ApplicationRecord
       self.lat = post_code.latitude
       self.lng = post_code.longitude
     end
+  end
+
+  def update_rating
+    self.total_rating = 0
+    self.rating_count = 0
   end
 
   def self.guest

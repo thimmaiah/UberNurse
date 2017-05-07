@@ -111,7 +111,7 @@ namespace :uber_nurse do
 		hospitals = Hospital.all
 		
 		hospitals.each do |c|
-				count = rand(3) + 1
+				count = rand(1) + 1
 		   		(1..count).each do |j|    
 			        u = FactoryGirl.build(:user)
 			        if(rand(2) > 0)
@@ -239,7 +239,7 @@ namespace :uber_nurse do
                 u = FactoryGirl.build(:staffing_response)
                 u.staffing_request = req
                 u.hospital_id = req.hospital_id
-                u.user = care_givers[j]                       
+                u.user = care_givers[rand(care_givers.length)]                       
                 u.response_status =  "Accepted" #rand(2) > 0 ? "Accepted" : "Rejected"
                 u.save
 
