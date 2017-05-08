@@ -1,6 +1,6 @@
 namespace :uber_nurse do    
   
-  require "faker"
+  #require "faker"
   require 'digest/sha1'  
   require 'factory_girl'  
   # require File.expand_path("spec/factories.rb")
