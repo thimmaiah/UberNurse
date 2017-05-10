@@ -8,7 +8,7 @@ class StaffingResponsesController < ApplicationController
         @staffing_responses = @staffing_responses.where(staffing_request_id: params[:staffing_request_id])
         @staffing_responses = @staffing_responses.where(hospital_id: current_user.hospital_id)
     end
-    render json: @staffing_responses.includes(:user), include: "user"
+    render json: @staffing_responses.includes(:user, :rating, :payment), include: "user"
   end
 
   # GET /staffing_responses/1
