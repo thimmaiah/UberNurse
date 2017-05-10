@@ -63,3 +63,5 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'factory_girl_rails'
 gem 'exception_notification'
+gem 'dotenv-rails'
+gem 'rest-client'

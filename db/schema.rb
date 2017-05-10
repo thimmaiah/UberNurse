@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507061443) do
+ActiveRecord::Schema.define(version: 20170510134542) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -195,6 +195,7 @@ ActiveRecord::Schema.define(version: 20170507061443) do
     t.string   "postcode",               limit: 10
     t.integer  "total_rating"
     t.integer  "rating_count"
+    t.text     "push_token",             limit: 65535
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree
