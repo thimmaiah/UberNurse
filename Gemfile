@@ -65,3 +65,4 @@ gem 'factory_girl_rails'
 gem 'exception_notification'
 gem 'dotenv-rails'
 gem 'rest-client'
+gem "administrate"

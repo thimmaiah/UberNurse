@@ -26,7 +26,7 @@ module UberNurse
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
+    config.api_only = false
     config.autoload_paths += %W( #{Rails.root.to_s}/app/services #{Rails.root.to_s}/app/notifiers )
     
     config.middleware.insert_before 0, Rack::Cors do
@@ -48,6 +48,8 @@ module UberNurse
     #   }
 
     config.active_job.queue_adapter = :delayed_job
-    
+    config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
+
+    config.action_mailer.default_url_options = { host: 'ubernurse.com' }
   end
 end

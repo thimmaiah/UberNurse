@@ -1,5 +1,18 @@
 Rails.application.routes.draw do
   
+  namespace :admin do
+    resources :users
+    resources :hospitals
+    resources :payments
+    resources :post_codes
+    resources :ratings
+    resources :staffing_requests
+    resources :staffing_responses
+    resources :user_docs
+
+    root to: "users#index"
+  end
+
   resources :ratings
   resources :payments
   resources :user_docs
