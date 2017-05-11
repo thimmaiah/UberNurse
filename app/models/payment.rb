@@ -1,4 +1,7 @@
 class Payment < ApplicationRecord
+
+	acts_as_paranoid
+	
 	belongs_to :user
 	belongs_to :hospital
 	belongs_to :staffing_response

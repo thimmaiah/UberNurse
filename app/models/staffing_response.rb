@@ -1,4 +1,7 @@
 class StaffingResponse < ApplicationRecord
+
+	acts_as_paranoid
+	
 	RESPONSE_STATUS = ["Accepted", "Rejected", "Pending"]
 	belongs_to :user
 	belongs_to :staffing_request

@@ -1,4 +1,7 @@
 class User < ApplicationRecord
+
+  acts_as_paranoid
+  
   belongs_to :hospital, optional: true
   has_many :staffing_requests
   has_many :staffing_responses

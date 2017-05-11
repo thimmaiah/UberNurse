@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510134542) do
+ActiveRecord::Schema.define(version: 20170511165319) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.text     "image_url",  limit: 65535
     t.decimal  "lat",                      precision: 18, scale: 15
     t.decimal  "lng",                      precision: 18, scale: 15
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_hospitals_on_deleted_at", using: :btree
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -73,6 +75,8 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
     t.integer  "staffing_request_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["hospital_id"], name: "index_payments_on_hospital_id", using: :btree
     t.index ["staffing_request_id"], name: "index_payments_on_staffing_request_id", using: :btree
     t.index ["staffing_response_id"], name: "index_payments_on_staffing_response_id", using: :btree
@@ -114,6 +118,8 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.string   "start_code",       limit: 10
     t.string   "end_code",         limit: 10
     t.string   "broadcast_status"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
     t.index ["hospital_id"], name: "index_staffing_requests_on_hospital_id", using: :btree
     t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree
   end
@@ -130,6 +136,8 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.datetime "updated_at",                     null: false
     t.integer  "hospital_id"
     t.string   "payment_status",      limit: 10
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["hospital_id"], name: "index_staffing_responses_on_hospital_id", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
@@ -147,6 +155,8 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.datetime "doc_updated_at"
     t.boolean  "verified"
     t.text     "notes",            limit: 65535
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_user_docs_on_deleted_at", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -196,7 +206,9 @@ ActiveRecord::Schema.define(version: 20170510134542) do
     t.integer  "total_rating"
     t.integer  "rating_count"
     t.text     "push_token",             limit: 65535
+    t.datetime "deleted_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
+    t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["hospital_id"], name: "index_users_on_hospital_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree

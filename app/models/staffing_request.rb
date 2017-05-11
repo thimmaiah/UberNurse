@@ -1,4 +1,7 @@
 class StaffingRequest < ApplicationRecord
+
+	acts_as_paranoid
+	
 	REQ_STATUS = ["Open", "Closed"]
 	BROADCAST_STATUS =["Sent", "Failed"]
 

@@ -1,5 +1,7 @@
 class UserDoc < ApplicationRecord
 
+	acts_as_paranoid
+	
 	DOC_TYPES = ["Certificate", "ID Card", "Address Proof"]
 
 	has_attached_file :doc, {validate_media_type: false}

@@ -1,4 +1,7 @@
 class Hospital < ApplicationRecord
+
+	acts_as_paranoid
+	
 	has_many :users
 	has_many :staffing_requests
 
