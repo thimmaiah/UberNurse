@@ -1,6 +1,7 @@
 class Payment < ApplicationRecord
 
 	acts_as_paranoid
+	after_save ThinkingSphinx::RealTime.callback_for(:payment)
 	
 	belongs_to :user
 	belongs_to :hospital

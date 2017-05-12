@@ -10,12 +10,27 @@ module Admin
     before_action :check_admin
 
     def check_admin
-      # if current_user.role == "Super User"
-      # else
-      #   raise "Not Super User"
-      # end
+      if current_user.role == "Super User"
+
+      else
+        raise "Not Super User"
+      end
     end
-    
+
+    def setup_search
+      page = Administrate::Page::Collection.new(dashboard, order: order)
+
+      render locals: {
+        resources: @resources,
+        search_term: params[:search],
+        page: page,
+        show_search_bar: true
+      }
+    end
+
+    def show_search_bar?
+      true
+    end
     # Override this value to specify the number of elements to display at a time
     # on index pages. Defaults to 20.
     # def records_per_page

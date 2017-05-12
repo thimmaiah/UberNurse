@@ -1,6 +1,7 @@
 class StaffingRequest < ApplicationRecord
 
 	acts_as_paranoid
+	after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 	
 	REQ_STATUS = ["Open", "Closed"]
 	BROADCAST_STATUS =["Sent", "Failed"]

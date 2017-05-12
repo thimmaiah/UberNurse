@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   
   acts_as_paranoid
+  after_save ThinkingSphinx::RealTime.callback_for(:user)
   
   belongs_to :hospital, optional: true
   has_many :staffing_requests

@@ -1,5 +1,6 @@
 class Rating < ApplicationRecord
 	
+	after_save ThinkingSphinx::RealTime.callback_for(:rating)
 	COMMENTS = ["Great Work", "Good Work", "Not Bad", "Can Improve"]
 	
 	belongs_to :staffing_response
