@@ -63,32 +63,14 @@ FactoryGirl.define do
     pref_commute_distance {rand(10) + 1 }
     languages {"English"}
     verified {rand(2) > 0 ? true : false}
+    
     trait :new_user do
       confirmed_at nil
       confirmation_sent_at nil
       sign_in_count nil
     end
 
-    factory :vendor do
-      vendor_buyer_flag {"Vendor"}
-      user_role_id {  [ADMIN_USER_ROLE_ID,EMPLOYEE_ROLE_ID][rand(2)] }
-    end
-
-    factory :employee do
-      vendor_buyer_flag {"Vendor"}
-      user_role_id {  EMPLOYEE_ROLE_ID }
-    end
     
-    factory :admin do
-      vendor_buyer_flag {"Vendor"}
-      user_role_id {  ADMIN_USER_ROLE_ID }
-    end
-
-    factory :buyer do
-      vendor_buyer_flag {"Buyer"}
-      user_role_id { USER_ROLE_ID }
-    end
-
   end
 
 end

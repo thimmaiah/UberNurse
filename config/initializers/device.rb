@@ -3,7 +3,7 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = 'please-change-me@config-initializers-devise.com'
+  config.mailer_sender = 'noreply@ubernurse.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Spree::UserMailer'
@@ -37,7 +37,7 @@ Devise.setup do |config|
   # ==> Configuration for :database_authenticatable
   # For bcrypt, this is the cost for hashing the password and defaults to 10. If
   # using other encryptors, it sets how many times you want the password re-encrypted.
-  config.stretches = 20
+  config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
   config.pepper = Rails.configuration.secret_token

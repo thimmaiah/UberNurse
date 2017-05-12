@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-
+  
   acts_as_paranoid
   
   belongs_to :hospital, optional: true
@@ -16,6 +16,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
           :confirmable, :omniauthable
+
   include DeviseTokenAuth::Concerns::User
 
 

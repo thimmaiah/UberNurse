@@ -13,6 +13,7 @@ class UserDashboard < Administrate::BaseDashboard
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,
+    password: Field::String,
     role: Field::String,
     nurse_type: Field::String,
     sex: Field::String,
@@ -80,6 +81,7 @@ class UserDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
+    :password,
     :role,
     :nurse_type,
     :sex,
@@ -102,7 +104,7 @@ class UserDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(user)
-  #   "User ##{user.id}"
-  # end
+  def display_resource(user)
+    "#{user.first_name} #{user.last_name} #{user.id}"
+  end
 end
