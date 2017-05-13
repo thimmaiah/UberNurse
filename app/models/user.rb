@@ -23,24 +23,25 @@ class User < ApplicationRecord
 
   scope :care_givers, -> { where role: "Care Giver" }
   scope :verified, -> { where verified: true }
+  scope :active, -> { where active: true }
   scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
   scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
   before_save :update_coordinates
   before_create :update_rating
 
+  reverse_geocoded_by :lat, :lng
 
   def update_coordinates
     if(self.postcode_changed?)
-      post_code = PostCode.where(postcode: self.postcode).first
-      self.lat = post_code.latitude
-      self.lng = post_code.longitude
+      GeocodeJob.perform_later(self)
     end
   end
 
   def update_rating
     self.total_rating = 0
     self.rating_count = 0
+    self.active = true
   end
 
   def self.guest

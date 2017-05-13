@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170511165319) do
+ActiveRecord::Schema.define(version: 20170513040456) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -51,8 +51,6 @@ ActiveRecord::Schema.define(version: 20170511165319) do
   create_table "hospitals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "street"
-    t.string   "locality"
     t.string   "town"
     t.string   "postcode"
     t.float    "base_rate",  limit: 24
