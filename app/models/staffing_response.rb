@@ -1,6 +1,7 @@
 class StaffingResponse < ApplicationRecord
 
 	acts_as_paranoid
+	has_paper_trail
 	
 	RESPONSE_STATUS = ["Accepted", "Rejected", "Pending"]
 	belongs_to :user
@@ -11,6 +12,7 @@ class StaffingResponse < ApplicationRecord
 
 	scope :not_rejected, -> {where("response_status <> 'Rejected'")}
 	scope :accepted, -> {where("response_status = 'Accepted'")}
+	scope :open, -> {where("response_status != 'Closed'")}
 
 	before_save :process_rejected
 

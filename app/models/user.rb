@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_many :staffing_requests
   has_many :staffing_responses
   has_many :user_docs, -> { order(:verified=>:desc) }
+  has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc" 
 
   SEX = ["M", "F"]
   SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]
@@ -29,7 +30,6 @@ class User < ApplicationRecord
 
   before_save :update_coordinates
   before_create :update_rating
-
   reverse_geocoded_by :lat, :lng
 
   def update_coordinates

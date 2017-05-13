@@ -11,7 +11,7 @@ class StaffingRequestsController < ApplicationController
     else
       # but for Care givers show all in their geo location
     end
-    render json: @staffing_requests.includes(:user, :hospital, :staffing_responses), include: "user,hospital"
+    render json: @staffing_requests.open.includes(:user, :hospital, :staffing_responses), include: "user,hospital"
   end
 
   # GET /staffing_requests/1

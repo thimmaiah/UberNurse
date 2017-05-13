@@ -22,6 +22,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     payment_status: Field::String,
+    versions: VersionField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -53,6 +54,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :payment_status,
+    :versions
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -69,7 +71,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
     :response_status,
     :accepted,
     :rated,
-    :payment_status,
+    :payment_status
   ].freeze
 
   # Overwrite this method to customize how staffing responses are displayed

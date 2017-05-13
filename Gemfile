@@ -68,3 +68,4 @@ gem 'rest-client'
 gem "administrate"
 gem "paranoia", "~> 2.2"
 gem "geocoder"
+gem 'paper_trail'

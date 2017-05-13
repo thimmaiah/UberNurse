@@ -25,6 +25,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     start_code: Field::String,
     end_code: Field::String,
     broadcast_status: Field::String,
+    versions: VersionField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -36,7 +37,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :hospital,
     :user,
     :staffing_responses,
-    :payment,
+    :payment
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -59,6 +60,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :start_code,
     :end_code,
     :broadcast_status,
+    :versions
   ].freeze
 
   # FORM_ATTRIBUTES
