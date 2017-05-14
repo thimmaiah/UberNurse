@@ -28,7 +28,7 @@ class User < ApplicationRecord
   scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
   scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
-  before_save :update_coordinates
+  after_save :update_coordinates
   before_create :update_rating
   reverse_geocoded_by :lat, :lng
 

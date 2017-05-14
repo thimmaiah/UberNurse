@@ -69,3 +69,11 @@ gem "administrate"
 gem "paranoia", "~> 2.2"
 gem "geocoder"
 gem 'paper_trail'
+
+group :test do
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'selenium-webdriver'
+  gem "chromedriver-helper"
+end
