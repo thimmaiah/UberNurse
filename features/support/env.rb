@@ -81,3 +81,26 @@ Capybara.configure do |config|
   config.default_driver        = :selenium
 end
 
+
+
+module UberNurseUtils
+  def ionic_select(value, select, first_select_on_page = true)
+    within("##{select}") do
+      find(".item-inner").click
+      begin
+        if(first_select_on_page)
+          find(".input-wrapper").click
+          find(".item-cover").click
+        end
+      rescue
+      end
+    end
+
+    find(".alert-radio-button", :text => "#{value}").click
+    find(".button-inner", :text => "#{value}").click
+    click_on("OK")
+  end
+end
+
+
+World(UberNurseUtils)
