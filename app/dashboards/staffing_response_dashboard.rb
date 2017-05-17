@@ -16,12 +16,12 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
     id: Field::Number,
     start_code: Field::String,
     end_code: Field::String,
-    response_status: Field::String,
+    response_status: Field::Select.with_options(collection: StaffingResponse::RESPONSE_STATUS),
     accepted: Field::Boolean,
     rated: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    payment_status: Field::String,
+    payment_status: Field::Select.with_options(collection: StaffingResponse::PAYMENT_STATUS),
     versions: VersionField
   }.freeze
 
@@ -31,10 +31,12 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
+    :id,
     :user,
-    :staffing_request,
     :hospital,
-    :payment,
+    :response_status,
+    :payment_status,
+    :rated,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -61,16 +63,9 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :user,
-    :staffing_request,
-    :hospital,
-    :payment,
-    :rating,
     :start_code,
     :end_code,
     :response_status,
-    :accepted,
-    :rated,
     :payment_status
   ].freeze
 

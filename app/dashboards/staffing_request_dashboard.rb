@@ -16,15 +16,15 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     start_date: Field::DateTime,
     end_date: Field::DateTime,
     rate_per_hour: Field::Number.with_options(decimals: 2),
-    request_status: Field::String,
+    request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
     response_count: Field::Number,
-    payment_status: Field::String,
+    payment_status: Field::Select.with_options(collection: StaffingResponse::PAYMENT_STATUS),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     start_code: Field::String,
     end_code: Field::String,
-    broadcast_status: Field::String,
+    broadcast_status: Field::Select.with_options(collection: StaffingRequest::BROADCAST_STATUS),
     versions: VersionField
   }.freeze
 
@@ -34,10 +34,15 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
+    :id,
     :hospital,
     :user,
-    :staffing_responses,
-    :payment
+    :start_date,
+    :end_date,
+    :request_status,
+    :payment_status,
+    :rate_per_hour,
+    :broadcast_status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -67,20 +72,14 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :hospital,
-    :user,
-    :staffing_responses,
-    :payment,
     :start_date,
     :end_date,
     :rate_per_hour,
     :request_status,
     :auto_deny_in,
-    :response_count,
     :payment_status,
     :start_code,
-    :end_code,
-    :broadcast_status,
+    :end_code
   ].freeze
 
   # Overwrite this method to customize how staffing requests are displayed

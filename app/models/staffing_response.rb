@@ -4,6 +4,8 @@ class StaffingResponse < ApplicationRecord
 	has_paper_trail
 	
 	RESPONSE_STATUS = ["Accepted", "Rejected", "Pending"]
+	PAYMENT_STATUS = ["UnPaid", "Paid"]
+	
 	belongs_to :user
 	belongs_to :staffing_request
 	belongs_to :hospital

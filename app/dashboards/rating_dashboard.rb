@@ -26,10 +26,11 @@ class RatingDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
+    :id,
     :staffing_response,
     :user,
     :hospital,
-    :created_by,
+    :stars,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -51,13 +52,8 @@ class RatingDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :staffing_response,
-    :user,
-    :hospital,
-    :created_by,
     :stars,
-    :comments,
-    :created_by_id,
+    :comments
   ].freeze
 
   # Overwrite this method to customize how ratings are displayed

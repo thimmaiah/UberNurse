@@ -10,8 +10,8 @@ class UserDocDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
-    doc_type: Field::String,
-    user_id: Field::Number,
+    doc_type: Field::Select.with_options(collection: UserDoc::DOC_TYPES),
+    user: Field::BelongsTo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     doc_file_name: Field::String,
@@ -31,7 +31,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :doc_type,
-    :user_id,
+    :user,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -40,13 +40,10 @@ class UserDocDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :doc_type,
-    :user_id,
+    :user,
     :created_at,
     :updated_at,
     :doc_file_name,
-    :doc_content_type,
-    :doc_file_size,
-    :doc_updated_at,
     :verified,
     :notes,
   ].freeze
@@ -57,11 +54,7 @@ class UserDocDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :doc_type,
-    :user_id,
     :doc_file_name,
-    :doc_content_type,
-    :doc_file_size,
-    :doc_updated_at,
     :verified,
     :notes,
   ].freeze

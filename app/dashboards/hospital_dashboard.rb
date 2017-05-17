@@ -8,9 +8,9 @@ class HospitalDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    id: Field::Number,
     users: Field::HasMany,
     staffing_requests: Field::HasMany,
-    id: Field::Number,
     name: Field::String,
     postcode: Field::String.with_options(required: true),
     base_rate: Field::Number.with_options(decimals: 2),
@@ -27,9 +27,9 @@ class HospitalDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :users,
-    :staffing_requests,
     :id,
+    :users,
+    :staffing_requests,    
     :name,
   ].freeze
 
