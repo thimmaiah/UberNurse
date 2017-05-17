@@ -5,6 +5,7 @@ class Hospital < ApplicationRecord
 
   has_many :users
   has_many :staffing_requests
+  validates_presence_of :name, :postcode, :base_rate
 
 
   reverse_geocoded_by :lat, :lng do |obj,results|
@@ -14,7 +15,7 @@ class Hospital < ApplicationRecord
     end
   end
 
-  before_save :update_coordinates
+  after_save :update_coordinates
   def update_coordinates
     if(self.postcode_changed?)
       GeocodeJob.perform_later(self)

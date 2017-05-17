@@ -1,5 +1,5 @@
 Feature: Registration
-  Login should be work properly
+  Registration should be work properly
 
 Scenario Outline: Login Successfully
   Given there is an unsaved user "<user>"
@@ -14,6 +14,6 @@ Scenario Outline: Login Successfully
   
 
   Examples:
-  	|user								|msg1											|msg2			|
-  	|first_name=Mohith;role=Care Giver	|Please check your email for verification link	|Welcome Mohith	|
-  	|first_name=Mohith;role=Admin		|Please check your email for verification link	|Welcome Mohith	|
+  	|user								|msg1											|msg2		|
+  	|first_name=Mohith;role=Care Giver	|Please check your email for verification link	|Welcome	|
+  	|first_name=Mohith;role=Admin		|Please check your email for verification link	|Welcome	|

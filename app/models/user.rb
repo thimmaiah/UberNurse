@@ -2,6 +2,8 @@ class User < ApplicationRecord
   
   acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:user)
+
+  validates_presence_of :first_name, :last_name, :email, :role, :postcode, :phone
   
   belongs_to :hospital, optional: true
   has_many :staffing_requests

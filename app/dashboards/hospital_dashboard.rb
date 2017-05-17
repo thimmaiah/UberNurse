@@ -12,11 +12,7 @@ class HospitalDashboard < Administrate::BaseDashboard
     staffing_requests: Field::HasMany,
     id: Field::Number,
     name: Field::String,
-    address: Field::String,
-    street: Field::String,
-    locality: Field::String,
-    town: Field::String,
-    postcode: Field::String,
+    postcode: Field::String.with_options(required: true),
     base_rate: Field::Number.with_options(decimals: 2),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -44,10 +40,6 @@ class HospitalDashboard < Administrate::BaseDashboard
     :staffing_requests,
     :id,
     :name,
-    :address,
-    :street,
-    :locality,
-    :town,
     :postcode,
     :base_rate,
     :created_at,
@@ -61,18 +53,10 @@ class HospitalDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :users,
-    :staffing_requests,
     :name,
-    :address,
-    :street,
-    :locality,
-    :town,
     :postcode,
     :base_rate,
-    :image_url,
-    :lat,
-    :lng,
+    :image_url
   ].freeze
 
   # Overwrite this method to customize how hospitals are displayed
