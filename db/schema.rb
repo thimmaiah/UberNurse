@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170513052323) do
+ActiveRecord::Schema.define(version: 20170518015423) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 20170513052323) do
     t.boolean  "verified"
     t.text     "notes",            limit: 65535
     t.datetime "deleted_at"
+    t.boolean  "expired"
     t.index ["deleted_at"], name: "index_user_docs_on_deleted_at", using: :btree
   end
 
