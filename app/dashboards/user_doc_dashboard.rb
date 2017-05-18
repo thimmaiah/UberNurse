@@ -20,6 +20,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     doc_updated_at: Field::DateTime,
     verified: Field::Boolean,
     notes: Field::Text,
+    doc: ImageField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -46,6 +47,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :doc_file_name,
     :verified,
     :notes,
+    :doc
   ].freeze
 
   # FORM_ATTRIBUTES

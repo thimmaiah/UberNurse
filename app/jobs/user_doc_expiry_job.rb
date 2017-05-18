@@ -9,16 +9,16 @@ class UserDocExpiryJob < ApplicationJob
     dbs_expiry = Date.today - eval(ENV["DBS_EXPIRY"])
 
     # Ensure all doc types are expired based on settings in .env
-    UserDoc.certificates.where("created_at < ?", cert_expiry).each do |doc|
+    UserDoc.verified.certificates.where("created_at < ?", cert_expiry).each do |doc|
       expire(doc)
     end
-    UserDoc.id_cards.where("created_at < ?", id_expiry).each do |doc|
+    UserDoc.verified.id_cards.where("created_at < ?", id_expiry).each do |doc|
       expire(doc)
     end
-    UserDoc.address_proofs.where("created_at < ?", address_expiry).each do |doc|
+    UserDoc.verified.address_proofs.where("created_at < ?", address_expiry).each do |doc|
       expire(doc)
     end
-    UserDoc.dbs.where("created_at < ?", dbs_expiry).each do |doc|
+    UserDoc.verified.dbs.where("created_at < ?", dbs_expiry).each do |doc|
       expire(doc)
     end
   end
