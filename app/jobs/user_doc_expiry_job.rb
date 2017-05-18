@@ -6,12 +6,26 @@ class UserDocExpiryJob < ApplicationJob
     cert_expiry = Date.today - eval(ENV["CERTIFICATE_EXPIRY"])
     id_expiry = Date.today - eval(ENV["ID_CARD_EXPIRY"])
     address_expiry = Date.today - eval(ENV["ADDRESS_PROOF_EXPIRY"])
-    dbx_expiry = Date.today - eval(ENV["DBS_EXPIRY"])
+    dbs_expiry = Date.today - eval(ENV["DBS_EXPIRY"])
 
     # Ensure all doc types are expired based on settings in .env
-    UserDoc.certificates.where("created_at < ?", cert_expiry).update_all(expired: true)
-    UserDoc.id_cards.where("created_at < ?", id_expiry).update_all(expired: true)
-    UserDoc.address_proofs.where("created_at < ?", address_expiry).update_all(expired: true)
-    UserDoc.dbs.where("created_at < ?", dbx_expiry).update_all(expired: true)
+    UserDoc.certificates.where("created_at < ?", cert_expiry).each do |doc|
+      expire(doc)
+    end
+    UserDoc.id_cards.where("created_at < ?", id_expiry).each do |doc|
+      expire(doc)
+    end
+    UserDoc.address_proofs.where("created_at < ?", address_expiry).each do |doc|
+      expire(doc)
+    end
+    UserDoc.dbs.where("created_at < ?", dbs_expiry).each do |doc|
+      expire(doc)
+    end
+  end
+
+  def expire(doc)
+    doc.update(expired: true)
+    doc.user.update(verified: false)
+    UserDocExpiryMailer.send_doc_expired_email(doc).deliver_now
   end
 end

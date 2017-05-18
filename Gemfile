@@ -69,6 +69,7 @@ gem "administrate"
 gem "paranoia", "~> 2.2"
 gem "geocoder"
 gem 'paper_trail'
+gem 'sanitize_email'
 
 group :test do
   gem 'cucumber-rails', require: false

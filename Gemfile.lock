@@ -298,6 +298,7 @@ GEM
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
     rubyzip (1.2.1)
+    sanitize_email (1.2.2)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -390,6 +391,7 @@ DEPENDENCIES
   redis (~> 3.0)
   rest-client
   rspec-rails (~> 3.5)
+  sanitize_email
   selenium-webdriver
   spring
   spring-watcher-listen (~> 2.0.0)
