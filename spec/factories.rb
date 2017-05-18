@@ -33,10 +33,7 @@ FactoryGirl.define do
 
   factory :hospital do
     name {Faker::Company.name}
-    address { Faker::Address.street_address }
-    town { Faker::Address.city }
-    #county { Faker::Address.county }
-    street { Faker::Address.street_name }
+    base_rate {15}
     postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
   end
 

@@ -18,7 +18,7 @@ class Ability
         admin_privilages
       when "Employee"
         employee_privilages
-      when "Care Giver"
+      when "Care Giver", "Nurse"
         care_giver_privilages  
       else
         guest_privilages

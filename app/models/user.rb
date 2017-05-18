@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   SEX = ["M", "F"]
   SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]
-  ROLE =["Care Giver", "Admin"]
+  ROLE =["Care Giver", "Nurse", "Admin"]
 
   
   # Include default devise modules.
@@ -25,6 +25,8 @@ class User < ApplicationRecord
 
 
   scope :care_givers, -> { where role: "Care Giver" }
+  scope :nurses, -> { where role: "Nurse" }
+  scope :temps, -> { where "role = ? or role = ?", "Care Giver", "Nurse"}
   scope :verified, -> { where verified: true }
   scope :active, -> { where active: true }
   scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }

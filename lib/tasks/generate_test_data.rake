@@ -124,10 +124,20 @@ namespace :uber_nurse do
 		end	  
     
     # Now generate some consumers
-    (1..20).each do |j|    
+    (1..10).each do |j|    
       u = FactoryGirl.build(:user)
       # Ensure User role is USER_ROLE_ID
       u.role = "Care Giver"        
+      u.image_url = images[rand(images.length)]
+      u.save
+      #puts u.to_xml
+      puts "User #{u.id}"  
+    end
+
+    (1..10).each do |j|    
+      u = FactoryGirl.build(:user)
+      # Ensure User role is USER_ROLE_ID
+      u.role = "Nurse"        
       u.image_url = images[rand(images.length)]
       u.save
       #puts u.to_xml
@@ -228,7 +238,7 @@ namespace :uber_nurse do
     begin    
       
       reqs = StaffingRequest.open
-      care_givers = User.care_givers.sort_by { rand }
+      care_givers = User.temps.sort_by { rand }
     
       reqs.each do |req|
           count = 1

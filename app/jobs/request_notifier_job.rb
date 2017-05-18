@@ -14,7 +14,7 @@ class RequestNotifierJob < ApplicationJob
         # 5 who has not rejected this request - perhaps because of another external engagement
         selected_user = nil
         
-        User.care_givers.active.verified.order("auto_selected_date ASC").each do |user|
+        User.temps.active.verified.order("auto_selected_date ASC").each do |user|
         
           # Check if this user has been assigned another request on the same day
           # Get the not rejected responses of this user and see if they are for the same day
