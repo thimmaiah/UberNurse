@@ -11,6 +11,8 @@ class UserDoc < ApplicationRecord
   validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/]
 
   scope :not_rejected, -> { where "verified = true or verified is null" }
+  scope :not_expired, -> { where "expired = false or expired is null" }
+  
   scope :certificates, -> { where doc_type: "Certificate" }
   scope :id_cards, -> { where doc_type: "ID Card" }
   scope :address_proofs, -> { where doc_type: "Address Proof" }
