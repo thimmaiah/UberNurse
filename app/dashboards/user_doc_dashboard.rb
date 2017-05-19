@@ -9,6 +9,7 @@ class UserDocDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    user_id: Field::Number,
     name: Field::String,
     doc_type: Field::Select.with_options(collection: UserDoc::DOC_TYPES),
     user: Field::BelongsTo,
@@ -20,7 +21,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     doc_updated_at: Field::DateTime,
     verified: Field::Boolean,
     notes: Field::Text,
-    doc: ImageField
+    doc: PaperclipField
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -55,10 +56,12 @@ class UserDocDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :user_id,
     :doc_type,
     :doc_file_name,
     :verified,
     :notes,
+    :doc
   ].freeze
 
   # Overwrite this method to customize how user docs are displayed

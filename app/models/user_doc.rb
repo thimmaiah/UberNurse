@@ -13,7 +13,7 @@ class UserDoc < ApplicationRecord
 
   scope :not_rejected, -> { where "verified = true or verified is null" }
   scope :not_expired, -> { where "expired = false" }
-  
+
   scope :certificates, -> { where doc_type: "Certificate" }
   scope :id_cards, -> { where doc_type: "ID Card" }
   scope :address_proofs, -> { where doc_type: "Address Proof" }
@@ -31,4 +31,17 @@ class UserDoc < ApplicationRecord
     self.expired = false
   end
 
+  after_create :dbs_charge
+
+  def dbs_charge
+    if(self.doc_type == "DBS" && self.user_id != self.created_by_user_id)
+      # The super uploaded the DBS
+      # Charge the user for it
+      # TODO
+    end
+  end
+
+  def doc_url
+    self.doc.url
+  end
 end
