@@ -44,7 +44,7 @@ class Ability
     end
 
     def employee_privilages
-        #can :read, Hospital
+        can :read, Hospital
         can :read, PostCode
         #can :manage, StaffingRequest, :user_id=>@user.id
         #can :read, User, :hospital_id=>@user.hospital_id

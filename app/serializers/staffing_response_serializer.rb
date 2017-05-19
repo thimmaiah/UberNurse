@@ -1,5 +1,6 @@
 class StaffingResponseSerializer < ActiveModel::Serializer
-  attributes :id, :staffing_request_id, :user_id, :start_code, :end_code, :response_status, 
+  attributes :id, :staffing_request_id, :user_id, :start_code, :start_date, 
+  :end_code, :end_date, :response_status, :minutes_worked,
   :accepted, :rated, :user, :rating, :payment, :payment_status, :can_manage
 
   belongs_to :user, serializer: UserMiniSerializer
