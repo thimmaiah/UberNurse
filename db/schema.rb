@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519154424) do
+ActiveRecord::Schema.define(version: 20170519171047) do
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 20170519154424) do
     t.decimal  "lat",                      precision: 18, scale: 15
     t.decimal  "lng",                      precision: 18, scale: 15
     t.datetime "deleted_at"
+    t.boolean  "verified"
     t.index ["deleted_at"], name: "index_hospitals_on_deleted_at", using: :btree
   end
 

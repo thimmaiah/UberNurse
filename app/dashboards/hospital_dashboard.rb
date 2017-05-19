@@ -9,6 +9,7 @@ class HospitalDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    verified: Field::Boolean,
     users: Field::HasMany,
     staffing_requests: Field::HasMany,
     name: Field::String,
@@ -28,9 +29,9 @@ class HospitalDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :users,
-    :staffing_requests,    
     :name,
+    :postcode,
+    :verified
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -40,6 +41,7 @@ class HospitalDashboard < Administrate::BaseDashboard
     :staffing_requests,
     :id,
     :name,
+    :verified,
     :postcode,
     :base_rate,
     :created_at,
@@ -56,7 +58,8 @@ class HospitalDashboard < Administrate::BaseDashboard
     :name,
     :postcode,
     :base_rate,
-    :image_url
+    :image_url,
+    :verified
   ].freeze
 
   # Overwrite this method to customize how hospitals are displayed
