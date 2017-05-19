@@ -30,5 +30,13 @@ class ApplicationController < ActionController::API
       }
     end
   end
+
+  before_action :setup_pagination, only: [:index]
+
+  def setup_pagination
+    @page = params[:page].present? ? params[:page] : 1
+    @per_page = params[:per_page].present? ? params[:per_page] : 10
+    logger.debug("page=#{@page}, per_page=#{@per_page}")
+  end
   
 end

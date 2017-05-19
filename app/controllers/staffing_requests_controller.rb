@@ -4,14 +4,8 @@ class StaffingRequestsController < ApplicationController
   
   # GET /staffing_requests
   def index
-     
-    if(current_user.hospital_id.present?)
-      # We need to show only the staffing requests of the hospital for employees, 
-      @staffing_requests.where(hospital_id: current_user.hospital_id)
-    else
-      # but for Care givers show all in their geo location
-    end
-    render json: @staffing_requests.open.includes(:user, :hospital, :staffing_responses), include: "user,hospital"
+    @staffing_requests = @staffing_requests.open.page(@page).per(@per_page)
+    render json: @staffing_requests.includes(:user, :hospital, :staffing_responses), include: "user,hospital"
   end
 
   # GET /staffing_requests/1

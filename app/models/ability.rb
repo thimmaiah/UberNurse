@@ -44,15 +44,15 @@ class Ability
     end
 
     def employee_privilages
-        can :read, Hospital
+        #can :read, Hospital
         can :read, PostCode
-        can :manage, StaffingRequest, :user_id=>@user.id
-        can :read, User, :hospital_id=>@user.hospital_id
-        can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
-        can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
+        #can :manage, StaffingRequest, :user_id=>@user.id
+        #can :read, User, :hospital_id=>@user.hospital_id
+        #can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
+        #can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
         can :read, UserDoc
         can :read, Rating
-        can :manage, Rating, :created_by_id => @user.id 
+        #can :manage, Rating, :created_by_id => @user.id 
     end
 
     def admin_privilages
@@ -62,5 +62,6 @@ class Ability
         can :manage, StaffingRequest, :hospital_id=>@user.hospital_id
         can [:read, :update], StaffingResponse, :hospital_id=>@user.hospital_id         
         can :manage, Payment, :hospital_id =>@user.hospital_id
+        can :manage, Rating, :hospital_id =>@user.hospital_id
     end
 end

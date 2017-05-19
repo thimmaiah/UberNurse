@@ -6,8 +6,8 @@ class StaffingResponsesController < ApplicationController
   def index
     if (params[:staffing_request_id].present?)
         @staffing_responses = @staffing_responses.where(staffing_request_id: params[:staffing_request_id])
-        @staffing_responses = @staffing_responses.where(hospital_id: current_user.hospital_id)
     end
+    @staffing_responses = @staffing_responses.open.page(@page).per(@per_page)
     render json: @staffing_responses.includes(:rating, :payment, :user=>:profile_pic), include: "user"
   end
 

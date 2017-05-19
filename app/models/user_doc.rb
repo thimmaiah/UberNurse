@@ -4,6 +4,7 @@ class UserDoc < ApplicationRecord
 
   acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:user_doc)
+  validates_presence_of :doc_type, :user_id, :name
 
   DOC_TYPES = ["Certificate", "ID Card", "Address Proof", "DBS"]
 
@@ -11,7 +12,7 @@ class UserDoc < ApplicationRecord
   validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/]
 
   scope :not_rejected, -> { where "verified = true or verified is null" }
-  scope :not_expired, -> { where "expired = false or expired is null" }
+  scope :not_expired, -> { where "expired = false" }
   
   scope :certificates, -> { where doc_type: "Certificate" }
   scope :id_cards, -> { where doc_type: "ID Card" }
@@ -24,4 +25,10 @@ class UserDoc < ApplicationRecord
       VerifyUserJob.perform_later(self.user_id)
     end
   end
+
+  before_create :ensure_flags
+  def ensure_flags
+    self.expired = false
+  end
+
 end

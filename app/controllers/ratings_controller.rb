@@ -4,8 +4,8 @@ class RatingsController < ApplicationController
 
   # GET /ratings
   def index
-    @ratings = @ratings.includes(:user, :hospital)
-    render json: @ratings
+    @ratings = @ratings.page(@page).per(@per_page)
+    render json: @ratings.includes(:user, :hospital)
   end
 
   # GET /ratings/1

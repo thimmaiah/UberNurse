@@ -4,6 +4,7 @@ class PaymentsController < ApplicationController
 
   # GET /payments
   def index
+    @payments = @payments.page(@page).per(@per_page)    
     render json: @payments.includes(:user, :hospital, :staffing_request), include: "user,hospital"
   end
 
