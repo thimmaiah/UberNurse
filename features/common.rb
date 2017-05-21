@@ -42,6 +42,8 @@ Given(/^there is a hospital "([^"]*)" with an admin "([^"]*)"$/) do |hospital_ar
   @admin.hospital_id = @hospital.id
   @admin.save!
 
+  puts "Created hospital #{@hospital.id} and admin #{@admin.id}"
+
 end
 
 Given(/^there is a hospital "([^"]*)" with me as admin "([^"]*)"$/) do |hospital_args, admin_args|

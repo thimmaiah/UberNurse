@@ -8,7 +8,8 @@ class StaffingResponsesController < ApplicationController
         @staffing_responses = @staffing_responses.where(staffing_request_id: params[:staffing_request_id])
     end
     @staffing_responses = @staffing_responses.open.page(@page).per(@per_page)
-    render json: @staffing_responses.includes(:rating, :payment, :user=>:profile_pic), include: "user"
+    render json: @staffing_responses.includes(:staffing_request, :hospital, :user=>:profile_pic), each_serializer: StaffingResponseMiniSerializer
+
   end
 
   # GET /staffing_responses/1
