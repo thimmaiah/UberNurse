@@ -9,7 +9,7 @@ class PushNotificationJob < ApplicationJob
 
   def perform(staffing_response)
     u = staffing_response.user
-    push("UberNurse Notification", "A new slot has been allocated to you", u.push_token)
+    push("UberNurse Notification", "A new slot has been allocated to you", u.push_token) if u.push_token
   end
 
   # This method is used to hit FCM to push the notification to the user

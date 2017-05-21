@@ -14,6 +14,7 @@ class StaffingResponse < ApplicationRecord
 
   scope :not_rejected, -> {where("response_status <> 'Rejected'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
+  scope :rejected, -> {where("response_status = 'Rejected'")}
   scope :open, -> {where("response_status != 'Closed'")}
 
   before_save :process_rejected
@@ -36,8 +37,10 @@ class StaffingResponse < ApplicationRecord
 
   after_create :broadcast_slot
   def broadcast_slot
-    PushNotificationJob.perform(self)
-    UserNotifierMailer.slot_notification(self).deliver_now
+    if(self.response_status != 'Rejected')
+      PushNotificationJob.new.perform(self)
+      UserNotifierMailer.slot_notification(self).deliver_now
+    end
   end
 
   validate :check_codes

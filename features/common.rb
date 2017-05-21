@@ -23,6 +23,14 @@ Given(/^Im a logged in user "([^"]*)"$/) do |arg1|
   }
 end
 
+
+Given(/^Im a logged in$/) do
+  steps %Q{
+    And I am at the login page
+    When I fill and submit the login page
+  }
+end
+
 Given(/^there is a hospital "([^"]*)" with an admin "([^"]*)"$/) do |hospital_args, admin_args|
 
   @hospital = FactoryGirl.build(:hospital)
@@ -34,6 +42,14 @@ Given(/^there is a hospital "([^"]*)" with an admin "([^"]*)"$/) do |hospital_ar
   @admin.hospital_id = @hospital.id
   @admin.save!
 
+end
+
+Given(/^there is a hospital "([^"]*)" with me as admin "([^"]*)"$/) do |hospital_args, admin_args|
+  steps %Q{
+    Given there is a hospital "#{hospital_args}" with an admin "#{admin_args}"
+  }
+
+  @user = @admin
 end
 
 

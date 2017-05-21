@@ -17,7 +17,7 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def slot_notification(staffing_response)
-    @user = staffing_response
+    @user = staffing_response.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'New Slot Assigned' )

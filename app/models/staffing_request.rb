@@ -16,13 +16,15 @@ class StaffingRequest < ApplicationRecord
 
   scope :open, -> {where(request_status:"Open")}
   scope :closed, -> {where(request_status:"Closed")}
-  scope :not_broadcasted, -> {where("broadcast_status <> 'Sent' OR broadcast_status is null")}
+  scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
 
-  before_create :open_request
+  before_create :set_defaults
 
-  def open_request
+  def set_defaults
     # We now have auto approval
     self.request_status = "Open"
+    self.broadcast_status = "Pending"
+    self.payment_status = "Unpaid"
   end
 
   before_save :update_response_status

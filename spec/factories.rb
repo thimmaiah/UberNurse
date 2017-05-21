@@ -25,10 +25,12 @@ FactoryGirl.define do
     start_date {Date.today + 1.day}
     end_date {start_date + 8.hours}
     rate_per_hour 15
-    request_status {StaffingRequest::REQ_STATUS[rand(StaffingRequest::REQ_STATUS.length)]}
+    request_status {"Open"}
     auto_deny_in 12
     response_count 0
     payment_status {"Unpaid"}
+    start_code {rand(4 ** 4)}
+    end_code {rand(4 ** 4)}
   end
 
   factory :hospital do
