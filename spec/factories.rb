@@ -1,7 +1,7 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
-  
+
   factory :rating do
     stars {rand(4) + 1}
     comments {Rating::COMMENTS[rand(Rating::COMMENTS.length)]}
@@ -29,8 +29,8 @@ FactoryGirl.define do
     auto_deny_in 12
     response_count 0
     payment_status {"Unpaid"}
-    start_code {rand(4 ** 4)}
-    end_code {rand(4 ** 4)}
+    start_code {rand.to_s[2..6]}
+    end_code {rand.to_s[2..6]}
   end
 
   factory :hospital do
@@ -43,7 +43,7 @@ FactoryGirl.define do
     ignore do
     end
 
-   # hospital_id { hospital.id if hospital }
+    # hospital_id { hospital.id if hospital }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
@@ -62,14 +62,19 @@ FactoryGirl.define do
     pref_commute_distance {rand(10) + 1 }
     languages {"English"}
     verified {rand(2) > 0 ? true : false}
-    
+
+
+    bank_account {rand.to_s[2..9] if(role != "Admin")}
+    sort_code {rand.to_s[2..7] if(role != "Admin")}
+
+
     trait :new_user do
       confirmed_at nil
       confirmation_sent_at nil
       sign_in_count nil
     end
 
-    
+
   end
 
 end

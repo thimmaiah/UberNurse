@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  
+
   namespace :admin do
     resources :users
     resources :hospitals
@@ -9,9 +11,11 @@ Rails.application.routes.draw do
     resources :staffing_requests
     resources :staffing_responses
     resources :user_docs
-
+    get '/payments_export', to: 'payments_export#index'
     root to: "users#index"
   end
+
+  
 
   resources :ratings
   resources :payments
