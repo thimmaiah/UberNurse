@@ -21,6 +21,16 @@ class Hospital < ApplicationRecord
     self.verified = false
   end
 
+  after_create :send_verification_mail
+  def send_verification_mail
+    if(!self.verified && self.users.admins.active.length > 0)
+      self.users.admins.active.each do |admin|
+        UserNotifierMailer.verify_hospital(admin).deliver_now
+      end
+    end
+  end
+
+
   after_save :update_coordinates
   def update_coordinates
     if(self.postcode_changed?)

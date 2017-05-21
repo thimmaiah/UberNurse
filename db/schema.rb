@@ -82,6 +82,13 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
+  create_table "post_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "postcode",  limit: 10
+    t.decimal "latitude",             precision: 10
+    t.decimal "longitude",            precision: 10
+    t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
+  end
+
   create_table "postcodelatlng", force: :cascade, options: "ENGINE=MyISAM DEFAULT CHARSET=latin1" do |t|
     t.string  "postcode",  limit: 8,                           null: false
     t.decimal "latitude",            precision: 18, scale: 15, null: false

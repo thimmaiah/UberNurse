@@ -68,10 +68,10 @@ Capybara.app_host = 'http://localhost:8100'
 
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: {
-      "chromeOptions" => {
-        "args" => %w{ window-size=400,650 }
-      }
-    })
+                                   "chromeOptions" => {
+                                     "args" => %w{ window-size=400,650 }
+                                   }
+  })
 end
 
 Capybara.javascript_driver = :chrome
@@ -99,6 +99,14 @@ module UberNurseUtils
     find(".alert-radio-button", :text => "#{value}").click
     find(".button-inner", :text => "#{value}").click
     click_on("OK")
+  end
+
+
+  def key_values(entity, args)
+    key_val = Hash[args.split(";").map{|kv| kv.split("=")}]
+    key_val.each do |k, v|
+      entity[k] = v
+    end
   end
 end
 

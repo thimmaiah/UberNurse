@@ -26,11 +26,10 @@ class User < ApplicationRecord
 
   scope :care_givers, -> { where role: "Care Giver" }
   scope :nurses, -> { where role: "Nurse" }
+  scope :admins, -> { where role: "Admin"}
   scope :temps, -> { where "role = ? or role = ?", "Care Giver", "Nurse"}
   scope :verified, -> { where verified: true }
   scope :active, -> { where active: true }
-  scope :admins, ->(hospital_id){ where role: "Admin", hospital_id: hospital_id }
-  scope :employees, ->(hospital_id) { where role: "Employee", hospital_id: hospital_id }
 
   after_save :update_coordinates
   before_create :update_rating

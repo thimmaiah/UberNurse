@@ -34,6 +34,12 @@ class StaffingResponse < ApplicationRecord
   	self.end_date = Time.now if(self.end_code_changed?)
   end
 
+  after_create :broadcast_slot
+  def broadcast_slot
+    PushNotificationJob.perform(self)
+    UserNotifierMailer.slot_notification(self).deliver_now
+  end
+
   validate :check_codes
   def check_codes
     if(self.start_code && self.start_code != self.staffing_request.start_code)
