@@ -24,9 +24,12 @@ Scenario Outline: Register a care home
   And I am at the care homes registration page
   When I fill and submit the care homes registration page with "<care_home>"
   Then I should see the "<msg1>"
+  And the care home should be created
+  And the care home should be unverified
+  And I should be associated with the care home
   
 
   Examples:
     |user                               |msg1                                           |
-    |first_name=Mohith;role=Admin       |Please check your email for verification link  |
-    |first_name=Mohith;role=Admin       |Please check your email for verification link  |
+    |first_name=Mohith;role=Admin       |CareHome saved successfully. We will inform you once this has been verified  |
+    |first_name=Mohith;role=Admin       |CareHome saved successfully. We will inform you once this has been verified  |

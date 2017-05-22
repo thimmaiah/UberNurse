@@ -11,3 +11,22 @@ When(/^I fill and submit the care homes registration page with "([^"]*)"$/) do |
   end
   click_on("Save")
 end
+
+
+Then(/^the care home should be created$/) do
+  last = CareHome.last
+  last.name.should == @care_home.name
+  last.postcode.should == @care_home.postcode
+  last.base_rate.should == @care_home.base_rate
+  last.image_url.should == @care_home.image_url  
+end
+
+Then(/^the care home should be unverified$/) do
+  last = CareHome.last
+  last.verified.should == false
+end
+
+Then(/^I should be associated with the care home$/) do
+  @user.reload
+  @user.care_home_id.should == CareHome.last.id
+end

@@ -23,4 +23,12 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'New Slot Assigned' )
   end
 
+  def care_home_verified(care_home)
+    @user = care_home.users.first
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Care Home Verified' )
+
+  end
+
 end

@@ -8,9 +8,10 @@ Scenario Outline: Login Successfully
   Then I should see the "<msg>"
 
   Examples:
-  	|user								|msg	|
+  	|user								                |msg	|
   	|first_name=Mohith;role=Care Giver	|Welcome|
-  	|first_name=Mohith;role=Admin		|Welcome|
+    |first_name=Mohith;role=Nurse       |Welcome|
+  	|first_name=Mohith;role=Admin		    |Welcome|
 
 
 
@@ -21,6 +22,7 @@ Scenario Outline: Login Incorrectly
   Then I should see the "<msg>"
 
   Examples:
-  	|user								|msg	|
+  	|user								                |msg	|
   	|first_name=Mohith;role=Care Giver	|Invalid login credentials|
-  	|first_name=Mohith;role=Admin		|Invalid login credentials|
+    |first_name=Mohith;role=Nurse       |Invalid login credentials|
+  	|first_name=Mohith;role=Admin		    |Invalid login credentials|

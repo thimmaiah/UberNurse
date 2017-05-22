@@ -25,7 +25,7 @@ class CareHome < ApplicationRecord
   def send_verification_mail
     if(!self.verified && self.users.admins.active.length > 0)
       self.users.admins.active.each do |admin|
-        UserNotifierMailer.verify_care_home(admin).deliver_now
+        UserNotifierMailer.verify_care_home(admin).deliver_later
       end
     end
   end
@@ -35,6 +35,13 @@ class CareHome < ApplicationRecord
   def update_coordinates
     if(self.postcode_changed?)
       GeocodeJob.perform_later(self)
+    end
+  end
+
+  after_save :care_home_verified
+  def care_home_verified
+    if(self.verified_changed? && self.verified)
+      UserNotifierMailer.care_home_verified(self).deliver_later
     end
   end
 
