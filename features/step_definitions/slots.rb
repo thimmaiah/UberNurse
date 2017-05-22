@@ -13,7 +13,7 @@ Given(/^the user has already accepted this request$/) do
   slot = FactoryGirl.build(:staffing_response)
   slot.user = @user
   slot.staffing_request = @staffing_request
-  slot.hospital_id = @staffing_request.hospital_id
+  slot.care_home_id = @staffing_request.care_home_id
   slot.response_status = "Accepted"
   slot.save!
 
@@ -26,7 +26,7 @@ Given(/^the user has already rejected this request$/) do
   slot = FactoryGirl.build(:staffing_response)
   slot.user = @user
   slot.staffing_request = @staffing_request
-  slot.hospital_id = @staffing_request.hospital_id
+  slot.care_home_id = @staffing_request.care_home_id
   slot.response_status = "Rejected"
   slot.save!
 
@@ -59,7 +59,7 @@ end
 
 Then(/^I must see the slot$/) do
   @slot = StaffingResponse.last
-  expect(page).to have_content(@slot.hospital.name)
+  expect(page).to have_content(@slot.care_home.name)
   expect(page).to have_content(@slot.user.first_name)
   expect(page).to have_content(@slot.user.last_name)
   expect(page).to have_content(@slot.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
@@ -98,7 +98,7 @@ Given(/^there are "([^"]*)" of slots$/) do |count|
   end
 end
 
-Given(/^there are "([^"]*)" of slots for the hospital$/) do |arg1|
+Given(/^there are "([^"]*)" of slots for the care_home$/) do |arg1|
   count = arg1.to_i
   StaffingRequest.all.each do |req|
     @staffing_request = req

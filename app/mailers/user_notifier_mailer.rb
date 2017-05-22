@@ -9,7 +9,7 @@ class UserNotifierMailer < ApplicationMailer
   end
 
 
-  def verify_hospital(user)
+  def verify_care_home(user)
     @user = user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,

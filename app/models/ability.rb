@@ -28,7 +28,7 @@ class Ability
 
   
     def guest_privilages
-        can :read, Hospital
+        can :read, CareHome
         can :read, PostCode
         can :read, StaffingRequest
         can :create, User
@@ -44,12 +44,12 @@ class Ability
     end
 
     def employee_privilages
-        can :read, Hospital
+        can :read, CareHome
         can :read, PostCode
         #can :manage, StaffingRequest, :user_id=>@user.id
-        #can :read, User, :hospital_id=>@user.hospital_id
-        #can :read, StaffingRequest, :hospital_id=>@user.hospital_id         
-        #can :read, StaffingResponse, :hospital_id=>@user.hospital_id         
+        #can :read, User, :care_home_id=>@user.care_home_id
+        #can :read, StaffingRequest, :care_home_id=>@user.care_home_id         
+        #can :read, StaffingResponse, :care_home_id=>@user.care_home_id         
         can :read, UserDoc
         can :read, Rating
         #can :manage, Rating, :created_by_id => @user.id 
@@ -57,11 +57,11 @@ class Ability
 
     def admin_privilages
         employee_privilages
-        can :manage, Hospital, :id=>@user.hospital_id
-        can :manage, User, :hospital_id=>@user.hospital_id
-        can :manage, StaffingRequest, :hospital_id=>@user.hospital_id
-        can [:read, :update], StaffingResponse, :hospital_id=>@user.hospital_id         
-        can :manage, Payment, :hospital_id =>@user.hospital_id
-        can :manage, Rating, :hospital_id =>@user.hospital_id
+        can :manage, CareHome, :id=>@user.care_home_id
+        can :manage, User, :care_home_id=>@user.care_home_id
+        can :manage, StaffingRequest, :care_home_id=>@user.care_home_id
+        can [:read, :update], StaffingResponse, :care_home_id=>@user.care_home_id         
+        can :manage, Payment, :care_home_id =>@user.care_home_id
+        can :manage, Rating, :care_home_id =>@user.care_home_id
     end
 end

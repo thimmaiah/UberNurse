@@ -10,7 +10,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     user: Field::BelongsTo,
-    hospital: Field::BelongsTo,
+    care_home: Field::BelongsTo,
     staffing_response: Field::BelongsTo,
     staffing_request: Field::BelongsTo,
     paid_by: Field::BelongsTo.with_options(class_name: "User"),
@@ -29,7 +29,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :user,
-    :hospital,
+    :care_home,
     :staffing_request,
     :amount,
     :notes
@@ -39,7 +39,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :user,
-    :hospital,
+    :care_home,
     :staffing_response,
     :staffing_request,
     :paid_by,

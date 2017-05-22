@@ -1,6 +1,6 @@
-class CreateHospitals < ActiveRecord::Migration[5.0]
+class CreateCareHomes < ActiveRecord::Migration[5.0]
   def change
-    create_table :hospitals do |t|
+    create_table :care_homes do |t|
       t.string :name
       t.string :address
       t.string :street

@@ -5,7 +5,7 @@ class RatingsController < ApplicationController
   # GET /ratings
   def index
     @ratings = @ratings.page(@page).per(@per_page)
-    render json: @ratings.includes(:user, :hospital)
+    render json: @ratings.includes(:user, :care_home)
   end
 
   # GET /ratings/1
@@ -17,7 +17,7 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new(rating_params)
     @rating.created_by_id = current_user.id
-    @rating.hospital_id = current_user.hospital_id
+    @rating.care_home_id = current_user.care_home_id
 
     if @rating.save
       render json: @rating, status: :created, location: @rating

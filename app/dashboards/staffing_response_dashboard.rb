@@ -10,7 +10,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
     staffing_request: Field::BelongsTo,
-    hospital: Field::BelongsTo,
+    care_home: Field::BelongsTo,
     payment: Field::HasOne,
     rating: Field::HasOne,
     id: Field::Number,
@@ -33,7 +33,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :user,
-    :hospital,
+    :care_home,
     :response_status,
     :payment_status,
     :rated,
@@ -44,7 +44,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :user,
     :staffing_request,
-    :hospital,
+    :care_home,
     :payment,
     :rating,
     :id,

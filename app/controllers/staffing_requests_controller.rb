@@ -5,7 +5,7 @@ class StaffingRequestsController < ApplicationController
   # GET /staffing_requests
   def index
     @staffing_requests = @staffing_requests.open.page(@page).per(@per_page)
-    render json: @staffing_requests.includes(:user, :hospital, :staffing_responses), include: "user,hospital"
+    render json: @staffing_requests.includes(:user, :care_home, :staffing_responses), include: "user,care_home"
   end
 
   # GET /staffing_requests/1
@@ -17,7 +17,7 @@ class StaffingRequestsController < ApplicationController
   def create
     @staffing_request = StaffingRequest.new(staffing_request_params)
     @staffing_request.user_id = current_user.id
-    @staffing_request.hospital_id = current_user.hospital_id
+    @staffing_request.care_home_id = current_user.care_home_id
     if @staffing_request.save
       render json: @staffing_request, status: :created, location: @staffing_request
     else
@@ -47,7 +47,7 @@ class StaffingRequestsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def staffing_request_params
-      params.require(:staffing_request).permit(:hospital_id, :user_id, :start_date, 
+      params.require(:staffing_request).permit(:care_home_id, :user_id, :start_date, 
         :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count, 
         :payment_status, :start_code, :end_code)
     end

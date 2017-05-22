@@ -14,6 +14,19 @@ Scenario Outline: Login Successfully
   
 
   Examples:
-  	|user								|msg1											|msg2		|
+  	|user								                |msg1											                      |msg2		|
   	|first_name=Mohith;role=Care Giver	|Please check your email for verification link	|Welcome	|
-  	|first_name=Mohith;role=Admin		|Please check your email for verification link	|Welcome	|
+  	|first_name=Mohith;role=Admin		    |Please check your email for verification link	|Welcome	|
+
+
+Scenario Outline: Register a care home
+  Given Im a logged in user "<user>"  
+  And I am at the care homes registration page
+  When I fill and submit the care homes registration page with "<care_home>"
+  Then I should see the "<msg1>"
+  
+
+  Examples:
+    |user                               |msg1                                           |
+    |first_name=Mohith;role=Admin       |Please check your email for verification link  |
+    |first_name=Mohith;role=Admin       |Please check your email for verification link  |

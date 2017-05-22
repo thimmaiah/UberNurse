@@ -8,7 +8,7 @@ class StaffingResponsesController < ApplicationController
         @staffing_responses = @staffing_responses.where(staffing_request_id: params[:staffing_request_id])
     end
     @staffing_responses = @staffing_responses.open.page(@page).per(@per_page)
-    render json: @staffing_responses.includes(:staffing_request, :hospital, :user=>:profile_pic), each_serializer: StaffingResponseMiniSerializer
+    render json: @staffing_responses.includes(:staffing_request, :care_home, :user=>:profile_pic), each_serializer: StaffingResponseMiniSerializer
 
   end
 
@@ -52,6 +52,6 @@ class StaffingResponsesController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def staffing_response_params
       params.require(:staffing_response).permit(:staffing_request_id, :user_id, :start_code, 
-        :end_code, :response_status, :accepted, :rated, :hospital_id, :payment_status)
+        :end_code, :response_status, :accepted, :rated, :care_home_id, :payment_status)
     end
 end

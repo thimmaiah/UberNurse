@@ -31,24 +31,24 @@ Given(/^Im a logged in$/) do
   }
 end
 
-Given(/^there is a hospital "([^"]*)" with an admin "([^"]*)"$/) do |hospital_args, admin_args|
+Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|
 
-  @hospital = FactoryGirl.build(:hospital)
-  key_values(@hospital, hospital_args)
-  @hospital.save!
+  @care_home = FactoryGirl.build(:care_home)
+  key_values(@care_home, care_home_args)
+  @care_home.save!
 
   @admin = FactoryGirl.build(:user)
   key_values(@admin, admin_args)
-  @admin.hospital_id = @hospital.id
+  @admin.care_home_id = @care_home.id
   @admin.save!
 
-  puts "Created hospital #{@hospital.id} and admin #{@admin.id}"
+  puts "Created care_home #{@care_home.id} and admin #{@admin.id}"
 
 end
 
-Given(/^there is a hospital "([^"]*)" with me as admin "([^"]*)"$/) do |hospital_args, admin_args|
+Given(/^there is a care_home "([^"]*)" with me as admin "([^"]*)"$/) do |care_home_args, admin_args|
   steps %Q{
-    Given there is a hospital "#{hospital_args}" with an admin "#{admin_args}"
+    Given there is a care_home "#{care_home_args}" with an admin "#{admin_args}"
   }
 
   @user = @admin

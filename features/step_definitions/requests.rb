@@ -1,29 +1,29 @@
 Given(/^there is a request "([^"]*)"$/) do |args|
-  if(!@hospital)
+  if(!@care_home)
     steps %Q{
-      Given there is a hospital "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
     }
   end
 
   @staffing_request = FactoryGirl.build(:staffing_request)
   key_values(@staffing_request, args)
-  @staffing_request.hospital = @hospital
-  @staffing_request.user = @hospital.users.admins.first
+  @staffing_request.care_home = @care_home
+  @staffing_request.user = @care_home.users.admins.first
   @staffing_request.save!
 end
 
 Given(/^there are "(\d+)" of verified requests$/) do |count|
   (1..count.to_i).each do |i|
     @staffing_request = FactoryGirl.build(:staffing_request)
-    @staffing_request.hospital = @hospital
-    @staffing_request.user = @hospital.users.admins.first
+    @staffing_request.care_home = @care_home
+    @staffing_request.user = @care_home.users.admins.first
     @staffing_request.save!
   end
 end
 
 Then(/^I must see all the requests$/) do
   StaffingRequest.all.each do |req|
-    expect(page).to have_content(@staffing_request.hospital.name)
+    expect(page).to have_content(@staffing_request.care_home.name)
     expect(page).to have_content(@staffing_request.rate_per_hour)
     expect(page).to have_content(@staffing_request.request_status)
     expect(page).to have_content(@staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
@@ -73,7 +73,7 @@ Then(/^the request must be saved$/) do
   @staffing_request.end_code.should == last.end_code
 
   last.user_id.should == @user.id
-  last.hospital_id.should == @user.hospital_id
+  last.care_home_id.should == @user.care_home_id
   last.request_status.should == "Open"
   last.payment_status.should == "Unpaid"
   last.broadcast_status.should == "Pending"
@@ -82,7 +82,7 @@ end
 
 
 Then(/^I must see the request details$/) do
-  expect(page).to have_content(@staffing_request.hospital.name)
+  expect(page).to have_content(@staffing_request.care_home.name)
   expect(page).to have_content(@staffing_request.user.first_name)
   expect(page).to have_content(@staffing_request.user.last_name)
   expect(page).to have_content(@staffing_request.rate_per_hour)

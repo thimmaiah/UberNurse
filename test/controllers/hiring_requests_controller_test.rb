@@ -12,7 +12,7 @@ class HiringRequestsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create hiring_request" do
     assert_difference('HiringRequest.count') do
-      post hiring_requests_url, params: { hiring_request: { end_date: @hiring_request.end_date, hospital_id: @hiring_request.hospital_id, num_of_hours: @hiring_request.num_of_hours, rate: @hiring_request.rate, req_type: @hiring_request.req_type, start_date: @hiring_request.start_date, start_time: @hiring_request.start_time, user_id: @hiring_request.user_id } }, as: :json
+      post hiring_requests_url, params: { hiring_request: { end_date: @hiring_request.end_date, care_home_id: @hiring_request.care_home_id, num_of_hours: @hiring_request.num_of_hours, rate: @hiring_request.rate, req_type: @hiring_request.req_type, start_date: @hiring_request.start_date, start_time: @hiring_request.start_time, user_id: @hiring_request.user_id } }, as: :json
     end
 
     assert_response 201
@@ -24,7 +24,7 @@ class HiringRequestsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update hiring_request" do
-    patch hiring_request_url(@hiring_request), params: { hiring_request: { end_date: @hiring_request.end_date, hospital_id: @hiring_request.hospital_id, num_of_hours: @hiring_request.num_of_hours, rate: @hiring_request.rate, req_type: @hiring_request.req_type, start_date: @hiring_request.start_date, start_time: @hiring_request.start_time, user_id: @hiring_request.user_id } }, as: :json
+    patch hiring_request_url(@hiring_request), params: { hiring_request: { end_date: @hiring_request.end_date, care_home_id: @hiring_request.care_home_id, num_of_hours: @hiring_request.num_of_hours, rate: @hiring_request.rate, req_type: @hiring_request.req_type, start_date: @hiring_request.start_date, start_time: @hiring_request.start_time, user_id: @hiring_request.user_id } }, as: :json
     assert_response 200
   end
 

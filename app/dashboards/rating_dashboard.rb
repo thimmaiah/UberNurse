@@ -10,7 +10,7 @@ class RatingDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     staffing_response: Field::BelongsTo,
     user: Field::BelongsTo,
-    hospital: Field::BelongsTo,
+    care_home: Field::BelongsTo,
     created_by: Field::BelongsTo.with_options(class_name: "User"),
     id: Field::Number,
     stars: Field::Number,
@@ -29,7 +29,7 @@ class RatingDashboard < Administrate::BaseDashboard
     :id,
     :staffing_response,
     :user,
-    :hospital,
+    :care_home,
     :stars,
   ].freeze
 
@@ -38,7 +38,7 @@ class RatingDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :staffing_response,
     :user,
-    :hospital,
+    :care_home,
     :created_by,
     :id,
     :stars,

@@ -8,7 +8,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    hospital: Field::BelongsTo,
+    care_home: Field::BelongsTo,
     user: Field::BelongsTo,
     staffing_responses: Field::HasMany,
     payment: Field::HasOne,
@@ -35,7 +35,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :hospital,
+    :care_home,
     :user,
     :start_date,
     :end_date,
@@ -48,7 +48,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :hospital,
+    :care_home,
     :user,
     :staffing_responses,
     :payment,

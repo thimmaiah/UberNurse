@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class HospitalDashboard < Administrate::BaseDashboard
+class CareHomeDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -62,10 +62,10 @@ class HospitalDashboard < Administrate::BaseDashboard
     :verified
   ].freeze
 
-  # Overwrite this method to customize how hospitals are displayed
+  # Overwrite this method to customize how care_homes are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(hospital)
-    "#{hospital.name} #{hospital.id}"
+  def display_resource(care_home)
+    "#{care_home.name} #{care_home.id}"
   end
 end

@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   validates_presence_of :first_name, :last_name, :email, :role, :postcode, :phone
   
-  belongs_to :hospital, optional: true
+  belongs_to :care_home, optional: true
   has_many :staffing_requests
   has_many :staffing_responses
   has_many :user_docs, -> { order(:verified=>:desc) }

@@ -8,7 +8,7 @@ one:
   rate: 1.5
   req_type: MyString
   user_id: 1
-  hospital_id: 1
+  care_home_id: 1
 
 two:
   start_date: 2017-03-04
@@ -18,4 +18,4 @@ two:
   rate: 1.5
   req_type: MyString
   user_id: 1
-  hospital_id: 1
+  care_home_id: 1

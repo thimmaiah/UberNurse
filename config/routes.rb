@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users
-    resources :hospitals
+    resources :care_homes
     resources :payments
     resources :post_codes
     resources :ratings
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   
   resources :hiring_responses
   resources :hiring_requests
-  resources :hospitals
+  resources :care_homes
   resources :users
   resources :post_codes
   resources :staffing_responses

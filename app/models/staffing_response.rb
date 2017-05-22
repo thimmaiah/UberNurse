@@ -8,7 +8,7 @@ class StaffingResponse < ApplicationRecord
 
   belongs_to :user
   belongs_to :staffing_request
-  belongs_to :hospital
+  belongs_to :care_home
   has_one :payment
   has_one :rating
 

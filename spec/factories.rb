@@ -10,7 +10,7 @@ FactoryGirl.define do
   factory :payment do
     staffing_response_id 1
     user_id 1
-    hospital_id 1
+    care_home_id 1
     paid_by_id 1
     amount 100
     notes "Thanks for your service"
@@ -33,9 +33,25 @@ FactoryGirl.define do
     end_code {rand.to_s[2..6]}
   end
 
-  factory :hospital do
+  factory :care_home do
+
+        logos = ["http://www.brandsoftheworld.com/sites/default/files/082010/logo_CCNNNA.png", 
+        "http://www.brandsoftheworld.com/sites/default/files/082010/RP.png", 
+        "http://www.brandsoftheworld.com/sites/default/files/082010/Immagine_1.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/shine.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/MamosZurnalas_logo.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/Untitled-1_18.gif",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/iron_man_2_2.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/saojoaodabarra.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/logo_the_avengers.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/crystal_shopping.png",
+        "http://www.brandsoftheworld.com/sites/default/files/082010/Logo_para_crmall.png"]
+
     name {Faker::Company.name}
     base_rate {15}
+    image_url {logos[rand(logos.length)]}
+    address {Faker::Address.street_address}
+    town {Faker::Address.city}
     postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
   end
 
@@ -43,7 +59,7 @@ FactoryGirl.define do
     ignore do
     end
 
-    # hospital_id { hospital.id if hospital }
+    # care_home_id { care_home.id if care_home }
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }

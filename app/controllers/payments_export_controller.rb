@@ -1,9 +1,16 @@
-module Admin
 
-  class PaymentsExportController < Admin::ApplicationController
+  class PaymentsExportController < ActionController::Base
+
+    # Devise stuff
+    include DeviseTokenAuth::Concerns::SetUserByToken
+
+    # Authorization
+    include CanCan::ControllerAdditions
+    include ActionController::MimeResponds
 
     before_action :authenticate_user!
-    
+    load_and_authorize_resource param_method: :payment_params
+
     def index
       @payments = Payment.all.includes(:user, :care_home, :staffing_request)
 
@@ -27,4 +34,3 @@ module Admin
     end
   end
 
-end

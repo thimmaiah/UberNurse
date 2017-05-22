@@ -8,7 +8,7 @@ class CreateHiringRequests < ActiveRecord::Migration[5.0]
       t.float :rate
       t.string :req_type, limit:20
       t.integer :user_id
-      t.integer :hospital_id
+      t.integer :care_home_id
 
       t.timestamps
     end

@@ -1,9 +1,6 @@
 require "application_responder"
 
 class ApplicationController < ActionController::API
-  self.responder = ApplicationResponder
-  respond_to :html
-
   
   # Devise stuff
   include DeviseTokenAuth::Concerns::SetUserByToken
@@ -23,7 +20,7 @@ class ApplicationController < ActionController::API
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :email, :role, :nurse_type, 
         :sex, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience, 
-        :referal_code, :accept_terms, :hospital_id, :password, :image_url, :verified, :sort_code, :bank_account])
+        :referal_code, :accept_terms, :care_home_id, :password, :image_url, :verified, :sort_code, :bank_account])
   end
   # Exception handling via email notification
   before_action :prepare_exception_notifier

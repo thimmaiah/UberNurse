@@ -28,16 +28,16 @@ Scenario Outline: Cannot View Others Slots
     |2      | role=Nurse;verified=true        |
 
 
-Scenario Outline: View All Slots for hospital
-  Given there is a hospital "<hospital>" with me as admin "<admin>"
+Scenario Outline: View All Slots for care_home
+  Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there are "<number>" of verified requests
   Given Im a logged in
-  Given there are "<number>" of slots for the hospital
+  Given there are "<number>" of slots for the care_home
   When I click "My Slots"
   Then I must see all the slots 
   
 
   Examples:
-    |hospital     |admin                    |number | user                            |
+    |care_home     |admin                    |number | user                            |
     |verified=true|role=Admin;verified=true |1      | role=Care Giver;verified=true   |
     |verified=true|role=Admin;verified=true |2      | role=Nurse;verified=true        |

@@ -40,7 +40,7 @@ class SlotCreatorJob < ApplicationJob
     selected_user.auto_selected_date = Date.today
     staffing_response = StaffingResponse.new(staffing_request_id: staffing_request.id,
                                              user_id: selected_user.id,
-                                             hospital_id:staffing_request.hospital_id,
+                                             care_home_id:staffing_request.care_home_id,
                                              response_status: "Pending")
     staffing_request.broadcast_status = "Sent"
     StaffingResponse.transaction do

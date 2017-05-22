@@ -1,7 +1,7 @@
-class Hospital < ApplicationRecord
+class CareHome < ApplicationRecord
 
   acts_as_paranoid
-  after_save ThinkingSphinx::RealTime.callback_for(:hospital)
+  after_save ThinkingSphinx::RealTime.callback_for(:care_home)
 
   has_many :users
   has_many :staffing_requests
@@ -25,7 +25,7 @@ class Hospital < ApplicationRecord
   def send_verification_mail
     if(!self.verified && self.users.admins.active.length > 0)
       self.users.admins.active.each do |admin|
-        UserNotifierMailer.verify_hospital(admin).deliver_now
+        UserNotifierMailer.verify_care_home(admin).deliver_now
       end
     end
   end

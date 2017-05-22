@@ -1,7 +1,7 @@
 class CreateStaffingRequests < ActiveRecord::Migration[5.0]
   def change
     create_table :staffing_requests do |t|
-      t.integer :hospital_id
+      t.integer :care_home_id
       t.integer :user_id
       t.datetime :start_date
       t.datetime :end_date
@@ -15,7 +15,7 @@ class CreateStaffingRequests < ActiveRecord::Migration[5.0]
     end
 
     add_index :staffing_requests, :user_id
-    add_index :staffing_requests, :hospital_id
+    add_index :staffing_requests, :care_home_id
     
   end
 end

@@ -7,7 +7,7 @@ class StaffingRequest < ApplicationRecord
   REQ_STATUS = ["Open", "Closed"]
   BROADCAST_STATUS =["Sent", "Failed"]
 
-  belongs_to :hospital
+  belongs_to :care_home
   belongs_to :user
   has_many :staffing_responses
   has_one :payment

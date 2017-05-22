@@ -1,6 +1,6 @@
 ThinkingSphinx::Index.define :staffing_request, :with => :real_time do
   # fields
-  indexes hospital.name, :as => :hospital_name, :sortable => true
+  indexes care_home.name, :as => :care_home_name, :sortable => true
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true
 
@@ -10,12 +10,12 @@ ThinkingSphinx::Index.define :staffing_request, :with => :real_time do
   indexes end_code
     
   # attributes
-  has hospital_id,  :type => :integer
+  has care_home_id,  :type => :integer
   has user_id,  :type => :integer
   has request_status, :type=>:string
 end
 
-ThinkingSphinx::Index.define :hospital, :with => :real_time do
+ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
   indexes name
   indexes address
@@ -45,24 +45,24 @@ end
 ThinkingSphinx::Index.define :rating, :with => :real_time do
   # fields
   indexes comments
-  indexes hospital.name, :as => :hospital_name, :sortable => true
+  indexes care_home.name, :as => :care_home_name, :sortable => true
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true
 
   has user_id,  :type => :integer
-  has hospital_id,  :type => :integer
+  has care_home_id,  :type => :integer
   has stars,  :type => :integer
 end
 
 ThinkingSphinx::Index.define :payment, :with => :real_time do
   # fields
-  indexes hospital.name, :as => :hospital_name, :sortable => true
+  indexes care_home.name, :as => :care_home_name, :sortable => true
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true
   indexes notes
 
   has user_id,  :type => :integer
-  has hospital_id,  :type => :integer
+  has care_home_id,  :type => :integer
   has amount,  :type => :float
 end
 
@@ -80,7 +80,7 @@ end
 
 ThinkingSphinx::Index.define :staffing_response, :with => :real_time do
   # fields
-  indexes hospital.name, :as => :hospital_name, :sortable => true
+  indexes care_home.name, :as => :care_home_name, :sortable => true
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true  
 
@@ -90,7 +90,7 @@ ThinkingSphinx::Index.define :staffing_response, :with => :real_time do
   indexes payment_status
   
   has user_id,  :type => :integer
-  has hospital_id,  :type => :integer
+  has care_home_id,  :type => :integer
   has rated,  :type => :boolean
   has accepted,  :type => :boolean
 end

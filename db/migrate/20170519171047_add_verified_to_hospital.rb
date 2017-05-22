@@ -1,5 +1,5 @@
-class AddVerifiedToHospital < ActiveRecord::Migration[5.0]
+class AddVerifiedToCareHome < ActiveRecord::Migration[5.0]
   def change
-    add_column :hospitals, :verified, :boolean
+    add_column :care_homes, :verified, :boolean
   end
 end

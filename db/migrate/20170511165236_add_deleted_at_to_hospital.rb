@@ -1,6 +1,6 @@
-class AddDeletedAtToHospital < ActiveRecord::Migration[5.0]
+class AddDeletedAtToCareHome < ActiveRecord::Migration[5.0]
   def change
-    add_column :hospitals, :deleted_at, :datetime
-    add_index :hospitals, :deleted_at
+    add_column :care_homes, :deleted_at, :datetime
+    add_index :care_homes, :deleted_at
   end
 end

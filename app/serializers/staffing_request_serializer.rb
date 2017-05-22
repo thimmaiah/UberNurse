@@ -2,8 +2,8 @@ class StaffingRequestSerializer < ActiveModel::Serializer
   
   
 
-  attributes :id, :hospital_id, :user_id, :start_date, :end_date, :rate_per_hour, 
-  :request_status, :auto_deny_in, :response_count, :payment_status, :user, :hospital, 
+  attributes :id, :care_home_id, :user_id, :start_date, :end_date, :rate_per_hour, 
+  :request_status, :auto_deny_in, :response_count, :payment_status, :user, :care_home, 
   :broadcast_status, :can_manage, :start_code, :end_code, :created_at, :updated_at
 
   attribute :staffing_responses

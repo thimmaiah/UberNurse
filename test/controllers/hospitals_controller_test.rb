@@ -1,36 +1,36 @@
 require 'test_helper'
 
-class HospitalsControllerTest < ActionDispatch::IntegrationTest
+class CareHomesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @hospital = hospitals(:one)
+    @care_home = care_homes(:one)
   end
 
   test "should get index" do
-    get hospitals_url, as: :json
+    get care_homes_url, as: :json
     assert_response :success
   end
 
-  test "should create hospital" do
-    assert_difference('Hospital.count') do
-      post hospitals_url, params: { hospital: { address: @hospital.address, base_rate: @hospital.base_rate, locality: @hospital.locality, name: @hospital.name, postcode: @hospital.postcode, street: @hospital.street, town: @hospital.town } }, as: :json
+  test "should create care_home" do
+    assert_difference('CareHome.count') do
+      post care_homes_url, params: { care_home: { address: @care_home.address, base_rate: @care_home.base_rate, locality: @care_home.locality, name: @care_home.name, postcode: @care_home.postcode, street: @care_home.street, town: @care_home.town } }, as: :json
     end
 
     assert_response 201
   end
 
-  test "should show hospital" do
-    get hospital_url(@hospital), as: :json
+  test "should show care_home" do
+    get care_home_url(@care_home), as: :json
     assert_response :success
   end
 
-  test "should update hospital" do
-    patch hospital_url(@hospital), params: { hospital: { address: @hospital.address, base_rate: @hospital.base_rate, locality: @hospital.locality, name: @hospital.name, postcode: @hospital.postcode, street: @hospital.street, town: @hospital.town } }, as: :json
+  test "should update care_home" do
+    patch care_home_url(@care_home), params: { care_home: { address: @care_home.address, base_rate: @care_home.base_rate, locality: @care_home.locality, name: @care_home.name, postcode: @care_home.postcode, street: @care_home.street, town: @care_home.town } }, as: :json
     assert_response 200
   end
 
-  test "should destroy hospital" do
-    assert_difference('Hospital.count', -1) do
-      delete hospital_url(@hospital), as: :json
+  test "should destroy care_home" do
+    assert_difference('CareHome.count', -1) do
+      delete care_home_url(@care_home), as: :json
     end
 
     assert_response 204
