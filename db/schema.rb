@@ -10,7 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170519173514) do
+ActiveRecord::Schema.define(version: 20170522171001) do
+
+  create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "address"
+    t.string   "town"
+    t.string   "postcode"
+    t.float    "base_rate",  limit: 24
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
+    t.text     "image_url",  limit: 65535
+    t.decimal  "lat",                      precision: 18, scale: 15
+    t.decimal  "lng",                      precision: 18, scale: 15
+    t.datetime "deleted_at"
+    t.boolean  "verified"
+    t.string   "zone"
+    t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
+  end
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "priority",                 default: 0, null: false
@@ -27,21 +44,25 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
+  create_table "hiring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.date     "start_date"
+    t.string   "start_time",   limit: 20
+    t.date     "end_date"
+    t.integer  "num_of_hours"
+    t.float    "rate",         limit: 24
+    t.string   "req_type",     limit: 20
+    t.integer  "user_id"
+    t.integer  "hospital_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
 
-  create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.string   "address"
-    t.string   "town"
-    t.string   "postcode"
-    t.float    "base_rate",  limit: 24
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.text     "image_url",  limit: 65535
-    t.decimal  "lat",                      precision: 18, scale: 15
-    t.decimal  "lng",                      precision: 18, scale: 15
-    t.datetime "deleted_at"
-    t.boolean  "verified"
-    t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
+  create_table "hiring_responses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "hiring_request_id"
+    t.text     "notes",             limit: 65535
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -55,8 +76,8 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.datetime "updated_at",                         null: false
     t.integer  "staffing_request_id"
     t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["care_home_id"], name: "index_payments_on_care_home_id", using: :btree
+    t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_payments_on_staffing_request_id", using: :btree
     t.index ["staffing_response_id"], name: "index_payments_on_staffing_response_id", using: :btree
     t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
@@ -74,6 +95,15 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.decimal "latitude",            precision: 18, scale: 15, null: false
     t.decimal "longitude",           precision: 18, scale: 15, null: false
     t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
+  end
+
+  create_table "rates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "zone"
+    t.string   "role"
+    t.string   "speciality"
+    t.float    "amount",     limit: 24
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -105,8 +135,10 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.string   "end_code",         limit: 10
     t.string   "broadcast_status"
     t.datetime "deleted_at"
-    t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
+    t.string   "role"
+    t.string   "speciality"
     t.index ["care_home_id"], name: "index_staffing_requests_on_care_home_id", using: :btree
+    t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree
   end
 
@@ -125,8 +157,8 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.datetime "deleted_at"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["care_home_id"], name: "index_staffing_responses_on_care_home_id", using: :btree
+    t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
   end
@@ -197,10 +229,10 @@ ActiveRecord::Schema.define(version: 20170519173514) do
     t.integer  "rating_count"
     t.text     "push_token",             limit: 65535
     t.datetime "deleted_at"
+    t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
   end

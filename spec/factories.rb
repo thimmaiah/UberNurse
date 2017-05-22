@@ -1,6 +1,12 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :rate do
+    zone "MyString"
+    role "MyString"
+    speciality "MyString"
+    amount 1.5
+  end
 
   factory :rating do
     stars {rand(4) + 1}

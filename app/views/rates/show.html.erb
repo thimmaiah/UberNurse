@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Zone:</strong>
+  <%= @rate.zone %>
+</p>
+
+<p>
+  <strong>Role:</strong>
+  <%= @rate.role %>
+</p>
+
+<p>
+  <strong>Speciality:</strong>
+  <%= @rate.speciality %>
+</p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @rate.amount %>
+</p>
+
+<%= link_to 'Edit', edit_rate_path(@rate) %> |
+<%= link_to 'Back', rates_path %>

@@ -15,6 +15,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     id: Field::Number,
     start_date: Field::DateTime,
     end_date: Field::DateTime,
+    role: Field::Select.with_options(collection: User::ROLE), 
+    speciality: Field::Select.with_options(collection: User::SPECIALITY),
     rate_per_hour: Field::Number.with_options(decimals: 2),
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),

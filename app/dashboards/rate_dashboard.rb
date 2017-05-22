@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class CareHomeDashboard < Administrate::BaseDashboard
+class RateDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,18 +9,12 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    verified: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
-    users: Field::HasMany,
-    staffing_requests: Field::HasMany,
-    name: Field::String,
-    postcode: Field::String.with_options(required: true),
-    base_rate: Field::Number.with_options(decimals: 2),
+    role: Field::Select.with_options(collection: User::ROLE),
+    speciality: Field::Select.with_options(collection: User::SPECIALITY),
+    amount: Field::Number.with_options(decimals: 2),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    image_url: Field::Text,
-    lat: Field::String.with_options(searchable: false),
-    lng: Field::String.with_options(searchable: false),
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -30,46 +24,39 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :name,
-    :postcode,
-    :verified,
-    :zone
+    :zone,
+    :role,
+    :speciality,
+    :amount,
+    
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :users,
-    :staffing_requests,
     :id,
-    :name,
-    :verified,
     :zone,
-    :postcode,
-    :base_rate,
+    :role,
+    :speciality,
+    :amount,
     :created_at,
     :updated_at,
-    :image_url,
-    :lat,
-    :lng,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :name,
-    :postcode,
-    :base_rate,
-    :image_url,
-    :verified,
-    :zone
+    :zone,
+    :role,
+    :speciality,
+    :amount,
   ].freeze
 
-  # Overwrite this method to customize how care_homes are displayed
+  # Overwrite this method to customize how rates are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(care_home)
-    "#{care_home.name} #{care_home.id}"
+  def display_resource(rate)
+     "#{rate.zone}-#{rate.role}-#{rate.speciality}-#{rate.amount}"
   end
 end

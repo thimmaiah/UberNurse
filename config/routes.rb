@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   
   
 
+  
   namespace :admin do
     resources :users
     resources :care_homes
@@ -11,6 +12,7 @@ Rails.application.routes.draw do
     resources :staffing_requests
     resources :staffing_responses
     resources :user_docs
+    resources :rates
     get '/payments_export', to: 'payments_export#index'
     root to: "users#index"
   end
@@ -29,6 +31,7 @@ Rails.application.routes.draw do
   resources :post_codes
   resources :staffing_responses
   resources :staffing_requests
-
+  resources :rates
+  
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

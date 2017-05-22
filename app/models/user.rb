@@ -12,7 +12,7 @@ class User < ApplicationRecord
   has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc" 
 
   SEX = ["M", "F"]
-  SPECIALITY = ["Geriatric Care", "Pediatric Care", "Trauma"]
+  SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]
   ROLE =["Care Giver", "Nurse", "Admin"]
 
   

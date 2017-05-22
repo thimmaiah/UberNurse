@@ -7,12 +7,14 @@ class CareHome < ApplicationRecord
   has_many :staffing_requests
   validates_presence_of :name, :postcode, :base_rate
 
+  ZONES = ["North", "South"]
+
   scope :verified, -> { where verified: true }
 
   reverse_geocoded_by :lat, :lng do |obj,results|
     if geo = results.first
-      obj.address = geo.address.sub(geo.city + ", ", '').sub(geo.postal_code + ", ", '').sub("UK", '')
-      obj.town    = geo.city
+      obj.address = geo.address.sub(geo.city + ", ", '').sub(geo.postal_code + ", ", '').sub("UK", '') if !obj.address
+      obj.town    = geo.city if !obj.town
     end
   end
 
