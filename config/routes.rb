@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     resources :staffing_responses
     resources :user_docs
     resources :rates
+    resources :holidays
     get '/payments_export', to: 'payments_export#index'
     root to: "users#index"
   end
@@ -32,6 +33,8 @@ Rails.application.routes.draw do
   resources :staffing_responses
   resources :staffing_requests
   resources :rates
+  resources :holidays
+  resources :cqc_records
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

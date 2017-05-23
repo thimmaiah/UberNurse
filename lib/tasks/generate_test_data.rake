@@ -307,6 +307,33 @@ namespace :uber_nurse do
     end
   end
 
+  desc "generates fake rates for testing"
+  task :generateFakeRates => :environment do
+
+    begin
+
+      ["North", "South"].each do |zone|
+        ["Nurse", "Care Giver"].each do |role|
+          User::SPECIALITY.each do |spec|
+            u = FactoryGirl.build(:rate)
+            u.speciality = spec
+            u.role = role
+            u.zone = zone
+            u.amount = 10 + rand(5)
+            u.save # Generate payments only for some accepted responses
+            #puts u.to_xml
+            puts "Rate #{u.id}"
+          end
+        end
+      end
+
+
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+  end
+
 
   desc "Generating all Fake Data"
   task :generateFakeAll => [:emptyDB, :generateFakecare_homes, :generateFakeUsers,

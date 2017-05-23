@@ -1,6 +1,13 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :holiday do
+    name "MyString"
+    date "2017-05-23"
+    bank_holiday false
+  end
+  
+
   factory :rate do
     zone "MyString"
     role "MyString"
@@ -34,6 +41,8 @@ FactoryGirl.define do
     request_status {"Open"}
     auto_deny_in 12
     response_count 0
+    role {["Nurse", "Care Giver"][rand(2)]}
+    speciality {User::SPECIALITY[rand(User::SPECIALITY.length)]}
     payment_status {"Unpaid"}
     start_code {rand.to_s[2..6]}
     end_code {rand.to_s[2..6]}
@@ -59,6 +68,7 @@ FactoryGirl.define do
     address {Faker::Address.street_address}
     town {Faker::Address.city}
     postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
+    zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
   end
 
   factory :user do

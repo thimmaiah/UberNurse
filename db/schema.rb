@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170522171001) do
+ActiveRecord::Schema.define(version: 20170523025700) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -27,6 +27,25 @@ ActiveRecord::Schema.define(version: 20170522171001) do
     t.boolean  "verified"
     t.string   "zone"
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
+  end
+
+  create_table "cqc_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "aka"
+    t.string   "address"
+    t.string   "postcode"
+    t.string   "phone"
+    t.string   "website"
+    t.text     "service_types",   limit: 65535
+    t.text     "services",        limit: 65535
+    t.string   "local_authority"
+    t.string   "region"
+    t.string   "cqc_url"
+    t.string   "cqc_location"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.index ["cqc_location"], name: "index_cqc_records_on_cqc_location", using: :btree
+    t.index ["postcode"], name: "index_cqc_records_on_postcode", using: :btree
   end
 
   create_table "delayed_jobs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -63,6 +82,15 @@ ActiveRecord::Schema.define(version: 20170522171001) do
     t.text     "notes",             limit: 65535
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+  end
+
+  create_table "holidays", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.date     "date"
+    t.boolean  "bank_holiday"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["date"], name: "index_holidays_on_date", using: :btree
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
