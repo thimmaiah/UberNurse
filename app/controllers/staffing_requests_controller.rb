@@ -8,6 +8,16 @@ class StaffingRequestsController < ApplicationController
     render json: @staffing_requests.includes(:user, :care_home, :staffing_responses), include: "user,care_home"
   end
 
+  def price
+    @staffing_request = StaffingRequest.new(staffing_request_params)
+    @staffing_request.user_id = current_user.id
+    @staffing_request.care_home_id = current_user.care_home_id
+    @staffing_request.created_at = Time.now if !@staffing_request.created_at
+
+    Rate.price(@staffing_request)
+    render json: @staffing_request
+  end
+
   # GET /staffing_requests/1
   def show
     render json: @staffing_request, include: "staffing_responses"
@@ -18,6 +28,7 @@ class StaffingRequestsController < ApplicationController
     @staffing_request = StaffingRequest.new(staffing_request_params)
     @staffing_request.user_id = current_user.id
     @staffing_request.care_home_id = current_user.care_home_id
+
     if @staffing_request.save
       render json: @staffing_request, status: :created, location: @staffing_request
     else
@@ -49,6 +60,8 @@ class StaffingRequestsController < ApplicationController
     def staffing_request_params
       params.require(:staffing_request).permit(:care_home_id, :user_id, :start_date, 
         :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count, 
-        :payment_status, :start_code, :end_code, :role, :speciality)
+        :payment_status, :start_code, :end_code, :price, :role, :speciality,
+        :pricing_audit=>[:hours_worked, :base_rate, :base_price, :factor, :price] 
+        )
     end
 end

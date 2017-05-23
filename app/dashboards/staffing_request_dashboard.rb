@@ -17,7 +17,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     end_date: Field::DateTime,
     role: Field::Select.with_options(collection: User::ROLE), 
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
-    rate_per_hour: Field::Number.with_options(decimals: 2),
+    price: Field::Number.with_options(decimals: 2),
+    pricing_audit: Field::String, 
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
     response_count: Field::Number,
@@ -43,7 +44,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :request_status,
     :payment_status,
-    :rate_per_hour,
+    :price,
     :broadcast_status
   ].freeze
 
@@ -57,7 +58,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :id,
     :start_date,
     :end_date,
-    :rate_per_hour,
+    :price,
+    :pricing_audit,
     :request_status,
     :auto_deny_in,
     :response_count,
@@ -66,8 +68,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :updated_at,
     :start_code,
     :end_code,
-    :broadcast_status,
-    :versions
+    :broadcast_status
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -76,7 +77,6 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :start_date,
     :end_date,
-    :rate_per_hour,
     :request_status,
     :auto_deny_in,
     :payment_status,

@@ -1,4 +1,4 @@
-Given(/^there is a request "([^"]*)"$/) do |args|
+Given(/^a request "([^"]*)"$/) do |args|
   if(!@care_home)
     steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
@@ -9,8 +9,73 @@ Given(/^there is a request "([^"]*)"$/) do |args|
   key_values(@staffing_request, args)
   @staffing_request.care_home = @care_home
   @staffing_request.user = @care_home.users.admins.first
-  @staffing_request.save!
 end
+
+Given(/^there is a request "([^"]*)"$/) do |args|
+  if(!@care_home)
+    steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given a request "#{args}"
+    }
+  end
+
+  @staffing_request.save!
+  puts @staffing_request.to_json
+end
+
+Given(/^there is a request "([^"]*)" with start date "([^"]*)" from now and end date "([^"]*)" from now$/) do |arg1, arg2, arg3|
+  steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given a request "#{arg1}"
+  }
+
+  @staffing_request.start_date = Time.now.at_beginning_of_day + arg2.to_f.days
+  @staffing_request.end_date = Time.now.at_beginning_of_day + arg3.to_f.days
+  @staffing_request.save!
+  puts @staffing_request.to_json
+end
+
+Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg2|
+  steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given a request "#{arg1}"
+  }
+
+  @staffing_request.start_date = Time.now.at_end_of_week
+  @staffing_request.end_date = Time.now.at_end_of_week + arg2.to_f.hours
+  @staffing_request.save!
+  puts @staffing_request.to_json
+end
+
+Given(/^there is a request "([^"]*)" "([^"]*)" from now$/) do |arg1, arg2|
+  steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given a request "#{arg1}"
+  }
+
+  @staffing_request.start_date = Time.now + arg2.to_f.hours
+  @staffing_request.end_date = @staffing_request.start_date + 6.hours
+  @staffing_request.save!
+  puts @staffing_request.to_json
+
+end
+
+Given(/^there is a request "([^"]*)" on a bank holiday$/) do |arg1|
+  d = Date.today + 1.day
+  Holiday.create(name: "Test Holiday", date: d, bank_holiday: true)
+
+  steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given a request "#{arg1}"
+  }
+
+  @staffing_request.start_date = Time.now.at_beginning_of_day + 1.day
+  @staffing_request.end_date = Time.now.at_beginning_of_day + 1.days + 10.hours
+  @staffing_request.save!
+  puts @staffing_request.to_json
+end
+
+
 
 Given(/^there are "(\d+)" of verified requests$/) do |count|
   (1..count.to_i).each do |i|
@@ -92,4 +157,16 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@staffing_request.start_code)
   expect(page).to have_content(@staffing_request.end_code)
+end
+
+
+Then(/^the price for the Staffing Request must be "([^"]*)"$/) do |price|
+  Rate.price(@staffing_request).should == price.to_f
+end
+
+
+Given(/^the rate is "([^"]*)"$/) do |arg1|
+  Rate.where(zone:@staffing_request.care_home.zone,
+             role:@staffing_request.role,
+             speciality: @staffing_request.speciality).update(amount: arg1.to_f)
 end

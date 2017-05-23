@@ -1,5 +1,9 @@
 require 'csv'
 class CqcRecord < ApplicationRecord
+
+  after_save ThinkingSphinx::RealTime.callback_for(:user)
+
+
   def self.load(csv_file)
     csv_text = File.read(csv_file)
     csv = CSV.parse(csv_text, :headers => true)
@@ -20,4 +24,5 @@ class CqcRecord < ApplicationRecord
                        cqc_location: row[13])
     end
   end
+  
 end

@@ -1,7 +1,8 @@
 class StaffingRequest < ApplicationRecord
 
   acts_as_paranoid
-  has_paper_trail
+  has_paper_trail ignore: [:pricing_audit]
+  
   after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
   REQ_STATUS = ["Open", "Closed"]
@@ -12,7 +13,9 @@ class StaffingRequest < ApplicationRecord
   has_many :staffing_responses
   has_one :payment
 
-  #after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
+  serialize :pricing_audit, Hash
+
+  after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
   scope :open, -> {where(request_status:"Open")}
   scope :closed, -> {where(request_status:"Closed")}

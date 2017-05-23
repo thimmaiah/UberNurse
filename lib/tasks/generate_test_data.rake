@@ -57,6 +57,7 @@ namespace :uber_nurse do
     StaffingResponse.delete_all
     Payment.delete_all
     Rating.delete_all
+    PaperTrail::Version.delete_all
   end
 
 
