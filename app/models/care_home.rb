@@ -21,6 +21,7 @@ class CareHome < ApplicationRecord
   before_create :set_defaults
   def set_defaults
     self.verified = false
+    self.image_url = "assets/icon/homecare.png"
   end
 
   after_create :send_verification_mail

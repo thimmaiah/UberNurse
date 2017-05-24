@@ -7,7 +7,7 @@ class CareHomesController < ApplicationController
     if(params[:search].present?)
       @care_homes = CareHome.search(params[:search]+"*")
     end
-    render json: @care_homes
+    render json: @care_homes.page(@page).per(@per_page) 
   end
 
   # GET /care_homes/1
