@@ -5,7 +5,7 @@ class CqcRecordsController < ApplicationController
   respond_to :json
 
   def index
-    @cqc_records = CqcRecord.search(params[:search])
+    @cqc_records = CqcRecord.search(params[:search]+"*")
     respond_with(@cqc_records)
   end
 
