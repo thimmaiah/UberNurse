@@ -4,6 +4,9 @@ class CareHomesController < ApplicationController
 
   # GET /care_homes
   def index
+    if(params[:search].present?)
+      @care_homes = CareHome.search(params[:search]+"*")
+    end
     render json: @care_homes
   end
 

@@ -1,10 +1,13 @@
 class CqcRecordsController < ApplicationController
-  before_action :set_cqc_record, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :cqc_record_params
 
-  respond_to :html
+  respond_to :json
 
   def index
-    @cqc_records = CqcRecord.all
+    if(params[:search].present?)
+      @cqc_records = CqcRecord.search(params[:search])
+    end
     respond_with(@cqc_records)
   end
 
