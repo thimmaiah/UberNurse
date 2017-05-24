@@ -15,7 +15,7 @@ class StaffingResponse < ApplicationRecord
   scope :not_rejected, -> {where("response_status <> 'Rejected'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
-  scope :open, -> {where("response_status != 'Closed'")}
+  scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
   before_save :process_rejected
   before_save :update_dates

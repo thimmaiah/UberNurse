@@ -5,7 +5,7 @@ class StaffingRequest < ApplicationRecord
   
   after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
-  REQ_STATUS = ["Open", "Closed"]
+  REQ_STATUS = ["Open", "Closed", "Cancelled"]
   BROADCAST_STATUS =["Sent", "Failed"]
 
   belongs_to :care_home
@@ -19,6 +19,7 @@ class StaffingRequest < ApplicationRecord
 
   scope :open, -> {where(request_status:"Open")}
   scope :closed, -> {where(request_status:"Closed")}
+  scope :cancelled, -> {where(request_status:"Cancelled")}
   scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
 
   before_create :set_defaults
@@ -32,10 +33,11 @@ class StaffingRequest < ApplicationRecord
 
   before_save :update_response_status
   def update_response_status
-    if( self.request_status_changed? && self.request_status == 'Closed')
+    if( self.request_status_changed? && 
+        (self.request_status == 'Closed' || self.request_status == 'Cancelled') )
     	# Ensure all responses are also closed so they dont show up on the UI
       self.staffing_responses.each do |resp|	
-        resp.response_status = "Closed"
+        resp.response_status = self.request_status 
         resp.save
       end
     end
