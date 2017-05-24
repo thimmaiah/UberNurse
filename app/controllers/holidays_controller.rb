@@ -1,5 +1,7 @@
 class HolidaysController < ApplicationController
-  before_action :set_holiday, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :holiday_params, except: [:create]
+
 
   respond_to :json
 

@@ -53,6 +53,6 @@ class CareHomesController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def care_home_params
-    params.require(:care_home).permit(:name, :address, :town, :postcode, :base_rate, :image_url)
+    params.require(:care_home).permit(:name, :address, :town, :postcode, :base_rate, :image_url, :cqc_location)
   end
 end

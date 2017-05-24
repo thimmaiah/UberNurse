@@ -1,13 +1,11 @@
 class CqcRecordsController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource param_method: :cqc_record_params
+  load_and_authorize_resource param_method: :cqc_record_params, except: [:index]
 
   respond_to :json
 
   def index
-    if(params[:search].present?)
-      @cqc_records = CqcRecord.search(params[:search])
-    end
+    @cqc_records = CqcRecord.search(params[:search])
     respond_with(@cqc_records)
   end
 

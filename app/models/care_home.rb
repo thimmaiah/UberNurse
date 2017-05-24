@@ -5,7 +5,7 @@ class CareHome < ApplicationRecord
 
   has_many :users
   has_many :staffing_requests
-  validates_presence_of :name, :postcode, :base_rate
+  validates_presence_of :name, :postcode
 
   ZONES = ["North", "South"]
 

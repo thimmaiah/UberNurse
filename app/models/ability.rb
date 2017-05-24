@@ -52,6 +52,8 @@ class Ability
         #can :read, StaffingResponse, :care_home_id=>@user.care_home_id         
         can :read, UserDoc
         can :read, Rating
+        can :read, CqcRecord
+        can :read, Holiday
         #can :manage, Rating, :created_by_id => @user.id 
     end
 
