@@ -11,7 +11,7 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
  
-server '52.56.125.114', user: "ubuntu", roles: [:web, :app, :db], primary: true
+server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
 set :ssh_options, {
   user: 'ubuntu',
   keys: ['/home/thimmaiah/.ssh/DeploymentKey.pem'],

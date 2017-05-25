@@ -34,7 +34,7 @@ Given(/^the user has already rejected this request$/) do
   slot.response_status = "Rejected"
   slot.save!
 
-  puts "#####Rejected Slot####\n"
+  puts "\n#####Rejected Slot####\n"
   puts slot.to_json
 end
 
