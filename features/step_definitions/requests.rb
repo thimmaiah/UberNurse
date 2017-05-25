@@ -1,4 +1,7 @@
-Given(/^a request "([^"]*)"$/) do |args|
+Given(/^a unsaved request "([^"]*)"$/) do |args|
+  
+  puts "####creating and unsaved request from args #{args}\n"
+
   if(!@care_home)
     steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
@@ -15,47 +18,55 @@ Given(/^there is a request "([^"]*)"$/) do |args|
   if(!@care_home)
     steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a request "#{args}"
     }
   end
+  steps %Q{
+    Given a unsaved request "#{args}"
+  }
 
   @staffing_request.save!
+  puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
 end
 
 Given(/^there is a request "([^"]*)" with start date "([^"]*)" from now and end date "([^"]*)" from now$/) do |arg1, arg2, arg3|
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a request "#{arg1}"
+      Given a unsaved request "#{arg1}"
   }
 
   @staffing_request.start_date = Time.now.at_beginning_of_day + arg2.to_f.days
   @staffing_request.end_date = Time.now.at_beginning_of_day + arg3.to_f.days
   @staffing_request.save!
+  puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
 end
 
 Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg2|
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a request "#{arg1}"
+      Given a unsaved request "#{arg1}"
   }
 
   @staffing_request.start_date = Time.now.at_end_of_week
   @staffing_request.end_date = Time.now.at_end_of_week + arg2.to_f.hours
   @staffing_request.save!
+
+  puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
 end
 
 Given(/^there is a request "([^"]*)" "([^"]*)" from now$/) do |arg1, arg2|
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a request "#{arg1}"
+      Given a unsaved request "#{arg1}"
   }
 
   @staffing_request.start_date = Time.now + arg2.to_f.hours
   @staffing_request.end_date = @staffing_request.start_date + 6.hours
   @staffing_request.save!
+  
+  puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
 
 end
@@ -66,12 +77,14 @@ Given(/^there is a request "([^"]*)" on a bank holiday$/) do |arg1|
 
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a request "#{arg1}"
+      Given a unsaved request "#{arg1}"
   }
 
   @staffing_request.start_date = Time.now.at_beginning_of_day + 1.day
   @staffing_request.end_date = Time.now.at_beginning_of_day + 1.days + 10.hours
   @staffing_request.save!
+  
+  puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
 end
 
@@ -89,7 +102,6 @@ end
 Then(/^I must see all the requests$/) do
   StaffingRequest.all.each do |req|
     expect(page).to have_content(@staffing_request.care_home.name)
-    expect(page).to have_content(@staffing_request.rate_per_hour)
     expect(page).to have_content(@staffing_request.request_status)
     expect(page).to have_content(@staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
     expect(page).to have_content(@staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
@@ -117,7 +129,10 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   key_values(@staffing_request, args)
   page.find("#new_staffing_request_btn").click()
 
-  fields = ["rate_per_hour", "auto_deny_in", "start_code", "end_code"]
+  ionic_select(@staffing_request.role, "role", true)
+  ionic_select(@staffing_request.speciality, "speciality", false)
+
+  fields = ["auto_deny_in", "start_code", "end_code"]
   fields.each do |k|
     fill_in(k, with: @staffing_request[k])
   end
@@ -125,7 +140,7 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   fill_in("auto_deny_in", with: @staffing_request.auto_deny_in)
 
   click_on("Save")
-  sleep(2)
+  sleep(1)
 
 end
 
@@ -133,9 +148,10 @@ Then(/^the request must be saved$/) do
 
   last = StaffingRequest.last
 
-  @staffing_request.rate_per_hour.should == last.rate_per_hour
   @staffing_request.start_code.should == last.start_code
   @staffing_request.end_code.should == last.end_code
+  @staffing_request.role.should == last.role
+  @staffing_request.speciality.should == last.speciality
 
   last.user_id.should == @user.id
   last.care_home_id.should == @user.care_home_id
@@ -150,7 +166,8 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.care_home.name)
   expect(page).to have_content(@staffing_request.user.first_name)
   expect(page).to have_content(@staffing_request.user.last_name)
-  expect(page).to have_content(@staffing_request.rate_per_hour)
+  expect(page).to have_content(@staffing_request.role)
+  expect(page).to have_content(@staffing_request.speciality)
   expect(page).to have_content(@staffing_request.request_status)
   expect(page).to have_content(@staffing_request.payment_status)
   expect(page).to have_content(@staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )

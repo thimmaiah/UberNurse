@@ -6,7 +6,7 @@ end
 Then(/^A slot must be created for the user for the request$/) do
   @slot = StaffingResponse.last
   @slot.user_id.should == @user.id
-  @slot.staffing_request_id.should == @staffing_request.id
+  @slot.staffing_request_id.should == @staffing_request.id  
 end
 
 Given(/^the user has already accepted this request$/) do
@@ -14,10 +14,12 @@ Given(/^the user has already accepted this request$/) do
   slot.user = @user
   slot.staffing_request = @staffing_request
   slot.care_home_id = @staffing_request.care_home_id
+  slot.save
+
   slot.response_status = "Accepted"
   slot.save!
 
-  puts "Created slot"
+  puts "#####Accepted Slot####\n"
   puts slot.to_json
 end
 
@@ -27,10 +29,12 @@ Given(/^the user has already rejected this request$/) do
   slot.user = @user
   slot.staffing_request = @staffing_request
   slot.care_home_id = @staffing_request.care_home_id
+  slot.save
+
   slot.response_status = "Rejected"
   slot.save!
 
-  puts "Created slot"
+  puts "#####Rejected Slot####\n"
   puts slot.to_json
 end
 

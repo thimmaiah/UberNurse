@@ -23,11 +23,34 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'New Slot Assigned' )
   end
 
+  def slot_cancelled(staffing_response)
+    @user = staffing_response.user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Slot Cancelled' )
+  end
+
+  def slot_accepted(staffing_response)
+    @user = staffing_response.user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Slot Accepted' )
+  end
+
   def care_home_verified(care_home)
     @user = care_home.users.first
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'Care Home Verified' )
+
+  end
+
+
+  def no_slot_found(staffing_request)
+    @user = ENV["ADMIN_EMAIL"]
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'No slot found for request from #{staffing_request.care_home.name}' )
 
   end
 

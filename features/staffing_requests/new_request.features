@@ -11,7 +11,7 @@ Scenario Outline: New Request
 
   Examples:
   	|care_home						              |admin 						           |request	|
-  	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |rate_per_hour=10;start_code=1111;end_code=0000 |
-  	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |rate_per_hour=10;start_code=1111;end_code=0000 |
+  	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |start_code=1111;end_code=0000 |
+  	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |start_code=1111;end_code=0000 |
   	
 

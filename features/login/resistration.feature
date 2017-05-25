@@ -1,7 +1,7 @@
 Feature: Registration
-  Registration should be work properly
+  Registration should work properly
 
-Scenario Outline: Login Successfully
+Scenario Outline: User Registration Successfully
   Given there is an unsaved user "<user>"
   And I am at the registration page
   When I fill and submit the registration page
@@ -19,17 +19,35 @@ Scenario Outline: Login Successfully
   	|first_name=Mohith;role=Admin		    |Please check your email for verification link	|Welcome	|
 
 
-Scenario Outline: Register a care home
+Scenario Outline: Register a care home with cqc
   Given Im a logged in user "<user>"  
   And I am at the care homes registration page
-  When I fill and submit the care homes registration page with "<care_home>"
+  When I search for the care home "<care home>"
+  And I click on the search result care home
+  And When and submit the care homes registration page with "<care_home>"
   Then I should see the "<msg1>"
-  And the care home should be created
   And the care home should be unverified
   And I should be associated with the care home
   
 
   Examples:
-    |user                               |msg1                                           |
-    |first_name=Mohith;role=Admin       |CareHome saved successfully. We will inform you once this has been verified  |
-    |first_name=Mohith;role=Admin       |CareHome saved successfully. We will inform you once this has been verified  |
+    |user                          |care home                   |msg1                                      |
+    |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|CareHome saved successfully. We will inform you once this has been verified|
+    |first_name=Mohith;role=Admin  |name=Little Haven                |CareHome saved successfully. We will inform you once this has been verified|
+
+
+Scenario Outline: Register a care home without cqc
+  Given Im a logged in user "<user>"  
+  And I am at the care homes registration page
+  When I search for the care home "<care home>"
+  And I click "Register New Care Home"
+  And I fill and submit the care homes registration page with  "<care_home>"
+  Then I should see the "<msg1>"
+  And the care home should be unverified
+  And I should be associated with the care home
+  
+
+  Examples:
+    |user                          |care home                   |msg1                                      |
+    |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|CareHome saved successfully. We will inform you once this has been verified|
+    |first_name=Mohith;role=Admin  |name=Little Haven                |CareHome saved successfully. We will inform you once this has been verified|

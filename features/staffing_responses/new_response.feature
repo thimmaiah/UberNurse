@@ -11,8 +11,8 @@ Scenario Outline: New Slot
 
   Examples:
   	|request	                                      | user                            |
-  	|rate_per_hour=10;start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
-  	|rate_per_hour=10;start_code=1111;end_code=0000 | role=Nurse;verified=true        |
+  	|start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
+  	|start_code=1111;end_code=0000 | role=Nurse;verified=true        |
   	
 
 Scenario Outline: New Slot for unverified users
@@ -23,8 +23,8 @@ Scenario Outline: New Slot for unverified users
 
   Examples:
     |request                                        | user                            |
-    |rate_per_hour=10;start_code=1111;end_code=0000 | role=Care Giver;verified=false  |
-    |rate_per_hour=10;start_code=1111;end_code=0000 | role=Nurse;verified=false       |
+    |start_code=1111;end_code=0000 | role=Care Giver;verified=false  |
+    |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 
 
 Scenario Outline: New Slot when already rejected
@@ -36,8 +36,8 @@ Scenario Outline: New Slot when already rejected
 
   Examples:
     |request                                        | user                            |
-    |rate_per_hour=10;start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
-    |rate_per_hour=10;start_code=1111;end_code=0000 | role=Nurse;verified=true        |
+    |start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
+    |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 
 Scenario Outline: New Slot when already booked in the same time slot

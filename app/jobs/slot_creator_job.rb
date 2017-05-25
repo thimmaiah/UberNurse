@@ -8,19 +8,19 @@ class SlotCreatorJob < ApplicationJob
     # If the start or end date of the response lies inside the start or end date of the request then its a same day booking
     # If the start date is before and the end date is after then also its a same day booking
 
-    # response.start_date > request.start_date && response.start_date < request.end_date 
+    # response.start_date > request.start_date && response.start_date < request.end_date
     # response.end_date > request.start_date && response.end_date < request.end_date
-    # response.start_date < request.start_date && response.end_date > request.end_date   
+    # response.start_date < request.start_date && response.end_date > request.end_date
 
     # The confusing part of this where clause is that staffing_responses do not have start end dates
-    # In the query below, in the where clause all start and end dates are the 
+    # In the query below, in the where clause all start and end dates are the
     # staffing responses dates via its relationship to the staffing request
 
     same_day_bookings = user.staffing_responses.not_rejected.includes(:staffing_request)
-    .where("(staffing_requests.start_date <= ? and staffing_requests.end_date >= ?) 
+    .where("(staffing_requests.start_date <= ? and staffing_requests.end_date >= ?)
       or (staffing_requests.start_date <= ? and staffing_requests.end_date >= ?)
       or (staffing_requests.start_date >= ? and staffing_requests.end_date <= ?)",
-           staffing_request.start_date, staffing_request.start_date, 
+           staffing_request.start_date, staffing_request.start_date,
            staffing_request.end_date, staffing_request.end_date,
            staffing_request.start_date, staffing_request.end_date).references(:staffing_request)
 
@@ -38,11 +38,14 @@ class SlotCreatorJob < ApplicationJob
   def create_slot(selected_user, staffing_request)
     # Create the response from the selected user and mark him as auto selected
     selected_user.auto_selected_date = Date.today
+    # Create the slot
     staffing_response = StaffingResponse.new(staffing_request_id: staffing_request.id,
                                              user_id: selected_user.id,
                                              care_home_id:staffing_request.care_home_id,
                                              response_status: "Pending")
+    # Update the request
     staffing_request.broadcast_status = "Sent"
+    staffing_request.slot_status = "Found"
     StaffingResponse.transaction do
       staffing_response.save
       selected_user.save
@@ -62,7 +65,7 @@ class SlotCreatorJob < ApplicationJob
 
     User.temps.active.verified.order("auto_selected_date ASC").each do |user|
 
-      # Get the slot bookings for this user on the same time as this req 
+      # Get the slot bookings for this user on the same time as this req
       same_day_bookings = get_same_day_booking(user, staffing_request)
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)
@@ -92,6 +95,11 @@ class SlotCreatorJob < ApplicationJob
           create_slot(selected_user, staffing_request)
         else
           logger.error "No user found for Staffing Request #{staffing_request.id}"
+          if(staffing_request.slot_status != "Not Found")
+            UserNotifierMailer.no_slot_found(staffing_request).deliver_later
+          end
+          staffing_request.slot_status = "Found"
+          staffing_request.save
         end
       end
 

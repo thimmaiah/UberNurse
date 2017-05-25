@@ -17,18 +17,27 @@ class StaffingResponse < ApplicationRecord
   scope :rejected, -> {where("response_status = 'Rejected'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
-  before_save :process_rejected
+  before_save :slot_cancelled, :slot_accepted
   before_save :update_dates
 
-  def process_rejected
+  def slot_cancelled
     if(self.response_status_changed? && self.response_status == "Rejected")
       # This was rejected - so ensure the request gets broadcasted again
       # If the broadcast_status is "Pending", the Notifier will pick it
       # up again in some time and send it out
       self.staffing_request.broadcast_status = "Pending"
+      self.staffing_request.slot_status = nil
       self.staffing_request.save
+      UserNotifierMailer.slot_cancelled(self).deliver_later
     end
   end
+
+  def slot_accepted
+    if(self.response_status_changed? && self.response_status == "Accepted")
+      UserNotifierMailer.slot_accepted(self).deliver_later
+    end
+  end
+
 
   def update_dates
   	self.start_date = Time.now if(self.start_code_changed?)
@@ -39,7 +48,7 @@ class StaffingResponse < ApplicationRecord
   def broadcast_slot
     if(self.response_status != 'Rejected')
       PushNotificationJob.new.perform(self)
-      UserNotifierMailer.slot_notification(self).deliver_now
+      UserNotifierMailer.slot_notification(self).deliver_later
     end
   end
 

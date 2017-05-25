@@ -11,7 +11,6 @@ module RatesHelper
     f = factor(staffing_request)
     billing = (base * f).round(2)
 
-    logger.debug("hours=#{hours}, rate=#{rate.amount}, base = #{base}, factor = #{f}, billing=#{billing}")
 
     staffing_request.pricing_audit["hours_worked"] = hours
     staffing_request.pricing_audit["base_rate"] = rate.amount
@@ -19,6 +18,8 @@ module RatesHelper
     staffing_request.pricing_audit["factor"] = f
     staffing_request.pricing_audit["price"] = billing
     staffing_request.price = billing
+
+    logger.debug(staffing_request.pricing_audit)
 
     billing
 
