@@ -145,6 +145,8 @@ ActiveRecord::Schema.define(version: 20170525014624) do
     t.datetime "updated_at",                         null: false
     t.integer  "created_by_id"
     t.integer  "care_home_id"
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_ratings_on_deleted_at", using: :btree
     t.index ["staffing_response_id"], name: "index_ratings_on_staffing_response_id", using: :btree
     t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end

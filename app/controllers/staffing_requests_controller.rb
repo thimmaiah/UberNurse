@@ -4,7 +4,7 @@ class StaffingRequestsController < ApplicationController
   
   # GET /staffing_requests
   def index
-    @staffing_requests = @staffing_requests.open.page(@page).per(@per_page)
+    @staffing_requests = @staffing_requests.open.order("id desc").page(@page).per(@per_page)
     render json: @staffing_requests.includes(:user, :care_home, :staffing_responses), include: "user,care_home"
   end
 

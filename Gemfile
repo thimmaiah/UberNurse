@@ -71,6 +71,8 @@ gem "geocoder"
 gem 'paper_trail'
 gem 'sanitize_email'
 gem 'responders'
+gem 'whenever', :require => false
+
 
 group :test do
   gem 'cucumber-rails', require: false

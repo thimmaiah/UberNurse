@@ -1,6 +1,6 @@
 class UserDocsController < ApplicationController
   before_action :authenticate_user!, except: [:create]
-  load_and_authorize_resource param_method: :user_doc_params
+  load_and_authorize_resource param_method: :user_doc_params, except: [:create]
 
   before_action :set_user_doc, only: [:show, :update, :destroy]
 
@@ -19,7 +19,7 @@ class UserDocsController < ApplicationController
     @user_doc = UserDoc.new(user_doc_params)
     # The doc could be uploaded by Super - so make sure we capture that
     # see UserDoc.dbs_charge()
-    @user_doc.created_by_user_id = current_user.id    
+    @user_doc.created_by_user_id = current_user.id if current_user 
     if @user_doc.save      
       render json: @user_doc, status: :created, location: @user_doc
     else
