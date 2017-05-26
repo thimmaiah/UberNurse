@@ -61,7 +61,7 @@ class StaffingRequestsController < ApplicationController
       params.require(:staffing_request).permit(:care_home_id, :user_id, :start_date, 
         :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count, 
         :payment_status, :start_code, :end_code, :price, :role, :speciality,
-        :pricing_audit=>[:hours_worked, :base_rate, :base_price, :factor, :price] 
+        :pricing_audit=>[:hours_worked, :base_rate, :base_price, :factor_value, :factor_name, :price] 
         )
     end
 end

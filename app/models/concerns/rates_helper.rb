@@ -17,7 +17,7 @@ module RatesHelper
     staffing_request.pricing_audit["base_rate"] = rate.amount
     staffing_request.pricing_audit["base_price"] = base
     staffing_request.pricing_audit["factor_value"] = factor_value
-    staffing_request.pricing_audit[factor_name] = factor_value
+    staffing_request.pricing_audit["factor_name"] = factor_name
     staffing_request.pricing_audit["price"] = billing
     staffing_request.price = billing
 
@@ -46,7 +46,7 @@ module RatesHelper
     staffing_response.pricing_audit["base_rate"] = rate.amount
     staffing_response.pricing_audit["base_price"] = base
     staffing_response.pricing_audit["factor_value"] = factor_value
-    staffing_response.pricing_audit[factor_name] = factor_value
+    staffing_response.pricing_audit["factor_name"] = factor_name
     staffing_response.pricing_audit["price"] = billing
     staffing_response.price = billing
 
