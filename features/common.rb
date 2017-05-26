@@ -58,3 +58,17 @@ end
 When(/^I click "([^"]*)"$/) do |arg1|
   click_on(arg1)
 end
+
+Given(/^jobs are being dispatched$/) do
+  Delayed::Worker.new.work_off
+end
+
+Then(/^the user receives an email with "([^"]*)" as the subject$/) do |subject|
+  open_email(@user.email)
+  expect(current_email.subject).to eq subject
+end
+
+Then(/^the user receives no email$/) do
+  open_email(@user.email)
+  expect(current_email).to eq nil
+end

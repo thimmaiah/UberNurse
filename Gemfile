@@ -72,7 +72,7 @@ gem 'paper_trail'
 gem 'sanitize_email'
 gem 'responders'
 gem 'whenever', :require => false
-gem 'time_difference'
+gem 'capybara-email'
 
 group :test do
   gem 'cucumber-rails', require: false

@@ -24,6 +24,7 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def slot_cancelled(staffing_response)
+    @staffing_response = staffing_response
     @user = staffing_response.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
@@ -31,6 +32,7 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def slot_accepted(staffing_response)
+    @staffing_response = staffing_response
     @user = staffing_response.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
@@ -52,6 +54,14 @@ class UserNotifierMailer < ApplicationMailer
     mail( :to => @user.email,
           :subject => 'No slot found for request from #{staffing_request.care_home.name}' )
 
+  end
+
+  def slot_confirmation(staffing_response)
+    @staffing_response = staffing_response
+    @user = staffing_response.user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Slot Confirmation' )
   end
 
 end

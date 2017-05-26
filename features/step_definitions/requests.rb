@@ -187,3 +187,10 @@ Given(/^the rate is "([^"]*)"$/) do |arg1|
              role:@staffing_request.role,
              speciality: @staffing_request.speciality).update(amount: arg1.to_f)
 end
+
+
+Given(/^the request start_date is "([^"]*)" from now$/) do |arg1|
+  @staffing_request.start_date = Time.now + eval(arg1)
+  @staffing_request.end_date = Time.now + eval(arg1) + 8.hours
+  @staffing_request.save!
+end

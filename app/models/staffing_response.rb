@@ -5,6 +5,7 @@ class StaffingResponse < ApplicationRecord
 
   RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected"]
   PAYMENT_STATUS = ["UnPaid", "Paid"]
+  CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
   belongs_to :user
   belongs_to :staffing_request
@@ -24,11 +25,17 @@ class StaffingResponse < ApplicationRecord
 
   before_save :slot_cancelled, :slot_accepted
   before_save :update_dates
+  before_create :set_defaults
+
+  def set_defaults
+    self.confirm_sent_count = 0
+    self.confirmed_count = 0
+  end
 
   def slot_cancelled
-    if(self.response_status_changed? && 
-      ["Rejected", "Auto Rejected"].include?(self.response_status))
-    
+    if(self.response_status_changed? &&
+       ["Rejected", "Auto Rejected"].include?(self.response_status))
+
       # This was rejected - so ensure the request gets broadcasted again
       # If the broadcast_status is "Pending", the Notifier will pick it
       # up again in some time and send it out
@@ -72,7 +79,7 @@ class StaffingResponse < ApplicationRecord
     # Ensure this gets priced, if we have the right star / end codes
     if(price == nil && self.start_code == self.staffing_request.start_code && self.end_code == self.staffing_request.end_code)
       SlotPricingJob.perform_later(self.id)
-    end  
+    end
   end
 
   def minutes_worked
@@ -82,5 +89,47 @@ class StaffingResponse < ApplicationRecord
       0
     end
   end
+
+  def send_confirm?
+    sendFlag = Time.now > self.next_confirm_time && self.confirmed_status != "Declined"
+    logger.debug("StaffingResponse: sendFlag = #{sendFlag}")
+    return sendFlag
+  end
+
+  def next_confirm_time
+    # ACCEPTED_SLOT_REMINDERS_BEFORE="1.day,4.hours,1.hour"
+    reminders = ENV["ACCEPTED_SLOT_REMINDERS_BEFORE"].split(",")
+    logger.debug("StaffingResponse: next_confirm_time = #{reminders[self.confirm_sent_count]} confirm_sent_count = #{self.confirm_sent_count} ")
+    if(reminders.length > self.confirm_sent_count)
+      return self.staffing_request.start_date - eval(reminders[self.confirm_sent_count])
+    end
+
+    return nil
+  end
+
+  def confirmation_sent
+    self.confirm_sent_count += 1
+    self.confirm_sent_at = Time.now
+    self.save!
+  end
+
+  def confirm
+    self.confirmed_status = "Confirmed"
+    self.confirmed_count += 1
+    self.confirmed_at = Time.now
+    self.save!
+  end
+
+  def decline
+    self.confirmed_status = "Declined"
+    self.confirmed_count += 1
+    self.confirmed_at = Time.now
+    self.save!
+  end
+
+  def confirmation_received?
+    self.confirmed_status == "Confirmed" &&  self.confirmed_at > self.confirm_sent_at
+  end
+
 
 end

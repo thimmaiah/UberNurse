@@ -5,37 +5,37 @@ end
 
 Then(/^A slot must be created for the user for the request$/) do
   @slot = StaffingResponse.last
-  @slot.user_id.should == @user.id
-  @slot.staffing_request_id.should == @staffing_request.id  
+  @@staffing_response.user_id.should == @user.id
+  @@staffing_response.staffing_request_id.should == @staffing_request.id  
 end
 
 Given(/^the user has already accepted this request$/) do
-  slot = FactoryGirl.build(:staffing_response)
-  slot.user = @user
-  slot.staffing_request = @staffing_request
-  slot.care_home_id = @staffing_request.care_home_id
-  slot.save
+  @staffing_response = FactoryGirl.build(:staffing_response)
+  @staffing_response.user = @user
+  @staffing_response.staffing_request = @staffing_request
+  @staffing_response.care_home_id = @staffing_request.care_home_id
+  @staffing_response.save
 
-  slot.response_status = "Accepted"
-  slot.save!
+  @staffing_response.response_status = "Accepted"
+  @staffing_response.save!
 
-  puts "#####Accepted Slot####\n"
-  puts slot.to_json
+  puts "\n#####Accepted Slot####\n"
+  puts @staffing_response.to_json
 end
 
 
 Given(/^the user has already rejected this request$/) do
-  slot = FactoryGirl.build(:staffing_response)
-  slot.user = @user
-  slot.staffing_request = @staffing_request
-  slot.care_home_id = @staffing_request.care_home_id
-  slot.save
+  @staffing_response = FactoryGirl.build(:staffing_response)
+  @staffing_response.user = @user
+  @staffing_response.staffing_request = @staffing_request
+  @staffing_response.care_home_id = @staffing_request.care_home_id
+  @staffing_response.save
 
-  slot.response_status = "Rejected"
-  slot.save!
+  @staffing_response.response_status = "Rejected"
+  @staffing_response.save!
 
   puts "\n#####Rejected Slot####\n"
-  puts slot.to_json
+  puts @staffing_response.to_json
 end
 
 Then(/^A slot must not be created for the user for the request$/) do
@@ -63,18 +63,18 @@ end
 
 Then(/^I must see the slot$/) do
   @slot = StaffingResponse.last
-  expect(page).to have_content(@slot.care_home.name)
-  expect(page).to have_content(@slot.user.first_name)
-  expect(page).to have_content(@slot.user.last_name)
-  expect(page).to have_content(@slot.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@slot.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@slot.user.phone)
-  expect(page).to have_content(@slot.user.email)
-  expect(page).to have_content(@slot.user.speciality)
+  expect(page).to have_content(@@staffing_response.care_home.name)
+  expect(page).to have_content(@@staffing_response.user.first_name)
+  expect(page).to have_content(@@staffing_response.user.last_name)
+  expect(page).to have_content(@@staffing_response.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@@staffing_response.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@@staffing_response.user.phone)
+  expect(page).to have_content(@@staffing_response.user.email)
+  expect(page).to have_content(@@staffing_response.user.speciality)
 end
 
 When(/^I click the slot for details$/) do
-  page.find("#slot-#{@slot.id}-item").click
+  page.find("#slot-#{@@staffing_response.id}-item").click
 end
 
 
@@ -84,10 +84,10 @@ Then(/^I must see the slot details$/) do
     Then I must see the slot 
   }
 
-  expect(page).to have_content(@slot.response_status)
-  expect(page).to have_content(@slot.payment_status)
-  expect(page).to have_content(@slot.start_code) if @slot.start_code
-  expect(page).to have_content(@slot.end_code) if @slot.end_code
+  expect(page).to have_content(@@staffing_response.response_status)
+  expect(page).to have_content(@@staffing_response.payment_status)
+  expect(page).to have_content(@@staffing_response.start_code) if @@staffing_response.start_code
+  expect(page).to have_content(@@staffing_response.end_code) if @@staffing_response.end_code
 
   page.find(".back-button").click
 end
@@ -131,8 +131,7 @@ Then(/^I must see all the slots$/) do
   end
 end
 
-
-Given(/^there is a slot for a user "([^"]*)"$/) do |arg1|
+Given(/^there is a slot for a user "([^"]*)" with status "([^"]*)"$/) do |arg1, status|
   steps %Q{
     Given there is a request "#{arg1}"
     Given there is a user "#{arg1}"
@@ -144,7 +143,12 @@ Given(/^there is a slot for a user "([^"]*)"$/) do |arg1|
     response_status: "Pending")
 
   @staffing_response.save
+
+  @staffing_response.response_status = status
+  @staffing_response.save!
 end
+
+
 
 Given(/^the slot was created "([^"]*)" before$/) do |arg1|
   @staffing_response.created_at = Time.now - arg1.to_i.minutes
@@ -152,10 +156,24 @@ Given(/^the slot was created "([^"]*)" before$/) do |arg1|
 end
 
 Given(/^the slot pending job runs$/) do
-  SlotPendingJob.new.perform
+  clear_emails
+  SlotPendingJob.new.perform()
 end
+
+Given(/^the slot confirm job runs$/) do
+  clear_emails
+  SlotConfirmJob.new.perform()
+end
+
 
 Then(/^A slot status must be "([^"]*)"$/) do |arg1|
   @staffing_response.reload
   @staffing_response.response_status.should == arg1
 end
+
+Given(/^the slot has confirm_sent "([^"]*)" times$/) do |arg1|
+  (1..arg1.to_i).each do 
+    @staffing_response.confirmation_sent
+  end
+end
+
