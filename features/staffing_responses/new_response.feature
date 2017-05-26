@@ -10,10 +10,27 @@ Scenario Outline: New Slot
   And the users auto selected date should be set to today 
 
   Examples:
-  	|request	                                      | user                            |
-  	|start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
-  	|start_code=1111;end_code=0000 | role=Nurse;verified=true        |
+  	|request	                           | user                            |
+  	|role=Care Giver                     |role=Care Giver;verified=true    |
+  	|role=Nurse;speciality=Generalist    |role=Nurse;verified=true         |
+    |role=Nurse;speciality=Generalist    |role=Nurse;speciality=Pediatric Care;verified=true|
+    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true        |
   	
+
+Scenario Outline: New Slot for spcialist users with no match
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the slot creator job runs
+  Then A slot must not be created for the user for the request
+
+  Examples:
+    |request                             | user                            |
+    |role=Nurse;speciality=Generalist    |role=Care Giver;verified=true         |    
+    |role=Care Giver;speciality=Generalist    |role=Nurse;verified=true         |    
+    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Generalist;verified=true|
+    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Pediatric Care;verified=true        |
+    
 
 Scenario Outline: New Slot for unverified users
   Given there is a request "<request>"

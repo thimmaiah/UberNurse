@@ -53,6 +53,35 @@ class SlotCreatorJob < ApplicationJob
     end
   end
 
+
+  # If the request needs a generalist - any speciality can be used
+  # Otherwise the speciality of the request must match the Nurse speciality
+  def speciality_matches?(staffing_request, user)
+    case staffing_request.speciality
+    when "Generalist"
+      return true
+    else
+      return staffing_request.speciality == user.speciality
+    end
+  end
+
+  # The role required by the staffing_request must be the same as the user role
+  # For nurses however we need to further match the speciality
+  def matches_role_speciality?(staffing_request, user)
+
+    if(staffing_request.role == user.role)
+      case staffing_request.role
+      when "Care Giver"
+        return true
+      when "Nurse"
+        return speciality_matches?(staffing_request, user)
+      end
+    end
+
+    return false
+
+  end
+
   # Select a
   # 1 care giver
   # 2 who is verified
@@ -65,14 +94,16 @@ class SlotCreatorJob < ApplicationJob
 
     User.temps.active.verified.order("auto_selected_date ASC").each do |user|
 
-      # Get the slot bookings for this user on the same time as this req
-      same_day_bookings = get_same_day_booking(user, staffing_request)
-      # Check if this user has already rejected this req
-      rejected = user_rejected_request?(user, staffing_request)
+      if( matches_role_speciality?(staffing_request, user) )
+        # Get the slot bookings for this user on the same time as this req
+        same_day_bookings = get_same_day_booking(user, staffing_request)
+        # Check if this user has already rejected this req
+        rejected = user_rejected_request?(user, staffing_request)
 
-      if(same_day_bookings.length == 0 && !rejected)
-        selected_user = user
-        break
+        if(same_day_bookings.length == 0 && !rejected)
+          selected_user = user
+          break
+        end
       end
 
     end
