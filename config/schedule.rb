@@ -25,6 +25,7 @@ every 1.day, :at => '3:30 am' do
   runner "AutoCloseJob.add_to_queue"
   runner "SlotCreatorJob.add_to_queue"
   runner "UserDocExpiryJob.perform"
+  runner "SlotPendingJob.add_to_queue"
 end
 
 every :reboot do

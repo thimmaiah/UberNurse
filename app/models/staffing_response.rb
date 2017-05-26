@@ -3,7 +3,7 @@ class StaffingResponse < ApplicationRecord
   acts_as_paranoid
   has_paper_trail
 
-  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending"]
+  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected"]
   PAYMENT_STATUS = ["UnPaid", "Paid"]
 
   belongs_to :user
@@ -18,6 +18,7 @@ class StaffingResponse < ApplicationRecord
 
   scope :not_rejected, -> {where("response_status <> 'Rejected'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
+  scope :pending, -> {where("response_status = 'Pending'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
@@ -25,7 +26,9 @@ class StaffingResponse < ApplicationRecord
   before_save :update_dates
 
   def slot_cancelled
-    if(self.response_status_changed? && self.response_status == "Rejected")
+    if(self.response_status_changed? && 
+      ["Rejected", "Auto Rejected"].include?(self.response_status))
+    
       # This was rejected - so ensure the request gets broadcasted again
       # If the broadcast_status is "Pending", the Notifier will pick it
       # up again in some time and send it out

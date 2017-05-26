@@ -130,3 +130,32 @@ Then(/^I must see all the slots$/) do
     }
   end
 end
+
+
+Given(/^there is a slot for a user "([^"]*)"$/) do |arg1|
+  steps %Q{
+    Given there is a request "#{arg1}"
+    Given there is a user "#{arg1}"
+  }
+
+  @staffing_response = StaffingResponse.new(staffing_request_id: @staffing_request.id,
+    care_home_id: @staffing_request.care_home_id,
+    user_id: @user.id,
+    response_status: "Pending")
+
+  @staffing_response.save
+end
+
+Given(/^the slot was created "([^"]*)" before$/) do |arg1|
+  @staffing_response.created_at = Time.now - arg1.to_i.minutes
+  @staffing_response.save!
+end
+
+Given(/^the slot pending job runs$/) do
+  SlotPendingJob.new.perform
+end
+
+Then(/^A slot status must be "([^"]*)"$/) do |arg1|
+  @staffing_response.reload
+  @staffing_response.response_status.should == arg1
+end
