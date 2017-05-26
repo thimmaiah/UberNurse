@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525014624) do
+ActiveRecord::Schema.define(version: 20170526064252) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -185,13 +185,15 @@ ActiveRecord::Schema.define(version: 20170525014624) do
     t.string   "response_status",     limit: 20
     t.boolean  "accepted"
     t.boolean  "rated"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "care_home_id"
     t.string   "payment_status",      limit: 10
     t.datetime "deleted_at"
     t.datetime "start_date"
     t.datetime "end_date"
+    t.float    "price",               limit: 24
+    t.text     "pricing_audit",       limit: 65535
     t.index ["care_home_id"], name: "index_staffing_responses_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree

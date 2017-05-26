@@ -14,7 +14,7 @@ class StaffingRequestsController < ApplicationController
     @staffing_request.care_home_id = current_user.care_home_id
     @staffing_request.created_at = Time.now if !@staffing_request.created_at
 
-    Rate.price(@staffing_request)
+    Rate.price_estimate(@staffing_request)
     render json: @staffing_request
   end
 

@@ -12,6 +12,10 @@ class StaffingResponse < ApplicationRecord
   has_one :payment
   has_one :rating
 
+  # The audit trail of how the price was computed
+  serialize :pricing_audit, Hash
+
+
   scope :not_rejected, -> {where("response_status <> 'Rejected'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
@@ -40,8 +44,8 @@ class StaffingResponse < ApplicationRecord
 
 
   def update_dates
-  	self.start_date = Time.now if(self.start_code_changed?)
-  	self.end_date = Time.now if(self.end_code_changed?)
+    self.start_date = Time.now if(self.start_code_changed?)
+    self.end_date = Time.now if(self.end_code_changed?)
   end
 
   after_create :broadcast_slot
@@ -54,21 +58,26 @@ class StaffingResponse < ApplicationRecord
 
   validate :check_codes
   def check_codes
+    # Codes should match the one in the request
     if(self.start_code && self.start_code != self.staffing_request.start_code)
       errors.add(:start_code, "Start Code does not match with the request start code")
     end
     if(self.end_code && self.end_code != self.staffing_request.end_code)
       errors.add(:end_code, "End Code does not match with the request end code")
     end
+
+    # Ensure this gets priced, if we have the right star / end codes
+    if(price == nil && self.start_code == self.staffing_request.start_code && self.end_code == self.staffing_request.end_code)
+      SlotPricingJob.perform_later(self.id)
+    end  
   end
 
   def minutes_worked
-  	if(self.start_date && self.end_date)
-  		minutes = ((self.end_date - self.start_date).to_f / 60).round(0).to_f
-  		( minutes / 15).round * 15
-  	else
-  		0
-  	end
+    if(self.start_date && self.end_date)
+      minutes = ((self.end_date - self.start_date).to_f / 60).round(0).to_f
+    else
+      0
+    end
   end
 
 end
