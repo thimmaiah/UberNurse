@@ -236,6 +236,8 @@ namespace :uber_nurse do
           u.staffing_request = req
           u.care_home_id = req.care_home_id
           u.user = care_givers[rand(care_givers.length)]
+          u.save
+          
           u.response_status =  "Accepted" #rand(2) > 0 ? "Accepted" : "Rejected"
           u.accepted = true
           u.save

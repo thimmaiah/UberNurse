@@ -99,7 +99,7 @@ namespace :deploy do
   desc "Uploads upload angular app to all remote servers."
   task :upload_angular do
     on roles(:app) do
-      upload!("/home/thimmaiah/work/angular/UberNurseUI/www", "#{current_path}/public", recursive: true)
+      upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/browser/www/", "#{current_path}/public", recursive: true)
     end
   end
 

@@ -31,5 +31,4 @@ end
 every :reboot do
 	rake "ts:start"
 	rake "jobs:work"
-	script "puma -d -b unix://./tmp/sockets/puma.sock --pidfile ./tmp/pids/puma.pid"
 end
