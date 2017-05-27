@@ -44,6 +44,17 @@ Scenario Outline: New Slot for unverified users
     |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 
 
+Scenario Outline: New Slot for unverified users
+  Given there is a request "<request>"
+  And the slot creator job runs
+  Then the admin user receives an email with "Slot Confirmation" as the subject
+
+  Examples:
+    |request                                        | user                            |
+    |start_code=1111;end_code=0000 | role=Care Giver;verified=false  |
+    |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
+
+
 Scenario Outline: New Slot when already rejected
   Given there is a request "<request>"
   Given there is a user "<user>"

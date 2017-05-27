@@ -30,6 +30,9 @@ class StaffingResponse < ApplicationRecord
   def set_defaults
     self.confirm_sent_count = 0
     self.confirmed_count = 0
+    # update the request
+    self.staffing_request.broadcast_status = "Sent"
+    self.staffing_request.slot_status = "Found"
   end
 
   def slot_cancelled

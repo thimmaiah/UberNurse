@@ -68,6 +68,16 @@ Then(/^the user receives an email with "([^"]*)" as the subject$/) do |subject|
   expect(current_email.subject).to eq subject
 end
 
+Then(/^the "([^"]*)" receives an email with "([^"]*)" as the subject$/) do |email, subject|
+  open_email(email)
+  expect(current_email.subject).to eq subject
+end
+
+Then(/^the admin user receives an email with "([^"]*)" as the subject$/) do |subject|
+  open_email(ENV['ADMIN_EMAIL'])
+  expect(current_email.subject).to eq subject
+end
+
 Then(/^the user receives no email$/) do
   open_email(@user.email)
   expect(current_email).to eq nil

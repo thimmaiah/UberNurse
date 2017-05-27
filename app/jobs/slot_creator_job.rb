@@ -1,6 +1,51 @@
 class SlotCreatorJob < ApplicationJob
   queue_as :default
 
+  def perform
+    logger ||= Rails.logger
+
+    begin
+      # For each open request which has not yet been broadcasted
+      StaffingRequest.open.not_broadcasted.each do |staffing_request|
+
+        # Select a temp who can be assigned this slot
+        selected_user = select_user(staffing_request)
+
+        # If we find a suitable temp - create a slot
+        if selected_user
+          create_slot(selected_user, staffing_request)
+        else
+          logger.error "SlotCreatorJob: No user found for Staffing Request #{staffing_request.id}"
+          if(staffing_request.slot_status != "Not Found")
+            UserNotifierMailer.no_slot_found(staffing_request).deliver
+          end
+          staffing_request.slot_status = "Not Found"
+          staffing_request.save
+        end
+      end
+
+    rescue Exception => e
+      logger.error "SlotCreatorJob: #{e.message}"
+      logger.error e.backtrace
+    ensure
+      # Run this again
+      SlotCreatorJob.set(wait: 1.minute).perform_later
+    end
+    return nil
+
+  end
+
+  def self.add_to_queue
+    if Delayed::Backend::ActiveRecord::Job.where("handler like '%SlotCreatorJob%'").count == 0
+      logger.info "SlotCreatorJob: queued"
+      SlotCreatorJob.set(wait: 1.minute).perform_later
+    else
+      logger.info "SlotCreatorJob: already queued. Nothing done"
+    end
+  end
+
+  ### Private Methods Follow ###
+  private
   def get_same_day_booking(user, staffing_request)
 
     # Check if this user has been assigned another request on the same day
@@ -24,7 +69,7 @@ class SlotCreatorJob < ApplicationJob
            staffing_request.end_date, staffing_request.end_date,
            staffing_request.start_date, staffing_request.end_date).references(:staffing_request)
 
-    logger.debug "same_day_bookings = #{same_day_bookings.length}"
+    logger.debug "SlotCreatorJob: same_day_bookings = #{same_day_bookings.length}"
 
     return same_day_bookings
 
@@ -36,8 +81,10 @@ class SlotCreatorJob < ApplicationJob
   end
 
   def create_slot(selected_user, staffing_request)
+    
     # Create the response from the selected user and mark him as auto selected
     selected_user.auto_selected_date = Date.today
+    
     # Create the slot
     staffing_response = StaffingResponse.new(staffing_request_id: staffing_request.id,
                                              user_id: selected_user.id,
@@ -46,6 +93,7 @@ class SlotCreatorJob < ApplicationJob
     # Update the request
     staffing_request.broadcast_status = "Sent"
     staffing_request.slot_status = "Found"
+    
     StaffingResponse.transaction do
       staffing_response.save
       selected_user.save
@@ -82,6 +130,10 @@ class SlotCreatorJob < ApplicationJob
 
   end
 
+  def pref_commute_ok?(user, staffing_request)
+    user.distance_from(staffing_request.care_home) < user.pref_commute_distance
+  end
+
   # Select a
   # 1 care giver
   # 2 who is verified
@@ -99,8 +151,11 @@ class SlotCreatorJob < ApplicationJob
         same_day_bookings = get_same_day_booking(user, staffing_request)
         # Check if this user has already rejected this req
         rejected = user_rejected_request?(user, staffing_request)
+        # Check pref_commute_distance
+        commute_ok = pref_commute_ok?(user, staffing_request)
 
-        if(same_day_bookings.length == 0 && !rejected)
+
+        if(same_day_bookings.length == 0 && !rejected && commute_ok)
           selected_user = user
           break
         end
@@ -111,47 +166,5 @@ class SlotCreatorJob < ApplicationJob
     selected_user
   end
 
-  def perform
-    logger ||= Rails.logger
-
-    begin
-      # For each open request which has not yet been broadcasted
-      StaffingRequest.open.not_broadcasted.each do |staffing_request|
-
-        # Select a temp who can be assigned this slot
-        selected_user = select_user(staffing_request)
-
-        # If we find a suitable temp - create a slot
-        if selected_user
-          create_slot(selected_user, staffing_request)
-        else
-          logger.error "No user found for Staffing Request #{staffing_request.id}"
-          if(staffing_request.slot_status != "Not Found")
-            UserNotifierMailer.no_slot_found(staffing_request).deliver_later
-          end
-          staffing_request.slot_status = "Found"
-          staffing_request.save
-        end
-      end
-
-    rescue Exception => e
-      logger.error "Error in SlotCreatorJob"
-      logger.error e.backtrace
-    ensure
-      # Run this again
-      SlotCreatorJob.set(wait: 1.minute).perform_later
-    end
-    return nil
-
-  end
-
-  def self.add_to_queue
-    if Delayed::Backend::ActiveRecord::Job.where("handler like '%SlotCreatorJob%'").count == 0
-      puts "SlotCreatorJob queued"
-      SlotCreatorJob.set(wait: 1.minute).perform_later
-    else
-      puts "SlotCreatorJob already queued. Nothing done"
-    end
-  end
 
 end
