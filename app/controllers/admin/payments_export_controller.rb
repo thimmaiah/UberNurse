@@ -27,4 +27,8 @@ module Admin
     end
   end
 
+  def form
+    render "form"
+  end
+
 end

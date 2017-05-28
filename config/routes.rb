@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :rates
     resources :holidays
     get '/payments_export', to: 'payments_export#index'
+    get '/payments_export/form', to: 'payments_export#form'
     root to: "users#index"
   end
 
