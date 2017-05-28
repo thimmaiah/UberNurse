@@ -65,4 +65,11 @@ class User < ApplicationRecord
   def image
     self.image_url ? self.image_url : "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
   end
+
+  # for testing only in factories - do not use in prod
+  def postcodelatlng=(postcodelatlng)
+    self.postcode = postcodelatlng.postcode
+    self.lat = postcodelatlng.latitude
+    self.lng = postcodelatlng.longitude
+  end
 end

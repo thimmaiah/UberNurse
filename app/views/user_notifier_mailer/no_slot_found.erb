@@ -6,14 +6,14 @@
   </head>
 
   <body>
-    <h1>No slot found for request from <%= staffing_request.care_home.name %></h1>
+    <h1>No slot found for request for <%= @staffing_request.care_home.name %></h1>
     <p>
-    	Care Home: <%= staffing_request.care_home.name %>
+    	Care Home: <%= @staffing_request.care_home.name %>
     </p>
-    	Start: <%= staffing_request.start_date %>
+    	Start: <%= @staffing_request.start_date %>
     </p>
     <p>	
-    	End: <%= staffing_request.end_date %>
+    	End: <%= @staffing_request.end_date %>
 	</p>
 
 	<p>

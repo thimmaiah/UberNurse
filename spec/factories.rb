@@ -62,12 +62,14 @@ FactoryGirl.define do
         "http://www.brandsoftheworld.com/sites/default/files/082010/crystal_shopping.png",
         "http://www.brandsoftheworld.com/sites/default/files/082010/Logo_para_crmall.png"]
 
+  
+
     name {Faker::Company.name}
     base_rate {15}
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
     town {Faker::Address.city}
-    postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
+    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
   end
 
@@ -82,7 +84,7 @@ FactoryGirl.define do
     password {email}
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     address { Faker::Address.street_address }
-    postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
+    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     confirmation_sent_at { Time.now }
     confirmed_at { Time.now }
     sign_in_count { 5 }
@@ -91,7 +93,7 @@ FactoryGirl.define do
     speciality { User::SPECIALITY[rand(User::SPECIALITY.length)]}
     experience { rand(5) + 1}
     accept_terms {true}
-    pref_commute_distance {rand(10) + 1 }
+    pref_commute_distance {1000}
     languages {"English"}
     verified {rand(2) > 0 ? true : false}
 

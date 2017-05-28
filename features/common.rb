@@ -1,8 +1,9 @@
 Given(/^there is a user "([^"]*)"$/) do |arg1|
-  puts  arg1
   @user = FactoryGirl.build(:user)
   key_values(@user, arg1)
   @user.save!
+  puts "\n####User####\n"
+  puts @user.to_json
 end
 
 Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|

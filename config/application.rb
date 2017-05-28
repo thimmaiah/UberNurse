@@ -51,8 +51,5 @@ module UberNurse
     #   }
 
     config.active_job.queue_adapter = :delayed_job
-    config.action_mailer.preview_path = "#{Rails.root}/lib/mailer_previews"
-
-    config.action_mailer.default_url_options = { host: 'ubernurse.com' }
   end
 end

@@ -4,9 +4,9 @@ end
 
 
 Then(/^A slot must be created for the user for the request$/) do
-  @slot = StaffingResponse.last
-  @@staffing_response.user_id.should == @user.id
-  @@staffing_response.staffing_request_id.should == @staffing_request.id  
+  @staffing_response = StaffingResponse.last
+  @staffing_response.user_id.should == @user.id
+  @staffing_response.staffing_request_id.should == @staffing_request.id  
 end
 
 Given(/^the user has already accepted this request$/) do

@@ -48,4 +48,11 @@ class CareHome < ApplicationRecord
     end
   end
 
+  # for testing only in factories - do not use in prod
+  def postcodelatlng=(postcodelatlng)
+    self.postcode = postcodelatlng.postcode
+    self.lat = postcodelatlng.latitude
+    self.lng = postcodelatlng.longitude
+  end
+
 end

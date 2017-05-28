@@ -146,16 +146,24 @@ class SlotCreatorJob < ApplicationJob
 
     User.temps.active.verified.order("auto_selected_date ASC").each do |user|
 
+      Rails.logger.debug "SlotCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
       if( matches_role_speciality?(staffing_request, user) )
+        Rails.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, matches_role_speciality is true"
+
         # Get the slot bookings for this user on the same time as this req
         same_day_bookings = get_same_day_booking(user, staffing_request)
+        Rails.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
+
         # Check if this user has already rejected this req
         rejected = user_rejected_request?(user, staffing_request)
+        Rails.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
+
         # Check pref_commute_distance
         commute_ok = pref_commute_ok?(user, staffing_request)
-
+        Rails.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
 
         if(same_day_bookings.length == 0 && !rejected && commute_ok)
+          Rails.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
           selected_user = user
           break
         end
