@@ -5,6 +5,10 @@ class PaperclipField < Administrate::Field::Base
     data.url
   end
 
+  def expiring_url(seconds)
+    data.expiring_url(seconds)
+  end
+
   def thumbnail
     data.url(:thumbnail)
   end

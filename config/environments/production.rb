@@ -80,13 +80,12 @@ Rails.application.configure do
 
   config.paperclip_defaults = {
     :storage => :s3,
-    :s3_region => 'eu-west-2',
-    :bucket => 'careconnect-production',
+    :s3_permissions => :private,
     s3_credentials: {
       bucket: 'careconnect-production',
       access_key_id: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
-      s3_region: 'eu-west-2',
+      s3_region: 'eu-west-2'
     }
   }
 end
