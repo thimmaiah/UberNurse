@@ -28,7 +28,7 @@ class CareHome < ApplicationRecord
   def send_verification_mail
     if(!self.verified && self.users.admins.active.length > 0)
       self.users.admins.active.each do |admin|
-        UserNotifierMailer.verify_care_home(admin).deliver_later
+        UserNotifierMailer.verify_care_home(self, admin).deliver_later
       end
     end
   end

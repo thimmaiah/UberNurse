@@ -6,21 +6,13 @@
   </head>
 
   <body>
-    <h1>No slot found for request for <%= @staffing_request.care_home.name %></h1>
-    <p>
-    	Care Home: <%= @staffing_request.care_home.name %>
-    </p>
-    	Start: <%= @staffing_request.start_date %>
-    </p>
-    <p>	
-    	End: <%= @staffing_request.end_date %>
-	</p>
+    <h2>No slot found for request</h2>
 
-	<p>
-		Please ensure a manual booking for this request.
-	</p>
+  	<p>
+  		Please ensure a manual booking for this request.
+  	</p>
     	
-
+    <%= render partial: "request" %>
 
   </body>
 </html>
