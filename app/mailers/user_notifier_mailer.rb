@@ -53,7 +53,7 @@ class UserNotifierMailer < ApplicationMailer
     email = ENV["ADMIN_EMAIL"]
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
     mail( :to => email,
-          :subject => 'No slot found for request from #{staffing_request.care_home.name}' )
+          :subject => "No slot found for request from #{staffing_request.care_home.name}" )
 
   end
 

@@ -51,5 +51,9 @@ module UberNurse
     #   }
 
     config.active_job.queue_adapter = :delayed_job
+    config.to_prepare do
+        Devise::Mailer.layout "mailer"
+    end
+
   end
 end

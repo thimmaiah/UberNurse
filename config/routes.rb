@@ -20,11 +20,16 @@ Rails.application.routes.draw do
   end
 
 
-
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+  
   resources :ratings
   resources :payments
   resources :user_docs
+
   mount_devise_token_auth_for 'User', at: 'auth'
+  get 'pages/:id', to: 'pages#show'
 
   resources :hiring_responses
   resources :hiring_requests
