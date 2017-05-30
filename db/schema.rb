@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170526152212) do
+ActiveRecord::Schema.define(version: 20170530080826) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -271,12 +271,15 @@ ActiveRecord::Schema.define(version: 20170526152212) do
     t.integer  "rating_count"
     t.text     "push_token",             limit: 65535
     t.datetime "deleted_at"
+    t.string   "unsubscribe_hash"
+    t.boolean  "subscription"
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true, using: :btree
+    t.index ["unsubscribe_hash"], name: "index_users_on_unsubscribe_hash", using: :btree
   end
 
   create_table "versions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4" do |t|

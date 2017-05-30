@@ -1,25 +1,25 @@
 class User < ApplicationRecord
-  
+
   acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:user)
 
   validates_presence_of :first_name, :last_name, :email, :role, :postcode, :phone
-  
+
   belongs_to :care_home, optional: true
   has_many :staffing_requests
   has_many :staffing_responses
   has_many :user_docs, -> { order(:verified=>:desc) }
-  has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc" 
+  has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
 
   SEX = ["M", "F"]
   SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]
   ROLE =["Care Giver", "Nurse", "Admin"]
 
-  
+
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :trackable, :validatable,
-          :confirmable, :omniauthable
+    :recoverable, :rememberable, :trackable, :validatable,
+    :confirmable, :omniauthable
 
   include DeviseTokenAuth::Concerns::User
 
@@ -33,7 +33,14 @@ class User < ApplicationRecord
 
   after_save :update_coordinates
   before_create :update_rating
+  before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
+  
+
+  def add_unsubscribe_hash
+    self.unsubscribe_hash = SecureRandom.hex
+    self.subscription = true
+  end
 
   def update_coordinates
     if(self.postcode_changed?)
@@ -54,7 +61,7 @@ class User < ApplicationRecord
     u.last_name = "User"
     u.email = "guest.user@ubernurse.com"
     u.active = true
-  
+
     return u
   end
 
@@ -65,6 +72,8 @@ class User < ApplicationRecord
   def image
     self.image_url ? self.image_url : "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
   end
+
+
 
   # for testing only in factories - do not use in prod
   def postcodelatlng=(postcodelatlng)

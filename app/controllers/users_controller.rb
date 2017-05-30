@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!
-  load_and_authorize_resource param_method: :user_params
-  
+  before_action :authenticate_user!, except: [:unsubscribe]  
+  load_and_authorize_resource param_method: :user_params, except: [:unsubscribe] 
+
   # GET /users
   def index
     #@users = User.all
@@ -39,16 +39,23 @@ class UsersController < ApplicationController
     @user.destroy
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  def unsubscribe
+    user = User.find_by_unsubscribe_hash(params[:unsubscribe_hash])
+    Rails.logger.info "unsubscribe called for #{user.email}"
+    user.update_attribute(:subscription, false)
+    redirect_to "http://connuct.co.uk/unsubscribe_successfull"
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def user_params
-      params.require(:user).permit(:first_name, :last_name, :email, :role, :nurse_type, 
-        :sex, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience, 
-        :referal_code, :accept_terms, :care_home_id, :image_url, :verified, :active, :sort_code, :bank_account, :push_token)
-    end
+  private
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :role, :nurse_type,
+                                 :sex, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience,
+                                 :referal_code, :accept_terms, :care_home_id, :image_url, :verified, :active, :sort_code, :bank_account, :push_token)
+  end
 end

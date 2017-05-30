@@ -46,5 +46,7 @@ Rails.application.routes.draw do
   resources :holidays
   resources :cqc_records
 
+  get 'users/unsubscribe/:unsubscribe_hash', to: 'users#unsubscribe', :as => 'unsubscribe'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

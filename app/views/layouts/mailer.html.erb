@@ -302,7 +302,10 @@
                 <tr>
                   <td class="content-block">
                     <span class="apple-link">Care Connect, 3 Abbey Road, San Francisco CA 94102</span>
-                    <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
+                    <br> 
+                        Don't like these emails? 
+                        <%= link_to 'Unsubscribe', unsubscribe_url(@user, {unsubscribe_hash:@user.unsubscribe_hash}) if @user %>
+.
                   </td>
                 </tr>
                 <tr>
