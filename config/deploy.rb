@@ -103,8 +103,16 @@ namespace :deploy do
     end
   end
 
+  desc "Uploads .env remote servers."
+  task :upload_env do
+    on roles(:app) do
+      upload!("/home/thimmaiah/work/.env*", "#{current_path}", recursive: true)
+    end
+  end
+
 
   before :starting,     :check_revision
+  before :finishing,    :upload_env
   before :finishing,    :upload_angular
   after  :finishing,    :cleanup
   after  :finishing,    :restart
