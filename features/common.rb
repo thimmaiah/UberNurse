@@ -79,7 +79,20 @@ Then(/^the admin user receives an email with "([^"]*)" as the subject$/) do |sub
   expect(current_email.subject).to eq subject
 end
 
+Then(/^the admin user receives an email with "([^"]*)" in the subject$/) do |subject|
+  open_email(ENV['ADMIN_EMAIL'])
+  expect(current_email.subject).to include subject
+end
+
 Then(/^the user receives no email$/) do
   open_email(@user.email)
   expect(current_email).to eq nil
+end
+
+Given(/^there are no bank holidays$/) do
+  Holiday.update_all(bank_holiday:false)
+end
+
+Given(/^there are bank holidays$/) do
+  Holiday.update_all(bank_holiday:true)
 end

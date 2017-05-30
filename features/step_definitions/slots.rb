@@ -1,5 +1,6 @@
 Given(/^the slot creator job runs$/) do
   SlotCreatorJob.new.perform
+  @staffing_response = StaffingResponse.last
 end
 
 
@@ -63,18 +64,18 @@ end
 
 Then(/^I must see the slot$/) do
   @slot = StaffingResponse.last
-  expect(page).to have_content(@@staffing_response.care_home.name)
-  expect(page).to have_content(@@staffing_response.user.first_name)
-  expect(page).to have_content(@@staffing_response.user.last_name)
-  expect(page).to have_content(@@staffing_response.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@@staffing_response.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@@staffing_response.user.phone)
-  expect(page).to have_content(@@staffing_response.user.email)
-  expect(page).to have_content(@@staffing_response.user.speciality)
+  expect(page).to have_content(@staffing_response.care_home.name)
+  expect(page).to have_content(@staffing_response.user.first_name)
+  expect(page).to have_content(@staffing_response.user.last_name)
+  expect(page).to have_content(@staffing_response.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_response.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_response.user.phone)
+  expect(page).to have_content(@staffing_response.user.email)
+  expect(page).to have_content(@staffing_response.user.speciality)
 end
 
 When(/^I click the slot for details$/) do
-  page.find("#slot-#{@@staffing_response.id}-item").click
+  page.find("#slot-#{@staffing_response.id}-item").click
 end
 
 
@@ -84,10 +85,10 @@ Then(/^I must see the slot details$/) do
     Then I must see the slot 
   }
 
-  expect(page).to have_content(@@staffing_response.response_status)
-  expect(page).to have_content(@@staffing_response.payment_status)
-  expect(page).to have_content(@@staffing_response.start_code) if @@staffing_response.start_code
-  expect(page).to have_content(@@staffing_response.end_code) if @@staffing_response.end_code
+  expect(page).to have_content(@staffing_response.response_status)
+  expect(page).to have_content(@staffing_response.payment_status)
+  expect(page).to have_content(@staffing_response.start_code) if @staffing_response.start_code
+  expect(page).to have_content(@staffing_response.end_code) if @staffing_response.end_code
 
   page.find(".back-button").click
 end
@@ -96,8 +97,8 @@ end
 Given(/^there are "([^"]*)" of slots$/) do |count|
   (1..count.to_i).each do |i|
     steps %Q{
-      Given there is a user "role=Nurse;verified=true"
-      Given the user has already accepted this request
+      Given there is a user "role=Care Giver;verified=true"
+      Given the user has already accepted a request "role=Care Giver"
     } 
   end
 end
@@ -107,8 +108,8 @@ Given(/^there are "([^"]*)" of slots for the care_home$/) do |arg1|
   StaffingRequest.all.each do |req|
     @staffing_request = req
     steps %Q{
-      Given there is a user "role=Nurse;verified=true"
-      Given the user has already accepted this request
+      Given there is a user "role=Care Giver;verified=true"
+      Given the user has already accepted a request "role=Care Giver"
     }
   end
 end

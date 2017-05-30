@@ -12,7 +12,7 @@ module RatesHelper
     factor_name, factor_value = factor(staffing_request)
     billing = (base * factor_value).round(2)
 
-
+    # Audit trail
     staffing_request.pricing_audit["hours_worked"] = hours
     staffing_request.pricing_audit["base_rate"] = rate.amount
     staffing_request.pricing_audit["base_price"] = base
@@ -41,7 +41,7 @@ module RatesHelper
     factor_name, factor_value = factor(staffing_request)
     billing = (base * factor_value).round(2)
 
-
+    # Audit trail
     staffing_response.pricing_audit["hours_worked"] = hours
     staffing_response.pricing_audit["base_rate"] = rate.amount
     staffing_response.pricing_audit["base_price"] = base
@@ -64,28 +64,32 @@ module RatesHelper
   end
 
   def factor(staffing_request)
+
+    hash = {"DEFAULT_FACTOR"=>1}
     # Now check if we need to multiply by a factor - weekend booking ?
     if(staffing_request.start_date.on_weekend? || staffing_request.end_date.on_weekend?)
       staffing_request.pricing_audit["WEEKEND_FACTOR"] = ENV["WEEKEND_FACTOR"].to_f
-      return "WEEKEND_FACTOR", ENV["WEEKEND_FACTOR"].to_f
+      hash["WEEKEND_FACTOR"] = ENV["WEEKEND_FACTOR"].to_f
     end
     # Check last minute booking ?
     logger.debug("booking_start_diff_hrs = #{staffing_request.booking_start_diff_hrs}")
-    if(staffing_request.booking_start_diff_hrs < 3)
+    if(staffing_request.booking_start_diff_hrs <= 3)
       staffing_request.pricing_audit["LAST_MINUTE_FACTOR"] = ENV["LAST_MINUTE_FACTOR"].to_f
-      return "LAST_MINUTE_FACTOR", ENV["LAST_MINUTE_FACTOR"].to_f
+      hash["LAST_MINUTE_FACTOR"] = ENV["LAST_MINUTE_FACTOR"].to_f
     end
     # Bank holiday ?
     if(Holiday.isBankHoliday?(staffing_request.start_date) || Holiday.isBankHoliday?(staffing_request.end_date))
       staffing_request.pricing_audit["BANK_HOLIDAY_FACTOR"] = ENV["BANK_HOLIDAY_FACTOR"].to_f
-      return "BANK_HOLIDAY_FACTOR", ENV["BANK_HOLIDAY_FACTOR"].to_f
+      hash["BANK_HOLIDAY_FACTOR"] = ENV["BANK_HOLIDAY_FACTOR"].to_f
     end
     # night time ?
     if(staffing_request.start_date.hour > 20)
       staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
-      return "NIGHT_FACTOR", ENV["NIGHT_FACTOR"].to_f
+      hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
     end
 
-    return "DEFAULT_FACTOR", 1
+    # Return the max factor
+    return hash.max_by{|k,v| v}
+
   end
 end

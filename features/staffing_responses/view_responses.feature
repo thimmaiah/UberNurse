@@ -12,9 +12,9 @@ Scenario Outline: View My Slot
   Then I must see the slot details
 
   Examples:
-  	|request	                                      | user                            |
-  	|rate_per_hour=10;start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
-  	|rate_per_hour=10;start_code=1111;end_code=0000 | role=Nurse;verified=true        |
+  	|request	                           | user                            |
+  	|role=Care Giver                     | role=Care Giver;verified=true   |
+  	|role=Nurse;speciality=Mental Health | role=Nurse;speciality=Mental Health;verified=true        |
   	
 Scenario Outline: Cannot View Others Slots
   Given there are "<number>" of slots

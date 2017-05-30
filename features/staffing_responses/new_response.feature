@@ -44,13 +44,13 @@ Scenario Outline: New Slot for unverified users
     |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 
 
-Scenario Outline: New Slot for unverified users
+Scenario Outline: New Slot without care givers
   Given there is a request "<request>"
   And the slot creator job runs
-  Then the admin user receives an email with "Slot Confirmation" as the subject
+  Then the admin user receives an email with "No slot found for request" in the subject
 
   Examples:
-    |request                                        | user                            |
+    |request                       | user                            |
     |start_code=1111;end_code=0000 | role=Care Giver;verified=false  |
     |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 

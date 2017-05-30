@@ -29,14 +29,22 @@ Given(/^there is a request "([^"]*)"$/) do |args|
   puts @staffing_request.to_json
 end
 
-Given(/^there is a request "([^"]*)" with start date "([^"]*)" from now and end date "([^"]*)" from now$/) do |arg1, arg2, arg3|
+Given(/^there is a request "([^"]*)" with start date atleast "([^"]*)" from now and end date atleast "([^"]*)" from now$/) do |arg1, arg2, arg3|
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
       Given a unsaved request "#{arg1}"
   }
 
   @staffing_request.start_date = Time.now.at_beginning_of_day + arg2.to_f.days
+  while(@staffing_request.start_date.on_weekend?)
+    @staffing_request.start_date = @staffing_request.start_date + 1.day
+  end
+
   @staffing_request.end_date = Time.now.at_beginning_of_day + arg3.to_f.days
+  while(@staffing_request.end_date.on_weekend?)
+    @staffing_request.end_date = @staffing_request.end_date + 1.day
+  end
+
   @staffing_request.save!
   puts "\n#####StaffingRequest####\n" 
   puts @staffing_request.to_json
@@ -63,7 +71,7 @@ Given(/^there is a request "([^"]*)" "([^"]*)" from now$/) do |arg1, arg2|
   }
 
   @staffing_request.start_date = Time.now + arg2.to_f.hours
-  @staffing_request.end_date = @staffing_request.start_date + 6.hours
+  @staffing_request.end_date = @staffing_request.start_date + 10.hours
   @staffing_request.save!
   
   puts "\n#####StaffingRequest####\n" 
@@ -178,7 +186,7 @@ end
 
 
 Then(/^the price for the Staffing Request must be "([^"]*)"$/) do |price|
-  Rate.price(@staffing_request).should == price.to_f
+  Rate.price_estimate(@staffing_request).should == price.to_f
 end
 
 
