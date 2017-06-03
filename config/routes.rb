@@ -29,7 +29,6 @@ Rails.application.routes.draw do
   resources :user_docs
 
   mount_devise_token_auth_for 'User', at: 'auth'
-  get 'pages/:id', to: 'pages#show'
 
   resources :hiring_responses
   resources :hiring_requests

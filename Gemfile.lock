@@ -181,7 +181,6 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashie (3.5.5)
-    high_voltage (3.0.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     i18n (0.8.1)
@@ -407,7 +406,6 @@ DEPENDENCIES
   faker
   formulaic
   geocoder
-  high_voltage
   jdbc-mysql (= 5.1.35)
   letter_opener_web
   listen (~> 3.0.5)

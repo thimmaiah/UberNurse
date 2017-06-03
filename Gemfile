@@ -75,7 +75,7 @@ gem 'sanitize_email'
 gem 'responders'
 gem 'whenever', :require => false
 gem 'capybara-email'
-gem 'high_voltage'
+# gem 'high_voltage'
 gem 'roadie'
 
 group :test do

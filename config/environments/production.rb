@@ -77,7 +77,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
- 
+
   config.action_mailer.smtp_settings = {
     :address => "email-smtp.eu-west-1.amazonaws.com",
     :domain => "connuct.co.uk",
@@ -89,15 +89,13 @@ Rails.application.configure do
   }
 
   config.paperclip_defaults = {
-    config.paperclip_defaults = {
     :storage => :s3,
     :s3_permissions => :private,
     s3_credentials: {
-      bucket: 'careconnect-production',
+      bucket: 'careconnect-development',
       access_key_id: ENV['AWS_ACCESS_KEY_ID'],
       secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
       s3_region: 'eu-west-2'
     }
   }
-
 end
