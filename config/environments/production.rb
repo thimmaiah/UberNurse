@@ -89,6 +89,7 @@ Rails.application.configure do
   }
 
   config.paperclip_defaults = {
+    config.paperclip_defaults = {
     :storage => :s3,
     :s3_permissions => :private,
     s3_credentials: {
@@ -98,4 +99,5 @@ Rails.application.configure do
       s3_region: 'eu-west-2'
     }
   }
+
 end

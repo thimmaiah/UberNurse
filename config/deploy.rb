@@ -107,6 +107,14 @@ namespace :deploy do
   task :upload_env do
     on roles(:app) do
       upload!("/home/thimmaiah/work/.env*", "#{current_path}", recursive: true)
+      upload!("/home/thimmaiah/work/.env.local", "#{current_path}", recursive: true)
+    end
+  end
+
+  desc "Uploads dev apk remote servers."
+  task :upload_dev_apk do
+    on roles(:app) do
+      upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/android/build/outputs/apk/android-debug.apk", "#{current_path}/public", recursive: true)
     end
   end
 

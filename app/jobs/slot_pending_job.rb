@@ -3,7 +3,7 @@ class SlotPendingJob < ApplicationJob
   MAX_PENDING_SLOT_TIME_MINS = ENV["MAX_PENDING_SLOT_TIME_MINS"].to_i
 
   def perform()
-    Rails.logger.info "SlotPendingJob Start"
+    Delayed::Worker.logger.info "SlotPendingJob Start"
     begin
       # Find all the pending slots
       StaffingResponse.pending.each do |staffing_response|
@@ -11,7 +11,7 @@ class SlotPendingJob < ApplicationJob
         time_elapsed =  (Time.now - staffing_response.created_at)/60
         if( time_elapsed > MAX_PENDING_SLOT_TIME_MINS)
         # No acceptance received, Lets Auto Reject        
-        Rails.logger.info("Slot #{staffing_response.id} for #{staffing_response.user.email}"\
+        Delayed::Worker.logger.info("Slot #{staffing_response.id} for #{staffing_response.user.email}"\
           " has not been accepted for #{time_elapsed} minutes. Auto Rejected")
           staffing_response.response_status = "Auto Rejected"
           staffing_response.save!
@@ -26,7 +26,7 @@ class SlotPendingJob < ApplicationJob
       SlotPendingJob.set(wait: MAX_PENDING_SLOT_TIME_MINS.minute).perform_later
     end
 
-    Rails.logger.info "SlotPendingJob End"
+    Delayed::Worker.logger.info "SlotPendingJob End"
     return nil
   end
 

@@ -9,7 +9,7 @@ class AutoCloseJob < ApplicationJob
       StaffingRequest.open.each do |req|
 
         hours_from_creation = (Time.now - req.created_at)/(60*60)
-      Rails.logger.debug "hours_from_creation = #{hours_from_creation}"
+      Delayed::Worker.logger.debug "hours_from_creation = #{hours_from_creation}"
       
 
       if( hours_from_creation > req.auto_deny_in && 
