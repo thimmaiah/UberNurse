@@ -43,7 +43,7 @@ class UsersController < ApplicationController
     user = User.find_by_unsubscribe_hash(params[:unsubscribe_hash])
     Rails.logger.info "unsubscribe called for #{user.email}"
     user.update_attribute(:subscription, false)
-    redirect_to "http://connuct.co.uk/unsubscribe_successfull"
+    redirect_to ENV['REDIRECT_UNSUBSCRIBE']
   end
 
   private

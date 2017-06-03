@@ -43,12 +43,12 @@ module UberNurse
     end
 
 
-    # config.middleware.use ExceptionNotification::Rack,
-    #   :email => {
-    #     :email_prefix => "[Error] ",
-    #     :sender_address => %{"Thimmaiah" <thimmaiah@gmail.com>},
-    #     :exception_recipients => %w{thimmaiah@gmail.com}
-    #   }
+    config.middleware.use ExceptionNotification::Rack,
+      :email => {
+        :email_prefix => "[Error] ",
+        :sender_address => %{"Admin" <admin@connuct.co.uk>},
+        :exception_recipients => %w{thimmaiah@gmail.com admin@connuct.co.uk}
+      }
 
     config.active_job.queue_adapter = :delayed_job
     config.to_prepare do

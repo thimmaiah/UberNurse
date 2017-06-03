@@ -58,8 +58,8 @@ module RatesHelper
 
 
   def billing_rate(staffing_request)
-    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: staffing_request.speciality).first
-    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role).first if !rate
+    #rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: staffing_request.speciality).first
+    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role).first 
     rate
   end
 

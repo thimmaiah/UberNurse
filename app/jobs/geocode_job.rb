@@ -6,6 +6,6 @@ class GeocodeJob < ApplicationJob
     entity.lat = coordinates[0]
     entity.lng = coordinates[1]
     entity.reverse_geocode
-    entity.save
+    entity.save!
   end
 end

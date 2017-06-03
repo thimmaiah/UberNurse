@@ -40,7 +40,7 @@ CREATE TABLE `rates` (
 
 LOCK TABLES `rates` WRITE;
 /*!40000 ALTER TABLE `rates` DISABLE KEYS */;
-INSERT INTO `rates` VALUES (1,'North','Care Giver','Geriatric Care',10,'2017-05-22 16:59:30','2017-05-22 16:59:30'),(2,'North','Nurse','Generalist',13,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(3,'North','Nurse','Geriatric Care',12,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(4,'North','Nurse','Pediatric Care',14,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(5,'North','Nurse','Mental Health',12,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(6,'North','Care Giver','Generalist',10,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(7,'North','Care Giver','Geriatric Care',13,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(8,'North','Care Giver','Pediatric Care',14,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(9,'North','Care Giver','Mental Health',12,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(10,'South','Nurse','Generalist',10,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(11,'South','Nurse','Geriatric Care',11,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(12,'South','Nurse','Pediatric Care',11,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(13,'South','Nurse','Mental Health',14,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(14,'South','Care Giver','Generalist',11,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(15,'South','Care Giver','Geriatric Care',13,'2017-05-23 03:29:28','2017-05-23 03:29:28'),(16,'South','Care Giver','Pediatric Care',12,'2017-05-23 03:29:29','2017-05-23 03:29:29'),(17,'South','Care Giver','Mental Health',12,'2017-05-23 03:29:29','2017-05-23 03:29:29');
+INSERT INTO `rates` VALUES (1,'North','Care Giver',NULL,10,'2017-05-22 16:59:30','2017-05-22 16:59:30'),(2,'North','Nurse',NULL,13,'2017-05-23 03:29:27','2017-05-23 03:29:27'),(3,'South','Care Giver',NULL,12,'2017-05-23 03:29:27','2017-06-03 15:38:09'),(4,'South','Nurse',NULL,14,'2017-05-23 03:29:27','2017-06-03 15:38:37');
 /*!40000 ALTER TABLE `rates` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-23 12:12:55
+-- Dump completed on 2017-06-03 21:09:03
