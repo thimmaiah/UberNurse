@@ -32,16 +32,23 @@ class User < ApplicationRecord
   scope :active, -> { where active: true }
 
   after_save :update_coordinates
+  before_save :check_verified
   before_create :update_rating
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
-  
+
 
   def add_unsubscribe_hash
     self.unsubscribe_hash = SecureRandom.hex
     self.subscription = true
   end
 
+  def check_verified
+    if(self.verified_changed? && self.verified)
+      self.verified_on = Date.today
+    end
+  end
+  
   def update_coordinates
     if(self.postcode_changed?)
       GeocodeJob.perform_later(self)

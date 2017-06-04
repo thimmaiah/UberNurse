@@ -3,10 +3,17 @@ class UserNotifierMailer < ApplicationMailer
   # send a signup email to the user, pass in the user object that   contains the user's email address
   def user_notification_email(user)
     @user = user
-    logg@care_home = care_home
-    er.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    @care_home = care_home
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'You have a new slot' )
+  end
+
+  def doc_refresh_notification(user)
+    @user = user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Please upload latest documents' )
   end
 
 

@@ -24,6 +24,7 @@ set :output, "log/cron_log.log"
 every 1.day, :at => '3:30 am' do
   runner "SlotCreatorJob.add_to_queue"
   runner "SlotPendingJob.add_to_queue"
+  runner "DocRefreshNotificationJob.perform"
 end
 
 every :reboot do
