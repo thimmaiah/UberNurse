@@ -63,7 +63,7 @@ class User < ApplicationRecord
     self.total_rating = 0
     self.rating_count = 0
     self.active = true
-    if(self.is_temp?)
+    if(self.is_temp? && self.verified == nil)
       self.verified = false
     end
   end
@@ -87,7 +87,9 @@ class User < ApplicationRecord
     self.image_url ? self.image_url : "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
   end
 
-
+  def token_validation_response                                                                                                                                         
+    UserSerializer.new(self).as_json
+  end
 
   # for testing only in factories - do not use in prod
   def postcodelatlng=(postcodelatlng)
