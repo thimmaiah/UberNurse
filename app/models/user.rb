@@ -55,10 +55,17 @@ class User < ApplicationRecord
     end
   end
 
+  def is_temp?
+    self.role == "Care Giver" || self.role == "Nurse"
+  end
+
   def update_rating
     self.total_rating = 0
     self.rating_count = 0
     self.active = true
+    if(self.is_temp?)
+      self.verified = false
+    end
   end
 
   def self.guest

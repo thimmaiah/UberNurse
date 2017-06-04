@@ -16,6 +16,13 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Please upload latest documents' )
   end
 
+  def verification_reminder(user)
+    @user = user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Please verify your account on Care Connect' )
+  end
+
 
   def verify_care_home(care_home, user)
     @care_home = care_home
