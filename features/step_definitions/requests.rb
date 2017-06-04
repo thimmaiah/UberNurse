@@ -140,12 +140,11 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   ionic_select(@staffing_request.role, "role", true)
   ionic_select(@staffing_request.speciality, "speciality", false)
 
-  fields = ["auto_deny_in", "start_code", "end_code"]
+  fields = ["start_code", "end_code"]
   fields.each do |k|
     fill_in(k, with: @staffing_request[k])
   end
 
-  fill_in("auto_deny_in", with: @staffing_request.auto_deny_in)
 
   click_on("Save")
   sleep(1)
