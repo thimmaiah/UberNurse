@@ -28,5 +28,6 @@ class VerifyUserJob < ApplicationJob
     user.verified = verified
     user.save
 
+
   end
 end

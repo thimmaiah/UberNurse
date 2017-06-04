@@ -16,6 +16,13 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Document Verification Required.' )
   end
 
+  def verification_complete(user_id)
+    @user = User.find(user_id)
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => 'Verification Completed.' )
+  end
+
   def doc_refresh_notification(user)
     @user = user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
