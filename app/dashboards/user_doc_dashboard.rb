@@ -34,6 +34,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :name,
     :doc_type,
     :user,
+    :verified
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

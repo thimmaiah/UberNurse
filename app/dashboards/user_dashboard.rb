@@ -9,11 +9,11 @@ class UserDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
+    user_docs: Field::HasMany,
     id: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,
-    password: Field::String,
     role: Field::Select.with_options(collection: User::ROLE),
     nurse_type: Field::String,
     sex: Field::Select.with_options(collection: User::SEX),
@@ -22,7 +22,7 @@ class UserDashboard < Administrate::BaseDashboard
     languages: Field::String,
     pref_commute_distance: Field::Number,
     occupation: Field::String,
-    speciality: Field::String,
+    speciality: Field::Select.with_options(collection: User::SPECIALITY),
     experience: Field::Number,
     accept_terms: Field::Boolean,
     active: Field::Boolean,
@@ -67,7 +67,8 @@ class UserDashboard < Administrate::BaseDashboard
     :bank_account,
     :verified,
     :active,
-    :postcode
+    :postcode,
+    :user_docs
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -78,7 +79,6 @@ class UserDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :password,
     :role,
     :sex,
     :phone,
