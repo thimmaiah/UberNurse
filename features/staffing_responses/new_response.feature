@@ -23,13 +23,12 @@ Scenario Outline: New Slot for spcialist users with no match
   Given there is a user "<user>"
   And the slot creator job runs
   Then A slot must not be created for the user for the request
+  Then the admin user receives an email with "No slot found for request" in the subject
 
   Examples:
-    |request                             | user                            |
-    |role=Nurse;speciality=Generalist    |role=Care Giver;verified=true         |    
-    |role=Care Giver;speciality=Generalist    |role=Nurse;verified=true         |    
-    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Generalist;verified=true|
-    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Pediatric Care;verified=true        |
+    |request                              | user                            |
+    |role=Nurse;speciality=Generalist     |role=Care Giver;verified=true         |    
+    |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
     
 
 Scenario Outline: New Slot for unverified users
@@ -61,6 +60,8 @@ Scenario Outline: New Slot when already rejected
   And the user has already rejected this request
   And the slot creator job runs
   Then A slot must not be created for the user for the request
+  Then the admin user receives an email with "No slot found for request" in the subject
+  Then the admin user receives an email with "No slot found for request" in the subject
 
   Examples:
     |request                                        | user                            |
@@ -74,7 +75,8 @@ Scenario Outline: New Slot when already booked in the same time slot
   Given there is a request "<request>"
   And the slot creator job runs
   Then A slot must not be created for the user for the request
-
+  Then the admin user receives an email with "No slot found for request" in the subject
+  
   Examples:
     |request                                                | user                            | other_request |
     |start_date=2017-05-21 08:00;end_date=2017-05-21 17:00  | role=Care Giver;verified=true   | start_date=2017-05-21 09:00;end_date=2017-05-21 18:00   |

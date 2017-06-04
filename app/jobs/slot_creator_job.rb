@@ -45,7 +45,7 @@ class SlotCreatorJob < ApplicationJob
   end
 
   ### Private Methods Follow ###
-  private
+  # private
   def get_same_day_booking(user, staffing_request)
 
     # Check if this user has been assigned another request on the same day
@@ -81,10 +81,10 @@ class SlotCreatorJob < ApplicationJob
   end
 
   def create_slot(selected_user, staffing_request)
-    
+
     # Create the response from the selected user and mark him as auto selected
     selected_user.auto_selected_date = Date.today
-    
+
     # Create the slot
     staffing_response = StaffingResponse.new(staffing_request_id: staffing_request.id,
                                              user_id: selected_user.id,
@@ -93,7 +93,7 @@ class SlotCreatorJob < ApplicationJob
     # Update the request
     staffing_request.broadcast_status = "Sent"
     staffing_request.slot_status = "Found"
-    
+
     StaffingResponse.transaction do
       staffing_response.save
       selected_user.save
@@ -101,7 +101,7 @@ class SlotCreatorJob < ApplicationJob
     end
   end
 
-
+  # UNUSED for now
   # If the request needs a generalist - any speciality can be used
   # Otherwise the speciality of the request must match the Nurse speciality
   def speciality_matches?(staffing_request, user)
@@ -113,6 +113,7 @@ class SlotCreatorJob < ApplicationJob
     end
   end
 
+  # UNUSED for now
   # The role required by the staffing_request must be the same as the user role
   # For nurses however we need to further match the speciality
   def matches_role_speciality?(staffing_request, user)
@@ -142,34 +143,32 @@ class SlotCreatorJob < ApplicationJob
   # 5 who has not rejected this request - perhaps because of another external engagement
 
   def select_user(staffing_request)
+    
     selected_user = nil
 
-    User.temps.active.verified.order("auto_selected_date ASC").each do |user|
+    User.where(role:staffing_request.role).active.verified.order("auto_selected_date ASC").each do |user|
 
       Delayed::Worker.logger.debug "SlotCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
-      if( matches_role_speciality?(staffing_request, user) )
-        Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, matches_role_speciality is true"
 
-        # Get the slot bookings for this user on the same time as this req
-        same_day_bookings = get_same_day_booking(user, staffing_request)
-        Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
+      # Get the slot bookings for this user on the same time as this req
+      same_day_bookings = get_same_day_booking(user, staffing_request)
+      Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
 
-        # Check if this user has already rejected this req
-        rejected = user_rejected_request?(user, staffing_request)
-        Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
+      # Check if this user has already rejected this req
+      rejected = user_rejected_request?(user, staffing_request)
+      Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
 
-        # Check pref_commute_distance
-        commute_ok = pref_commute_ok?(user, staffing_request)
-        Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
+      # Check pref_commute_distance
+      commute_ok = pref_commute_ok?(user, staffing_request)
+      Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
 
-        if(same_day_bookings.length == 0 && !rejected && commute_ok)
-          Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
-          selected_user = user
-          break
-        end
+      if(same_day_bookings.length == 0 && !rejected && commute_ok)
+        Delayed::Worker.logger.debug "SlotCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
+        selected_user = user
+        break
       end
-
     end
+
 
     selected_user
   end
