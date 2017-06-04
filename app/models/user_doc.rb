@@ -32,6 +32,7 @@ class UserDoc < ApplicationRecord
   end
 
   after_create :dbs_charge
+  after_create :request_verification
 
   def dbs_charge
     if(self.doc_type == "DBS" && self.user_id != self.created_by_user_id)
@@ -39,6 +40,10 @@ class UserDoc < ApplicationRecord
       # Charge the user for it
       # TODO
     end
+  end
+
+  def request_verification
+    UserNotifierMailer.request_verification(self.id).deliver_later
   end
 
   def doc_url

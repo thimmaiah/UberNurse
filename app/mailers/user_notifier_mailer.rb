@@ -9,6 +9,13 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'You have a new slot' )
   end
 
+  def request_verification(user_doc_id)
+    @user_doc = UserDoc.find(user_doc_id)
+    logger.debug("Sending mail to #{ENV['ADMIN_EMAIL']} from #{ENV['NOREPLY']}")
+    mail( :to => ENV['ADMIN_EMAIL'],
+          :subject => 'Document Verification Required.' )
+  end
+
   def doc_refresh_notification(user)
     @user = user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")

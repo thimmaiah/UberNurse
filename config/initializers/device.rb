@@ -63,7 +63,7 @@ Devise.setup do |config|
 
   # ==> Configuration for :validatable
   # Range for password length
-  config.password_length = 6..20
+  config.password_length = 6..128
 
   # ==> Configuration for :timeoutable
   # The time you want to timeout the user session without activity. After this

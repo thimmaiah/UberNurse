@@ -43,8 +43,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  #config.action_mailer.delivery_method = :letter_opener
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :letter_opener
+  #config.action_mailer.delivery_method = :smtp
   config.action_mailer.default_url_options = { :host => "192.168.0.8", :port=>3000 }
 
   # Don't care if the mailer can't send.

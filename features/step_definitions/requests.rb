@@ -193,6 +193,8 @@ Given(/^the rate is "([^"]*)"$/) do |arg1|
   Rate.where(zone:@staffing_request.care_home.zone,
              role:@staffing_request.role,
              speciality: @staffing_request.speciality).update(amount: arg1.to_f)
+  Rate.where(zone:@staffing_request.care_home.zone,
+             role:@staffing_request.role).update(amount: arg1.to_f)
 end
 
 
