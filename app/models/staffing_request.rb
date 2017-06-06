@@ -30,6 +30,9 @@ class StaffingRequest < ApplicationRecord
     self.request_status = "Open"
     self.broadcast_status = "Pending"
     self.payment_status = "Unpaid"
+    # Zero out the seconds - it causes lots of problems when calculating time spent
+    self.start_date = self.start_date.change({sec: 0})
+    self.end_date = self.end_date.change({sec: 0})
   end
 
   before_save :update_response_status

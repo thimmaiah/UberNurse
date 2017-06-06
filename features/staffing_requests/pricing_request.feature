@@ -55,3 +55,21 @@ Scenario Outline: Pricing Request on bank holiday
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10  |150     |
     |verified=true|role=Admin |role=Nurse;speciality=Generalist     |12  |180   |
     |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |15  |225   |
+
+
+
+Scenario Outline: Overtime Mins
+  Given there is a request "<request>"
+  Then the request overtime mins must be "<overtime>"
+  
+  Examples:
+    |request                                                      | overtime  |
+    |start_date=2017-06-07 00:00:00;end_date=2017-06-07 08:00:00  |480        |
+    |start_date=2017-06-07 05:00:00;end_date=2017-06-07 13:00:00  |180        |
+    |start_date=2017-06-07 08:00:00;end_date=2017-06-07 13:00:00  |0          |
+    |start_date=2017-06-07 20:00:00;end_date=2017-06-08 09:00:00  |720        |
+    |start_date=2017-06-07 19:00:00;end_date=2017-06-08 07:00:00  |660        |
+    |start_date=2017-06-07 19:00:00;end_date=2017-06-08 09:00:00  |720        |
+    |start_date=2017-06-07 10:00:00;end_date=2017-06-07 22:00:00  |120        |
+    |start_date=2017-06-07 21:00:00;end_date=2017-06-07 23:30:00  |150        |
+  

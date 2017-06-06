@@ -1,6 +1,6 @@
 module RatesHelper
 
-  # Give a price estimate for the request  
+  # Give a price estimate for the request
   def price_estimate(staffing_request)
     rate = billing_rate(staffing_request)
 
@@ -59,7 +59,7 @@ module RatesHelper
 
   def billing_rate(staffing_request)
     #rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: staffing_request.speciality).first
-    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role).first 
+    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role).first
     rate
   end
 
@@ -83,7 +83,12 @@ module RatesHelper
       hash["BANK_HOLIDAY_FACTOR"] = ENV["BANK_HOLIDAY_FACTOR"].to_f
     end
     # night time ?
-    if(staffing_request.start_date.hour > 20)
+    if(staffing_request.start_date.hour > 20 || staffing_request.start_date.hour < 8)
+      staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
+      hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
+    end
+
+    if(staffing_request.end_date.hour > 20 || staffing_request.end_date.hour < 8)
       staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
       hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
     end
@@ -92,4 +97,50 @@ module RatesHelper
     return hash.max_by{|k,v| v}
 
   end
+
+  def get_night_shift_minutes(entity)
+    night_shift_start = nil
+    night_shift_end   = nil
+
+    puts "entity.start_date.hour = #{entity.start_date.hour}, entity.end_date.hour = #{entity.end_date.hour}"
+
+    if( (entity.start_date.hour <= 8 && entity.end_date.hour <= 8) ||
+        (entity.start_date.hour >= 20 && entity.end_date.hour >= 20) ||
+        (entity.start_date.hour >= 20 && entity.end_date.hour <= 8))
+      night_shift_start = entity.start_date
+      night_shift_end   = entity.end_date
+
+    elsif(entity.start_date.hour <= 8 && entity.end_date.hour >= 8)
+      night_shift_start = entity.start_date
+      night_shift_end   = entity.end_date.change({hour:8,min:0,sec:0})
+
+    elsif(entity.start_date.hour >= 20 && entity.end_date.hour >= 8)
+      night_shift_start = entity.start_date
+      night_shift_end = entity.end_date.change({hour:8,min:0,sec:0})
+
+    elsif(entity.start_date.hour <= 20 && entity.end_date.hour <= 8)
+      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
+      night_shift_end   = entity.end_date
+
+    elsif(entity.start_date.hour <= 20 && entity.end_date.hour >= 20)
+      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
+      night_shift_end = entity.end_date
+
+    elsif(entity.start_date.hour <= 20 && entity.end_date.hour >= 8)
+      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
+      night_shift_end = entity.end_date.change({hour:8,min:0,sec:0})
+
+    end
+
+    logger.debug "night_shift_end = #{night_shift_end}, night_shift_start = #{night_shift_start}"
+
+    minutes = ((night_shift_end - night_shift_start).to_f / 60).round(0).to_f
+    logger.debug "minutes = #{minutes}"
+
+    ( minutes / 15).round * 15
+    logger.debug "minutes rounded = #{minutes}"
+
+    return minutes
+  end
+
 end

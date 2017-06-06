@@ -203,3 +203,7 @@ Given(/^the request start_date is "([^"]*)" from now$/) do |arg1|
   @staffing_request.end_date = Time.now + eval(arg1) + 8.hours
   @staffing_request.save!
 end
+
+Then(/^the request overtime mins must be "([^"]*)"$/) do |arg1|
+  Rate.get_night_shift_minutes(@staffing_request).should == arg1.to_i
+end

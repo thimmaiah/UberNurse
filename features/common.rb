@@ -96,3 +96,5 @@ end
 Given(/^there are bank holidays$/) do
   Holiday.update_all(bank_holiday:true)
 end
+
+

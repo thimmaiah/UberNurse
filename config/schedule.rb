@@ -28,6 +28,6 @@ every 1.day, :at => '3:30 am' do
 end
 
 every :reboot do
-	rake "ts:start"
+	rake "ts:regenerate"
 	rake "jobs:work"
 end
