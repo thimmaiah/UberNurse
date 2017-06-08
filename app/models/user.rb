@@ -85,7 +85,13 @@ class User < ApplicationRecord
   end
 
   def image
-    self.image_url ? self.image_url : "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
+    if(self.image_url)
+     return self.image_url
+   elsif self.profile_pic
+    self.profile_pic.doc_url
+   else
+     return "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
+   end
   end
 
   def token_validation_response                                                                                                                                         

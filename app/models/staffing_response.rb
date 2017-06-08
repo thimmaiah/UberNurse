@@ -76,10 +76,10 @@ class StaffingResponse < ApplicationRecord
   validate :check_codes
   def check_codes
     # Codes should match the one in the request
-    if(self.start_code && self.start_code != self.staffing_request.start_code)
+    if(self.start_code && self.start_code.strip != "" && self.start_code != self.staffing_request.start_code)
       errors.add(:start_code, "Start Code does not match with the request start code")
     end
-    if(self.end_code && self.end_code != self.staffing_request.end_code)
+    if(self.end_code && self.end_code.strip != "" && self.end_code != self.staffing_request.end_code)
       errors.add(:end_code, "End Code does not match with the request end code")
     end
 
