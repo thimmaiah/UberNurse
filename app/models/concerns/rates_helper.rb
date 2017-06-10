@@ -1,19 +1,30 @@
 module RatesHelper
 
+  def base_price(entity, rate)
+    total_mins = entity.minutes_worked 
+    night_mins = entity.night_shift_minutes
+    day_mins = total_mins - night_mins
+
+    night_factor = ENV["NIGHT_FACTOR"].to_f
+    base = (day_mins  + night_mins * night_factor) * rate.amount / 60
+
+    return base, day_mins, night_mins
+  end
+
   # Give a price estimate for the request
   def price_estimate(staffing_request)
     rate = billing_rate(staffing_request)
 
     # Basic rate multiplication
-    hours = staffing_request.minutes_worked / 60.0
+    base, day_mins, night_mins = base_price(staffing_request, rate)
 
-    base = hours * rate.amount
     # Ensure we get the factor for surge pricing
     factor_name, factor_value = factor(staffing_request)
     billing = (base * factor_value).round(2)
 
     # Audit trail
-    staffing_request.pricing_audit["hours_worked"] = hours
+    staffing_request.pricing_audit["day_time_hours_worked"] = staffing_request.human_readable_time(day_mins)
+    staffing_request.pricing_audit["night_time_hours_worked"] = staffing_request.human_readable_time(night_mins)
     staffing_request.pricing_audit["base_rate"] = rate.amount
     staffing_request.pricing_audit["base_price"] = base
     staffing_request.pricing_audit["factor_value"] = factor_value
@@ -34,15 +45,15 @@ module RatesHelper
     rate = billing_rate(staffing_request)
 
     # Basic rate multiplication
-    hours = staffing_response.minutes_worked / 60.0
+    base, day_mins, night_mins = base_price(staffing_response, rate)
 
-    base = hours * rate.amount
     # Ensure we get the factor for surge pricing
     factor_name, factor_value = factor(staffing_request)
     billing = (base * factor_value).round(2)
 
     # Audit trail
-    staffing_response.pricing_audit["hours_worked"] = hours
+    staffing_response.pricing_audit["day_time_hours_worked"] = staffing_response.human_readable_time(day_mins)
+    staffing_response.pricing_audit["night_time_hours_worked"] = staffing_response.human_readable_time(night_mins)
     staffing_response.pricing_audit["base_rate"] = rate.amount
     staffing_response.pricing_audit["base_price"] = base
     staffing_response.pricing_audit["factor_value"] = factor_value
@@ -50,7 +61,7 @@ module RatesHelper
     staffing_response.pricing_audit["price"] = billing
     staffing_response.price = billing
 
-    logger.debug(staffing_response.pricing_audit)
+    logger.debug("pricing_audit = #{staffing_response.pricing_audit}")
 
     billing
 
@@ -83,64 +94,17 @@ module RatesHelper
       hash["BANK_HOLIDAY_FACTOR"] = ENV["BANK_HOLIDAY_FACTOR"].to_f
     end
     # night time ?
-    if(staffing_request.start_date.hour > 20 || staffing_request.start_date.hour < 8)
-      staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
-      hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
-    end
+    # if(staffing_request.start_date.hour > 20 || staffing_request.start_date.hour < 8)
+    #   staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
+    #   hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
+    # end
 
-    if(staffing_request.end_date.hour > 20 || staffing_request.end_date.hour < 8)
-      staffing_request.pricing_audit["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
-      hash["NIGHT_FACTOR"] = ENV["NIGHT_FACTOR"].to_f
-    end
 
     # Return the max factor
     return hash.max_by{|k,v| v}
 
   end
 
-  def get_night_shift_minutes(entity)
-    night_shift_start = nil
-    night_shift_end   = nil
-
-    puts "entity.start_date.hour = #{entity.start_date.hour}, entity.end_date.hour = #{entity.end_date.hour}"
-
-    if( (entity.start_date.hour <= 8 && entity.end_date.hour <= 8) ||
-        (entity.start_date.hour >= 20 && entity.end_date.hour >= 20) ||
-        (entity.start_date.hour >= 20 && entity.end_date.hour <= 8))
-      night_shift_start = entity.start_date
-      night_shift_end   = entity.end_date
-
-    elsif(entity.start_date.hour <= 8 && entity.end_date.hour >= 8)
-      night_shift_start = entity.start_date
-      night_shift_end   = entity.end_date.change({hour:8,min:0,sec:0})
-
-    elsif(entity.start_date.hour >= 20 && entity.end_date.hour >= 8)
-      night_shift_start = entity.start_date
-      night_shift_end = entity.end_date.change({hour:8,min:0,sec:0})
-
-    elsif(entity.start_date.hour <= 20 && entity.end_date.hour <= 8)
-      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
-      night_shift_end   = entity.end_date
-
-    elsif(entity.start_date.hour <= 20 && entity.end_date.hour >= 20)
-      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
-      night_shift_end = entity.end_date
-
-    elsif(entity.start_date.hour <= 20 && entity.end_date.hour >= 8)
-      night_shift_start = entity.start_date.change({hour:20,min:0,sec:0})
-      night_shift_end = entity.end_date.change({hour:8,min:0,sec:0})
-
-    end
-
-    logger.debug "night_shift_end = #{night_shift_end}, night_shift_start = #{night_shift_start}"
-
-    minutes = ((night_shift_end - night_shift_start).to_f / 60).round(0).to_f
-    logger.debug "minutes = #{minutes}"
-
-    ( minutes / 15).round * 15
-    logger.debug "minutes rounded = #{minutes}"
-
-    return minutes
-  end
+  
 
 end

@@ -1,5 +1,7 @@
 class StaffingResponse < ApplicationRecord
 
+  include StartEndTimeHelper
+
   acts_as_paranoid
   has_paper_trail
 
@@ -89,13 +91,7 @@ class StaffingResponse < ApplicationRecord
     end
   end
 
-  def minutes_worked
-    if(self.start_date && self.end_date)
-      minutes = ((self.end_date - self.start_date).to_f / 60).round(0).to_f
-    else
-      0
-    end
-  end
+  
 
   def send_confirm?
     sendFlag = Time.now > self.next_confirm_time && self.confirmed_status != "Declined"
@@ -138,5 +134,14 @@ class StaffingResponse < ApplicationRecord
     self.confirmed_status == "Confirmed" &&  self.confirmed_at > self.confirm_sent_at
   end
 
+  # Used only for testing - do not use in actual code
+  def set_codes_test
+    self.start_code = self.staffing_request.start_code
+    self.end_code = self.staffing_request.end_code
+    self.save
+
+    self.end_date = self.start_date + 8.hours
+    self.save
+  end
 
 end

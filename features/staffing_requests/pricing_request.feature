@@ -3,16 +3,20 @@ Feature: Pricing Requests
 
 Scenario Outline: Pricing Request
   Given there is a care_home "<care_home>" with me as admin "<admin>"
-  Given there is a request "<request>" with start date atleast "<days1>" from now and end date atleast "<days2>" from now
+  Given there is a request "<request>"
+  Given the request is on a weekday
+  Given the request start time is "<start_time>"
+  Given the request end time is "<end_time>"
   Given the rate is "<rate>"
   Given there are no bank holidays
   Then the price for the Staffing Request must be "<price>"
   Examples:
-  	|care_home		|admin 			|request	                            |days1 |days2|rate|price |
-  	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|2     |2.5  |10  |120   |
-  	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|2     |2.5  |10  |120   |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |2     |2.5  |12  |144   |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |2     |2.5  |15  |180   |
+  	|care_home		|admin 			|request	                            |start_time |end_time    |rate|price |
+  	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:14}   |10  |60    |
+  	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:18}   |10  |100   |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |12  |123.96|
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |15  |59.85 |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |10  |106.4 |
     
 
 Scenario Outline: Pricing Request on Weekend

@@ -1,4 +1,6 @@
 class StaffingRequest < ApplicationRecord
+  
+  include StartEndTimeHelper
 
   acts_as_paranoid
   has_paper_trail ignore: [:pricing_audit]
@@ -55,12 +57,4 @@ class StaffingRequest < ApplicationRecord
     (self.start_date - self.created_at)/(60 * 60)
   end
 
-  def minutes_worked
-    if(self.start_date && self.end_date)
-      minutes = ((self.end_date - self.start_date).to_f / 60).round(0).to_f
-      ( minutes / 15).round * 15
-    else
-      0
-    end
-  end
 end

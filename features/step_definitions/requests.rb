@@ -1,5 +1,5 @@
 Given(/^a unsaved request "([^"]*)"$/) do |args|
-  
+
   puts "####creating and unsaved request from args #{args}\n"
 
   if(!@care_home)
@@ -25,30 +25,32 @@ Given(/^there is a request "([^"]*)"$/) do |args|
   }
 
   @staffing_request.save!
-  puts "\n#####StaffingRequest####\n" 
+  puts "\n#####StaffingRequest####\n"
   puts @staffing_request.to_json
 end
 
-Given(/^there is a request "([^"]*)" with start date atleast "([^"]*)" from now and end date atleast "([^"]*)" from now$/) do |arg1, arg2, arg3|
-  steps %Q{
-      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
-      Given a unsaved request "#{arg1}"
-  }
 
-  @staffing_request.start_date = Time.now.at_beginning_of_day + arg2.to_f.days
+Given(/^the request is on a weekday$/) do
+  @staffing_request.start_date = Time.now.at_beginning_of_day + 1.day
   while(@staffing_request.start_date.on_weekend?)
     @staffing_request.start_date = @staffing_request.start_date + 1.day
   end
 
-  @staffing_request.end_date = Time.now.at_beginning_of_day + arg3.to_f.days
-  while(@staffing_request.end_date.on_weekend?)
-    @staffing_request.end_date = @staffing_request.end_date + 1.day
-  end
-
+  @staffing_request.end_date = @staffing_request.start_date
   @staffing_request.save!
-  puts "\n#####StaffingRequest####\n" 
-  puts @staffing_request.to_json
 end
+
+Given(/^the request start time is "([^"]*)"$/) do |arg1|
+  @staffing_request.start_date = @staffing_request.start_date.change(eval(arg1))
+  @staffing_request.save!
+end
+
+Given(/^the request end time is "([^"]*)"$/) do |arg1|
+  @staffing_request.end_date = @staffing_request.end_date.change(eval(arg1))
+  @staffing_request.save!
+end
+
+
 
 Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg2|
   steps %Q{
@@ -56,11 +58,13 @@ Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg
       Given a unsaved request "#{arg1}"
   }
 
-  @staffing_request.start_date = Time.now.at_end_of_week
-  @staffing_request.end_date = Time.now.at_end_of_week + arg2.to_f.hours
+  # Note we only test daytime hours here - hence start at 8:00 am only
+  @staffing_request.start_date = Date.today.end_of_week
+  @staffing_request.start_date = @staffing_request.start_date.change({hour:8})
+  @staffing_request.end_date = @staffing_request.start_date + arg2.to_f.hours
   @staffing_request.save!
 
-  puts "\n#####StaffingRequest####\n" 
+  puts "\n#####StaffingRequest####\n"
   puts @staffing_request.to_json
 end
 
@@ -73,26 +77,27 @@ Given(/^there is a request "([^"]*)" "([^"]*)" from now$/) do |arg1, arg2|
   @staffing_request.start_date = Time.now + arg2.to_f.hours
   @staffing_request.end_date = @staffing_request.start_date + 10.hours
   @staffing_request.save!
-  
-  puts "\n#####StaffingRequest####\n" 
+
+  puts "\n#####StaffingRequest####\n"
   puts @staffing_request.to_json
 
 end
 
 Given(/^there is a request "([^"]*)" on a bank holiday$/) do |arg1|
-  d = Date.today + 1.day
-  Holiday.create(name: "Test Holiday", date: d, bank_holiday: true)
 
   steps %Q{
       Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
       Given a unsaved request "#{arg1}"
   }
 
-  @staffing_request.start_date = Time.now.at_beginning_of_day + 1.day
-  @staffing_request.end_date = Time.now.at_beginning_of_day + 1.days + 10.hours
+  @staffing_request.start_date = Date.today.end_of_week
+  @staffing_request.start_date = @staffing_request.start_date.change({hour:8})
+  @staffing_request.end_date = @staffing_request.start_date + 10.hours
   @staffing_request.save!
-  
-  puts "\n#####StaffingRequest####\n" 
+
+  Holiday.create(name: "Test Holiday", date: @staffing_request.start_date.to_date, bank_holiday: true)
+
+  puts "\n#####StaffingRequest####\n"
   puts @staffing_request.to_json
 end
 
@@ -185,6 +190,9 @@ end
 
 
 Then(/^the price for the Staffing Request must be "([^"]*)"$/) do |price|
+  puts "\n######### Pricing ###########\n"
+  puts @staffing_request.to_json
+
   Rate.price_estimate(@staffing_request).should == price.to_f
 end
 
