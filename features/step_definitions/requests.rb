@@ -213,5 +213,5 @@ Given(/^the request start_date is "([^"]*)" from now$/) do |arg1|
 end
 
 Then(/^the request overtime mins must be "([^"]*)"$/) do |arg1|
-  Rate.get_night_shift_minutes(@staffing_request).should == arg1.to_i
+  @staffing_request.night_shift_minutes.should == arg1.to_i
 end
