@@ -117,7 +117,7 @@ end
 
 Then(/^I must not see the slots$/) do
   Shift.all.each do |slot|
-    expect(page).to have_content("No Slots Booked")
+    expect(page).to have_content("No Shifts Found")
   end
 end
 

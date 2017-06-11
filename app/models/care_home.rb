@@ -20,7 +20,7 @@ class CareHome < ApplicationRecord
 
   before_create :set_defaults
   def set_defaults
-    self.verified = false
+    self.verified = false if verified == nil
     self.image_url = "assets/icon/homecare.png"
   end
 

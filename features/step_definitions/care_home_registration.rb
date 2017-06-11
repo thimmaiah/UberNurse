@@ -35,7 +35,7 @@ When(/^I search for the care home "([^"]*)"$/) do |arg1|
   @care_home = FactoryGirl.build(:care_home)
   key_values(@care_home, arg1)
   page.find(".searchbar-input").set(@care_home.name)
-  sleep(0.5)
+  sleep(2)
 end
 
 When(/^I click on the search result care home$/) do

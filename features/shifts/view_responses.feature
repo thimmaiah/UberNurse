@@ -6,7 +6,7 @@ Scenario Outline: View My Slot
   Given there is a user "<user>"
   And the slot creator job runs
   Given Im a logged in 
-  When I click "My Slots"
+  When I click "Pending Shifts"
   Then I must see the slot 
   When I click the slot for details
   Then I must see the slot details
@@ -19,7 +19,7 @@ Scenario Outline: View My Slot
 Scenario Outline: Cannot View Others Slots
   Given there are "<number>" of slots
   Given Im a logged in user "<user>"
-  When I click "My Slots"
+  When I click "Pending Shifts"
   Then I must not see the slots 
 
   Examples:
@@ -33,11 +33,11 @@ Scenario Outline: View All Slots for care_home
   Given there are "<number>" of verified requests
   Given Im a logged in
   Given there are "<number>" of slots for the care_home
-  When I click "My Slots"
+  When I click "Upcoming Shifts"
   Then I must see all the slots 
   
 
   Examples:
-    |care_home     |admin                    |number | user                            |
+    |care_home    |admin                    |number | user                            |
     |verified=true|role=Admin;verified=true |1      | role=Care Giver;verified=true   |
     |verified=true|role=Admin;verified=true |2      | role=Nurse;verified=true        |

@@ -14,9 +14,9 @@ Scenario Outline: Pricing Request
   	|care_home		|admin 			|request	                            |start_time |end_time    |rate|price |
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:14}   |10  |60    |
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:18}   |10  |100   |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |12  |123.96|
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |15  |59.85 |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |10  |106.4 |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |12  |124   |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |15  |60    |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |10  |106   |
     
 
 Scenario Outline: Pricing Request on Weekend
@@ -29,8 +29,8 @@ Scenario Outline: Pricing Request on Weekend
     |care_home    |admin      |request                              |hours  |rate|price   |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |133     |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |133     |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |10     |12  |159.6   |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |10     |15  |199.5   |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |10     |12  |160     |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |10     |15  |200     |
 
 
 Scenario Outline: Pricing Request last minute
@@ -43,8 +43,8 @@ Scenario Outline: Pricing Request last minute
     |care_home    |admin      |request                              |hours |rate|price   |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2     |10  |133     |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2.5   |10  |133     |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |2.8   |12  |159.6   |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |3     |15  |199.5   |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |2.8   |12  |160     |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |3     |15  |200     |
 
 
 Scenario Outline: Pricing Request on bank holiday
