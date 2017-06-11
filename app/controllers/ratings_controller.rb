@@ -48,6 +48,6 @@ class RatingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def rating_params
-      params.require(:rating).permit(:user_id, :staffing_response_id, :stars, :comments)
+      params.require(:rating).permit(:user_id, :shift_id, :stars, :comments)
     end
 end

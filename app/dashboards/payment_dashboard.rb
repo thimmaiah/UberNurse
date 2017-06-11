@@ -11,7 +11,7 @@ class PaymentDashboard < Administrate::BaseDashboard
     id: Field::Number,
     user: Field::BelongsTo,
     care_home: Field::BelongsTo,
-    staffing_response: Field::BelongsTo,
+    shift: Field::BelongsTo,
     staffing_request: Field::BelongsTo,
     paid_by: Field::BelongsTo.with_options(class_name: "User"),
     paid_by_id: Field::Number,
@@ -40,7 +40,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :user,
     :care_home,
-    :staffing_response,
+    :shift,
     :staffing_request,
     :paid_by,
     :id,

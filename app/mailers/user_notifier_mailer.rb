@@ -46,25 +46,25 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Please verify your Care Home' )
   end
 
-  def slot_notification(staffing_response)
-    @staffing_response = staffing_response
-    @user = staffing_response.user
+  def slot_notification(shift)
+    @shift = shift
+    @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'New Slot Assigned' )
   end
 
-  def slot_cancelled(staffing_response)
-    @staffing_response = staffing_response
-    @user = staffing_response.user
+  def slot_cancelled(shift)
+    @shift = shift
+    @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'Slot Cancelled' )
   end
 
-  def slot_accepted(staffing_response)
-    @staffing_response = staffing_response
-    @user = staffing_response.user
+  def slot_accepted(shift)
+    @shift = shift
+    @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'Slot Accepted' )
@@ -89,9 +89,9 @@ class UserNotifierMailer < ApplicationMailer
 
   end
 
-  def slot_confirmation(staffing_response)
-    @staffing_response = staffing_response
-    @user = staffing_response.user
+  def slot_confirmation(shift)
+    @shift = shift
+    @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'Slot Confirmation' )

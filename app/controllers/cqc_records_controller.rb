@@ -5,7 +5,8 @@ class CqcRecordsController < ApplicationController
   respond_to :json
 
   def index
-    @cqc_records = CqcRecord.search(params[:search]+"*")
+    @cqc_records = CqcRecord.search(params[:search]+"*", 
+      :field_weights => {:name => 10, :address => 3})
     respond_with(@cqc_records)
   end
 
@@ -38,11 +39,11 @@ class CqcRecordsController < ApplicationController
   end
 
   private
-    def set_cqc_record
-      @cqc_record = CqcRecord.find(params[:id])
-    end
+  def set_cqc_record
+    @cqc_record = CqcRecord.find(params[:id])
+  end
 
-    def cqc_record_params
-      params.require(:cqc_record).permit(:name, :aka, :address, :postcode, :phone, :website, :service_types, :services, :local_authority, :region, :cqc_url, :cqc_location)
-    end
+  def cqc_record_params
+    params.require(:cqc_record).permit(:name, :aka, :address, :postcode, :phone, :website, :service_types, :services, :local_authority, :region, :cqc_url, :cqc_location)
+  end
 end

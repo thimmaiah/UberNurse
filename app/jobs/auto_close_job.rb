@@ -13,7 +13,7 @@ class AutoCloseJob < ApplicationJob
       
 
       if( hours_from_creation > req.auto_deny_in && 
-        req.staffing_responses.open.length == 0 )
+        req.shifts.open.length == 0 )
 
         req.request_status = "Auto Closed"
         req.save

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170604043747) do
+ActiveRecord::Schema.define(version: 20170610171628) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -65,26 +65,6 @@ ActiveRecord::Schema.define(version: 20170604043747) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
-  create_table "hiring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.date     "start_date"
-    t.string   "start_time",   limit: 20
-    t.date     "end_date"
-    t.integer  "num_of_hours"
-    t.float    "rate",         limit: 24
-    t.string   "req_type",     limit: 20
-    t.integer  "user_id"
-    t.integer  "hospital_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  create_table "hiring_responses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "hiring_request_id"
-    t.text     "notes",             limit: 65535
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
 
   create_table "holidays", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -96,7 +76,7 @@ ActiveRecord::Schema.define(version: 20170604043747) do
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "staffing_response_id"
+    t.integer  "shift_id"
     t.integer  "user_id"
     t.integer  "care_home_id"
     t.integer  "paid_by_id"
@@ -109,7 +89,7 @@ ActiveRecord::Schema.define(version: 20170604043747) do
     t.index ["care_home_id"], name: "index_payments_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_payments_on_staffing_request_id", using: :btree
-    t.index ["staffing_response_id"], name: "index_payments_on_staffing_response_id", using: :btree
+    t.index ["shift_id"], name: "index_payments_on_shift_id", using: :btree
     t.index ["user_id"], name: "index_payments_on_user_id", using: :btree
   end
 
@@ -138,7 +118,7 @@ ActiveRecord::Schema.define(version: 20170604043747) do
 
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
-    t.integer  "staffing_response_id"
+    t.integer  "shift_id"
     t.integer  "stars"
     t.text     "comments",             limit: 65535
     t.datetime "created_at",                         null: false
@@ -147,7 +127,7 @@ ActiveRecord::Schema.define(version: 20170604043747) do
     t.integer  "care_home_id"
     t.datetime "deleted_at"
     t.index ["deleted_at"], name: "index_ratings_on_deleted_at", using: :btree
-    t.index ["staffing_response_id"], name: "index_ratings_on_staffing_response_id", using: :btree
+    t.index ["shift_id"], name: "index_ratings_on_shift_id", using: :btree
     t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
 
@@ -177,7 +157,7 @@ ActiveRecord::Schema.define(version: 20170604043747) do
     t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree
   end
 
-  create_table "staffing_responses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "shifts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "staffing_request_id"
     t.integer  "user_id"
     t.string   "start_code",          limit: 10
@@ -199,10 +179,11 @@ ActiveRecord::Schema.define(version: 20170604043747) do
     t.string   "confirmed_status"
     t.integer  "confirmed_count"
     t.date     "confirmed_at"
-    t.index ["care_home_id"], name: "index_staffing_responses_on_care_home_id", using: :btree
-    t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
-    t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
-    t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
+    t.boolean  "viewed"
+    t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
+    t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
+    t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree
+    t.index ["user_id"], name: "index_shifts_on_user_id", using: :btree
   end
 
   create_table "user_docs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

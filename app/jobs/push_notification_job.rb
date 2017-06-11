@@ -7,8 +7,8 @@ class PushNotificationJob < ApplicationJob
 
   queue_as :default
 
-  def perform(staffing_response)
-    u = staffing_response.user
+  def perform(shift)
+    u = shift.user
     push("UberNurse Notification", "A new slot has been allocated to you", u.push_token) if u.push_token
   end
 

@@ -1,46 +1,46 @@
 Given(/^the slot creator job runs$/) do
   SlotCreatorJob.new.perform
-  @staffing_response = StaffingResponse.last
+  @shift = Shift.last
 end
 
 
 Then(/^A slot must be created for the user for the request$/) do
-  @staffing_response = StaffingResponse.last
-  @staffing_response.user_id.should == @user.id
-  @staffing_response.staffing_request_id.should == @staffing_request.id  
+  @shift = Shift.last
+  @shift.user_id.should == @user.id
+  @shift.staffing_request_id.should == @staffing_request.id  
 end
 
 Given(/^the user has already accepted this request$/) do
-  @staffing_response = FactoryGirl.build(:staffing_response)
-  @staffing_response.user = @user
-  @staffing_response.staffing_request = @staffing_request
-  @staffing_response.care_home_id = @staffing_request.care_home_id
-  @staffing_response.save
+  @shift = FactoryGirl.build(:shift)
+  @shift.user = @user
+  @shift.staffing_request = @staffing_request
+  @shift.care_home_id = @staffing_request.care_home_id
+  @shift.save
 
-  @staffing_response.response_status = "Accepted"
-  @staffing_response.save!
+  @shift.response_status = "Accepted"
+  @shift.save!
 
   puts "\n#####Accepted Slot####\n"
-  puts @staffing_response.to_json
+  puts @shift.to_json
 end
 
 
 Given(/^the user has already rejected this request$/) do
-  @staffing_response = FactoryGirl.build(:staffing_response)
-  @staffing_response.user = @user
-  @staffing_response.staffing_request = @staffing_request
-  @staffing_response.care_home_id = @staffing_request.care_home_id
-  @staffing_response.save
+  @shift = FactoryGirl.build(:shift)
+  @shift.user = @user
+  @shift.staffing_request = @staffing_request
+  @shift.care_home_id = @staffing_request.care_home_id
+  @shift.save
 
-  @staffing_response.response_status = "Rejected"
-  @staffing_response.save!
+  @shift.response_status = "Rejected"
+  @shift.save!
 
   puts "\n#####Rejected Slot####\n"
-  puts @staffing_response.to_json
+  puts @shift.to_json
 end
 
 Then(/^A slot must not be created for the user for the request$/) do
-  @user.staffing_responses.not_rejected.where(staffing_request_id:@staffing_request.id).length.should == 0
+  @user.shifts.not_rejected.where(staffing_request_id:@staffing_request.id).length.should == 0
 end
 
 
@@ -63,19 +63,19 @@ Then(/^the users auto selected date should be set to today$/) do
 end
 
 Then(/^I must see the slot$/) do
-  @slot = StaffingResponse.last
-  expect(page).to have_content(@staffing_response.care_home.name)
-  expect(page).to have_content(@staffing_response.user.first_name)
-  expect(page).to have_content(@staffing_response.user.last_name)
-  expect(page).to have_content(@staffing_response.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@staffing_response.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@staffing_response.user.phone)
-  expect(page).to have_content(@staffing_response.user.email)
-  expect(page).to have_content(@staffing_response.user.speciality)
+  @slot = Shift.last
+  expect(page).to have_content(@shift.care_home.name)
+  expect(page).to have_content(@shift.user.first_name)
+  expect(page).to have_content(@shift.user.last_name)
+  expect(page).to have_content(@shift.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@shift.user.phone)
+  expect(page).to have_content(@shift.user.email)
+  expect(page).to have_content(@shift.user.speciality)
 end
 
 When(/^I click the slot for details$/) do
-  page.find("#slot-#{@staffing_response.id}-item").click
+  page.find("#slot-#{@shift.id}-item").click
 end
 
 
@@ -85,10 +85,10 @@ Then(/^I must see the slot details$/) do
     Then I must see the slot 
   }
 
-  expect(page).to have_content(@staffing_response.response_status)
-  expect(page).to have_content(@staffing_response.payment_status)
-  expect(page).to have_content(@staffing_response.start_code) if @staffing_response.start_code
-  expect(page).to have_content(@staffing_response.end_code) if @staffing_response.end_code
+  expect(page).to have_content(@shift.response_status)
+  expect(page).to have_content(@shift.payment_status)
+  expect(page).to have_content(@shift.start_code) if @shift.start_code
+  expect(page).to have_content(@shift.end_code) if @shift.end_code
 
   page.find(".back-button").click
 end
@@ -116,14 +116,14 @@ end
 
 
 Then(/^I must not see the slots$/) do
-  StaffingResponse.all.each do |slot|
+  Shift.all.each do |slot|
     expect(page).to have_content("No Slots Booked")
   end
 end
 
 
 Then(/^I must see all the slots$/) do
-  StaffingResponse.all.each do |slot|    
+  Shift.all.each do |slot|    
     steps %Q{
       Then I must see the slot 
       When I click the slot for details
@@ -138,22 +138,22 @@ Given(/^there is a slot for a user "([^"]*)" with status "([^"]*)"$/) do |arg1, 
     Given there is a user "#{arg1}"
   }
 
-  @staffing_response = StaffingResponse.new(staffing_request_id: @staffing_request.id,
+  @shift = Shift.new(staffing_request_id: @staffing_request.id,
     care_home_id: @staffing_request.care_home_id,
     user_id: @user.id,
     response_status: "Pending")
 
-  @staffing_response.save
+  @shift.save
 
-  @staffing_response.response_status = status
-  @staffing_response.save!
+  @shift.response_status = status
+  @shift.save!
 end
 
 
 
 Given(/^the slot was created "([^"]*)" before$/) do |arg1|
-  @staffing_response.created_at = Time.now - arg1.to_i.minutes
-  @staffing_response.save!
+  @shift.created_at = Time.now - arg1.to_i.minutes
+  @shift.save!
 end
 
 Given(/^the slot pending job runs$/) do
@@ -168,13 +168,13 @@ end
 
 
 Then(/^A slot status must be "([^"]*)"$/) do |arg1|
-  @staffing_response.reload
-  @staffing_response.response_status.should == arg1
+  @shift.reload
+  @shift.response_status.should == arg1
 end
 
 Given(/^the slot has confirm_sent "([^"]*)" times$/) do |arg1|
   (1..arg1.to_i).each do 
-    @staffing_response.confirmation_sent
+    @shift.confirmation_sent
   end
 end
 

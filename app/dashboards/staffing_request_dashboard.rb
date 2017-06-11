@@ -10,7 +10,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
     user: Field::BelongsTo,
-    staffing_responses: Field::HasMany,
+    shifts: Field::HasMany,
     payment: Field::HasOne,
     id: Field::Number,
     start_date: Field::DateTime,
@@ -22,7 +22,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
     response_count: Field::Number,
-    payment_status: Field::Select.with_options(collection: StaffingResponse::PAYMENT_STATUS),
+    payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     start_code: Field::String,
@@ -53,7 +53,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :care_home,
     :user,
-    :staffing_responses,
+    :shifts,
     :payment,
     :id,
     :start_date,

@@ -54,7 +54,7 @@ namespace :uber_nurse do
     CareHome.delete_all
     Delayed::Job.delete_all
     StaffingRequest.delete_all
-    StaffingResponse.delete_all
+    Shift.delete_all
     Payment.delete_all
     Rating.delete_all
     PaperTrail::Version.delete_all
@@ -232,7 +232,7 @@ namespace :uber_nurse do
       reqs.each do |req|
         count = 1
         (1..count).each do |j|
-          u = FactoryGirl.build(:staffing_response)
+          u = FactoryGirl.build(:shift)
           u.staffing_request = req
           u.care_home_id = req.care_home_id
           u.user = care_givers[rand(care_givers.length)]
@@ -245,7 +245,7 @@ namespace :uber_nurse do
           req.broadcast_status = "Sent"
           req.save
           #puts u.to_xml
-          puts "StaffingResponse #{u.id}"
+          puts "Shift #{u.id}"
         end
       end
 
@@ -261,11 +261,11 @@ namespace :uber_nurse do
 
     begin
 
-      resps = StaffingResponse.accepted
+      resps = Shift.accepted
 
       resps.each do |resp|
         u = FactoryGirl.build(:payment)
-        u.staffing_response = resp
+        u.shift = resp
         u.staffing_request_id = resp.staffing_request_id
         u.care_home_id = resp.care_home_id
         u.user_id = resp.user_id
@@ -290,11 +290,11 @@ namespace :uber_nurse do
 
     begin
 
-      resps = StaffingResponse.accepted
+      resps = Shift.accepted
 
       resps.each do |resp|
         u = FactoryGirl.build(:rating)
-        u.staffing_response = resp
+        u.shift = resp
         u.user_id = resp.user_id
         u.created_by_id = resp.staffing_request.user_id
         u.care_home_id = resp.staffing_request.care_home_id

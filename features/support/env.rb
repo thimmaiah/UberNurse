@@ -85,7 +85,7 @@ end
 
 module UberNurseUtils
   def ionic_select(value, select, first_select_on_page = true)
-    within("form > ##{select}") do
+    within("form  ##{select}") do
       find(".item-inner").click
       begin
         if(first_select_on_page)

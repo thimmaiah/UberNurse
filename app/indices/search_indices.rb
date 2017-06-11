@@ -95,7 +95,7 @@ ThinkingSphinx::Index.define :user_doc, :with => :real_time do
 end
 
 
-ThinkingSphinx::Index.define :staffing_response, :with => :real_time do
+ThinkingSphinx::Index.define :shift, :with => :real_time do
   # fields
   indexes care_home.name, :as => :care_home_name, :sortable => true
   indexes user.first_name, :as => :user_first_name, :sortable => true

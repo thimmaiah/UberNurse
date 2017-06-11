@@ -21,7 +21,7 @@ FactoryGirl.define do
   end
 
   factory :payment do
-    staffing_response_id 1
+    shift_id 1
     user_id 1
     care_home_id 1
     paid_by_id 1
@@ -29,7 +29,7 @@ FactoryGirl.define do
     notes "Thanks for your service"
   end
 
-  factory :staffing_response do
+  factory :shift do
     accepted false
     rated false
   end

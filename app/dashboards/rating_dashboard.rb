@@ -8,7 +8,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    staffing_response: Field::BelongsTo,
+    shift: Field::BelongsTo,
     user: Field::BelongsTo,
     care_home: Field::BelongsTo,
     created_by: Field::BelongsTo.with_options(class_name: "User"),
@@ -27,7 +27,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :staffing_response,
+    :shift,
     :user,
     :care_home,
     :stars,
@@ -36,7 +36,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :staffing_response,
+    :shift,
     :user,
     :care_home,
     :created_by,

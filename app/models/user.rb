@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   belongs_to :care_home, optional: true
   has_many :staffing_requests
-  has_many :staffing_responses
+  has_many :shifts
   has_many :user_docs, -> { order(:verified=>:desc) }
   has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
 

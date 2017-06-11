@@ -36,7 +36,7 @@ class Ability
 
     def care_giver_privilages
         guest_privilages
-        can :manage, StaffingResponse, :user_id=>@user.id
+        can :manage, Shift, :user_id=>@user.id
         can :manage, User, :id=>@user.id
         can :manage, UserDoc, :user_id =>@user.id
         can :read, Payment, :user_id =>@user.id
@@ -49,7 +49,7 @@ class Ability
         #can :manage, StaffingRequest, :user_id=>@user.id
         #can :read, User, :care_home_id=>@user.care_home_id
         #can :read, StaffingRequest, :care_home_id=>@user.care_home_id         
-        #can :read, StaffingResponse, :care_home_id=>@user.care_home_id         
+        #can :read, Shift, :care_home_id=>@user.care_home_id         
         can :read, UserDoc
         can :read, Rating
         can :read, CqcRecord
@@ -62,7 +62,7 @@ class Ability
         can :manage, CareHome, :id=>@user.care_home_id
         can :manage, User, :care_home_id=>@user.care_home_id
         can :manage, StaffingRequest, :care_home_id=>@user.care_home_id
-        can [:read, :update], StaffingResponse, :care_home_id=>@user.care_home_id         
+        can [:read, :update], Shift, :care_home_id=>@user.care_home_id         
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id
     end

@@ -6,7 +6,7 @@ class StaffingRequestSerializer < ActiveModel::Serializer
   :request_status, :auto_deny_in, :response_count, :payment_status, :user, :care_home, 
   :broadcast_status, :can_manage, :start_code, :end_code, :price, :pricing_audit, :created_at, :updated_at
 
-  attribute :staffing_responses
+  attribute :shifts
 
   belongs_to :user, serializer: UserMiniSerializer
 

@@ -12,7 +12,7 @@ class StaffingRequest < ApplicationRecord
 
   belongs_to :care_home
   belongs_to :user
-  has_many :staffing_responses
+  has_many :shifts
   has_one :payment
 
   # The audit trail of how the price was computed
@@ -42,7 +42,7 @@ class StaffingRequest < ApplicationRecord
     if( self.request_status_changed? && 
         (self.request_status == 'Closed' || self.request_status == 'Cancelled') )
     	# Ensure all responses are also closed so they dont show up on the UI
-      self.staffing_responses.each do |resp|	
+      self.shifts.each do |resp|	
         resp.response_status = self.request_status 
         resp.save
       end

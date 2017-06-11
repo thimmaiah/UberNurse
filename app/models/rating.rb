@@ -3,7 +3,7 @@ class Rating < ApplicationRecord
 	after_save ThinkingSphinx::RealTime.callback_for(:rating)
 	COMMENTS = ["Great Work", "Good Work", "Not Bad", "Can Improve"]
 	
-	belongs_to :staffing_response
+	belongs_to :shift
 	belongs_to :user
 	belongs_to :care_home
 	belongs_to :created_by, class_name: "User", foreign_key: :created_by_id
@@ -23,8 +23,8 @@ class Rating < ApplicationRecord
 	end
 
 	def response_rated
-		self.staffing_response.rated = true
-		self.staffing_response.save
+		self.shift.rated = true
+		self.shift.save
 	end
 
 	def delete_user_ratings
@@ -34,7 +34,7 @@ class Rating < ApplicationRecord
 	end
 
 	def response_unrated
-		self.staffing_response.rated = false
-		self.staffing_response.save
+		self.shift.rated = false
+		self.shift.save
 	end
 end

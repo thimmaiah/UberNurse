@@ -12,6 +12,7 @@ When(/^I fill and submit the registration page$/) do
   role = @user.role == "Care Giver" ? "Care Giver" : "Care Home Admin"
   ionic_select(role, "role", false)
 
+    
   fill_in("first_name", with: @user.first_name)
   fields = [	"first_name", "last_name", "email", "phone", "password", "postcode"]
   fields.each do |k|
@@ -23,12 +24,17 @@ When(/^I fill and submit the registration page$/) do
   # select @user.role, :from => "role"
   # select @user.sex, :from => "sex"
 
-  if(@user.role == 'Care Giver')
-    fields = [	"languages", "pref_commute_distance", "speciality", "experience", "sort_code",
+  if(@user.role == 'Care Giver' || @user.role == 'Nurse')
+    
+
+    fields = [	"languages", "pref_commute_distance", "experience", "sort_code",
                "bank_account", "postcode"]
     fields.each do |k|
       fill_in(k, with: @user[k])
     end
+
+    ionic_select(@user.speciality, "speciality  ", false)
+    
   end
 
 

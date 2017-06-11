@@ -4,14 +4,14 @@ class SlotConfirmJob < ApplicationJob
   def perform
   	Delayed::Worker.logger.info "SlotConfirmJob: Start"
     # Send confirmations for every accepted slot, to ensure the care giver is going to show up
-    StaffingResponse.accepted.each do |staffing_response|
+    Shift.accepted.each do |shift|
     	
-    	Delayed::Worker.logger.info "SlotConfirmJob: checking #{staffing_response.id}"
-    	if(staffing_response.send_confirm?)
-    		Delayed::Worker.logger.info "SlotConfirmJob: sending confirm for #{staffing_response.id}"
+    	Delayed::Worker.logger.info "SlotConfirmJob: checking #{shift.id}"
+    	if(shift.send_confirm?)
+    		Delayed::Worker.logger.info "SlotConfirmJob: sending confirm for #{shift.id}"
     		# Send a mail asking the user to confirm
-    		UserNotifierMailer.slot_confirmation(staffing_response).deliver
-    		staffing_response.confirmation_sent()
+    		UserNotifierMailer.slot_confirmation(shift).deliver
+    		shift.confirmation_sent()
     	end
     	
     end

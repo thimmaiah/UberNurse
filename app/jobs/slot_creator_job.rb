@@ -57,11 +57,11 @@ class SlotCreatorJob < ApplicationJob
     # response.end_date > request.start_date && response.end_date < request.end_date
     # response.start_date < request.start_date && response.end_date > request.end_date
 
-    # The confusing part of this where clause is that staffing_responses do not have start end dates
+    # The confusing part of this where clause is that shifts do not have start end dates
     # In the query below, in the where clause all start and end dates are the
     # staffing responses dates via its relationship to the staffing request
 
-    same_day_bookings = user.staffing_responses.not_rejected.includes(:staffing_request)
+    same_day_bookings = user.shifts.not_rejected.includes(:staffing_request)
     .where("(staffing_requests.start_date <= ? and staffing_requests.end_date >= ?)
       or (staffing_requests.start_date <= ? and staffing_requests.end_date >= ?)
       or (staffing_requests.start_date >= ? and staffing_requests.end_date <= ?)",
@@ -77,7 +77,7 @@ class SlotCreatorJob < ApplicationJob
 
   # Check if this user has already rejected this request
   def user_rejected_request?(user, staffing_request)
-    user.staffing_responses.rejected.where(staffing_request_id: staffing_request.id).length > 0
+    user.shifts.rejected.where(staffing_request_id: staffing_request.id).length > 0
   end
 
   def create_slot(selected_user, staffing_request)
@@ -86,7 +86,7 @@ class SlotCreatorJob < ApplicationJob
     selected_user.auto_selected_date = Date.today
 
     # Create the slot
-    staffing_response = StaffingResponse.new(staffing_request_id: staffing_request.id,
+    shift = Shift.new(staffing_request_id: staffing_request.id,
                                              user_id: selected_user.id,
                                              care_home_id:staffing_request.care_home_id,
                                              response_status: "Pending")
@@ -94,8 +94,8 @@ class SlotCreatorJob < ApplicationJob
     staffing_request.broadcast_status = "Sent"
     staffing_request.slot_status = "Found"
 
-    StaffingResponse.transaction do
-      staffing_response.save
+    Shift.transaction do
+      shift.save
       selected_user.save
       staffing_request.save
     end

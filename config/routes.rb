@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     resources :post_codes
     resources :ratings
     resources :staffing_requests
-    resources :staffing_responses
+    resources :shifts
     resources :user_docs
     resources :rates
     resources :holidays
@@ -37,7 +37,7 @@ Rails.application.routes.draw do
   resources :care_homes
   resources :users
   resources :post_codes
-  resources :staffing_responses
+  resources :shifts
   resources :staffing_requests do
     collection do
       post :price

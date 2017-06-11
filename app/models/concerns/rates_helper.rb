@@ -39,29 +39,29 @@ module RatesHelper
   end
 
   # Give the actual price for the hours worked in the slot
-  def price_actual(staffing_response)
-    staffing_request = staffing_response.staffing_request
+  def price_actual(shift)
+    staffing_request = shift.staffing_request
 
     rate = billing_rate(staffing_request)
 
     # Basic rate multiplication
-    base, day_mins, night_mins = base_price(staffing_response, rate)
+    base, day_mins, night_mins = base_price(shift, rate)
 
     # Ensure we get the factor for surge pricing
     factor_name, factor_value = factor(staffing_request)
     billing = (base * factor_value).round(2)
 
     # Audit trail
-    staffing_response.pricing_audit["day_time_hours_worked"] = staffing_response.human_readable_time(day_mins)
-    staffing_response.pricing_audit["night_time_hours_worked"] = staffing_response.human_readable_time(night_mins)
-    staffing_response.pricing_audit["base_rate"] = rate.amount
-    staffing_response.pricing_audit["base_price"] = base
-    staffing_response.pricing_audit["factor_value"] = factor_value
-    staffing_response.pricing_audit["factor_name"] = factor_name
-    staffing_response.pricing_audit["price"] = billing
-    staffing_response.price = billing
+    shift.pricing_audit["day_time_hours_worked"] = shift.human_readable_time(day_mins)
+    shift.pricing_audit["night_time_hours_worked"] = shift.human_readable_time(night_mins)
+    shift.pricing_audit["base_rate"] = rate.amount
+    shift.pricing_audit["base_price"] = base
+    shift.pricing_audit["factor_value"] = factor_value
+    shift.pricing_audit["factor_name"] = factor_name
+    shift.pricing_audit["price"] = billing
+    shift.price = billing
 
-    logger.debug("pricing_audit = #{staffing_response.pricing_audit}")
+    logger.debug("pricing_audit = #{shift.pricing_audit}")
 
     billing
 

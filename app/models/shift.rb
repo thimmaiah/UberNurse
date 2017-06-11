@@ -1,4 +1,4 @@
-class StaffingResponse < ApplicationRecord
+class Shift < ApplicationRecord
 
   include StartEndTimeHelper
 
@@ -95,14 +95,14 @@ class StaffingResponse < ApplicationRecord
 
   def send_confirm?
     sendFlag = Time.now > self.next_confirm_time && self.confirmed_status != "Declined"
-    logger.debug("StaffingResponse: sendFlag = #{sendFlag}")
+    logger.debug("Shift: sendFlag = #{sendFlag}")
     return sendFlag
   end
 
   def next_confirm_time
     # ACCEPTED_SLOT_REMINDERS_BEFORE="1.day,4.hours,1.hour"
     reminders = ENV["ACCEPTED_SLOT_REMINDERS_BEFORE"].split(",")
-    logger.debug("StaffingResponse: next_confirm_time = #{reminders[self.confirm_sent_count]} confirm_sent_count = #{self.confirm_sent_count} ")
+    logger.debug("Shift: next_confirm_time = #{reminders[self.confirm_sent_count]} confirm_sent_count = #{self.confirm_sent_count} ")
     if(reminders.length > self.confirm_sent_count)
       return self.staffing_request.start_date - eval(reminders[self.confirm_sent_count])
     end

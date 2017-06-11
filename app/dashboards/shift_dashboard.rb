@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class StaffingResponseDashboard < Administrate::BaseDashboard
+class ShiftDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -16,12 +16,12 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
     id: Field::Number,
     start_code: Field::String,
     end_code: Field::String,
-    response_status: Field::Select.with_options(collection: StaffingResponse::RESPONSE_STATUS),
+    response_status: Field::Select.with_options(collection: Shift::RESPONSE_STATUS),
     accepted: Field::Boolean,
     rated: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    payment_status: Field::Select.with_options(collection: StaffingResponse::PAYMENT_STATUS),
+    payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
     versions: VersionField
   }.freeze
 
@@ -72,7 +72,7 @@ class StaffingResponseDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how staffing responses are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(staffing_response)
-  #   "StaffingResponse ##{staffing_response.id}"
+  # def display_resource(shift)
+  #   "Shift ##{shift.id}"
   # end
 end

@@ -18,10 +18,10 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe StaffingResponsesController, type: :controller do
+RSpec.describe ShiftsController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
-  # StaffingResponse. As you add validations to StaffingResponse, be sure to
+  # Shift. As you add validations to Shift, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     skip("Add a hash of attributes valid for your model")
@@ -33,68 +33,68 @@ RSpec.describe StaffingResponsesController, type: :controller do
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # StaffingResponsesController. Be sure to keep this updated too.
+  # ShiftsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
   describe "GET #index" do
-    it "assigns all staffing_responses as @staffing_responses" do
-      staffing_response = StaffingResponse.create! valid_attributes
+    it "assigns all shifts as @shifts" do
+      shift = Shift.create! valid_attributes
       get :index, params: {}, session: valid_session
-      expect(assigns(:staffing_responses)).to eq([staffing_response])
+      expect(assigns(:shifts)).to eq([shift])
     end
   end
 
   describe "GET #show" do
-    it "assigns the requested staffing_response as @staffing_response" do
-      staffing_response = StaffingResponse.create! valid_attributes
-      get :show, params: {id: staffing_response.to_param}, session: valid_session
-      expect(assigns(:staffing_response)).to eq(staffing_response)
+    it "assigns the requested shift as @shift" do
+      shift = Shift.create! valid_attributes
+      get :show, params: {id: shift.to_param}, session: valid_session
+      expect(assigns(:shift)).to eq(shift)
     end
   end
 
   describe "GET #new" do
-    it "assigns a new staffing_response as @staffing_response" do
+    it "assigns a new shift as @shift" do
       get :new, params: {}, session: valid_session
-      expect(assigns(:staffing_response)).to be_a_new(StaffingResponse)
+      expect(assigns(:shift)).to be_a_new(Shift)
     end
   end
 
   describe "GET #edit" do
-    it "assigns the requested staffing_response as @staffing_response" do
-      staffing_response = StaffingResponse.create! valid_attributes
-      get :edit, params: {id: staffing_response.to_param}, session: valid_session
-      expect(assigns(:staffing_response)).to eq(staffing_response)
+    it "assigns the requested shift as @shift" do
+      shift = Shift.create! valid_attributes
+      get :edit, params: {id: shift.to_param}, session: valid_session
+      expect(assigns(:shift)).to eq(shift)
     end
   end
 
   describe "POST #create" do
     context "with valid params" do
-      it "creates a new StaffingResponse" do
+      it "creates a new Shift" do
         expect {
-          post :create, params: {staffing_response: valid_attributes}, session: valid_session
-        }.to change(StaffingResponse, :count).by(1)
+          post :create, params: {shift: valid_attributes}, session: valid_session
+        }.to change(Shift, :count).by(1)
       end
 
-      it "assigns a newly created staffing_response as @staffing_response" do
-        post :create, params: {staffing_response: valid_attributes}, session: valid_session
-        expect(assigns(:staffing_response)).to be_a(StaffingResponse)
-        expect(assigns(:staffing_response)).to be_persisted
+      it "assigns a newly created shift as @shift" do
+        post :create, params: {shift: valid_attributes}, session: valid_session
+        expect(assigns(:shift)).to be_a(Shift)
+        expect(assigns(:shift)).to be_persisted
       end
 
-      it "redirects to the created staffing_response" do
-        post :create, params: {staffing_response: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(StaffingResponse.last)
+      it "redirects to the created shift" do
+        post :create, params: {shift: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(Shift.last)
       end
     end
 
     context "with invalid params" do
-      it "assigns a newly created but unsaved staffing_response as @staffing_response" do
-        post :create, params: {staffing_response: invalid_attributes}, session: valid_session
-        expect(assigns(:staffing_response)).to be_a_new(StaffingResponse)
+      it "assigns a newly created but unsaved shift as @shift" do
+        post :create, params: {shift: invalid_attributes}, session: valid_session
+        expect(assigns(:shift)).to be_a_new(Shift)
       end
 
       it "re-renders the 'new' template" do
-        post :create, params: {staffing_response: invalid_attributes}, session: valid_session
+        post :create, params: {shift: invalid_attributes}, session: valid_session
         expect(response).to render_template("new")
       end
     end
@@ -106,53 +106,53 @@ RSpec.describe StaffingResponsesController, type: :controller do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested staffing_response" do
-        staffing_response = StaffingResponse.create! valid_attributes
-        put :update, params: {id: staffing_response.to_param, staffing_response: new_attributes}, session: valid_session
-        staffing_response.reload
+      it "updates the requested shift" do
+        shift = Shift.create! valid_attributes
+        put :update, params: {id: shift.to_param, shift: new_attributes}, session: valid_session
+        shift.reload
         skip("Add assertions for updated state")
       end
 
-      it "assigns the requested staffing_response as @staffing_response" do
-        staffing_response = StaffingResponse.create! valid_attributes
-        put :update, params: {id: staffing_response.to_param, staffing_response: valid_attributes}, session: valid_session
-        expect(assigns(:staffing_response)).to eq(staffing_response)
+      it "assigns the requested shift as @shift" do
+        shift = Shift.create! valid_attributes
+        put :update, params: {id: shift.to_param, shift: valid_attributes}, session: valid_session
+        expect(assigns(:shift)).to eq(shift)
       end
 
-      it "redirects to the staffing_response" do
-        staffing_response = StaffingResponse.create! valid_attributes
-        put :update, params: {id: staffing_response.to_param, staffing_response: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(staffing_response)
+      it "redirects to the shift" do
+        shift = Shift.create! valid_attributes
+        put :update, params: {id: shift.to_param, shift: valid_attributes}, session: valid_session
+        expect(response).to redirect_to(shift)
       end
     end
 
     context "with invalid params" do
-      it "assigns the staffing_response as @staffing_response" do
-        staffing_response = StaffingResponse.create! valid_attributes
-        put :update, params: {id: staffing_response.to_param, staffing_response: invalid_attributes}, session: valid_session
-        expect(assigns(:staffing_response)).to eq(staffing_response)
+      it "assigns the shift as @shift" do
+        shift = Shift.create! valid_attributes
+        put :update, params: {id: shift.to_param, shift: invalid_attributes}, session: valid_session
+        expect(assigns(:shift)).to eq(shift)
       end
 
       it "re-renders the 'edit' template" do
-        staffing_response = StaffingResponse.create! valid_attributes
-        put :update, params: {id: staffing_response.to_param, staffing_response: invalid_attributes}, session: valid_session
+        shift = Shift.create! valid_attributes
+        put :update, params: {id: shift.to_param, shift: invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
     end
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested staffing_response" do
-      staffing_response = StaffingResponse.create! valid_attributes
+    it "destroys the requested shift" do
+      shift = Shift.create! valid_attributes
       expect {
-        delete :destroy, params: {id: staffing_response.to_param}, session: valid_session
-      }.to change(StaffingResponse, :count).by(-1)
+        delete :destroy, params: {id: shift.to_param}, session: valid_session
+      }.to change(Shift, :count).by(-1)
     end
 
-    it "redirects to the staffing_responses list" do
-      staffing_response = StaffingResponse.create! valid_attributes
-      delete :destroy, params: {id: staffing_response.to_param}, session: valid_session
-      expect(response).to redirect_to(staffing_responses_url)
+    it "redirects to the shifts list" do
+      shift = Shift.create! valid_attributes
+      delete :destroy, params: {id: shift.to_param}, session: valid_session
+      expect(response).to redirect_to(shifts_url)
     end
   end
 

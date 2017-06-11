@@ -1,6 +1,6 @@
-class CreateStaffingResponses < ActiveRecord::Migration[5.0]
+class CreateShifts < ActiveRecord::Migration[5.0]
   def change
-    create_table :staffing_responses do |t|
+    create_table :shifts do |t|
       t.integer :staffing_request_id
       t.integer :user_id
       t.string :start_code, limit: 10
@@ -11,8 +11,8 @@ class CreateStaffingResponses < ActiveRecord::Migration[5.0]
 
       t.timestamps
     end
-    add_index :staffing_responses, :staffing_request_id
-    add_index :staffing_responses, :user_id
+    add_index :shifts, :staffing_request_id
+    add_index :shifts, :user_id
      
   end
 end
