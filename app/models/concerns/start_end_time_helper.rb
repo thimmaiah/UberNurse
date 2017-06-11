@@ -10,12 +10,12 @@ module StartEndTimeHelper
   end
 
   def human_readable_time(minutes)
-  	"#{(minutes / 60).round(0)} hrs, #{(minutes % 60).round(0)} mins"
+    "#{(minutes / 60).round(0)} hrs, #{(minutes % 60).round(0)} mins"
   end
 
   def night_shift_minutes
-    night_shift_start = nil
-    night_shift_end   = nil
+    night_shift_start = 0
+    night_shift_end   = 0
 
     logger.debug "self.start_date.hour = #{self.start_date.hour}, self.end_date.hour = #{self.end_date.hour}"
 
@@ -24,26 +24,36 @@ module StartEndTimeHelper
         (self.start_date.hour >= 20 && self.end_date.hour <= 8))
       night_shift_start = self.start_date
       night_shift_end   = self.end_date
+      logger.debug "Condition 1"
 
     elsif(self.start_date.hour <= 8 && self.end_date.hour >= 8)
       night_shift_start = self.start_date
       night_shift_end   = self.end_date.change({hour:8,min:0,sec:0})
+      logger.debug "Condition 2"
 
     elsif(self.start_date.hour >= 20 && self.end_date.hour >= 8)
       night_shift_start = self.start_date
       night_shift_end = self.end_date.change({hour:8,min:0,sec:0})
+      logger.debug "Condition 3"
 
     elsif(self.start_date.hour <= 20 && self.end_date.hour <= 8)
       night_shift_start = self.start_date.change({hour:20,min:0,sec:0})
       night_shift_end   = self.end_date
+      logger.debug "Condition 4"
 
     elsif(self.start_date.hour <= 20 && self.end_date.hour >= 20)
       night_shift_start = self.start_date.change({hour:20,min:0,sec:0})
       night_shift_end = self.end_date
+      logger.debug "Condition 5"
 
+    elsif(self.start_date.hour >= 8 && self.end_date.hour <= 20)
+      night_shift_start = 0
+      night_shift_end   = 0
+      logger.debug "Condition 6"
     elsif(self.start_date.hour <= 20 && self.end_date.hour >= 8)
       night_shift_start = self.start_date.change({hour:20,min:0,sec:0})
       night_shift_end = self.end_date.change({hour:8,min:0,sec:0})
+      logger.debug "Condition 7"
 
     end
 

@@ -7,6 +7,11 @@ class ShiftsController < ApplicationController
     if (params[:staffing_request_id].present?)
         @shifts = @shifts.where(staffing_request_id: params[:staffing_request_id])
     end
+
+    if(params[:response_status].present?)
+      @shifts = @shifts.where(response_status: params[:response_status])
+    end
+
     @shifts = @shifts.open.order("id desc").page(@page).per(@per_page)
     render json: @shifts.includes(:staffing_request, :care_home, :user=>:profile_pic), each_serializer: ShiftMiniSerializer
 

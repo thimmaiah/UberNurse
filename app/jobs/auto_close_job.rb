@@ -9,18 +9,18 @@ class AutoCloseJob < ApplicationJob
       StaffingRequest.open.each do |req|
 
         hours_from_creation = (Time.now - req.created_at)/(60*60)
-      Delayed::Worker.logger.debug "hours_from_creation = #{hours_from_creation}"
+        Delayed::Worker.logger.debug "hours_from_creation = #{hours_from_creation}"
       
 
-      if( hours_from_creation > req.auto_deny_in && 
-        req.shifts.open.length == 0 )
+        if( hours_from_creation > req.auto_deny_in && 
+          req.shifts.open.length == 0 )
 
-        req.request_status = "Auto Closed"
-        req.save
+          req.request_status = "Auto Closed"
+          req.save
+    
+        end
   
       end
-  
-    end
     rescue Exception => e
       logger.error "Error in SlotCreatorJob"
       logger.error e.backtrace

@@ -34,7 +34,7 @@ module RatesHelper
 
     logger.debug(staffing_request.pricing_audit)
 
-    billing
+    billing.round(0)
 
   end
 
@@ -63,7 +63,7 @@ module RatesHelper
 
     logger.debug("pricing_audit = #{shift.pricing_audit}")
 
-    billing
+    billing.round(0)
 
   end
 

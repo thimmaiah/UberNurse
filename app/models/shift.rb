@@ -5,7 +5,7 @@ class Shift < ApplicationRecord
   acts_as_paranoid
   has_paper_trail
 
-  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected"]
+  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected", "Closed"]
   PAYMENT_STATUS = ["UnPaid", "Paid"]
   CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
@@ -25,9 +25,13 @@ class Shift < ApplicationRecord
   scope :rejected, -> {where("response_status = 'Rejected'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
-  before_save :slot_cancelled, :slot_accepted
-  before_save :update_dates
+  validate :check_codes
+  before_save :slot_cancelled, :slot_accepted, :update_dates
   before_create :set_defaults
+  after_save :close_shift
+  after_create :broadcast_slot
+
+  attr_accessor :closing_started
 
   def set_defaults
     self.confirm_sent_count = 0
@@ -64,10 +68,8 @@ class Shift < ApplicationRecord
     # Zero out the seconds - it causes lots of problems when calculating time spent
     self.start_date = self.start_date.change({sec: 0}) if self.start_date
     self.end_date = self.end_date.change({sec: 0}) if self.end_date
-
   end
 
-  after_create :broadcast_slot
   def broadcast_slot
     if(self.response_status != 'Rejected')
       PushNotificationJob.new.perform(self)
@@ -75,7 +77,6 @@ class Shift < ApplicationRecord
     end
   end
 
-  validate :check_codes
   def check_codes
     # Codes should match the one in the request
     if(self.start_code && self.start_code.strip != "" && self.start_code != self.staffing_request.start_code)
@@ -84,14 +85,22 @@ class Shift < ApplicationRecord
     if(self.end_code && self.end_code.strip != "" && self.end_code != self.staffing_request.end_code)
       errors.add(:end_code, "End Code does not match with the request end code")
     end
+  end
 
+  def close_shift
     # Ensure this gets priced, if we have the right star / end codes
-    if(price == nil && self.start_code == self.staffing_request.start_code && self.end_code == self.staffing_request.end_code)
-      SlotPricingJob.perform_later(self.id)
+    if(!self.closing_started && price == nil && 
+      self.start_code == self.staffing_request.start_code && 
+      self.end_code == self.staffing_request.end_code)
+
+      SlotCloseJob.perform_later(self.id)
+      # This callback gets called multiple times - we want to do this only once. Hence closing_started
+      self.closing_started = true
+    
     end
   end
 
-  
+
 
   def send_confirm?
     sendFlag = Time.now > self.next_confirm_time && self.confirmed_status != "Declined"
