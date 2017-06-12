@@ -178,3 +178,30 @@ Given(/^the slot has confirm_sent "([^"]*)" times$/) do |arg1|
   end
 end
 
+Then(/^when the user enters the start and end code$/) do
+  @shift.start_code = @staffing_request.start_code
+  @shift.end_code = @staffing_request.end_code
+  @shift.save
+end
+
+Then(/^the shift price is computed and stored$/) do
+  @shift.reload
+  @shift.price.should_not be nil
+end
+
+Then(/^the payment for the shift is generated$/) do
+  @payment = Payment.last
+  @payment.shift_id.should == @shift.id
+  @payment.amount.should == @shift.price
+  @payment.care_home_id.should == @staffing_request.care_home_id
+  @payment.user_id.should == @shift.user_id
+end
+
+Then(/^the shift is marked as closed$/) do
+  @shift.response_status.should == "Closed"
+end
+
+Then(/^the request is marked as closed$/) do
+  @staffing_request.reload
+  @staffing_request.request_status.should == "Closed"
+end
