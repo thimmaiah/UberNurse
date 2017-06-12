@@ -61,7 +61,6 @@ Scenario Outline: New Slot when already rejected
   And the slot creator job runs
   Then A slot must not be created for the user for the request
   Then the admin user receives an email with "No slot found for request" in the subject
-  Then the admin user receives an email with "No slot found for request" in the subject
 
   Examples:
     |request                                        | user                            |

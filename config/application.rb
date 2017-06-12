@@ -31,29 +31,36 @@ module UberNurse
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = false
     config.autoload_paths += %W( #{Rails.root.to_s}/app/services #{Rails.root.to_s}/app/notifiers )
-    
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
-        resource '*', 
-        	:headers => :any,
-          	:expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
-        	:methods => [:get, :post, :options, :put, :patch, :delete]
+        resource '*',
+          :headers => :any,
+          :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+          :methods => [:get, :post, :options, :put, :patch, :delete]
       end
     end
 
 
     config.middleware.use ExceptionNotification::Rack,
-      :email => {
-        :email_prefix => "[Error] ",
-        :sender_address => %{"Admin" <admin@connuct.co.uk>},
-        :exception_recipients => %w{thimmaiah@gmail.com admin@connuct.co.uk}
-      }
+    :email => {
+      :email_prefix => "[Error] ",
+      :sender_address => %{"Admin" <admin@connuct.co.uk>},
+      :exception_recipients => %w{thimmaiah@gmail.com admin@connuct.co.uk}
+    }
 
     config.active_job.queue_adapter = :delayed_job
     config.to_prepare do
-        Devise::Mailer.layout "mailer"
+      Devise::Mailer.layout "mailer"
     end
+
+
+    puts "########"
+    puts "config/application.rb has settings to remove timezone aware attributes"
+    puts "########"
+    config.active_record.default_timezone = :local
+    config.active_record.time_zone_aware_attributes = false
 
   end
 end
