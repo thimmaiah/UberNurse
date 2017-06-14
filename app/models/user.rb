@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :shifts
   has_many :user_docs, -> { order(:verified=>:desc) }
   has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
+  has_many :ratings, as: :rated_entity
 
   SEX = ["M", "F"]
   SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]
@@ -33,7 +34,7 @@ class User < ApplicationRecord
 
   after_save :update_coordinates
   before_save :check_verified
-  before_create :update_rating
+  before_create :set_defaults
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
 
@@ -60,7 +61,7 @@ class User < ApplicationRecord
     self.role == "Care Giver" || self.role == "Nurse"
   end
 
-  def update_rating
+  def set_defaults
     self.total_rating = 0
     self.rating_count = 0
     self.active = true

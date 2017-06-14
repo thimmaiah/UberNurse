@@ -4,22 +4,22 @@ class Rating < ApplicationRecord
 	COMMENTS = ["Great Work", "Good Work", "Not Bad", "Can Improve"]
 	
 	belongs_to :shift
-	belongs_to :user
+	belongs_to :rated_entity, polymorphic: true
 	belongs_to :care_home
 	belongs_to :created_by, class_name: "User", foreign_key: :created_by_id
 	
-	after_create :add_user_ratings
+	after_create :add_entity_ratings
 	after_create :response_rated
-	before_destroy :delete_user_rating
+	before_destroy :delete_entity_ratings
 	before_destroy :response_unrated
 
-	def add_user_ratings
-		self.user.total_rating = 0 if self.user.total_rating == nil
-		self.user.rating_count = 0 if self.user.rating_count == nil
+	def add_entity_ratings
+		self.rated_entity.total_rating = 0 if self.rated_entity.total_rating == nil
+		self.rated_entity.rating_count = 0 if self.rated_entity.rating_count == nil
 		
-		self.user.total_rating = self.user.total_rating + self.stars
-		self.user.rating_count = self.user.rating_count + 1
-		self.user.save
+		self.rated_entity.total_rating = self.rated_entity.total_rating + self.stars
+		self.rated_entity.rating_count = self.rated_entity.rating_count + 1
+		self.rated_entity.save
 	end
 
 	def response_rated
@@ -27,10 +27,10 @@ class Rating < ApplicationRecord
 		self.shift.save
 	end
 
-	def delete_user_ratings
-		self.user.total_rating =  self.user.total_rating + self.stars
-		self.user.rating_count =  self.user.rating_count - 1
-		self.user.save
+	def delete_entity_ratings
+		self.rated_entity.total_rating =  self.rated_entity.total_rating + self.stars
+		self.rated_entity.rating_count =  self.rated_entity.rating_count - 1
+		self.rated_entity.save
 	end
 
 	def response_unrated

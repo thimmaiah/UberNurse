@@ -40,7 +40,7 @@ class Ability
         can :manage, User, :id=>@user.id
         can :manage, UserDoc, :user_id =>@user.id
         can :read, Payment, :user_id =>@user.id
-        can :read, Rating, :user_id =>@user.id
+        can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
     end
 
     def employee_privilages

@@ -6,6 +6,7 @@ class CareHome < ApplicationRecord
   has_many :users
   has_many :staffing_requests
   validates_presence_of :name, :postcode
+  has_many :ratings, as: :rated_entity
 
   ZONES = ["North", "South"]
 
@@ -22,6 +23,8 @@ class CareHome < ApplicationRecord
   def set_defaults
     self.verified = false if verified == nil
     self.image_url = "assets/icon/homecare.png"
+    self.total_rating = 0
+    self.rating_count = 0
   end
 
   after_create :send_verification_mail

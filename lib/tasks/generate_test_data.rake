@@ -295,8 +295,17 @@ namespace :uber_nurse do
       resps.each do |resp|
         u = FactoryGirl.build(:rating)
         u.shift = resp
-        u.user_id = resp.user_id
+        u.rated_entity = resp.user
         u.created_by_id = resp.staffing_request.user_id
+        u.care_home_id = resp.staffing_request.care_home_id
+        u.save # Generate payments only for some accepted responses
+        #puts u.to_xml
+        puts "Rating #{u.id}"
+
+        u = FactoryGirl.build(:rating)
+        u.shift = resp
+        u.rated_entity = resp.care_home
+        u.created_by_id = resp.user_id
         u.care_home_id = resp.staffing_request.care_home_id
         u.save # Generate payments only for some accepted responses
         #puts u.to_xml

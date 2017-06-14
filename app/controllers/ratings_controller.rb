@@ -5,7 +5,7 @@ class RatingsController < ApplicationController
   # GET /ratings
   def index
     @ratings = @ratings.page(@page).per(@per_page)
-    render json: @ratings.includes(:user, :care_home)
+    render json: @ratings.includes(:rated_entity, :care_home)
   end
 
   # GET /ratings/1
@@ -17,7 +17,6 @@ class RatingsController < ApplicationController
   def create
     @rating = Rating.new(rating_params)
     @rating.created_by_id = current_user.id
-    @rating.care_home_id = current_user.care_home_id
 
     if @rating.save
       render json: @rating, status: :created, location: @rating
@@ -48,6 +47,6 @@ class RatingsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def rating_params
-      params.require(:rating).permit(:user_id, :shift_id, :stars, :comments)
+      params.require(:rating).permit(:care_home_id, :rated_entity_id, :rated_entity_type, :shift_id, :stars, :comments)
     end
 end

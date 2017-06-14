@@ -1,5 +1,4 @@
 class RatingSerializer < ActiveModel::Serializer
-  attributes :id, :user_id, :user, :care_home, :created_by_id, :shift_id, :stars, :comments
-
-  belongs_to :user, serializer: UserMiniSerializer
+  attributes :id, :rated_entity_type, :rated_entity_id, :rated_entity, 
+  :care_home, :created_by_id, :shift_id, :stars, :comments
 end

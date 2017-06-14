@@ -15,8 +15,8 @@ ActiveRecord::Schema.define(version: 20170612160021) do
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "town"
-    t.string   "postcode"
+    t.string   "town",         limit: 100
+    t.string   "postcode",     limit: 8
     t.float    "base_rate",    limit: 24
     t.datetime "created_at",                                           null: false
     t.datetime "updated_at",                                           null: false
@@ -25,8 +25,10 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.decimal  "lng",                        precision: 18, scale: 15
     t.datetime "deleted_at"
     t.boolean  "verified"
-    t.string   "zone"
-    t.string   "cqc_location"
+    t.string   "zone",         limit: 10
+    t.string   "cqc_location", limit: 50
+    t.integer  "total_rating"
+    t.integer  "rating_count"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -87,11 +89,11 @@ ActiveRecord::Schema.define(version: 20170612160021) do
   end
 
   create_table "holidays", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
+    t.string   "name",         limit: 100
     t.date     "date"
     t.boolean  "bank_holiday"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.index ["date"], name: "index_holidays_on_date", using: :btree
   end
 
@@ -137,18 +139,20 @@ ActiveRecord::Schema.define(version: 20170612160021) do
   end
 
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
     t.integer  "shift_id"
     t.integer  "stars"
-    t.text     "comments",      limit: 65535
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.text     "comments",          limit: 65535
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
     t.integer  "created_by_id"
     t.integer  "care_home_id"
     t.datetime "deleted_at"
+    t.integer  "rated_entity_id"
+    t.string   "rated_entity_type", limit: 20
     t.index ["deleted_at"], name: "index_ratings_on_deleted_at", using: :btree
+    t.index ["rated_entity_id"], name: "index_ratings_on_rated_entity_id", using: :btree
+    t.index ["rated_entity_type"], name: "index_ratings_on_rated_entity_type", using: :btree
     t.index ["shift_id"], name: "index_ratings_on_shift_id", using: :btree
-    t.index ["user_id"], name: "index_ratings_on_user_id", using: :btree
   end
 
   create_table "shifts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -170,7 +174,7 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.text     "pricing_audit",       limit: 65535
     t.integer  "confirm_sent_count"
     t.date     "confirm_sent_at"
-    t.string   "confirmed_status"
+    t.string   "confirmed_status",    limit: 20
     t.integer  "confirmed_count"
     t.date     "confirmed_at"
     t.boolean  "viewed"
@@ -196,8 +200,8 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.string   "end_code",         limit: 10
     t.string   "broadcast_status"
     t.datetime "deleted_at"
-    t.string   "role"
-    t.string   "speciality"
+    t.string   "role",             limit: 20
+    t.string   "speciality",       limit: 100
     t.text     "pricing_audit",    limit: 65535
     t.float    "price",            limit: 24
     t.string   "slot_status"
@@ -225,7 +229,7 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.text     "pricing_audit",       limit: 65535
     t.integer  "confirm_sent_count"
     t.date     "confirm_sent_at"
-    t.string   "confirmed_status"
+    t.string   "confirmed_status",    limit: 20
     t.integer  "confirmed_count"
     t.date     "confirmed_at"
     t.boolean  "viewed"
@@ -272,7 +276,7 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.string   "role",                   limit: 10
+    t.string   "role",                   limit: 20
     t.string   "nurse_type",             limit: 20
     t.text     "tokens",                 limit: 65535
     t.datetime "created_at",                                                                       null: false
@@ -283,7 +287,7 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.string   "languages"
     t.integer  "pref_commute_distance"
     t.string   "occupation",             limit: 20
-    t.string   "speciality",             limit: 50
+    t.string   "speciality",             limit: 100
     t.integer  "experience"
     t.string   "referal_code",           limit: 10
     t.boolean  "accept_terms"
