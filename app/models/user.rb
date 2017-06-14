@@ -50,7 +50,7 @@ class User < ApplicationRecord
       UserNotifierMailer.verification_complete(self.id).deliver_later
     end
   end
-  
+
   def update_coordinates
     if(self.postcode_changed?)
       GeocodeJob.perform_later(self)
@@ -87,16 +87,20 @@ class User < ApplicationRecord
 
   def image
     if(self.image_url)
-     return self.image_url
-   elsif self.profile_pic
-    self.profile_pic.doc_url
-   else
-     return "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
-   end
+      return self.image_url
+    elsif self.profile_pic
+      self.profile_pic.doc_url
+    else
+      return "http://www.iconshock.com/img_vista/IPHONE/jobs/jpg/nurse_icon.jpg"
+    end
   end
 
-  def token_validation_response                                                                                                                                         
+  def token_validation_response
     UserSerializer.new(self).as_json
+  end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 
   # for testing only in factories - do not use in prod
