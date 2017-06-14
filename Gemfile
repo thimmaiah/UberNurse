@@ -41,6 +41,7 @@ gem 'devise_token_auth'
 # for background tasks
 gem 'delayed_job'
 gem 'delayed_job_active_record'
+gem 'daemons'
 
 gem "paperclip", "~> 5.0.0"
 gem 'aws-sdk'

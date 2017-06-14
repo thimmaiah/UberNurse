@@ -1,0 +1,7 @@
+check process delayed_job with pidfile /home/ubuntu/UberNurse/current/tmp/pids/delayed_job.pid
+        start program = "/home/ubuntu/UberNurse/current/script/delayed_job -e production start" as uid ubuntu and gid ubuntu
+        stop program = "/home/ubuntu/UberNurse/current/script/delayed_job -e production stop" as uid ubuntu and gid ubuntu
+        if mem is greater than 300.0 MB for 1 cycles then restart
+        if cpu is greater than 50% for 2 cycles then alert
+        if cpu is greater than 80% for 3 cycles then restart
+        group background

@@ -29,5 +29,5 @@ end
 
 every :reboot do
 	rake "ts:regenerate"
-	rake "jobs:work"
+	runner "./script/delayed_job"
 end
