@@ -115,10 +115,14 @@ namespace :deploy do
   task :upload_dev_apk do
     on roles(:app) do
       upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/android/build/outputs/apk/android-debug.apk", "#{current_path}/public", recursive: true)
-      upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/ios/CareConnect.ipa", "#{current_path}/public", recursive: true)
     end
   end
-
+  desc "Uploads dev apk remote servers."
+  task :upload_dev_apk do
+    on roles(:app) do
+      upload!("/Users/NehaiMac/work/UberNurseUI/platforms/ios/build/device/Care Connect.ipa", "#{current_path}/public", recursive: true)
+    end
+  end
 
   before :starting,     :check_revision
   before :finishing,    :upload_env
