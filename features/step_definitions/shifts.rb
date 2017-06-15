@@ -1,10 +1,10 @@
-Given(/^the slot creator job runs$/) do
-  SlotCreatorJob.new.perform
+Given(/^the shift creator job runs$/) do
+  ShiftCreatorJob.new.perform
   @shift = Shift.last
 end
 
 
-Then(/^A slot must be created for the user for the request$/) do
+Then(/^A shift must be created for the user for the request$/) do
   @shift = Shift.last
   @shift.user_id.should == @user.id
   @shift.staffing_request_id.should == @staffing_request.id  
@@ -20,7 +20,7 @@ Given(/^the user has already accepted this request$/) do
   @shift.response_status = "Accepted"
   @shift.save!
 
-  puts "\n#####Accepted Slot####\n"
+  puts "\n#####Accepted Shift####\n"
   puts @shift.to_json
 end
 
@@ -35,11 +35,11 @@ Given(/^the user has already rejected this request$/) do
   @shift.response_status = "Rejected"
   @shift.save!
 
-  puts "\n#####Rejected Slot####\n"
+  puts "\n#####Rejected Shift####\n"
   puts @shift.to_json
 end
 
-Then(/^A slot must not be created for the user for the request$/) do
+Then(/^A shift must not be created for the user for the request$/) do
   @user.shifts.not_rejected.where(staffing_request_id:@staffing_request.id).length.should == 0
 end
 
@@ -62,8 +62,8 @@ Then(/^the users auto selected date should be set to today$/) do
   @user.auto_selected_date.should == Date.today
 end
 
-Then(/^I must see the slot$/) do
-  @slot = Shift.last
+Then(/^I must see the shift$/) do
+  @shift = Shift.last
   expect(page).to have_content(@shift.care_home.name)
   expect(page).to have_content(@shift.user.first_name)
   expect(page).to have_content(@shift.user.last_name)
@@ -74,15 +74,15 @@ Then(/^I must see the slot$/) do
   expect(page).to have_content(@shift.user.speciality)
 end
 
-When(/^I click the slot for details$/) do
-  page.find("#slot-#{@shift.id}-item").click
+When(/^I click the shift for details$/) do
+  page.find("#shift-#{@shift.id}-item").click
 end
 
 
-Then(/^I must see the slot details$/) do
+Then(/^I must see the shift details$/) do
 
   steps %Q{
-    Then I must see the slot 
+    Then I must see the shift 
   }
 
   expect(page).to have_content(@shift.response_status)
@@ -94,7 +94,7 @@ Then(/^I must see the slot details$/) do
 end
 
 
-Given(/^there are "([^"]*)" of slots$/) do |count|
+Given(/^there are "([^"]*)" of shifts$/) do |count|
   (1..count.to_i).each do |i|
     steps %Q{
       Given there is a user "role=Care Giver;verified=true"
@@ -103,7 +103,7 @@ Given(/^there are "([^"]*)" of slots$/) do |count|
   end
 end
 
-Given(/^there are "([^"]*)" of slots for the care_home$/) do |arg1|
+Given(/^there are "([^"]*)" of shifts for the care_home$/) do |arg1|
   count = arg1.to_i
   StaffingRequest.all.each do |req|
     @staffing_request = req
@@ -115,24 +115,24 @@ Given(/^there are "([^"]*)" of slots for the care_home$/) do |arg1|
 end
 
 
-Then(/^I must not see the slots$/) do
-  Shift.all.each do |slot|
+Then(/^I must not see the shifts$/) do
+  Shift.all.each do |shift|
     expect(page).to have_content("No Shifts Found")
   end
 end
 
 
-Then(/^I must see all the slots$/) do
-  Shift.all.each do |slot|    
+Then(/^I must see all the shifts$/) do
+  Shift.all.each do |shift|    
     steps %Q{
-      Then I must see the slot 
-      When I click the slot for details
-      Then I must see the slot details
+      Then I must see the shift 
+      When I click the shift for details
+      Then I must see the shift details
     }
   end
 end
 
-Given(/^there is a slot for a user "([^"]*)" with status "([^"]*)"$/) do |arg1, status|
+Given(/^there is a shift for a user "([^"]*)" with status "([^"]*)"$/) do |arg1, status|
   steps %Q{
     Given there is a request "#{arg1}"
     Given there is a user "#{arg1}"
@@ -151,28 +151,28 @@ end
 
 
 
-Given(/^the slot was created "([^"]*)" before$/) do |arg1|
+Given(/^the shift was created "([^"]*)" before$/) do |arg1|
   @shift.created_at = Time.now - arg1.to_i.minutes
   @shift.save!
 end
 
-Given(/^the slot pending job runs$/) do
+Given(/^the shift pending job runs$/) do
   clear_emails
-  SlotPendingJob.new.perform()
+  ShiftPendingJob.new.perform()
 end
 
-Given(/^the slot confirm job runs$/) do
+Given(/^the shift confirm job runs$/) do
   clear_emails
-  SlotConfirmJob.new.perform()
+  ShiftConfirmJob.new.perform()
 end
 
 
-Then(/^A slot status must be "([^"]*)"$/) do |arg1|
+Then(/^A shift status must be "([^"]*)"$/) do |arg1|
   @shift.reload
   @shift.response_status.should == arg1
 end
 
-Given(/^the slot has confirm_sent "([^"]*)" times$/) do |arg1|
+Given(/^the shift has confirm_sent "([^"]*)" times$/) do |arg1|
   (1..arg1.to_i).each do 
     @shift.confirmation_sent
   end

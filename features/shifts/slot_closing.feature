@@ -1,13 +1,13 @@
-Feature: Slot Closing
-  Ensure  a slot is closed properly
+Feature: Shift Closing
+  Ensure  a shift is closed properly
 
-Scenario Outline: Close Slot
+Scenario Outline: Close Shift
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already accepted this request
   Given jobs are being dispatched
-  Then the user receives an email with "Slot Accepted" as the subject
+  Then the user receives an email with "Shift Confirmed" as the subject
   And when the user enters the start and end code
   Given jobs are being dispatched
   Then the shift price is computed and stored

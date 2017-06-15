@@ -1,5 +1,5 @@
-class AddNoSlotFlagToStaffingRequest < ActiveRecord::Migration[5.0]
+class AddNoShiftFlagToStaffingRequest < ActiveRecord::Migration[5.0]
   def change
-    add_column :staffing_requests, :slot_status, :string
+    add_column :staffing_requests, :shift_status, :string
   end
 end

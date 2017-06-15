@@ -1,8 +1,8 @@
-class SlotCloseJob < ApplicationJob
+class ShiftCloseJob < ApplicationJob
   queue_as :default
 
   def perform(shift_id)
-  	Delayed::Worker.logger.info "SlotCloseJob: Start"
+  	Delayed::Worker.logger.info "ShiftCloseJob: Start"
 
 
     # Price it
@@ -10,7 +10,7 @@ class SlotCloseJob < ApplicationJob
     Rate.price_actual(shift)
     shift.response_status = "Closed"
 
-    Delayed::Worker.logger.info "SlotCloseJob priced shift #{shift.id} @ #{shift.price}"
+    Delayed::Worker.logger.info "ShiftCloseJob priced shift #{shift.id} @ #{shift.price}"
 
     # generate a payment record
     payment = Payment.new(shift_id: shift.id, user_id: shift.user_id, 
@@ -28,9 +28,9 @@ class SlotCloseJob < ApplicationJob
     end
 
 
-    Delayed::Worker.logger.info "SlotCloseJob: Closed request #{req.id} & shift #{shift.id} with payment #{payment.id}"
+    Delayed::Worker.logger.info "ShiftCloseJob: Closed request #{req.id} & shift #{shift.id} with payment #{payment.id}"
     
-    Delayed::Worker.logger.info "SlotCloseJob: End"
+    Delayed::Worker.logger.info "ShiftCloseJob: End"
 
   end
 end

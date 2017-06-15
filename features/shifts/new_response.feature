@@ -1,11 +1,11 @@
-Feature: New Slot
-  Generate a slot for temps given a new request
+Feature: New Shift
+  Generate a shift for temps given a new request
 
-Scenario Outline: New Slot
+Scenario Outline: New Shift
   Given there is a request "<request>"
   Given there is a user "<user>"
-  And the slot creator job runs
-  Then A slot must be created for the user for the request
+  And the shift creator job runs
+  Then A shift must be created for the user for the request
   And the request broadcast status must change to "Sent"
   And the users auto selected date should be set to today 
 
@@ -18,12 +18,12 @@ Scenario Outline: New Slot
     |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true        |
   	
 
-Scenario Outline: New Slot for spcialist users with no match
+Scenario Outline: New Shift for spcialist users with no match
   Given there is a request "<request>"
   Given there is a user "<user>"
-  And the slot creator job runs
-  Then A slot must not be created for the user for the request
-  Then the admin user receives an email with "No slot found for request" in the subject
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
 
   Examples:
     |request                              | user                            |
@@ -31,11 +31,11 @@ Scenario Outline: New Slot for spcialist users with no match
     |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
     
 
-Scenario Outline: New Slot for unverified users
+Scenario Outline: New Shift for unverified users
   Given there is a request "<request>"
   Given there is a user "<user>"
-  And the slot creator job runs
-  Then A slot must not be created for the user for the request
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
 
   Examples:
     |request                                        | user                            |
@@ -43,10 +43,10 @@ Scenario Outline: New Slot for unverified users
     |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 
 
-Scenario Outline: New Slot without care givers
+Scenario Outline: New Shift without care givers
   Given there is a request "<request>"
-  And the slot creator job runs
-  Then the admin user receives an email with "No slot found for request" in the subject
+  And the shift creator job runs
+  Then the admin user receives an email with "No shift found for request" in the subject
 
   Examples:
     |request                       | user                            |
@@ -54,13 +54,13 @@ Scenario Outline: New Slot without care givers
     |start_code=1111;end_code=0000 | role=Nurse;verified=false       |
 
 
-Scenario Outline: New Slot when already rejected
+Scenario Outline: New Shift when already rejected
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already rejected this request
-  And the slot creator job runs
-  Then A slot must not be created for the user for the request
-  Then the admin user receives an email with "No slot found for request" in the subject
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
 
   Examples:
     |request                                        | user                            |
@@ -68,13 +68,13 @@ Scenario Outline: New Slot when already rejected
     |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 
-Scenario Outline: New Slot when already booked in the same time slot
+Scenario Outline: New Shift when already booked in the same time shift
   Given there is a user "<user>"
   And the user has already accepted a request "<other_request>"
   Given there is a request "<request>"
-  And the slot creator job runs
-  Then A slot must not be created for the user for the request
-  Then the admin user receives an email with "No slot found for request" in the subject
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
   
   Examples:
     |request                                                | user                            | other_request |

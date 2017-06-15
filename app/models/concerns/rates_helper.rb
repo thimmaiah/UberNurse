@@ -38,7 +38,7 @@ module RatesHelper
 
   end
 
-  # Give the actual price for the hours worked in the slot
+  # Give the actual price for the hours worked in the shift
   def price_actual(shift)
     staffing_request = shift.staffing_request
 

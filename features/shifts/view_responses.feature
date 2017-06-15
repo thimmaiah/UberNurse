@@ -1,26 +1,26 @@
-Feature: View Slot
-  View a slot for temps given a new request
+Feature: View Shift
+  View a shift for temps given a new request
 
-Scenario Outline: View My Slot
+Scenario Outline: View My Shift
   Given there is a request "<request>"
   Given there is a user "<user>"
-  And the slot creator job runs
+  And the shift creator job runs
   Given Im a logged in 
   When I click "Pending Shifts"
-  Then I must see the slot 
-  When I click the slot for details
-  Then I must see the slot details
+  Then I must see the shift 
+  When I click the shift for details
+  Then I must see the shift details
 
   Examples:
   	|request	                           | user                            |
   	|role=Care Giver                     | role=Care Giver;verified=true   |
   	|role=Nurse;speciality=Mental Health | role=Nurse;speciality=Mental Health;verified=true        |
   	
-Scenario Outline: Cannot View Others Slots
-  Given there are "<number>" of slots
+Scenario Outline: Cannot View Others Shifts
+  Given there are "<number>" of shifts
   Given Im a logged in user "<user>"
   When I click "Pending Shifts"
-  Then I must not see the slots 
+  Then I must not see the shifts 
 
   Examples:
     |number | user                            |
@@ -28,13 +28,13 @@ Scenario Outline: Cannot View Others Slots
     |2      | role=Nurse;verified=true        |
 
 
-Scenario Outline: View All Slots for care_home
+Scenario Outline: View All Shifts for care_home
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there are "<number>" of verified requests
   Given Im a logged in
-  Given there are "<number>" of slots for the care_home
+  Given there are "<number>" of shifts for the care_home
   When I click "Upcoming Shifts"
-  Then I must see all the slots 
+  Then I must see all the shifts 
   
 
   Examples:

@@ -26,10 +26,10 @@ class Shift < ApplicationRecord
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
   validate :check_codes
-  before_save :slot_cancelled, :slot_accepted, :update_dates
+  before_save :shift_cancelled, :shift_accepted, :update_dates
   before_create :set_defaults
   after_save :close_shift
-  after_create :broadcast_slot
+  after_create :broadcast_shift
 
   attr_accessor :closing_started
 
@@ -38,10 +38,10 @@ class Shift < ApplicationRecord
     self.confirmed_count = 0
     # update the request
     self.staffing_request.broadcast_status = "Sent"
-    self.staffing_request.slot_status = "Found"
+    self.staffing_request.shift_status = "Found"
   end
 
-  def slot_cancelled
+  def shift_cancelled
     if(self.response_status_changed? &&
        ["Rejected", "Auto Rejected"].include?(self.response_status))
 
@@ -49,15 +49,15 @@ class Shift < ApplicationRecord
       # If the broadcast_status is "Pending", the Notifier will pick it
       # up again in some time and send it out
       self.staffing_request.broadcast_status = "Pending"
-      self.staffing_request.slot_status = nil
+      self.staffing_request.shift_status = nil
       self.staffing_request.save
-      UserNotifierMailer.slot_cancelled(self).deliver_later
+      UserNotifierMailer.shift_cancelled(self).deliver_later
     end
   end
 
-  def slot_accepted
+  def shift_accepted
     if(self.response_status_changed? && self.response_status == "Accepted")
-      UserNotifierMailer.slot_accepted(self).deliver_later
+      UserNotifierMailer.shift_accepted(self).deliver_later
     end
   end
 
@@ -70,10 +70,10 @@ class Shift < ApplicationRecord
     self.end_date = self.end_date.change({sec: 0}) if self.end_date
   end
 
-  def broadcast_slot
+  def broadcast_shift
     if(self.response_status != 'Rejected')
       PushNotificationJob.new.perform(self)
-      UserNotifierMailer.slot_notification(self).deliver_later
+      UserNotifierMailer.shift_notification(self).deliver_later
     end
   end
 
@@ -93,7 +93,7 @@ class Shift < ApplicationRecord
       self.start_code == self.staffing_request.start_code && 
       self.end_code == self.staffing_request.end_code)
 
-      SlotCloseJob.perform_later(self.id)
+      ShiftCloseJob.perform_later(self.id)
       # This callback gets called multiple times - we want to do this only once. Hence closing_started
       self.closing_started = true
     

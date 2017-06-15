@@ -1,15 +1,15 @@
-Feature: Slot Confirmation Email
-  Generate a Slot Confirmation Email
+Feature: Shift Confirmation Email
+  Generate a Shift Confirmation Email
 
-Scenario Outline: Slot Confirmation Email sent
+Scenario Outline: Shift Confirmation Email sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
   And the user has already accepted this request
-  And the slot has confirm_sent "<count>" times
-  And the slot confirm job runs
-  Then the user receives an email with "Slot Confirmation" as the subject
+  And the shift has confirm_sent "<count>" times
+  And the shift confirm job runs
+  Then the user receives an email with "Shift Confirmation" as the subject
 
   Examples:
   	|request                           |user	           |time       | count |
@@ -20,14 +20,14 @@ Scenario Outline: Slot Confirmation Email sent
     
 
 
-Scenario Outline: Slot Confirmation Email not sent
+Scenario Outline: Shift Confirmation Email not sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
   And the user has already accepted this request
-  And the slot has confirm_sent "<count>" times
-  And the slot confirm job runs
+  And the shift has confirm_sent "<count>" times
+  And the shift confirm job runs
   Then the user receives no email
 
   Examples:

@@ -1,11 +1,11 @@
-Feature: Auto Reject Slot
-  Auto reject a pending slot
+Feature: Auto Reject Shift
+  Auto reject a pending shift
 
-Scenario Outline: Auto Reject Slot
-  Given there is a slot for a user "<user>" with status "Pending"
-  And the slot was created "<mins>" before
-  And the slot pending job runs
-  Then A slot status must be "<status>"
+Scenario Outline: Auto Reject Shift
+  Given there is a shift for a user "<user>" with status "Pending"
+  And the shift was created "<mins>" before
+  And the shift pending job runs
+  Then A shift status must be "<status>"
 
   Examples:
   	|user	                               |mins | status           |

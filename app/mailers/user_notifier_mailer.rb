@@ -6,7 +6,7 @@ class UserNotifierMailer < ApplicationMailer
     @care_home = care_home
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'You have a new slot' )
+          :subject => 'You have a new shift' )
   end
 
   def request_verification(user_doc_id)
@@ -46,28 +46,28 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Please verify your Care Home' )
   end
 
-  def slot_notification(shift)
+  def shift_notification(shift)
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'New Slot Assigned' )
+          :subject => 'New Shift Assigned' )
   end
 
-  def slot_cancelled(shift)
+  def shift_cancelled(shift)
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'Slot Cancelled' )
+          :subject => 'Shift Cancelled' )
   end
 
-  def slot_accepted(shift)
+  def shift_accepted(shift)
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
-          :subject => 'Slot Accepted' )
+    mail( :to => @user.email, :cc=>@shift.user.email,
+          :subject => 'Shift Confirmed' )
   end
 
   def care_home_verified(care_home)
@@ -80,21 +80,21 @@ class UserNotifierMailer < ApplicationMailer
   end
 
 
-  def no_slot_found(staffing_request)
+  def no_shift_found(staffing_request)
     @staffing_request = staffing_request
     email = ENV["ADMIN_EMAIL"]
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
     mail( :to => email,
-          :subject => "No slot found for request from #{staffing_request.care_home.name}" )
+          :subject => "No shift found for request from #{staffing_request.care_home.name}" )
 
   end
 
-  def slot_confirmation(shift)
+  def shift_confirmation(shift)
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'Slot Confirmation' )
+          :subject => 'Shift Confirmation' )
   end
 
 end

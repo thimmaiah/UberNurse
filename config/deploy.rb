@@ -115,6 +115,7 @@ namespace :deploy do
   task :upload_dev_apk do
     on roles(:app) do
       upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/android/build/outputs/apk/android-debug.apk", "#{current_path}/public", recursive: true)
+      upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/ios/CareConnect.ipa", "#{current_path}/public", recursive: true)
     end
   end
 

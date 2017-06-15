@@ -22,7 +22,7 @@ class AutoCloseJob < ApplicationJob
   
       end
     rescue Exception => e
-      logger.error "Error in SlotCreatorJob"
+      logger.error "Error in ShiftCreatorJob"
       logger.error e.backtrace
     ensure
       # Run this again

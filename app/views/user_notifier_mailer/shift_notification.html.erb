@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>Dear <%=@user.first_name%>, New Shift Assigned</h2>
+    <p>
+    	You have a new shift assigned. Please check the app for more details.
+	</p>
+	<%= render partial: "shift" %>
+  </body>
+</html>
