@@ -13,7 +13,7 @@ class Shift < ApplicationRecord
   belongs_to :staffing_request
   belongs_to :care_home
   has_one :payment
-  has_one :rating
+  has_many :ratings
 
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash

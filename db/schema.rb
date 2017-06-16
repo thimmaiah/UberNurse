@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170612160021) do
+ActiveRecord::Schema.define(version: 20170616021801) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -67,6 +67,26 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
+  create_table "hiring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.date     "start_date"
+    t.string   "start_time",   limit: 20
+    t.date     "end_date"
+    t.integer  "num_of_hours"
+    t.float    "rate",         limit: 24
+    t.string   "req_type",     limit: 20
+    t.integer  "user_id"
+    t.integer  "hospital_id"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  create_table "hiring_responses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "hiring_request_id"
+    t.text     "notes",             limit: 65535
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
 
   create_table "holidays", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",         limit: 100
@@ -158,6 +178,7 @@ ActiveRecord::Schema.define(version: 20170612160021) do
     t.integer  "confirmed_count"
     t.date     "confirmed_at"
     t.boolean  "viewed"
+    t.boolean  "care_home_rated"
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree
