@@ -59,9 +59,8 @@ Then(/^the user should be confirmed$/) do
   end
 
 
-  if(@user.role == 'Care Giver')
-    fields = [  "languages", "pref_commute_distance", "speciality", "experience", "sort_code",
-               "bank_account", "postcode"]
+  if(@user.role == 'Care Giver' || @user.role == 'Nurse')
+    fields = [  "languages", "pref_commute_distance", "speciality", "experience", "postcode"]
     fields.each do |k|
       expect(@user[k]).to eql(@saved_user[k])
     end
