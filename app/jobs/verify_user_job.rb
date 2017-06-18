@@ -5,7 +5,7 @@ class VerifyUserJob < ApplicationJob
   	# The user whose docs have been uploaded
     user = User.find(user_id)
     #Assume he is verified
-    verified = true
+    verified = false
     doc_count = 0
     # For each of the required docs - check if the doc is verified
     # The docs must not have expired or prev rejected
@@ -19,8 +19,8 @@ class VerifyUserJob < ApplicationJob
     end
 
     # Did we have all the required docs?
-    if(doc_count < UserDoc::DOC_TYPES.length)
-    	verified = false
+    if(doc_count == UserDoc::DOC_TYPES.length && user.bank_account != nil && user.sort_code != nil)
+    	verified = true
     end
 
     # Save the verified status

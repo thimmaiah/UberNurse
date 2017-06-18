@@ -7,9 +7,10 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
 end
 
 Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|
-  puts  arg1
   @user = FactoryGirl.build(:user)
   key_values(@user, arg1)  
+  puts "\n####Unsaved User####\n"
+  puts @user.to_json
 end
 
 Then(/^I should see the "([^"]*)"$/) do |arg1|

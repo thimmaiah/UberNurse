@@ -111,12 +111,21 @@ namespace :deploy do
     end
   end
 
+  desc "rake assets."
+  task :precompile_assets do
+    on roles(:app) do
+      RAILS_ENV=production bundle exec rake assets:precompile
+    end
+  end
+
+
   desc "Uploads dev apk remote servers."
   task :upload_dev_apk do
     on roles(:app) do
       upload!("/home/thimmaiah/work/angular/UberNurseUI/platforms/android/build/outputs/apk/android-debug.apk", "#{current_path}/public", recursive: true)
     end
   end
+
   desc "Uploads dev ipa remote servers."
   task :upload_dev_ipa do
     on roles(:app) do
@@ -126,6 +135,7 @@ namespace :deploy do
 
   before :starting,     :check_revision
   before :finishing,    :upload_env
+  before :finishing,    :precompile_assets
   #before :finishing,    :upload_angular
   #before :finishing,    :upload_dev_apk
   after  :finishing,    :cleanup

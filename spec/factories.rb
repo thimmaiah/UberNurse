@@ -42,7 +42,6 @@ FactoryGirl.define do
     auto_deny_in 12
     response_count 0
     role {["Nurse", "Care Giver"][rand(2)]}
-    speciality {User::SPECIALITY[rand(User::SPECIALITY.length)]}
     payment_status {"Unpaid"}
     start_code {rand.to_s[2..6]}
     end_code {rand.to_s[2..6]}
@@ -90,11 +89,8 @@ FactoryGirl.define do
     sign_in_count { 5 }
     role {"Care Giver"}
     sex { User::SEX[rand(2)]}
-    speciality { User::SPECIALITY[rand(User::SPECIALITY.length)]}
-    experience { rand(5) + 1}
     accept_terms {true}
     pref_commute_distance {1000}
-    languages {"English"}
     verified {rand(2) > 0 ? true : false}
 
 

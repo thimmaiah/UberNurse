@@ -6,13 +6,13 @@ end
 
 When(/^I fill and submit the registration page$/) do
 
-  role = @user.role
-  click_on("Care Giver")
+  role_label = @user.role == "Admin" ? "Care Home Admin" : @user.role
+  click_on(role_label)
   sleep(1)
 
   sex = @user.sex == "M" ? "Male" : "Female"
   ionic_select(sex, "sex", true)
-  ionic_select(role, "role", false)
+  #ionic_select(role_label, "role", false)
 
 
   fill_in("first_name", with: @user.first_name)
@@ -30,12 +30,10 @@ When(/^I fill and submit the registration page$/) do
   if(@user.role == 'Care Giver' || @user.role == 'Nurse')
 
 
-    fields = [  "languages", "pref_commute_distance", "experience", "postcode"]
+    fields = [ "pref_commute_distance", "postcode"]
     fields.each do |k|
       fill_in(k, with: @user[k])
     end
-
-    ionic_select(@user.speciality, "speciality  ", false)
 
   end
 
@@ -60,7 +58,7 @@ Then(/^the user should be confirmed$/) do
 
 
   if(@user.role == 'Care Giver' || @user.role == 'Nurse')
-    fields = [  "languages", "pref_commute_distance", "speciality", "experience", "postcode"]
+    fields = [ "pref_commute_distance", "postcode"]
     fields.each do |k|
       expect(@user[k]).to eql(@saved_user[k])
     end
