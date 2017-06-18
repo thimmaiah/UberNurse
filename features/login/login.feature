@@ -26,3 +26,34 @@ Scenario Outline: Login Incorrectly
   	|first_name=Mohith;role=Care Giver	|Invalid login credentials|
     |first_name=Mohith;role=Nurse       |Invalid login credentials|
   	|first_name=Mohith;role=Admin		    |Invalid login credentials|
+
+
+
+Scenario Outline: Home page menus Care Giver
+  Given there is a user "<user>"
+  And the user has no bank account
+  And I am at the login page
+  When I fill and submit the login page
+  Then I should see the all the home page menus "<menus>"
+
+  Examples:
+    |user                                                                     |menus                |
+    |first_name=Mohith;role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
+    |first_name=Mohith;role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
+
+
+
+
+Scenario Outline: Home page menus Admin
+  Given there is a care_home "<care_home>" with me as admin "<user>"
+  And the care home has no bank account
+  And I am at the login page
+  When I fill and submit the login page
+  Then I should see the all the home page menus "<menus>"
+
+  Examples:
+    |care_home     |user                                                 |menus                       |
+    |verified=false|first_name=Mohith;role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information;|
+    |verified=false|first_name=Mohith;role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information|
+
+

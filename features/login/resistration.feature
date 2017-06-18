@@ -32,7 +32,7 @@ Scenario Outline: Register a care home with cqc
   
 
   Examples:
-    |user                          |care home                   |msg1                                      |
+    |user                          |care home                  |msg1                                |
     |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
     |first_name=Mohith;role=Admin  |name=Little Haven                |Please call us to get your care home verified|
 
@@ -49,6 +49,6 @@ Scenario Outline: Register a care home without cqc
   
 
   Examples:
-    |user                          |care home                   |msg1                                      |
+    |user                          |care home                   |msg1                                |
     |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
     |first_name=Mohith;role=Admin  |name=Little Haven                |Please call us to get your care home verified|

@@ -6,7 +6,7 @@ FactoryGirl.define do
     date "2017-05-23"
     bank_holiday false
   end
-  
+
 
   factory :rate do
     zone "MyString"
@@ -49,19 +49,19 @@ FactoryGirl.define do
 
   factory :care_home do
 
-        logos = ["http://www.brandsoftheworld.com/sites/default/files/082010/logo_CCNNNA.png", 
-        "http://www.brandsoftheworld.com/sites/default/files/082010/RP.png", 
-        "http://www.brandsoftheworld.com/sites/default/files/082010/Immagine_1.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/shine.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/MamosZurnalas_logo.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/Untitled-1_18.gif",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/iron_man_2_2.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/saojoaodabarra.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/logo_the_avengers.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/crystal_shopping.png",
-        "http://www.brandsoftheworld.com/sites/default/files/082010/Logo_para_crmall.png"]
+    logos = ["http://www.brandsoftheworld.com/sites/default/files/082010/logo_CCNNNA.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/RP.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/Immagine_1.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/shine.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/MamosZurnalas_logo.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/Untitled-1_18.gif",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/iron_man_2_2.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/saojoaodabarra.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/logo_the_avengers.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/crystal_shopping.png",
+             "http://www.brandsoftheworld.com/sites/default/files/082010/Logo_para_crmall.png"]
 
-  
+
 
     name {Faker::Company.name}
     base_rate {15}
@@ -70,6 +70,9 @@ FactoryGirl.define do
     town {Faker::Address.city}
     postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
+    bank_account {rand.to_s[2..9]} 
+    sort_code {rand.to_s[2..7]} 
+
   end
 
   factory :user do
@@ -92,7 +95,7 @@ FactoryGirl.define do
     accept_terms {true}
     pref_commute_distance {1000}
     verified {rand(2) > 0 ? true : false}
-
+    phone_verified {true}
 
     bank_account {rand.to_s[2..9] if(role != "Admin")}
     sort_code {rand.to_s[2..7] if(role != "Admin")}

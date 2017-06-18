@@ -3,7 +3,7 @@ class User < ApplicationRecord
   acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:user)
 
-  validates_presence_of :first_name, :last_name, :email, :role, :postcode, :phone
+  validates_presence_of :first_name, :last_name, :email, :role, :phone
 
   belongs_to :care_home, optional: true
   has_many :staffing_requests
@@ -34,6 +34,7 @@ class User < ApplicationRecord
 
   after_save :update_coordinates
   before_save :check_verified
+  before_save :check_accept_bank_transactions
   before_create :set_defaults
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
@@ -44,6 +45,12 @@ class User < ApplicationRecord
     self.subscription = true
   end
 
+  def check_accept_bank_transactions
+    if(self.accept_bank_transactions && self.accept_bank_transactions_changed?)
+      self.accept_bank_transactions_date = Time.now
+    end
+  end
+
   def check_verified
     if(self.verified_changed? && self.verified)
       self.verified_on = Date.today
@@ -52,7 +59,7 @@ class User < ApplicationRecord
   end
 
   def update_coordinates
-    if(self.postcode_changed?)
+    if(self.postcode && self.postcode_changed?)
       GeocodeJob.perform_later(self)
     end
   end

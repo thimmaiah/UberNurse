@@ -8,9 +8,15 @@ end
 
 Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|
   @user = FactoryGirl.build(:user)
-  key_values(@user, arg1)  
+  key_values(@user, arg1)
   puts "\n####Unsaved User####\n"
   puts @user.to_json
+end
+
+Given(/^the user has no bank account$/) do
+  @user.bank_account = nil
+  @user.sort_code = nil
+  @user.save
 end
 
 Then(/^I should see the "([^"]*)"$/) do |arg1|
@@ -98,4 +104,24 @@ Given(/^there are bank holidays$/) do
   Holiday.update_all(bank_holiday:true)
 end
 
+Then(/^I should see the all the home page menus "([^"]*)"$/) do |arg1|
+  arg1.split(";").each do |menu|
+    click_on(menu)
+    sleep(0.5)
+    page.find(".back-button").click
+  end
+end
 
+Then(/^I should not see the home page menus "([^"]*)"$/) do |arg1|
+
+  arg1.split(";").each do |menu|
+    puts "checking menu #{menu}"
+    expect(page).to_not have_content(menu)
+  end
+end
+
+Given(/^the care home has no bank account$/) do
+  @care_home.bank_account = nil
+  @care_home.sort_code = nil
+  @care_home.save!
+end

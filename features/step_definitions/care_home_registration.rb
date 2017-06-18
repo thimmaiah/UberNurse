@@ -1,5 +1,5 @@
 Given(/^I am at the care homes registration page$/) do
-  click_on("Register Care Home")
+  #click_on("Register Care Home")
 end
 
 When(/^I fill and submit the care homes registration page with  "([^"]*)"$/) do |arg1|

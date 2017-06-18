@@ -10,27 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170618070650) do
+ActiveRecord::Schema.define(version: 20170618142908) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.string   "address"
-    t.string   "town",         limit: 100
-    t.string   "postcode",     limit: 8
-    t.float    "base_rate",    limit: 24
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.text     "image_url",    limit: 65535
-    t.decimal  "lat",                        precision: 18, scale: 15
-    t.decimal  "lng",                        precision: 18, scale: 15
+    t.string   "town",                          limit: 100
+    t.string   "postcode",                      limit: 8
+    t.float    "base_rate",                     limit: 24
+    t.datetime "created_at",                                                            null: false
+    t.datetime "updated_at",                                                            null: false
+    t.text     "image_url",                     limit: 65535
+    t.decimal  "lat",                                         precision: 18, scale: 15
+    t.decimal  "lng",                                         precision: 18, scale: 15
     t.datetime "deleted_at"
     t.boolean  "verified"
-    t.string   "zone",         limit: 10
-    t.string   "cqc_location", limit: 50
+    t.string   "zone",                          limit: 10
+    t.string   "cqc_location",                  limit: 50
     t.integer  "total_rating"
     t.integer  "rating_count"
-    t.string   "bank_account", limit: 8
-    t.string   "sort_code",    limit: 6
+    t.string   "bank_account",                  limit: 8
+    t.string   "sort_code",                     limit: 6
+    t.boolean  "accept_bank_transactions"
+    t.datetime "accept_bank_transactions_date"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -261,13 +263,13 @@ ActiveRecord::Schema.define(version: 20170618070650) do
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "provider",                                                       default: "email", null: false
-    t.string   "uid",                                                            default: "",      null: false
-    t.string   "encrypted_password",                                             default: "",      null: false
+    t.string   "provider",                                                              default: "email", null: false
+    t.string   "uid",                                                                   default: "",      null: false
+    t.string   "encrypted_password",                                                    default: "",      null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                                                  default: 0,       null: false
+    t.integer  "sign_in_count",                                                         default: 0,       null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -279,40 +281,43 @@ ActiveRecord::Schema.define(version: 20170618070650) do
     t.string   "first_name"
     t.string   "last_name"
     t.string   "email"
-    t.string   "role",                   limit: 20
-    t.string   "nurse_type",             limit: 20
-    t.text     "tokens",                 limit: 65535
-    t.datetime "created_at",                                                                       null: false
-    t.datetime "updated_at",                                                                       null: false
-    t.string   "sex",                    limit: 1
-    t.string   "phone",                  limit: 15
-    t.text     "address",                limit: 65535
+    t.string   "role",                          limit: 20
+    t.string   "nurse_type",                    limit: 20
+    t.text     "tokens",                        limit: 65535
+    t.datetime "created_at",                                                                              null: false
+    t.datetime "updated_at",                                                                              null: false
+    t.string   "sex",                           limit: 1
+    t.string   "phone",                         limit: 15
+    t.text     "address",                       limit: 65535
     t.string   "languages"
     t.integer  "pref_commute_distance"
-    t.string   "occupation",             limit: 20
-    t.string   "speciality",             limit: 100
+    t.string   "occupation",                    limit: 20
+    t.string   "speciality",                    limit: 100
     t.integer  "experience"
-    t.string   "referal_code",           limit: 10
+    t.string   "referal_code",                  limit: 10
     t.boolean  "accept_terms"
     t.integer  "care_home_id"
     t.boolean  "active"
-    t.text     "image_url",              limit: 65535
-    t.string   "sort_code",              limit: 6
-    t.string   "bank_account",           limit: 8
+    t.text     "image_url",                     limit: 65535
+    t.string   "sort_code",                     limit: 6
+    t.string   "bank_account",                  limit: 8
     t.boolean  "verified"
     t.date     "auto_selected_date"
-    t.decimal  "lat",                                  precision: 18, scale: 15
-    t.decimal  "lng",                                  precision: 18, scale: 15
-    t.string   "postcode",               limit: 10
+    t.decimal  "lat",                                         precision: 18, scale: 15
+    t.decimal  "lng",                                         precision: 18, scale: 15
+    t.string   "postcode",                      limit: 10
     t.integer  "total_rating"
     t.integer  "rating_count"
-    t.text     "push_token",             limit: 65535
+    t.text     "push_token",                    limit: 65535
     t.datetime "deleted_at"
     t.string   "unsubscribe_hash"
     t.boolean  "subscription"
     t.date     "verified_on"
     t.date     "verification_reminder"
-    t.string   "locale",                 limit: 8
+    t.string   "locale",                        limit: 8
+    t.boolean  "phone_verified"
+    t.boolean  "accept_bank_transactions"
+    t.datetime "accept_bank_transactions_date"
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

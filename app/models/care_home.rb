@@ -51,6 +51,14 @@ class CareHome < ApplicationRecord
     end
   end
 
+  before_save :check_accept_bank_transactions
+  def check_accept_bank_transactions
+    if(self.accept_bank_transactions && self.accept_bank_transactions_changed?)
+      self.accept_bank_transactions_date = Time.now
+    end
+  end
+
+
   # for testing only in factories - do not use in prod
   def postcodelatlng=(postcodelatlng)
     self.postcode = postcodelatlng.postcode

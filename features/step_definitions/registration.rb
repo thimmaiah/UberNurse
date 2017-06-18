@@ -16,7 +16,7 @@ When(/^I fill and submit the registration page$/) do
 
 
   fill_in("first_name", with: @user.first_name)
-  fields = [  "first_name", "last_name", "email", "phone", "password", "postcode"]
+  fields = [  "first_name", "last_name", "email", "phone", "password"]
   fields.each do |k|
     fill_in(k, with: @user[k])
   end
@@ -51,7 +51,7 @@ Then(/^the user should be confirmed$/) do
   @saved_user.confirmed_at.should_not be_nil
 
 
-  fields = [  "first_name", "last_name", "email", "phone", "postcode"]
+  fields = [  "first_name", "last_name", "email", "phone"]
   fields.each do |k|
     expect(@user[k]).to eql(@saved_user[k])
   end
