@@ -16,7 +16,8 @@ Scenario Outline: User Registration Successfully
   Examples:
   	|user								                |msg1											                      |msg2		|
   	|first_name=Mohith;role=Care Giver	|Please check your email for verification link	|Welcome	|
-  	|first_name=Mohith;role=Admin		    |Please check your email for verification link	|Welcome	|
+    |first_name=Mohith;role=Nurse       |Please check your email for verification link  |Welcome  |
+    |first_name=Mohith;role=Admin		    |Please check your email for verification link	|Welcome	|
 
 
 Scenario Outline: Register a care home with cqc
