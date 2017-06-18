@@ -114,7 +114,7 @@ namespace :deploy do
   desc "rake assets."
   task :precompile_assets do
     on roles(:app) do
-      RAILS_ENV=production bundle exec rake assets:precompile
+      
     end
   end
 

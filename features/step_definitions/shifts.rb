@@ -71,7 +71,6 @@ Then(/^I must see the shift$/) do
   expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@shift.user.phone)
   expect(page).to have_content(@shift.user.email)
-  expect(page).to have_content(@shift.user.speciality)
 end
 
 When(/^I click the shift for details$/) do
