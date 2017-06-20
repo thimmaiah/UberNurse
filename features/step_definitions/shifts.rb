@@ -204,3 +204,26 @@ Then(/^the request is marked as closed$/) do
   @staffing_request.reload
   @staffing_request.request_status.should == "Closed"
 end
+
+
+Given(/^the shift has a valid start code$/) do
+  @shift.start_code = @shift.staffing_request.start_code
+  @shift.save!
+end
+
+
+Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_field, code|
+  steps %Q{
+    When I click "Upcoming Shifts"
+    Then I must see the shift 
+    When I click the shift for details
+  }
+
+  find("#shift-menus").click
+  sleep(1)
+  click_on("Add Start / End Codes")
+  fill_in(start_end_field, with: code)
+  click_on("Submit")
+  sleep(1)
+  click_on("Yes")
+end

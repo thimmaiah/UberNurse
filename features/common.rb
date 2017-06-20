@@ -39,6 +39,20 @@ Given(/^Im a logged in$/) do
   }
 end
 
+Given(/^the user is logged in$/) do
+    steps %Q{
+    And I am at the login page
+    When I fill and submit the login page
+  }
+end
+
+
+Then(/^he must see the message "([^"]*)"$/) do |arg1|
+  expect(page).to have_content(arg1)
+end
+
+
+
 Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|
 
   @care_home = FactoryGirl.build(:care_home)
