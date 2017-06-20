@@ -64,3 +64,42 @@ Then(/^the user should be confirmed$/) do
     end
   end
 end
+
+
+
+Given(/^I am at the phone verification page$/) do
+  @user.phone_verified.should == false
+  sleep(1)
+  if @user.role == "Admin"
+    page.find(".back-button").click
+  end
+  click_on("Verify Mobile Number")
+end
+
+When(/^I request a sms verification code$/) do
+  within("#verification_page") do
+    sleep(1)
+    click_on("Send Verification Code")
+    sleep(1)
+
+  end
+  click_on("Yes")
+  sleep(1)
+end
+
+Then(/^an sms code must be generated$/) do
+  @user.reload
+  @user.sms_verification_code.should_not == nil
+end
+
+Then(/^when I submit the code$/) do
+  fill_in("verification_code", with: @user.sms_verification_code)
+  sleep(1)
+  click_on("Verifiy Code")
+  sleep(1)
+end
+
+Then(/^the user should be phone verified$/) do
+  @user.reload
+  @user.phone_verified.should == true
+end
