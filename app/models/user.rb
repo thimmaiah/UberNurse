@@ -113,7 +113,7 @@ class User < ApplicationRecord
   def send_sms_verification
 
     twilio = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
-    to_phone = "+919449025878" #self.phone 
+    to_phone =  "+919449025878" #+447766832934" #self.phone 
     from_phone = ENV['TWILIO_NUMBER']
 
     self.sms_verification_code = rand.to_s[2..6]
@@ -124,7 +124,7 @@ class User < ApplicationRecord
     twilio.messages.create(
       from: from_phone,
       to: to_phone,
-      body: "Your verification code is: #{self.sms_verification_code}"
+      body: "Your Connect Care phone verification code is: #{self.sms_verification_code}"
     )
 
   end

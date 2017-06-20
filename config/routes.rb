@@ -35,7 +35,12 @@ Rails.application.routes.draw do
   resources :hiring_responses
   resources :hiring_requests
   resources :care_homes
-  resources :users
+  resources :users do
+    collection do
+      post :send_sms_verification
+      post :verify_sms_verification
+    end
+  end
   resources :post_codes
   resources :shifts
   resources :staffing_requests do
