@@ -18,7 +18,7 @@ class User < ApplicationRecord
 
 
   # Include default devise modules.
-  devise :database_authenticatable, :registerable, 
+  devise :database_authenticatable, :registerable,
     :recoverable, :rememberable, :trackable, :validatable,
     :confirmable, :omniauthable
 
@@ -108,6 +108,31 @@ class User < ApplicationRecord
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+  def send_sms_verification
+
+    twilio = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
+    to_phone = "+919449025878" #self.phone 
+    from_phone = ENV['TWILIO_NUMBER']
+
+    self.sms_verification_code = rand.to_s[2..6]
+    self.save
+
+    logger.debug "Sending verification code to #{self.email} @ #{to_phone} from #{from_phone}"
+
+    twilio.messages.create(
+      from: from_phone,
+      to: to_phone,
+      body: "Your verification code is: #{self.sms_verification_code}"
+    )
+
+  end
+
+  def confirm_sms_verification(code)
+    self.phone_verified = (code == self.sms_verification_code)
+    self.save
+    return self.phone_verified 
   end
 
   # for testing only in factories - do not use in prod

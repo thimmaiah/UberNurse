@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:unsubscribe]  
-  load_and_authorize_resource param_method: :user_params, except: [:unsubscribe] 
+  before_action :authenticate_user!, except: [:unsubscribe]
+  load_and_authorize_resource param_method: :user_params,
+    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification]
 
   # GET /users
   def index
@@ -46,6 +47,18 @@ class UsersController < ApplicationController
     redirect_to ENV['REDIRECT_UNSUBSCRIBE']
   end
 
+  def send_sms_verification
+    current_user.send_sms_verification()
+  end
+
+  def verify_sms_verification
+    if current_user.confirm_sms_verification(params[:code])
+      render json: {verified: true}
+    else
+      render json: {verified: false}
+    end
+  end
+
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_user
@@ -56,7 +69,7 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:first_name, :last_name, :email, :role, :nurse_type,
                                  :sex, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience,
-                                 :referal_code, :accept_terms, :care_home_id, :image_url, :verified, 
+                                 :referal_code, :accept_terms, :care_home_id, :image_url, :verified,
                                  :active, :sort_code, :bank_account, :push_token, :accept_bank_transactions)
   end
 end
