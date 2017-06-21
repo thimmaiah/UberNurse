@@ -54,7 +54,7 @@ class User < ApplicationRecord
   def check_verified
     if(self.verified_changed? && self.verified)
       self.verified_on = Date.today
-      UserNotifierMailer.verification_complete(self.id).deliver_later
+      UserNotifierMailer.verification_complete(self.id).deliver_later if self.id
     end
   end
 

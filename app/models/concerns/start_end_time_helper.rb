@@ -46,10 +46,11 @@ module StartEndTimeHelper
       night_shift_end = self.end_date
       logger.debug "Condition 5"
 
-    elsif(self.start_date.hour >= 8 && self.end_date.hour <= 20)
+    elsif(self.start_date.hour >= 8 && self.end_date.hour <= 20 && self.start_date.day == self.end_date.day)
       night_shift_start = 0
       night_shift_end   = 0
       logger.debug "Condition 6"
+
     elsif(self.start_date.hour <= 20 && self.end_date.hour >= 8)
       night_shift_start = self.start_date.change({hour:20,min:0,sec:0})
       night_shift_end = self.end_date.change({hour:8,min:0,sec:0})

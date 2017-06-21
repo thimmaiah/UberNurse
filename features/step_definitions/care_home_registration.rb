@@ -4,7 +4,7 @@ end
 
 When(/^I fill and submit the care homes registration page with  "([^"]*)"$/) do |arg1|
   @care_home = FactoryGirl.build(:care_home)
-  fields = ["name", "address", "town", "postcode", "image_url"]
+  fields = ["name", "address", "postcode", "image_url"]
   fields.each do |k|
     fill_in(k, with: @care_home[k])
     sleep(0.5)
@@ -46,6 +46,5 @@ When(/^I click on the search result care home$/) do
 end
 
 When(/^When and submit the care homes registration page with "([^"]*)"$/) do |arg1|
-  fill_in("town", with: @care_home.town)
   click_on("Save")
 end

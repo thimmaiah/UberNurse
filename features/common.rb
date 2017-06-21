@@ -85,6 +85,11 @@ Given(/^jobs are being dispatched$/) do
   Delayed::Worker.new.work_off
 end
 
+Given(/^jobs are cleared$/) do
+  Delayed::Job.delete_all
+end
+
+
 Then(/^the user receives an email with "([^"]*)" as the subject$/) do |subject|
   open_email(@user.email)
   expect(current_email.subject).to eq subject

@@ -71,14 +71,16 @@ Scenario Outline: New Shift when already rejected
 Scenario Outline: New Shift when already booked in the same time shift
   Given there is a user "<user>"
   And the user has already accepted a request "<other_request>"
+  And give the request has a start_time "8:00" and end time of "16:00"
   Given there is a request "<request>"
+  And give the request has a start_time "8:00" and end time of "16:00"
   And the shift creator job runs
   Then A shift must not be created for the user for the request
   Then the admin user receives an email with "No shift found for request" in the subject
   
   Examples:
-    |request                                                | user                            | other_request |
-    |start_date=2017-05-21 08:00;end_date=2017-05-21 17:00  | role=Care Giver;verified=true   | start_date=2017-05-21 09:00;end_date=2017-05-21 18:00   |
-    |start_date=2017-05-21 08:00;end_date=2017-05-21 17:00  | role=Nurse;verified=true        |start_date=2017-05-20 17:00;end_date=2017-05-21 09:00  |
-    |start_date=2017-05-21 08:00;end_date=2017-05-21 17:00  | role=Care Giver;verified=true   | start_date=2017-05-20 09:00;end_date=2017-05-22 09:00   |
+    |request          | user                            | other_request     |
+    |role=Care Giver  | role=Care Giver;verified=true   | role=Care Giver   |
+    |role=Care Giver  | role=Nurse;verified=true        | role=Care Giver   |
+    |role=Care Giver  | role=Care Giver;verified=true   | role=Care Giver   |
     

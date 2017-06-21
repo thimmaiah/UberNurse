@@ -67,7 +67,6 @@ FactoryGirl.define do
     base_rate {15}
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
-    town {Faker::Address.city}
     postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
     bank_account {rand.to_s[2..9]} 

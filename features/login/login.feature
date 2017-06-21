@@ -11,7 +11,7 @@ Scenario Outline: Login Successfully
   	|user								                |msg	|
   	|first_name=Mohith;role=Care Giver	|Welcome|
     |first_name=Mohith;role=Nurse       |Welcome|
-  	|first_name=Mohith;role=Admin		    |Welcome|
+  	|first_name=Mohith;role=Admin		    |Register Care Home|
 
 
 

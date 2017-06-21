@@ -6,7 +6,7 @@ class ShiftCreatorJob < ApplicationJob
 
     begin
       # For each open request which has not yet been broadcasted
-      StaffingRequest.open.not_broadcasted.each do |staffing_request|
+      StaffingRequest.current.open.not_broadcasted.each do |staffing_request|
 
         # Select a temp who can be assigned this shift
         selected_user = select_user(staffing_request)

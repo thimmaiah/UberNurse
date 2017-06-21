@@ -24,8 +24,9 @@ class StaffingRequest < ApplicationRecord
   scope :closed, -> {where(request_status:"Closed")}
   scope :cancelled, -> {where(request_status:"Cancelled")}
   scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
+  scope :current, -> {where("start_date >= ?", Time.now)}
 
-  before_create :set_defaults
+  before_create :set_defaults, :price_estimate
 
   def set_defaults
     # We now have auto approval
@@ -35,6 +36,12 @@ class StaffingRequest < ApplicationRecord
     # Zero out the seconds - it causes lots of problems when calculating time spent
     self.start_date = self.start_date.change({sec: 0})
     self.end_date = self.end_date.change({sec: 0})
+  end
+
+  def price_estimate    
+    # Ensure the request gets a price estimate before it is saved
+    self.created_at = Time.now
+    Rate.price_estimate(self)
   end
 
   before_save :update_response_status

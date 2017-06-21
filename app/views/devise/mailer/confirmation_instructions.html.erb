@@ -24,15 +24,3 @@
   </tbody>
 </table>
 
-
-<% if @resource.role == "Care Giver" || @resource.role == "Nurse" %>
-
-	<p>
-		Please also verify that your the following details are accurate as they are required for payments
-	</p>
-
-	<p>Bank Account: <%=@resource.bank_account%> </p>
-	
-	<p>Sort Code: <%=@resource.sort_code%> </p>
-
-<% end %>

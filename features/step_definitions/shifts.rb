@@ -70,7 +70,6 @@ Then(/^I must see the shift$/) do
   expect(page).to have_content(@shift.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@shift.user.phone)
-  expect(page).to have_content(@shift.user.email)
 end
 
 When(/^I click the shift for details$/) do
@@ -116,7 +115,7 @@ end
 
 Then(/^I must not see the shifts$/) do
   Shift.all.each do |shift|
-    expect(page).to have_content("No Shifts Found")
+    expect(page).to have_content("No Shifts Available")
   end
 end
 
@@ -214,7 +213,7 @@ end
 
 Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_field, code|
   steps %Q{
-    When I click "Upcoming Shifts"
+    When I click "Confirmed Shifts"
     Then I must see the shift 
     When I click the shift for details
   }
@@ -226,4 +225,11 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
   click_on("Submit")
   sleep(1)
   click_on("Yes")
+end
+
+Given(/^give the request has a start_time "([^"]*)" and end time of "([^"]*)"$/) do |arg1, arg2|
+  start_time = arg1.split(":")
+  @staffing_request.start_date = @staffing_request.start_date.change({hour:start_time[0].to_i, minutes:start_time[1].to_i})
+  end_time = arg2.split(":")
+  @staffing_request.end_date = @staffing_request.end_date.change({hour:end_time[0].to_i, minutes:end_time[1].to_i})
 end
