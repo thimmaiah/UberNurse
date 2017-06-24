@@ -10,9 +10,7 @@ When(/^I fill and submit the registration page$/) do
   click_on(role_label)
   sleep(1)
 
-  sex = @user.sex == "M" ? "Male" : "Female"
-  ionic_select(sex, "sex", true)
-  #ionic_select(role_label, "role", false)
+  ionic_select(@user.title, "title", true)
 
 
   fill_in("first_name", with: @user.first_name)

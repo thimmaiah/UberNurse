@@ -13,9 +13,9 @@ Scenario Outline: User Registration Successfully
   Then I should see the "<msg2>"
   Examples:
   	|user								                |msg1											                      |msg2		|
-  	|first_name=Mohith;role=Care Giver	|Please check your email for verification link	|Welcome	|
-    |first_name=Mohith;role=Nurse       |Please check your email for verification link  |Welcome  |
-    |first_name=Mohith;role=Admin		    |Please check your email for verification link	|Welcome	|
+  	|role=Care Giver	|Please check your email for verification link	|Welcome	|
+    |role=Nurse       |Please check your email for verification link  |Welcome  |
+    |role=Admin		    |Please check your email for verification link	|Welcome	|
 
 
 Scenario Outline: Register a care home with cqc
@@ -29,8 +29,8 @@ Scenario Outline: Register a care home with cqc
   And I should be associated with the care home
   Examples:
     |user                          |care home                  |msg1                                |
-    |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
-    |first_name=Mohith;role=Admin  |name=Little Haven                |Please call us to get your care home verified|
+    |role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
+    |role=Admin  |name=Little Haven                |Please call us to get your care home verified|
 
 
 Scenario Outline: Register a care home without cqc
@@ -44,8 +44,8 @@ Scenario Outline: Register a care home without cqc
   And I should be associated with the care home
   Examples:
     |user                          |care home                   |msg1                                |
-    |first_name=Mohith;role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
-    |first_name=Mohith;role=Admin  |name=Little Haven                |Please call us to get your care home verified|
+    |role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
+    |role=Admin  |name=Little Haven                |Please call us to get your care home verified|
 
 
 Scenario Outline: User Phone Verification
@@ -57,6 +57,6 @@ Scenario Outline: User Phone Verification
   Then the user should be phone verified
   Examples:
     |user                                                                    |
-    |first_name=Mohith;role=Care Giver;verified=false;phone_verified=false   |
-    |first_name=Mohith;role=Nurse;verified=false;phone_verified=false        |
-    |first_name=Mohith;role=Admin;verified=false;phone_verified=false        |
+    |role=Care Giver;verified=false;phone_verified=false   |
+    |role=Nurse;verified=false;phone_verified=false        |
+    |role=Admin;verified=false;phone_verified=false        |

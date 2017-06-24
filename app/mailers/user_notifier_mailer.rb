@@ -47,7 +47,6 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def shift_notification(shift)
-    raise "Dumb error"
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
@@ -74,10 +73,11 @@ class UserNotifierMailer < ApplicationMailer
   def care_home_verified(care_home)
     @care_home = care_home
     @user = care_home.users.first
-    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
-          :subject => 'Care Home Verified' )
-
+    if(@user)
+      logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+      mail( :to => @user.email,
+            :subject => 'Care Home Verified' )
+    end
   end
 
 

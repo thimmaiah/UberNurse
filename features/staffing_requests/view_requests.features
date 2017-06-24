@@ -10,8 +10,8 @@ Scenario Outline: View Requests
 
   Examples:
   	|user								|care_home						|admin 						|number	|
-  	|first_name=Mohith;role=Care Giver	|name=My care_home;verified=true	|first_name=Admin;role=Admin|	1	|
-  	|first_name=Mohith;role=Nurse		|name=My care_home;verified=true	|first_name=Admin;role=Admin|	2	|
+  	|role=Care Giver	|name=My care_home;verified=true	|first_name=Admin;role=Admin|	1	|
+  	|role=Nurse		|name=My care_home;verified=true	|first_name=Admin;role=Admin|	2	|
   	
 
 Scenario Outline: View Request Details
@@ -23,5 +23,5 @@ Scenario Outline: View Request Details
 
   Examples:
   	|user								|care_home						|admin 						|number	|
-  	|first_name=Mohith;role=Care Giver	|name=My care_home;verified=true	|first_name=Admin;role=Admin|	1	|
-  	|first_name=Mohith;role=Nurse		|name=My care_home;verified=true	|first_name=Admin;role=Admin|	2	|
+  	|role=Care Giver	|name=My care_home;verified=true	|first_name=Admin;role=Admin|	1	|
+  	|role=Nurse		|name=My care_home;verified=true	|first_name=Admin;role=Admin|	2	|

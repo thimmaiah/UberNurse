@@ -9,9 +9,9 @@ Scenario Outline: Login Successfully
 
   Examples:
   	|user								                |msg	|
-  	|first_name=Mohith;role=Care Giver	|Welcome|
-    |first_name=Mohith;role=Nurse       |Welcome|
-  	|first_name=Mohith;role=Admin		    |Register Care Home|
+  	|role=Care Giver	|Welcome|
+    |role=Nurse       |Welcome|
+  	|role=Admin		    |Register Care Home|
 
 
 
@@ -23,9 +23,9 @@ Scenario Outline: Login Incorrectly
 
   Examples:
   	|user								                |msg	|
-  	|first_name=Mohith;role=Care Giver	|Invalid login credentials|
-    |first_name=Mohith;role=Nurse       |Invalid login credentials|
-  	|first_name=Mohith;role=Admin		    |Invalid login credentials|
+  	|role=Care Giver	|Invalid login credentials|
+    |role=Nurse       |Invalid login credentials|
+  	|role=Admin		    |Invalid login credentials|
 
 
 
@@ -38,8 +38,8 @@ Scenario Outline: Home page menus Care Giver
 
   Examples:
     |user                                                                     |menus                |
-    |first_name=Mohith;role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
-    |first_name=Mohith;role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
+    |role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
+    |role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
 
 
 
@@ -53,7 +53,7 @@ Scenario Outline: Home page menus Admin
 
   Examples:
     |care_home     |user                                                 |menus                       |
-    |verified=false|first_name=Mohith;role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information;|
-    |verified=false|first_name=Mohith;role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information|
+    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information;|
+    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information|
 
 
