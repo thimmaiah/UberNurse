@@ -30,6 +30,7 @@ class UserDashboard < Administrate::BaseDashboard
     sort_code: Field::String,
     bank_account: Field::String,
     verified: Field::Boolean,
+    phone_verified: Field::Boolean,
     postcode: Field::String,
   }.freeze
 
@@ -45,6 +46,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :verified,
+    :phone_verified,
     :role
   ].freeze
 
@@ -67,6 +69,7 @@ class UserDashboard < Administrate::BaseDashboard
     :sort_code,
     :bank_account,
     :verified,
+    :phone_verified,
     :active,
     :postcode,
     :user_docs
@@ -91,6 +94,7 @@ class UserDashboard < Administrate::BaseDashboard
     :sort_code,
     :bank_account,
     :verified,
+    :phone_verified,
     :active,
     :postcode
   ].freeze

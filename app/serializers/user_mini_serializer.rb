@@ -1,5 +1,5 @@
 class UserMiniSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email, :role, :phone, :phone_verified, :speciality,
+  attributes :id, :title, :first_name, :last_name, :email, :role, :phone, :phone_verified, :speciality,
     :postcode, :address, :image, :rating, :can_manage
 
   def can_manage

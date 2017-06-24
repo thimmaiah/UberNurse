@@ -1,10 +1,11 @@
 class StaffingRequest < ApplicationRecord
-  
+
   include StartEndTimeHelper
+  self.skip_time_zone_conversion_for_attributes = [:start_date, :end_date]
 
   acts_as_paranoid
   has_paper_trail ignore: [:pricing_audit]
-  
+
   after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
   REQ_STATUS = ["Open", "Closed", "Cancelled"]
@@ -38,7 +39,10 @@ class StaffingRequest < ApplicationRecord
     self.end_date = self.end_date.change({sec: 0})
   end
 
-  def price_estimate    
+  
+
+
+  def price_estimate
     # Ensure the request gets a price estimate before it is saved
     self.created_at = Time.now
     Rate.price_estimate(self)
@@ -46,18 +50,18 @@ class StaffingRequest < ApplicationRecord
 
   before_save :update_response_status
   def update_response_status
-    if( self.request_status_changed? && 
+    if( self.request_status_changed? &&
         (self.request_status == 'Closed' || self.request_status == 'Cancelled') )
-    	# Ensure all responses are also closed so they dont show up on the UI
-      self.shifts.each do |resp|	
-        resp.response_status = self.request_status 
+      # Ensure all responses are also closed so they dont show up on the UI
+      self.shifts.each do |resp|
+        resp.response_status = self.request_status
         resp.save
       end
     end
   end
 
   def prev_versions
-  	self.versions.collect(&:reify)
+    self.versions.collect(&:reify)
   end
 
   def booking_start_diff_hrs

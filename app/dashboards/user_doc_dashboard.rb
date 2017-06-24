@@ -20,6 +20,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     doc_file_size: Field::Number,
     doc_updated_at: Field::DateTime,
     verified: Field::Boolean,
+    not_available: Field::Boolean,
     notes: Field::Text,
     doc: PaperclipField
   }.freeze
@@ -34,7 +35,8 @@ class UserDocDashboard < Administrate::BaseDashboard
     :name,
     :doc_type,
     :user,
-    :verified
+    :verified,
+    :not_available
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -48,6 +50,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :updated_at,
     :doc_file_name,
     :verified,
+    :not_available,
     :notes,
     :doc
   ].freeze
@@ -61,6 +64,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :doc_type,
     :doc_file_name,
     :verified,
+    :not_available,
     :notes,
     :doc
   ].freeze
