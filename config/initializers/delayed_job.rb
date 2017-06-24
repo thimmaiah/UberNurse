@@ -1,5 +1,5 @@
 Delayed::Worker.destroy_failed_jobs = false
-Delayed::Worker.sleep_delay = 60
+#Delayed::Worker.sleep_delay = 60
 Delayed::Worker.max_attempts = 3
 Delayed::Worker.max_run_time = 5.minutes
 Delayed::Worker.read_ahead = 10
@@ -14,7 +14,8 @@ Delayed::Worker.class_eval do
     handle_failed_job_without_notification(job, error)
     # rescue if ExceptionNotifier fails for some reason
     begin
-      ExceptionNotifier.notify_exception(error)  if job.attempts == job.max_attempts
+      Rails.logger.debug "DelayedJob JobId #{job.id}, attempts = #{job.attempts}"
+      ExceptionNotifier.notify_exception(error)  if job.attempts == Delayed::Worker.max_attempts
     rescue Exception => e
       Rails.logger.error "ExceptionNotifier failed: #{e.class.name}: #{e.message}"
       e.backtrace.each do |f|

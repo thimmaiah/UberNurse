@@ -47,11 +47,12 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def shift_notification(shift)
+    raise "Dumb error"
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'New Shift Assigned' )
+          :subject => 'New Shift Available' )
   end
 
   def shift_cancelled(shift)
