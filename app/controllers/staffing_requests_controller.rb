@@ -24,17 +24,8 @@ class StaffingRequestsController < ApplicationController
   end
 
   # POST /staffing_requests
-  def create
-    
-    # Strip out timezone info
-    start_date = staffing_request_params[:start_date].split("+")[0]
-    end_date = staffing_request_params[:end_date].split("+")[0]
-    logger.debug "staffing_request_params = #{start_date}, #{end_date}"
-
+  def create    
     @staffing_request = StaffingRequest.new(staffing_request_params)
-    # @staffing_request.start_date = start_date
-    # @staffing_request.end_date = end_date
-
     @staffing_request.user_id = current_user.id
     @staffing_request.care_home_id = current_user.care_home_id
 
