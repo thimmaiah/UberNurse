@@ -32,7 +32,7 @@ Given(/^Im a logged in user "([^"]*)"$/) do |arg1|
 end
 
 
-Given(/^Im a logged in$/) do
+Given(/^Im logged in$/) do
   steps %Q{
     And I am at the login page
     When I fill and submit the login page

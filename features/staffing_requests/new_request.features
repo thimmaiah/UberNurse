@@ -4,7 +4,7 @@ Feature: New Requests
 Scenario Outline: New Request
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given Im a logged in 
-  When I click "Staffing Requests"
+  When I click "View Staffing Requests"
   When I create a new Staffing Request "<request>"
   Then the request must be saved
   When I click on the request I must see the request details

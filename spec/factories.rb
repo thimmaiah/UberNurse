@@ -71,7 +71,7 @@ FactoryGirl.define do
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
-
+    verified {true}
   end
 
   factory :user do

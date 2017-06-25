@@ -116,8 +116,8 @@ Then(/^I must see all the requests$/) do
   StaffingRequest.all.each do |req|
     expect(page).to have_content(@staffing_request.care_home.name)
     expect(page).to have_content(@staffing_request.request_status)
-    expect(page).to have_content(@staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-    expect(page).to have_content(@staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+    expect(page).to have_content(@staffing_request.start_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
+    expect(page).to have_content(@staffing_request.end_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
   end
 end
 
@@ -143,7 +143,7 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   page.find("#new_staffing_request_btn").click()
 
   ionic_select(@staffing_request.role, "role", true)
-  ionic_select(@staffing_request.speciality, "speciality", false)
+  #ionic_select(@staffing_request.speciality, "speciality", false)
 
   fields = ["start_code", "end_code"]
   fields.each do |k|
@@ -163,13 +163,17 @@ Then(/^the request must be saved$/) do
   @staffing_request.start_code.should == last.start_code
   @staffing_request.end_code.should == last.end_code
   @staffing_request.role.should == last.role
-  @staffing_request.speciality.should == last.speciality
+
+
+  last.start_date.hour.should == 8
+  last.end_date.hour.should == 16
 
   last.user_id.should == @user.id
   last.care_home_id.should == @user.care_home_id
   last.request_status.should == "Open"
   last.payment_status.should == "Unpaid"
   last.broadcast_status.should == "Pending"
+
 end
 
 
@@ -182,8 +186,8 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.speciality)
   expect(page).to have_content(@staffing_request.request_status)
   expect(page).to have_content(@staffing_request.payment_status)
-  expect(page).to have_content(@staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.start_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.end_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@staffing_request.start_code)
   expect(page).to have_content(@staffing_request.end_code)
 end
