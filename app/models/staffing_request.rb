@@ -1,7 +1,7 @@
 class StaffingRequest < ApplicationRecord
 
   include StartEndTimeHelper
-  self.skip_time_zone_conversion_for_attributes = [:start_date, :end_date]
+
 
   acts_as_paranoid
   has_paper_trail ignore: [:pricing_audit]
@@ -39,7 +39,7 @@ class StaffingRequest < ApplicationRecord
     self.end_date = self.end_date.change({sec: 0})
   end
 
-  
+
 
 
   def price_estimate

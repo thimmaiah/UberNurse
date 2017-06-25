@@ -15,4 +15,13 @@ class StaffingRequestSerializer < ActiveModel::Serializer
   	ability.can?(:manage, object)
   end
 
+  # We need to always send Lon dates back - as the time should be Lon time
+  def start_date
+  	object.start_date.in_time_zone("London").strftime("%Y-%m-%dT%H:%M")
+  end
+
+  def end_date
+  	object.end_date.in_time_zone("London").strftime("%Y-%m-%dT%H:%M")
+  end
+
 end

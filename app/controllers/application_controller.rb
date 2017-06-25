@@ -26,9 +26,6 @@ class ApplicationController < ActionController::API
   before_action :prepare_exception_notifier
   private
   def prepare_exception_notifier
-    # This is a hack. We force all users to London timezone
-    Time.zone = "London"
-    logger.debug "Setting timezone to London"
     if current_user
       request.env["exception_notifier.exception_data"] = {
         :current_user => current_user
