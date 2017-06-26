@@ -113,15 +113,16 @@ class User < ApplicationRecord
 
   def send_sms_verification
 
-    to_phone =  "+919449025878" #+447766832934" #self.phone
+    to_phone = self.phone
     from_phone = ENV['TWILIO_NUMBER']
 
     self.sms_verification_code = rand.to_s[2..6]
     self.save
 
-    logger.debug "Sending verification code to #{self.email} @ #{to_phone} from #{from_phone}"
 
     if(Rails.env != 'test')
+      logger.debug "Sending verification code to #{self.email} @ #{to_phone} from #{from_phone}"
+
       twilio = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
       twilio.messages.create(
         from: from_phone,
@@ -129,8 +130,8 @@ class User < ApplicationRecord
         body: "Your Connect Care phone verification code is: #{self.sms_verification_code}"
       )
     end
-
   end
+
 
   def confirm_sms_verification(code)
     self.phone_verified = (code == self.sms_verification_code)

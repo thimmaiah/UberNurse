@@ -8,7 +8,7 @@ end
 Then(/^A shift must be created for the user for the request$/) do
   @shift = Shift.last
   @shift.user_id.should == @user.id
-  @shift.staffing_request_id.should == @staffing_request.id  
+  @shift.staffing_request_id.should == @staffing_request.id
 end
 
 Given(/^the user has already accepted this request$/) do
@@ -39,6 +39,7 @@ Given(/^the user has already rejected this request$/) do
   puts "\n#####Rejected Shift####\n"
   puts @shift.to_json
 end
+
 
 Then(/^A shift must not be created for the user for the request$/) do
   @user.shifts.not_rejected.where(staffing_request_id:@staffing_request.id).length.should == 0
@@ -83,7 +84,8 @@ Then(/^I must see the shift details$/) do
   steps %Q{
     Then I must see the shift 
   }
-
+  @shift.reload
+  puts "\n#{@shift.to_json}\n"
   expect(page).to have_content(@shift.response_status)
   expect(page).to have_content(@shift.payment_status)
   expect(page).to have_content(@shift.start_code) if @shift.start_code
@@ -122,7 +124,7 @@ end
 
 
 Then(/^I must see all the shifts$/) do
-  Shift.all.each do |shift|    
+  Shift.all.each do |shift|
     steps %Q{
       Then I must see the shift 
       When I click the shift for details
@@ -138,9 +140,9 @@ Given(/^there is a shift for a user "([^"]*)" with status "([^"]*)"$/) do |arg1,
   }
 
   @shift = Shift.new(staffing_request_id: @staffing_request.id,
-    care_home_id: @staffing_request.care_home_id,
-    user_id: @user.id,
-    response_status: "Pending")
+                     care_home_id: @staffing_request.care_home_id,
+                     user_id: @user.id,
+                     response_status: "Pending")
 
   @shift.save
 
@@ -172,7 +174,7 @@ Then(/^A shift status must be "([^"]*)"$/) do |arg1|
 end
 
 Given(/^the shift has confirm_sent "([^"]*)" times$/) do |arg1|
-  (1..arg1.to_i).each do 
+  (1..arg1.to_i).each do
     @shift.confirmation_sent
   end
 end
@@ -218,8 +220,8 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
     Then I must see the shift 
     When I click the shift for details
   }
-
-  start_end_field == 'start_code' ?  click_on("Add Start Code") : click_on("Add End Code") 
+  sleep(1)
+  start_end_field == 'start_code' ?  click_on("Add Start Code") : click_on("Add End Code")
   fill_in(start_end_field, with: code)
   click_on("Submit")
   sleep(1)

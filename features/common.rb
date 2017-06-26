@@ -40,7 +40,7 @@ Given(/^Im logged in$/) do
 end
 
 Given(/^the user is logged in$/) do
-    steps %Q{
+  steps %Q{
     And I am at the login page
     When I fill and submit the login page
   }
@@ -83,6 +83,7 @@ end
 
 Given(/^jobs are being dispatched$/) do
   Delayed::Worker.new.work_off
+  sleep(1)
 end
 
 Given(/^jobs are cleared$/) do
@@ -144,3 +145,23 @@ Given(/^the care home has no bank account$/) do
   @care_home.sort_code = nil
   @care_home.save!
 end
+
+
+Given(/^the user has already closed this request$/) do
+  steps %{
+      And the user has already accepted this request
+      Given jobs are being dispatched
+      Then the user receives an email with "Shift Confirmed" as the subject
+      And when the user enters the start and end code
+      Given jobs are being dispatched
+  }
+end
+
+
+When(/^I click "([^"]*)" in the side panel$/) do |arg1|
+  page.find(".bar-button-menutoggle").click
+  sleep(1)
+  click_on(arg1)
+  sleep(1)
+end
+

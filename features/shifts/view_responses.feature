@@ -5,7 +5,7 @@ Scenario Outline: View My Shift
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
-  Given Im a logged in 
+  Given Im logged in 
   When I click "New Shifts Available"
   Then I must see the shift 
   When I click the shift for details
@@ -31,7 +31,7 @@ Scenario Outline: Cannot View Others Shifts
 Scenario Outline: View All Shifts for care_home
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there are "<number>" of verified requests
-  Given Im a logged in
+  Given Im logged in
   Given there are "<number>" of shifts for the care_home
   When I click "Confirmed Shifts"
   Then I must see all the shifts 
