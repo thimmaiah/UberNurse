@@ -1,6 +1,7 @@
 Given(/^the shift creator job runs$/) do
   ShiftCreatorJob.new.perform
   @shift = Shift.last
+  puts "\n#{@shift.to_json}\n"
 end
 
 
@@ -218,9 +219,7 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
     When I click the shift for details
   }
 
-  find("#shift-menus").click
-  sleep(1)
-  click_on("Add Start / End Codes")
+  start_end_field == 'start_code' ?  click_on("Add Start Code") : click_on("Add End Code") 
   fill_in(start_end_field, with: code)
   click_on("Submit")
   sleep(1)
@@ -232,4 +231,9 @@ Given(/^give the request has a start_time "([^"]*)" and end time of "([^"]*)"$/)
   @staffing_request.start_date = @staffing_request.start_date.change({hour:start_time[0].to_i, minutes:start_time[1].to_i})
   end_time = arg2.split(":")
   @staffing_request.end_date = @staffing_request.end_date.change({hour:end_time[0].to_i, minutes:end_time[1].to_i})
+end
+
+Then(/^the shift is "([^"]*)"$/) do |arg1|
+  @shift.reload
+  @shift.response_status == arg1
 end

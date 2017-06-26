@@ -41,6 +41,7 @@ class Ability
         can :manage, UserDoc, :user_id =>@user.id
         can :read, Payment, :user_id =>@user.id
         can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
+        can :create, Rating, :rated_entity_type=>"CareHome"
     end
 
     def employee_privilages
