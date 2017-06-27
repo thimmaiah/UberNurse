@@ -2,7 +2,7 @@ class ShiftCreatorJob < ApplicationJob
   queue_as :default
 
   def perform
-    logger ||= Delayed::Worker.logger
+    logger ||= Rails.logger
 
     begin
       # For each open request which has not yet been broadcasted
@@ -148,22 +148,22 @@ class ShiftCreatorJob < ApplicationJob
 
     User.where(role:staffing_request.role).active.verified.order("auto_selected_date ASC").each do |user|
 
-      Delayed::Worker.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
+      Rails.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
 
       # Get the shift bookings for this user on the same time as this req
       same_day_bookings = get_same_day_booking(user, staffing_request)
-      Delayed::Worker.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
+      Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
 
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)
-      Delayed::Worker.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
+      Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
 
       # Check pref_commute_distance
       commute_ok = pref_commute_ok?(user, staffing_request)
-      Delayed::Worker.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
+      Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
 
       if(same_day_bookings.length == 0 && !rejected && commute_ok)
-        Delayed::Worker.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
+        Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
         selected_user = user
         break
       end

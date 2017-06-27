@@ -18,7 +18,7 @@ class UserDocsController < ApplicationController
   def create
     if(user_doc_params[:id].present?)
       @user_doc = UserDoc.find(user_doc_params[:id])
-      @user_doc.update(user_doc_params) if(@user_doc_params[:user_id] == @user_doc.user_id)
+      @user_doc.update(user_doc_params) if(user_doc_params[:user_id] == @user_doc.user_id)
     else
       @user_doc = UserDoc.new(user_doc_params)
       # The doc could be uploaded by Super - so make sure we capture that

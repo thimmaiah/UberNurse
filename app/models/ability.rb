@@ -47,15 +47,10 @@ class Ability
     def employee_privilages
         can :read, CareHome
         can :read, PostCode
-        #can :manage, StaffingRequest, :user_id=>@user.id
-        #can :read, User, :care_home_id=>@user.care_home_id
-        #can :read, StaffingRequest, :care_home_id=>@user.care_home_id         
-        #can :read, Shift, :care_home_id=>@user.care_home_id         
         can :read, UserDoc
         can :read, Rating
         can :read, CqcRecord
         can :read, Holiday
-        #can :manage, Rating, :created_by_id => @user.id 
     end
 
     def admin_privilages
@@ -63,7 +58,7 @@ class Ability
         can :manage, CareHome, :id=>@user.care_home_id
         can :manage, User, :care_home_id=>@user.care_home_id
         can :manage, StaffingRequest, :care_home_id=>@user.care_home_id
-        can [:read, :update], Shift, :care_home_id=>@user.care_home_id         
+        can :read, Shift, :care_home_id=>@user.care_home_id         
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id
     end
