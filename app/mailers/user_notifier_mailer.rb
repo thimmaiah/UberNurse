@@ -98,4 +98,14 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Shift Confirmation' )
   end
 
+  def request_cancelled(staffing_request)
+    @staffing_request = staffing_request
+    email = @staffing_request.user.email
+    logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
+    mail( :to => email,
+          :subject => "Request Cancelled" )
+
+  end
+
+
 end

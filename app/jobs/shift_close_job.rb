@@ -2,7 +2,7 @@ class ShiftCloseJob < ApplicationJob
   queue_as :default
 
   def perform(shift_id)
-  	Delayed::Worker.logger.info "ShiftCloseJob: Start"
+  	Rails.logger.info "ShiftCloseJob: Start"
 
 
     # Price it
@@ -10,7 +10,7 @@ class ShiftCloseJob < ApplicationJob
     Rate.price_actual(shift)
     shift.response_status = "Closed"
 
-    Delayed::Worker.logger.info "ShiftCloseJob priced shift #{shift.id} @ #{shift.price}"
+    Rails.logger.info "ShiftCloseJob priced shift #{shift.id} @ #{shift.price}"
 
     # generate a payment record
     payment = Payment.new(shift_id: shift.id, user_id: shift.user_id, 
@@ -28,9 +28,9 @@ class ShiftCloseJob < ApplicationJob
     end
 
 
-    Delayed::Worker.logger.info "ShiftCloseJob: Closed request #{req.id} & shift #{shift.id} with payment #{payment.id}"
+    Rails.logger.info "ShiftCloseJob: Closed request #{req.id} & shift #{shift.id} with payment #{payment.id}"
     
-    Delayed::Worker.logger.info "ShiftCloseJob: End"
+    Rails.logger.info "ShiftCloseJob: End"
 
   end
 end

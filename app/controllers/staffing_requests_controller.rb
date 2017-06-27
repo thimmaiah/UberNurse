@@ -48,7 +48,9 @@ class StaffingRequestsController < ApplicationController
 
   # DELETE /staffing_requests/1
   def destroy
-    @staffing_request.destroy
+    @staffing_request.request_status = "Cancelled"
+    @staffing_request.save
+    UserNotifierMailer.request_cancelled(@staffing_request).deliver_later      
   end
 
   private
