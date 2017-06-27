@@ -5,7 +5,7 @@ class Shift < ApplicationRecord
   acts_as_paranoid
   has_paper_trail
 
-  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected", "Closed"]
+  RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected", "Closed", "Cancelled"]
   PAYMENT_STATUS = ["UnPaid", "Paid"]
   CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
@@ -23,6 +23,7 @@ class Shift < ApplicationRecord
   scope :accepted, -> {where("response_status = 'Accepted'")}
   scope :pending, -> {where("response_status = 'Pending'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
+  scope :cancelled, -> {where("response_status = 'Cancelled'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
   validate :check_codes
@@ -43,7 +44,7 @@ class Shift < ApplicationRecord
 
   def shift_cancelled
     if(self.response_status_changed? &&
-       ["Rejected", "Auto Rejected"].include?(self.response_status))
+       ["Rejected", "Auto Rejected", "Cancelled"].include?(self.response_status))
 
       # This was rejected - so ensure the request gets broadcasted again
       # If the broadcast_status is "Pending", the Notifier will pick it

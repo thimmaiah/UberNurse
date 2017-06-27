@@ -54,7 +54,8 @@ class ShiftsController < ApplicationController
 
   # DELETE /shifts/1
   def destroy
-    @shift.destroy
+    @shift.response_status = "Cancelled"
+    @shift.save
   end
 
   private

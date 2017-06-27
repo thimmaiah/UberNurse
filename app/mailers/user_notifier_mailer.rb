@@ -59,6 +59,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :cc => @shift.staffing_request.user.email,
           :subject => 'Shift Cancelled' )
   end
 
