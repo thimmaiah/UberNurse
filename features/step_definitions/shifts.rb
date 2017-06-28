@@ -67,11 +67,14 @@ end
 Then(/^I must see the shift$/) do
   @shift = Shift.last
   expect(page).to have_content(@shift.care_home.name)
-  expect(page).to have_content(@shift.user.first_name)
-  expect(page).to have_content(@shift.user.last_name)
+  if(@user.role  == "Admin")
+    expect(page).to have_content(@shift.user.first_name)
+    expect(page).to have_content(@shift.user.last_name)
+    expect(page).to have_content(@shift.user.phone)
+  end
   expect(page).to have_content(@shift.staffing_request.start_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("New Delhi").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@shift.user.phone)
+
 end
 
 When(/^I click the shift for details$/) do
@@ -220,7 +223,7 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
     Then I must see the shift 
     When I click the shift for details
   }
-  sleep(1)
+  sleep(2)
   start_end_field == 'start_code' ?  click_on("Add Start Code") : click_on("Add End Code")
   fill_in(start_end_field, with: code)
   click_on("Submit")

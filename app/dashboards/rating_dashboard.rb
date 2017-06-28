@@ -9,7 +9,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     shift: Field::BelongsTo,
-    user: Field::BelongsTo,
+    rated_entity: Field::Polymorphic,
     care_home: Field::BelongsTo,
     created_by: Field::BelongsTo.with_options(class_name: "User"),
     id: Field::Number,
@@ -28,7 +28,7 @@ class RatingDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :shift,
-    :user,
+    :rated_entity,
     :care_home,
     :stars,
   ].freeze
@@ -37,7 +37,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :shift,
-    :user,
+    :rated_entity,
     :care_home,
     :created_by,
     :id,

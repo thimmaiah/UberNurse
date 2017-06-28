@@ -183,7 +183,6 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.user.first_name)
   expect(page).to have_content(@staffing_request.user.last_name)
   expect(page).to have_content(@staffing_request.role)
-  expect(page).to have_content(@staffing_request.speciality)
   expect(page).to have_content(@staffing_request.request_status)
   expect(page).to have_content(@staffing_request.payment_status)
   expect(page).to have_content(@staffing_request.start_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
