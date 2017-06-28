@@ -223,7 +223,7 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
     Then I must see the shift 
     When I click the shift for details
   }
-  sleep(2)
+  sleep(1.5)
   start_end_field == 'start_code' ?  click_on("Add Start Code") : click_on("Add End Code")
   fill_in(start_end_field, with: code)
   click_on("Submit")
