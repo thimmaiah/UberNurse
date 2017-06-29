@@ -25,6 +25,12 @@ ThinkingSphinx::Index.define :care_home, :with => :real_time do
 
 end
 
+ThinkingSphinx::Index.define :post_code, :with => :real_time do
+  # fields
+  indexes postcode
+end
+
+
 ThinkingSphinx::Index.define :cqc_record, :with => :real_time do
   # fields
 

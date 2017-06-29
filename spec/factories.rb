@@ -79,7 +79,7 @@ FactoryGirl.define do
     end
 
     # care_home_id { care_home.id if care_home }
-    title {User::TITLE[rand(User::TITLE.length)]}
+    title {User::TITLE[rand(User::TITLE.length-1) + 1]}
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }

@@ -8,25 +8,30 @@ class ShiftCreatorJob < ApplicationJob
       # For each open request which has not yet been broadcasted
       StaffingRequest.current.open.not_broadcasted.each do |staffing_request|
 
-        # Select a temp who can be assigned this shift
-        selected_user = select_user(staffing_request)
+        begin
+          # Select a temp who can be assigned this shift
+          selected_user = select_user(staffing_request)
 
-        # If we find a suitable temp - create a shift
-        if selected_user
-          create_shift(selected_user, staffing_request)
-        else
-          logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
-          if(staffing_request.shift_status != "Not Found")
-            UserNotifierMailer.no_shift_found(staffing_request).deliver
+          # If we find a suitable temp - create a shift
+          if selected_user
+            create_shift(selected_user, staffing_request)
+          else
+            logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
+            if(staffing_request.shift_status != "Not Found")
+              UserNotifierMailer.no_shift_found(staffing_request).deliver
+            end
+            staffing_request.shift_status = "Not Found"
+            staffing_request.save
           end
-          staffing_request.shift_status = "Not Found"
-          staffing_request.save
+        rescue Exception => e
+          logger.error "ShiftCreatorJob: #{e.message}"
+          ExceptionNotifier.notify_exception(e)
         end
       end
 
     rescue Exception => e
       logger.error "ShiftCreatorJob: #{e.message}"
-      logger.error e.backtrace
+      ExceptionNotifier.notify_exception(e)
     ensure
       # Run this again
       ShiftCreatorJob.set(wait: 1.minute).perform_later
@@ -87,9 +92,9 @@ class ShiftCreatorJob < ApplicationJob
 
     # Create the shift
     shift = Shift.new(staffing_request_id: staffing_request.id,
-                                             user_id: selected_user.id,
-                                             care_home_id:staffing_request.care_home_id,
-                                             response_status: "Pending")
+                      user_id: selected_user.id,
+                      care_home_id:staffing_request.care_home_id,
+                      response_status: "Pending")
     # Update the request
     staffing_request.broadcast_status = "Sent"
     staffing_request.shift_status = "Found"
@@ -132,7 +137,14 @@ class ShiftCreatorJob < ApplicationJob
   end
 
   def pref_commute_ok?(user, staffing_request)
-    user.distance_from(staffing_request.care_home) < user.pref_commute_distance
+    begin
+      user.distance_from(staffing_request.care_home) < user.pref_commute_distance
+    rescue Exception => e
+      logger.error "ShiftCreatorJob: #{e.message}"
+      logger.error e.backtrace
+      ExceptionNotifier.notify_exception(e)
+      false
+    end
   end
 
   # Select a
@@ -143,7 +155,7 @@ class ShiftCreatorJob < ApplicationJob
   # 5 who has not rejected this request - perhaps because of another external engagement
 
   def select_user(staffing_request)
-    
+
     selected_user = nil
 
     User.where(role:staffing_request.role).active.verified.order("auto_selected_date ASC").each do |user|

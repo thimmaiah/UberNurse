@@ -21,7 +21,7 @@ Scenario Outline: Care Home Rating
     |role=Nurse;speciality=Generalist    |role=Nurse;speciality=Pediatric Care;verified=true| 4 |
 
 
-Scenario Outline: Care Home Rating
+Scenario Outline: Care Giver Rating
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given Im logged in

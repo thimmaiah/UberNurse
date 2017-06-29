@@ -1,10 +1,10 @@
 class PostCodesController < ApplicationController
-  before_action :set_post_code, only: [:show, :update, :destroy]
+  #before_action :authenticate_user!
+  load_and_authorize_resource param_method: :post_code_params, except: [:create]
 
   # GET /post_codes
   def index
-    @post_codes = PostCode.all
-
+    @post_codes = PostCode.search params[:search]
     render json: @post_codes
   end
 
