@@ -7,7 +7,7 @@ When(/^I fill and submit the care homes registration page with  "([^"]*)"$/) do 
   fields = ["name", "address", "postcode", "image_url"]
   fields.each do |k|
     fill_in(k, with: @care_home[k])
-    sleep(0.5)
+    sleep(1)
   end
   click_on("Save")
 end

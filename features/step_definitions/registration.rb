@@ -32,6 +32,7 @@ When(/^I fill and submit the registration page$/) do
     fields.each do |k|
       fill_in(k, with: @user[k])
     end
+    sleep(1)
 
   end
 
