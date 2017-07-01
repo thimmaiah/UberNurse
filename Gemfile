@@ -79,6 +79,7 @@ gem 'whenever', :require => false
 gem 'capybara-email'
 # gem 'high_voltage'
 gem 'roadie'
+gem 'logstash-logger'
 
 group :test do
   gem 'cucumber-rails', require: false

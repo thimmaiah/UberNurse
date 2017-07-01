@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   acts_as_paranoid
-  after_save ThinkingSphinx::RealTime.callback_for(:user)
+  after_save :index_user
 
   validates_presence_of :first_name, :last_name, :email, :role, :phone
 
@@ -40,6 +40,11 @@ class User < ApplicationRecord
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
 
+  def index_user
+    unless(self.changed.length == 1 && self.changed[0] == "tokens")
+      ThinkingSphinx::RealTime.callback_for(:user)
+    end
+  end
 
   def add_unsubscribe_hash
     self.unsubscribe_hash = SecureRandom.hex
