@@ -16,6 +16,6 @@ elk:
   dns: 127.0.0.1
   hostname: elk
   volumes: 
-   - /tmp/var/lib/elasticsearch:/var/lib/elasticsearch
+   - ../volumes/elasticsearch:/var/lib/elasticsearch
    - /home/thimmaiah/work/UberNurse/log:/app_logs
   privileged: true
