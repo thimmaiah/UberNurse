@@ -17,5 +17,4 @@ elk:
   hostname: elk
   volumes: 
    - ../volumes/elasticsearch:/var/lib/elasticsearch
-   - /home/thimmaiah/work/UberNurse/log:/app_logs
   privileged: true

@@ -95,7 +95,7 @@ module UberNurse
       {
         type: :udp,
         port: 55514,
-        host: 'localhost'
+        host: ENV["ELK_HOST"]
       }
     ]
 

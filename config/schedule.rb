@@ -29,5 +29,7 @@ end
 
 every :reboot do
 	rake "ts:regenerate"
-	runner "./script/delayed_job -e production start"
+	rake "assets:precompile"
+	command "cd /home/ubuntu/UberNurse/current && ./script/delayed_job -e production start"
+	command "cd /home/ubuntu/UberNurse/current && sudo docker-compose -f config/elk-docker-compose.yml up -d"
 end
