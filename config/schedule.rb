@@ -30,6 +30,6 @@ end
 every :reboot do
 	rake "ts:regenerate"
 	rake "assets:precompile"
-	command "cd /home/ubuntu/UberNurse/current && ./script/delayed_job -e production start"
+	command "cd /home/ubuntu/UberNurse/current && RAILS_ENV=production ./script/delayed_job start"
 	command "cd /home/ubuntu/UberNurse/current && sudo docker-compose -f config/elk-docker-compose.yml up -d"
 end

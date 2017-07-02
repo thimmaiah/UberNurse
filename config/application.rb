@@ -89,7 +89,7 @@ module UberNurse
     config.logstash.outputs = [
       {
         type: :file,
-        path: 'log/development.log',
+        path: "log/#{Rails.env}.log",
         formatter: ::Logger::Formatter
       },
       {

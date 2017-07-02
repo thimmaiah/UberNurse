@@ -12,11 +12,11 @@ class ShiftSerializer < ActiveModel::Serializer
 
   # We need to always send Lon dates back - as the time should be Lon time
   def start_date
-  	object.start_date.in_time_zone("London").strftime("%Y-%m-%dT%H:%M") if object.start_date
+  	object.start_date.in_time_zone("UTC").strftime("%Y-%m-%dT%H:%M") if object.start_date
   end
 
   def end_date
-  	object.end_date.in_time_zone("London").strftime("%Y-%m-%dT%H:%M") if object.end_date
+  	object.end_date.in_time_zone("UTC").strftime("%Y-%m-%dT%H:%M") if object.end_date
   end
 
 end
