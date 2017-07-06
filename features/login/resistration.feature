@@ -28,24 +28,24 @@ Scenario Outline: Register a care home with cqc
   And the care home should be unverified
   And I should be associated with the care home
   Examples:
-    |user                          |care home                  |msg1                                |
-    |role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
-    |role=Admin  |name=Little Haven                |Please call us to get your care home verified|
+    |user        |care home                         |msg1                                |
+    |role=Admin  |name=Kingswood House Nursing Home |As part of our verification process, we will call your care home to verify your details|
+    |role=Admin  |name=Little Haven                 |As part of our verification process, we will call your care home to verify your details|
 
 
 Scenario Outline: Register a care home without cqc
   Given Im a logged in user "<user>"  
   And I am at the care homes registration page
-  When I search for the care home "<care home>"
+  When I search for the care home "<care_home>"
   And I click "Register New Care Home"
   And I fill and submit the care homes registration page with  "<care_home>"
   Then I should see the "<msg1>"
   And the care home should be unverified
   And I should be associated with the care home
   Examples:
-    |user                          |care home                   |msg1                                |
-    |role=Admin  |name=Kingswood House Nursing Home|Please call us to get your care home verified|
-    |role=Admin  |name=Little Haven                |Please call us to get your care home verified|
+    |user        | care_home                       |msg1                                |
+    |role=Admin  |name=Kingswood House Nursing Home|As part of our verification process, we will call your care home to verify your details|
+    |role=Admin  |name=Little Haven                |As part of our verification process, we will call your care home to verify your details|
 
 
 Scenario Outline: User Phone Verification

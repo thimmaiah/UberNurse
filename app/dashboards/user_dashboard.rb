@@ -53,7 +53,9 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :care_home,
+    :user_docs,
+    :verified,
+    :phone_verified,
     :id,
     :first_name,
     :last_name,
@@ -64,18 +66,18 @@ class UserDashboard < Administrate::BaseDashboard
     :pref_commute_distance,
     :sort_code,
     :bank_account,
-    :verified,
-    :phone_verified,
     :active,
     :postcode,
-    :user_docs
+    :care_home
+
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :care_home,
+    :verified,
+    :phone_verified,
     :first_name,
     :last_name,
     :email,
@@ -86,8 +88,6 @@ class UserDashboard < Administrate::BaseDashboard
     :image_url,
     :sort_code,
     :bank_account,
-    :verified,
-    :phone_verified,
     :active,
     :postcode
   ].freeze

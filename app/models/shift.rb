@@ -6,7 +6,7 @@ class Shift < ApplicationRecord
   has_paper_trail
 
   RESPONSE_STATUS = ["Accepted", "Rejected", "Pending", "Auto Rejected", "Closed", "Cancelled"]
-  PAYMENT_STATUS = ["UnPaid", "Paid"]
+  PAYMENT_STATUS = ["UnPaid", "Pending", "Paid"]
   CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
   belongs_to :user
@@ -70,7 +70,8 @@ class Shift < ApplicationRecord
       UserNotifierMailer.shift_started(self).deliver_later
     end
     if(self.end_code_changed?)
-      self.end_date = Time.now
+      # End Time cannot be < 4 hours from start time
+      self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
       self.end_date = self.end_date.change({sec: 0}) if self.end_date
       UserNotifierMailer.shift_ended(self).deliver_later
     end

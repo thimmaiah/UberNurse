@@ -13,7 +13,7 @@ class Payment < ApplicationRecord
 	before_destroy :revert_payment_status
 
 	def update_payment_status
-		self.shift.payment_status = "Paid"
+		self.shift.payment_status = "Pending"
 		self.shift.save
 	end
 

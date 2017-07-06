@@ -64,7 +64,7 @@ FactoryGirl.define do
 
 
     name {Faker::Company.name}
-    base_rate {15}
+    phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
     postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
