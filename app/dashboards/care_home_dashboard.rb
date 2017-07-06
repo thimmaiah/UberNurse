@@ -15,7 +15,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     staffing_requests: Field::HasMany,
     name: Field::String,
     postcode: Field::String.with_options(required: true),
-    base_rate: Field::Number.with_options(decimals: 2),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     image_url: Field::Text,
@@ -46,7 +45,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :verified,
     :zone,
     :postcode,
-    :base_rate,
     :created_at,
     :updated_at,
     :image_url,
@@ -60,7 +58,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :postcode,
-    :base_rate,
     :image_url,
     :verified,
     :zone

@@ -54,6 +54,26 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'New Shift Available' )
   end
 
+
+  def shift_started(shift)
+    @shift = shift
+    @user = shift.user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :cc => @shift.staffing_request.user.email,
+          :subject => 'Shift Started' )
+  end
+
+  def shift_ended(shift)
+    @shift = shift
+    @user = shift.user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :cc => @shift.staffing_request.user.email,
+          :subject => 'Shift Ended' )
+  end
+
+
   def shift_cancelled(shift)
     @shift = shift
     @user = shift.user

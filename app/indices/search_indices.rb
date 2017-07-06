@@ -18,10 +18,6 @@ end
 ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
   indexes name
-  indexes address
-  indexes street
-  indexes postcode
-  indexes town
 
 end
 

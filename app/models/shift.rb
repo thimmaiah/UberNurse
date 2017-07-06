@@ -64,11 +64,16 @@ class Shift < ApplicationRecord
 
 
   def update_dates
-    self.start_date = Time.now if(self.start_code_changed?)
-    self.end_date = Time.now if(self.end_code_changed?)
-    # Zero out the seconds - it causes lots of problems when calculating time spent
-    self.start_date = self.start_date.change({sec: 0}) if self.start_date
-    self.end_date = self.end_date.change({sec: 0}) if self.end_date
+    if(self.start_code_changed?)
+      self.start_date = Time.now
+      self.start_date = self.start_date.change({sec: 0}) if self.start_date
+      UserNotifierMailer.shift_started(self).deliver_later
+    end
+    if(self.end_code_changed?)
+      self.end_date = Time.now
+      self.end_date = self.end_date.change({sec: 0}) if self.end_date
+      UserNotifierMailer.shift_ended(self).deliver_later
+    end
   end
 
   def broadcast_shift
@@ -90,14 +95,14 @@ class Shift < ApplicationRecord
 
   def close_shift
     # Ensure this gets priced, if we have the right star / end codes
-    if(!self.closing_started && price == nil && 
-      self.start_code == self.staffing_request.start_code && 
-      self.end_code == self.staffing_request.end_code)
+    if(!self.closing_started && price == nil &&
+       self.start_code == self.staffing_request.start_code &&
+       self.end_code == self.staffing_request.end_code)
 
       ShiftCloseJob.perform_later(self.id)
       # This callback gets called multiple times - we want to do this only once. Hence closing_started
       self.closing_started = true
-    
+
     end
   end
 

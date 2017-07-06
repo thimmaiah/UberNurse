@@ -62,7 +62,7 @@ module UberNurse
     puts "########"
     puts "config/application.rb has settings to remove timezone aware attributes"
     puts "########"
-    config.active_record.default_timezone = :local
+    #config.active_record.default_timezone = :local
     config.active_record.time_zone_aware_attributes = false
 
 
