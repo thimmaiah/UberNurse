@@ -32,6 +32,7 @@ class UserDashboard < Administrate::BaseDashboard
     verified: Field::Boolean,
     phone_verified: Field::Boolean,
     postcode: Field::String,
+    created_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -47,7 +48,8 @@ class UserDashboard < Administrate::BaseDashboard
     :email,
     :verified,
     :phone_verified,
-    :role
+    :role,
+    :created_at
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -89,7 +91,8 @@ class UserDashboard < Administrate::BaseDashboard
     :sort_code,
     :bank_account,
     :active,
-    :postcode
+    :postcode,
+    :created_at
   ].freeze
 
   # Overwrite this method to customize how users are displayed

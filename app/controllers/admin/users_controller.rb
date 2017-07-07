@@ -4,14 +4,14 @@ module Admin
     # you can overwrite any of the RESTful actions. For example:
     #
     def index
-      if params[:search].present?
-        
-        @resources = User.search(params[:search]).page(params[:page]).per(10)
-        setup_search
-
+      if params[:search].present?        
+        search(User)
       else
-        super
+        super  
         @resources = User.page(params[:page]).per(10)
+        if(params[:created_at] == 'today')
+          @resources = @resources.where("created_at >= ?", Date.today)
+        end
       end
     end
 

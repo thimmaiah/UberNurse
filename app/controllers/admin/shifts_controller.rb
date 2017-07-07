@@ -5,10 +5,7 @@ module Admin
     #
     def index
       if params[:search].present?
-        
-        @resources = Shift.search(params[:search]).page(params[:page]).per(10)
-        setup_search
-
+        search(Shift)
       else
         super
         @resources = Shift.page(params[:page]).per(10)

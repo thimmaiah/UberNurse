@@ -4,21 +4,19 @@ ThinkingSphinx::Index.define :staffing_request, :with => :real_time do
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true
 
-  indexes broadcast_status
-  indexes payment_status
-  indexes start_code
-  indexes end_code
-    
   # attributes
   has care_home_id,  :type => :integer
   has user_id,  :type => :integer
   has request_status, :type=>:string
+  has broadcast_status, :type=>:string
+  has shift_status, :type=>:string
 end
 
 ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
   indexes name
-
+  has zone, :type=>:string
+  has verified, :type=>:boolean
 end
 
 ThinkingSphinx::Index.define :post_code, :with => :real_time do
@@ -56,6 +54,7 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   has lat, :as => :latitude,  :type => :float 
   has lng, :as => :longitude,  :type => :float
   has verified, :type=>:boolean
+  has phone_verified, :type=>:boolean
   has role, :type=>:string
   has auto_selected_date, :type => :timestamp
 end
@@ -103,13 +102,13 @@ ThinkingSphinx::Index.define :shift, :with => :real_time do
   indexes user.first_name, :as => :user_first_name, :sortable => true
   indexes user.last_name, :as => :user_last_name, :sortable => true  
 
-  indexes start_code
-  indexes end_code 
-  indexes response_status
-  indexes payment_status
   
   has user_id,  :type => :integer
   has care_home_id,  :type => :integer
   has rated,  :type => :boolean
   has accepted,  :type => :boolean
+  has response_status, :type => :string
+  has payment_status, :type => :string
+  has start_code, :type => :string
+  has end_code, :type => :string
 end

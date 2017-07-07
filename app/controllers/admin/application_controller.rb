@@ -36,5 +36,15 @@ module Admin
     # def records_per_page
     #   params[:per_page] || 20
     # end
+
+    def search(entity)
+      with = params[:with].present? ? eval("{"+params[:with].gsub(/ ?= ?/,":")+"}") : {}
+      if params[:search] == "*"
+        @resources = entity.search( with: with ).page(params[:page]).per(10)
+      else
+        @resources = entity.search( params[:search], with: with ).page(params[:page]).per(10)
+      end
+      setup_search
+    end
   end
 end

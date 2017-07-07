@@ -22,7 +22,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
     response_count: Field::Number,
-    payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
+    shift_status: Field::Select.with_options(collection: StaffingRequest::SHIFT_STATUS),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     start_code: Field::String,
@@ -43,7 +43,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :start_date,
     :end_date,
     :request_status,
-    :payment_status,
+    :shift_status,
     :price,
     :broadcast_status
   ].freeze
@@ -63,7 +63,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :request_status,
     :auto_deny_in,
     :response_count,
-    :payment_status,
+    :shift_status,
     :created_at,
     :updated_at,
     :start_code,
@@ -79,7 +79,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :request_status,
     :auto_deny_in,
-    :payment_status,
+    :shift_status,
     :start_code,
     :end_code
   ].freeze

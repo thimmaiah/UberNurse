@@ -27,7 +27,7 @@ group :development do
 end
 
 gem 'mysql2'
-gem 'jdbc-mysql',      '= 5.1.35', :platform => :jruby
+#gem 'jdbc-mysql',      '= 5.1.35', :platform => :jruby
 gem 'thinking-sphinx', '~> 3.3.0'
 
 gem 'oauth'
@@ -70,6 +70,7 @@ gem 'exception_notification'
 gem 'dotenv-rails'
 gem 'rest-client'
 gem "administrate"
+gem 'ransack'
 gem "paranoia", "~> 2.2"
 gem "geocoder"
 gem 'paper_trail'

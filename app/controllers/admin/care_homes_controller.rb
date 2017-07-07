@@ -5,10 +5,7 @@ module Admin
     #
     def index
       if params[:search].present?
-        
-        @resources = CareHome.search(params[:search]).page(params[:page]).per(10)
-        setup_search
-
+        search(CareHome)
       else
         super
         @resources = CareHome.page(params[:page]).per(10)

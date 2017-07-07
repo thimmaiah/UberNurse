@@ -5,10 +5,7 @@ module Admin
     #
     def index
       if params[:search].present?
-
-        @resources = Rating.search(params[:search]).page(params[:page]).per(10)
-        setup_search
-
+        search(Rating)
       else
         super
         @resources = Rating.page(params[:page]).per(10)

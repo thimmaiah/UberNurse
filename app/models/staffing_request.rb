@@ -10,6 +10,7 @@ class StaffingRequest < ApplicationRecord
 
   REQ_STATUS = ["Open", "Closed", "Cancelled"]
   BROADCAST_STATUS =["Sent", "Failed"]
+  SHIFT_STATUS =["Not Found", "Found"]
 
   belongs_to :care_home
   belongs_to :user
