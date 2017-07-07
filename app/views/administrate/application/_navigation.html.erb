@@ -11,19 +11,19 @@ as defined by the routes in the `admin/` namespace
 
 
   <a class="navigation__link " href="/admin/users"> Users </a>
-  <a class="navigation__link  child-nav" href="/admin/users?search=*&with=verified%3Dfalse"> - Unverified Users </a>
+  <a class="navigation__link  child-nav" href="/admin/users?search=*&with=verified%3Dfalse"> - Unverified </a>
   <a class="navigation__link  child-nav" href="/admin/users?search=*&with=role%3D'Nurse'"> - Nurses </a>
-  <a class="child-nav" href="/admin/users?search=*&with=role%3D'Care Giver'"> - Care Givers </a>
+  <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Care Giver'"> - Care Givers </a>
   
   <a class="navigation__link " href="/admin/care_homes"> Care Homes </a>
-  <a class="navigation__link child-nav" href="/admin/care_homes?search=*&with=verified%3Dfalse"> - Unverified Care Homes
+  <a class="navigation__link child-nav" href="/admin/care_homes?search=*&with=verified%3Dfalse"> - Unverified
   </a>
 
   <a class="navigation__link " href="/admin/staffing_requests"> Staffing Requests </a>
-  <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=shift_status%3D'Not Found'"> - Staffing Requests Without Shifts</a>
+  <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=request_status%3D'Open',shift_status%3D'Not Found'"> - Without Shifts</a>
 
   <a class="navigation__link " href="/admin/shifts"> Shifts </a>
-  <a class="navigation__link child-nav" href="/admin/shifts?search=*&with=payment_status%3D'Pending'"> - Shifts Pending Payments </a>
+  <a class="navigation__link child-nav" href="/admin/shifts?search=*&with=payment_status%3D'Pending'"> - Pending Payments </a>
 
   <a class="navigation__link " href="/admin/payments"> Payments </a>
   <a class="navigation__link child-nav" href="/admin/payments_export/form"> - Payment Export
