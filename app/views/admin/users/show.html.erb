@@ -30,6 +30,11 @@ as well as a link to its edit page.
       class: "button",
     ) if valid_action? :edit %>
 
+    <% if page.resource.role == "Nurse" || page.resource.role == "Care Giver"%>
+    <a class="button" href="/admin/payments_export/form?user_id=<%=page.resource.id%>"> Payment Export
+    </a>
+    <% end %>
+
   </div>
 </header>
 

@@ -20,7 +20,7 @@
 	  <label for="created_at_start">Start Date</label>
 	</div>
 	<div class="field-unit__field">
-	  <input type="date" name="created_at_start" id="created_at_start" />
+	  <input type="date" name="created_at_start" id="created_at_start" value='<%= Date.today.beginning_of_month %>' />
 	</div>
 
 </div>
@@ -31,7 +31,7 @@
 	  <label for="created_at_end">End Date</label>
 	</div>
 	<div class="field-unit__field">
-	  <input type="date" name="created_at_end" id="created_at_end" />
+		<input type="date" name="created_at_end" id="created_at_end" value='<%= Date.today.end_of_month %>' />
 	</div>
 
 </div>
@@ -43,7 +43,7 @@
 	  <label for="user_id">User Id</label>
 	</div>
 	<div class="field-unit__field">
-	  <input type="text" name="user_id" id="user_id" />
+	  <input type="text" name="user_id" id="user_id" value='<%=params[:user_id]%>' />
 	</div>
 
 </div>
@@ -55,7 +55,7 @@
 	  <label for="care_home_id">Care Home Id</label>
 	</div>
 	<div class="field-unit__field">
-	  <input type="text" name="care_home_id" id="care_home_id" />
+	  <input type="text" name="care_home_id" id="care_home_id" value='<%=params[:care_home_id]%>' />
 	</div>
 
 </div>

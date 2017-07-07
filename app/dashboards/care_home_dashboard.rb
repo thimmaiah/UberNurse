@@ -38,8 +38,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :users,
-    :staffing_requests,
     :id,
     :name,
     :verified,
@@ -50,6 +48,9 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :image_url,
     :lat,
     :lng,
+    :users,
+    :staffing_requests,
+
   ].freeze
 
   # FORM_ATTRIBUTES
