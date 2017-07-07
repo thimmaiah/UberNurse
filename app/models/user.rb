@@ -41,9 +41,18 @@ class User < ApplicationRecord
   reverse_geocoded_by :lat, :lng
 
   def index_user
-    unless(self.changed.length == 1 && self.changed[0] == "tokens")
-      ThinkingSphinx::RealTime.callback_for(:user)
+    # This is to avoid the user being indexed with every request
+    # as with this API app the user tokens get updated with every request due to device
+    
+    #logger.debug "index_user #{self.changed}"
+    if( self.changed.length == 2 && self.changed[0] == "tokens" && self.changed[1] == "updated_at" )
+      return  
+    else
+      ThinkingSphinx::RealTime::Callbacks::RealTimeCallbacks.new(
+        :user
+      ).after_save self
     end
+
   end
 
   def add_unsubscribe_hash
