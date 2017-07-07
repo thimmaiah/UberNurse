@@ -14,6 +14,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     users: Field::HasMany,
     staffing_requests: Field::HasMany,
     name: Field::String,
+    phone: Field::String,
     postcode: Field::String.with_options(required: true),
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -30,6 +31,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
+    :phone,
     :postcode,
     :verified,
     :zone
@@ -40,6 +42,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :phone,
     :verified,
     :zone,
     :postcode,
@@ -58,6 +61,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :phone,
     :postcode,
     :image_url,
     :verified,

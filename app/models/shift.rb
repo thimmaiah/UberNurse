@@ -89,6 +89,11 @@ class Shift < ApplicationRecord
     if(self.start_code && self.start_code.strip != "" && self.start_code != self.staffing_request.start_code)
       errors.add(:start_code, "Start Code does not match with the request start code")
     end
+
+    if(self.start_code_changed? && (self.staffing_request.start_date - Time.now)/60 > 15 )
+      errors.add(:start_code, "Shift cannot start before the allotted shift time #{self.staffing_request.start_date.in_time_zone("UTC").to_s(:custom_datetime)}")
+    end
+
     if(self.end_code && self.end_code.strip != "" && self.end_code != self.staffing_request.end_code)
       errors.add(:end_code, "End Code does not match with the request end code")
     end
