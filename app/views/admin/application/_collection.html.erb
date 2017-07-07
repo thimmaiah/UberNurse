@@ -73,11 +73,11 @@ to display a collection of resources in an HTML table.
           <td><%= link_to(
             t("administrate.actions.edit"),
             [:edit, namespace, resource],
-            class: "action-edit",
+            class: "action-edit button",
           ) %></td>
         <% end %>
 
-        <% if valid_action? :destroy %>
+        <% if false && valid_action?(:destroy) %>
           <td><%= link_to(
             t("administrate.actions.destroy"),
             [namespace, resource],
