@@ -43,7 +43,11 @@ class UserDoc < ApplicationRecord
   end
 
   def request_verification
-    UserNotifierMailer.request_verification(self.id).deliver_later
+    if(self.not_available && self.doc_type == "DBS")
+      UserNotifierMailer.doc_not_available(self.id).deliver_later
+    else
+      UserNotifierMailer.request_verification(self.id).deliver_later
+    end
   end
 
   def doc_url

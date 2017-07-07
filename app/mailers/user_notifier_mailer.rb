@@ -30,6 +30,14 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Please upload latest documents' )
   end
 
+  def doc_not_available(user_doc_id)
+    @user_doc = UserDoc.find(user_doc_id)
+    @user = @user_doc.user
+    logger.debug("Sending mail to #{ENV['NOREPLY']}")
+    mail( :to => ENV['ADMIN_EMAIL'],
+          :subject => 'DBS not available for #{@user.first_name} #{@user.last_name} ' )
+  end
+
   def verification_reminder(user)
     @user = user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
