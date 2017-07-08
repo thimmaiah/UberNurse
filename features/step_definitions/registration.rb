@@ -94,7 +94,7 @@ end
 Then(/^when I submit the code$/) do
   fill_in("verification_code", with: @user.sms_verification_code)
   sleep(1)
-  click_on("Verifiy Code")
+  click_on("Verify Code")
   sleep(1)
 end
 

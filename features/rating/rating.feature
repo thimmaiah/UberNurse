@@ -38,4 +38,4 @@ Scenario Outline: Care Giver Rating
     |request                             | user                            | rating |
     |role=Care Giver                     |role=Care Giver;verified=true    | 2 |
     |role=Nurse;speciality=Generalist    |role=Nurse;verified=true         | 3 |
-    |role=Nurse;speciality=Generalist    |role=Nurse;speciality=Pediatric Care;verified=true| 4 |
+    |role=Nurse;speciality=Generalist    |role=Nurse;verified=true         | 4 |
