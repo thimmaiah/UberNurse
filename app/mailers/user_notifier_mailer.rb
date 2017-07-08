@@ -35,7 +35,14 @@ class UserNotifierMailer < ApplicationMailer
     @user = @user_doc.user
     logger.debug("Sending mail to #{ENV['NOREPLY']}")
     mail( :to => ENV['ADMIN_EMAIL'],
-          :subject => 'DBS not available for #{@user.first_name} #{@user.last_name} ' )
+          :subject => "DBS not available for #{@user.first_name} #{@user.last_name}" )
+  end
+
+  def user_docs_uploaded(user)
+    @user = user
+    logger.debug("Sending mail to #{ENV['NOREPLY']}")
+    mail( :to => ENV['ADMIN_EMAIL'],
+          :subject => "#{@user.first_name} #{@user.last_name} has uploaded all docs" )
   end
 
   def verification_reminder(user)
