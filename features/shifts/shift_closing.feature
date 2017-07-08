@@ -14,7 +14,7 @@ Scenario Outline: Close Shift
   Then the payment for the shift is generated
   Then the shift is marked as closed
   And the request is marked as closed 
-  Then the user receives an email with "Shift Closed" as the subject
+  Then the user receives an email with "Shift Ended" as the subject
 
   Examples:
   	|request	                         | user                            |

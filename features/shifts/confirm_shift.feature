@@ -12,7 +12,6 @@ Scenario Outline: Accept My Shift
   When I click the shift for details
   When I click "Accept"
   Then the shift is "Accepted"
-  Then I must see the shift details
   Given jobs are being dispatched
   Then the user receives an email with "Shift Confirmed" as the subject
 
@@ -33,7 +32,6 @@ Scenario Outline: Decline My Shift
   When I click the shift for details
   When I click "Decline"
   Then the shift is "Rejected"
-  Then I must see the shift details
   Given jobs are being dispatched
   Then the user receives an email with "Shift Cancelled" as the subject
 

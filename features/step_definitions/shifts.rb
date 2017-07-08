@@ -79,6 +79,8 @@ end
 
 When(/^I click the shift for details$/) do
   page.find("#shift-#{@shift.id}-item").click
+  puts "\n########### Shift Details ############\n"
+  puts "\n#{Shift.last.to_json}\n"
 end
 
 
@@ -183,6 +185,13 @@ Given(/^the shift has confirm_sent "([^"]*)" times$/) do |arg1|
 end
 
 Then(/^when the user enters the start and end code$/) do
+
+  # The start date must be now, else the UI will not allow the start code to be entered
+  @staffing_request.start_date = Time.now
+  @staffing_request.end_date = Time.now + 8.hours
+  @staffing_request.save!
+
+
   @shift.start_code = @staffing_request.start_code
   @shift.end_code = @staffing_request.end_code
   @shift.save
@@ -212,6 +221,11 @@ end
 
 
 Given(/^the shift has a valid start code$/) do
+  # The start date must be now, else the UI will not allow the start code to be entered
+  @staffing_request.start_date = Time.now
+  @staffing_request.end_date = Time.now + 8.hours
+  @staffing_request.save!
+
   @shift.start_code = @shift.staffing_request.start_code
   @shift.save!
 end
@@ -223,6 +237,13 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
     Then I must see the shift 
     When I click the shift for details
   }
+
+  # The start date must be now, else the UI will not allow the start code to be entered
+  @staffing_request.start_date = Time.now
+  @staffing_request.end_date = Time.now + 8.hours
+  @staffing_request.save!
+
+
   sleep(1)
   start_end_field == 'start_code' ?  click_on("Start Shift") : click_on("End Shift")
   fill_in(start_end_field, with: code)

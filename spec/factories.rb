@@ -35,7 +35,7 @@ FactoryGirl.define do
   end
 
   factory :staffing_request do
-    start_date {Date.today + 1.day + rand(8).hours}
+    start_date {Date.today + 1.day + 8.hours}
     end_date {start_date + 8.hours}
     rate_per_hour 15
     request_status {"Open"}

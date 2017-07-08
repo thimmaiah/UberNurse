@@ -82,8 +82,8 @@ When(/^I click "([^"]*)"$/) do |arg1|
 end
 
 Given(/^jobs are being dispatched$/) do
+  sleep(2)
   Delayed::Worker.new.work_off
-  sleep(1)
 end
 
 Given(/^jobs are cleared$/) do
@@ -118,10 +118,12 @@ end
 
 Given(/^there are no bank holidays$/) do
   Holiday.update_all(bank_holiday:false)
+  sleep(1)
 end
 
 Given(/^there are bank holidays$/) do
   Holiday.update_all(bank_holiday:true)
+  sleep(1)
 end
 
 Then(/^I should see the all the home page menus "([^"]*)"$/) do |arg1|

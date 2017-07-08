@@ -30,6 +30,7 @@ class UserDashboard < Administrate::BaseDashboard
     sort_code: Field::String,
     bank_account: Field::String,
     verified: Field::Boolean,
+    ready_for_verification: Field::Boolean,
     phone_verified: Field::Boolean,
     postcode: Field::String,
     created_at: Field::DateTime,
@@ -47,6 +48,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :verified,
+    :ready_for_verification,
     :phone_verified,
     :role,
     :created_at
@@ -57,6 +59,7 @@ class UserDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :user_docs,
     :verified,
+    :ready_for_verification,
     :phone_verified,
     :id,
     :first_name,
