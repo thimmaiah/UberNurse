@@ -12,10 +12,10 @@ Scenario Outline: User Registration Successfully
   When I fill and submit the login page
   Then I should see the "<msg2>"
   Examples:
-  	|user								                |msg1											                      |msg2		|
+  	|user						  |msg1											                      |msg2		  |
   	|role=Care Giver	|Please check your email for verification link	|Welcome	|
     |role=Nurse       |Please check your email for verification link  |Welcome  |
-    |role=Admin		    |Please check your email for verification link	|Welcome	|
+    |role=Admin		    |Please check your email for verification link	|Register Care Home	|
 
 
 Scenario Outline: Register a care home with cqc

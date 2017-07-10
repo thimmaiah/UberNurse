@@ -67,7 +67,7 @@ FactoryGirl.define do
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
-    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
+    postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
@@ -86,7 +86,8 @@ FactoryGirl.define do
     password {email}
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     address { Faker::Address.street_address }
-    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
+    postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }
+    #postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     confirmation_sent_at { Time.now }
     confirmed_at { Time.now }
     sign_in_count { 5 }

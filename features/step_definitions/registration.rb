@@ -11,12 +11,12 @@ When(/^I fill and submit the registration page$/) do
   sleep(1)
 
   ionic_select(@user.title, "title", true)
+  sleep(0.5)  
 
-
-  fill_in("first_name", with: @user.first_name)
   fields = [  "first_name", "last_name", "email", "phone", "password"]
   fields.each do |k|
     fill_in(k, with: @user[k])
+    sleep(0.5)
   end
 
   fill_in("password", with: @user.email)
@@ -28,10 +28,12 @@ When(/^I fill and submit the registration page$/) do
   if(@user.role == 'Care Giver' || @user.role == 'Nurse')
 
 
-    fields = [ "pref_commute_distance", "postcode"]
+    fields = [ "postcode", "pref_commute_distance"]
     fields.each do |k|
       fill_in(k, with: @user[k])
+      sleep(0.5)
     end
+
     sleep(1)
 
   end
