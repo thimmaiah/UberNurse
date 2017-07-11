@@ -37,8 +37,9 @@ Rails.application.routes.draw do
   resources :care_homes
   resources :users do
     collection do
-      post :send_sms_verification
+      post :send_sms_verification      
       post :verify_sms_verification
+      post :resend_confirmation
     end
   end
   resources :post_codes

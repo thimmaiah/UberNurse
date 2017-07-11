@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:unsubscribe]
+  before_action :authenticate_user!, except: [:unsubscribe, :resend_confirmation]
   load_and_authorize_resource param_method: :user_params,
-    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification]
+    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification, :resend_confirmation]
 
   # GET /users
   def index
@@ -56,6 +56,16 @@ class UsersController < ApplicationController
       render json: {verified: true}
     else
       render json: {verified: false}
+    end
+  end
+
+  def resend_confirmation
+    user = User.find_by_email(params[:email])
+    if(user)
+      user.send_confirmation_instructions
+      render json: {sent: true}
+    else
+      render json: {sent: false, user_not_found: true}
     end
   end
 
