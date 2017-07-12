@@ -43,7 +43,7 @@ When(/^I click on the search result care home$/) do
   within('.list') do
     first('.item').click
   end
-  sleep(0.5)
+  sleep(1)
 end
 
 When(/^When and submit the care homes registration page with "([^"]*)"$/) do |arg1|
