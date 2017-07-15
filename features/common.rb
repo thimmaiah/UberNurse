@@ -51,6 +51,10 @@ Then(/^he must see the message "([^"]*)"$/) do |arg1|
   expect(page).to have_content(arg1)
 end
 
+Then(/^I must see the message "([^"]*)"$/) do |arg1|
+  expect(page).to have_content(arg1)
+end
+
 
 
 Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|

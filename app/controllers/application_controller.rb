@@ -31,6 +31,8 @@ class ApplicationController < ActionController::API
         :current_user => current_user
       }
     end
+
+    logger.debug "uid = #{request.headers['uid']}, access-token = #{request.headers['access-token']}, client = #{request.headers['client']}"
   end
 
   before_action :setup_pagination, only: [:index]

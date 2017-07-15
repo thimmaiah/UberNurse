@@ -85,3 +85,18 @@ Scenario Outline: Add End Code No Match
   Examples:
     |request                        | user                            | end_code  |  msg            |
     |role=Nurse;end_code=1113       |role=Nurse;verified=true         | 1111      | End Code does not match|
+
+
+Scenario Outline: Cancel Accepted Shift
+  Given there is a care_home "verified=true" with an admin "role=Admin"
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the user has already accepted this request
+  Given Im logged in 
+  And I cancel the shift
+  Then the shift must be cancelled
+  And I must see the message "No Shifts Available"
+  Examples:
+    |request                          | user                            | start_code  |  msg            |
+    |role=Care Giver;start_code=1111  |role=Care Giver;verified=true    | 1111        | 1111   |
+    |role=Nurse;start_code=1112       |role=Nurse;verified=true         | 1112        | 1112   |

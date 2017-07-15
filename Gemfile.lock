@@ -434,7 +434,7 @@ DEPENDENCIES
   paper_trail
   paperclip (~> 5.0.0)
   paranoia (~> 2.2)
-  puma (~> 3.0)
+  puma (= 3.9.1)
   rack-attack
   rack-cors
   rails (~> 5.0.2)

@@ -3,49 +3,6 @@ namespace :uber_nurse do
   require "faker"
   require 'digest/sha1'
   require 'factory_girl'
-  # require File.expand_path("spec/factories.rb")
-  # require File.expand_path("spec/factories/entities.rb")
-
-  desc "generates Config Files"
-  task :generateConfigs => :environment do
-
-    puts "Rails.root = #{Rails.root}"
-    bindings_file =   "#{Rails.root}" + '/config/deploy_templates/bindings.rb'
-    template_dir =  "#{Rails.root}" + "/config/deploy_templates"
-    release_path =  "#{Rails.root}"
-    true_production = false
-    host =      "localhost"
-
-    puts ""
-    puts "##############################"
-    puts "##### Generating configs #####"
-    puts "Using bindings file #{bindings_file} to generate configs"
-    puts "##############################"
-    puts ""
-    puts File.open("#{bindings_file}").read()
-    puts ""
-    puts "##############################"
-    puts "##############################"
-
-    load( "#{bindings_file}" );
-
-    config_map = {"application.rb"=>"config",
-                  "database.yml"=>"config",
-                  "01_env.rb"=>"config/initializers",
-                  "amazon_ses.rb"=>"config/initializers",
-                  "activemerchant.rb"=>"config/initializers",
-                  "twilio.rb"=>"config/initializers",
-                  "paperclip_interpolates.rb"=>"config/initializers"}
-
-    config_map.each do |config_name, config_dir|
-      erb=ERB.new(File.open("#{template_dir}/#{config_name}.erb").read());
-      code=erb.result(binding);
-      aFile = File.new("#{release_path}/#{config_dir}/#{config_name}", "w")
-      aFile.write(code)
-      aFile.close
-    end
-
-  end
 
 
   desc "Cleans p DB - DELETES everything -  watch out"
@@ -63,7 +20,7 @@ namespace :uber_nurse do
 
 
   desc "generates fake CareHomes for testing"
-  task :generateFakecare_homes => :environment do
+  task :generateFakeCareHomes => :environment do
 
 
     begin
@@ -99,38 +56,46 @@ namespace :uber_nurse do
 
       care_homes = CareHome.all
 
+      i = 1
       care_homes.each do |c|
         count = 1
         (0..1).each do |j|
           u = FactoryGirl.build(:user)
-
+          u.email = "admin#{i}@gmail.com"
+          u.password = "admin#{i}@gmail.com"
           u.role = "Admin"
           u.care_home_id = c.id
           u.save
           #puts u.to_xml
           puts "User #{u.id}"
+          i = i + 1
         end
       end
 
+      i = 1
       # Now generate some consumers
       (1..10).each do |j|
         u = FactoryGirl.build(:user)
-        # Ensure User role is USER_ROLE_ID
+        u.email = "user#{i}@gmail.com"
+        u.password = "user#{i}@gmail.com"
         u.role = "Care Giver"
         u.image_url = images[rand(images.length)]
         u.save
         #puts u.to_xml
         puts "User #{u.id}"
+        i = i + 1
       end
 
       (1..10).each do |j|
         u = FactoryGirl.build(:user)
-        # Ensure User role is USER_ROLE_ID
+        u.email = "user#{i}@gmail.com"
+        u.password = "user#{i}@gmail.com"          
         u.role = "Nurse"
         u.image_url = images[rand(images.length)]
         u.save
         #puts u.to_xml
         puts "User #{u.id}"
+        i = i + 1
       end
 
       u = FactoryGirl.build(:user)
@@ -237,7 +202,7 @@ namespace :uber_nurse do
           u.care_home_id = req.care_home_id
           u.user = care_givers[rand(care_givers.length)]
           u.save
-          
+
           u.response_status =  "Accepted" #rand(2) > 0 ? "Accepted" : "Rejected"
           u.accepted = true
           u.save
@@ -348,7 +313,7 @@ namespace :uber_nurse do
 
 
   desc "Generating all Fake Data"
-  task :generateFakeAll => [:emptyDB, :generateFakecare_homes, :generateFakeUsers,
+  task :generateFakeAll => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers,
   :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments, :generateFakeRatings] do
     puts "Generating all Fake Data"
   end

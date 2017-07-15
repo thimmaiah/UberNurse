@@ -264,3 +264,23 @@ Then(/^the shift is "([^"]*)"$/) do |arg1|
   @shift.reload
   @shift.response_status == arg1
 end
+
+
+Given(/^I cancel the shift$/) do
+  steps %Q{
+    When I click "Confirmed Shifts"
+    When I click the shift for details
+  }
+
+  click_on "Cancel Shift"
+  sleep(1)
+  click_on "Yes"
+  sleep(1)
+end
+
+Then(/^the shift must be cancelled$/) do
+  @shift.reload
+  @shift.response_status.should == "Cancelled"
+  @shift.staffing_request.broadcast_status.should == "Pending"
+  @shift.staffing_request.shift_status.should == nil
+end
