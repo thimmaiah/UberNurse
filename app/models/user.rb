@@ -43,10 +43,10 @@ class User < ApplicationRecord
   def index_user
     # This is to avoid the user being indexed with every request
     # as with this API app the user tokens get updated with every request due to device
-    
+
     #logger.debug "index_user #{self.changed}"
     if( self.changed.length == 2 && self.changed[0] == "tokens" && self.changed[1] == "updated_at" )
-      return  
+      return
     else
       ThinkingSphinx::RealTime::Callbacks::RealTimeCallbacks.new(
         :user
@@ -126,24 +126,37 @@ class User < ApplicationRecord
   end
 
   def send_sms_verification
+    self.sms_verification_code = rand.to_s[2..6]
+    self.save
+    msg = "Your Connect Care phone verification code is: #{self.sms_verification_code}"
+    send_sms(msg)
+  end
 
+  def send_shift_sms_notification(shift)
+    msg = "You have a new shift assigned at #{shift.care_home.name}. Please open the Care Connuct app and accept or reject the shift."
+    send_sms(msg)
+  end
+
+  def send_sms(msg)
     to_phone = self.phone
     from_phone = ENV['TWILIO_NUMBER']
 
-    self.sms_verification_code = rand.to_s[2..6]
-    self.save
-
-
-    if(Rails.env != 'test')
-      logger.debug "Sending verification code to #{self.email} @ #{to_phone} from #{from_phone}"
+    if(Rails.env != 'test' && ENV["SEND_SMS"] == 'true')
+      logger.debug "Sending sms '#{msg}' to #{self.email} @ #{to_phone} from #{from_phone}"
 
       twilio = Twilio::REST::Client.new(ENV['TWILIO_ACCOUNT_SID'], ENV['TWILIO_AUTH_TOKEN'])
       twilio.messages.create(
         from: from_phone,
         to: to_phone,
-        body: "Your Connect Care phone verification code is: #{self.sms_verification_code}"
+        body: msg
       )
+      true
+    else
+      logger.debug "Not sending sms '#{msg}' to #{self.email} @ #{to_phone} from #{from_phone}. ENV['SEND_SMS'] = #{ENV['SEND_SMS']} & Rails.env = #{Rails.env}"
+      false
     end
+
+
   end
 
 

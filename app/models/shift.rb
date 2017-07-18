@@ -81,6 +81,7 @@ class Shift < ApplicationRecord
     if(self.response_status != 'Rejected')
       PushNotificationJob.new.perform(self)
       UserNotifierMailer.shift_notification(self).deliver_later
+      self.user.send_shift_sms_notification(self)
     end
   end
 

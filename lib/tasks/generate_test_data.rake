@@ -75,7 +75,8 @@ namespace :uber_nurse do
       i = 1
       # Now generate some consumers
       (1..10).each do |j|
-        u = FactoryGirl.build(:user)
+        u = FactoryGirl.build(:user)        
+        u.verified = true
         u.email = "user#{i}@gmail.com"
         u.password = "user#{i}@gmail.com"
         u.role = "Care Giver"
@@ -88,6 +89,7 @@ namespace :uber_nurse do
 
       (1..10).each do |j|
         u = FactoryGirl.build(:user)
+        u.verified = true
         u.email = "user#{i}@gmail.com"
         u.password = "user#{i}@gmail.com"          
         u.role = "Nurse"
@@ -99,6 +101,7 @@ namespace :uber_nurse do
       end
 
       u = FactoryGirl.build(:user)
+      u.verified = true
       u.email = "thimmaiah@gmail.com"
       u.password = u.email
       u.first_name="Mohith"
@@ -311,10 +314,19 @@ namespace :uber_nurse do
     end
   end
 
+  task :finalize => :environment do
+    Delayed::Job.delete_all
+    ShiftCreatorJob.add_to_queue
+  end
 
   desc "Generating all Fake Data"
   task :generateFakeAll => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers,
-  :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments, :generateFakeRatings] do
+  :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments, 
+  :generateFakeRatings, :finalize] do
+    puts "Generating all Fake Data"
+  end
+
+  task :generateLoadTestData => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
     puts "Generating all Fake Data"
   end
 
