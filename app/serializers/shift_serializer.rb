@@ -5,6 +5,7 @@ class ShiftSerializer < ActiveModel::Serializer
 
   belongs_to :user, serializer: UserMiniSerializer
   has_many :ratings, serializer: RatingSerializer
+  belongs_to :staffing_request, serializer: StaffingRequestSerializer
   
   def can_manage
   	Ability.new(scope).can?(:manage, object)

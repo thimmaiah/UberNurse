@@ -5,6 +5,7 @@ class ShiftMiniSerializer < ActiveModel::Serializer
   :staffing_request, :payment_status, :can_manage
 
   belongs_to :user, serializer: UserMiniSerializer
+  belongs_to :staffing_request, serializer: StaffingRequestSerializer
   
   def can_manage
   	Ability.new(scope).can?(:manage, object)
