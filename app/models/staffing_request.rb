@@ -56,6 +56,7 @@ class StaffingRequest < ApplicationRecord
       # Ensure all responses are also closed so they dont show up on the UI
       self.shifts.each do |resp|
         resp.response_status = self.request_status
+        resp.closed_by_parent_request = true
         resp.save
       end
     end

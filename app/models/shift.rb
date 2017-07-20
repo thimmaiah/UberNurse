@@ -33,6 +33,9 @@ class Shift < ApplicationRecord
   after_create :broadcast_shift
 
   attr_accessor :closing_started
+  # Set by the request when it is cancelled/closed. 
+  # see StaffingRequest.update_response_status && Shift.shift_cancelled
+  attr_accessor :closed_by_parent_request
 
   def set_defaults
     self.confirm_sent_count = 0
@@ -46,12 +49,14 @@ class Shift < ApplicationRecord
     if(self.response_status_changed? &&
        ["Rejected", "Auto Rejected", "Cancelled"].include?(self.response_status))
 
-      # This was rejected - so ensure the request gets broadcasted again
-      # If the broadcast_status is "Pending", the Notifier will pick it
-      # up again in some time and send it out
-      self.staffing_request.broadcast_status = "Pending"
-      self.staffing_request.shift_status = nil
-      self.staffing_request.save
+      if(!closed_by_parent_request)
+        # This was rejected - so ensure the request gets broadcasted again
+        # If the broadcast_status is "Pending", the Notifier will pick it
+        # up again in some time and send it out
+        self.staffing_request.broadcast_status = "Pending"
+        self.staffing_request.shift_status = nil
+        self.staffing_request.save
+      end
       UserNotifierMailer.shift_cancelled(self).deliver_later
     end
   end
