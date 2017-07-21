@@ -110,13 +110,16 @@ Given(/^there are "([^"]*)" of shifts$/) do |count|
 end
 
 Given(/^there are "([^"]*)" of shifts for the care_home$/) do |arg1|
-  count = arg1.to_i
+  puts "\n StaffingRequest.count = #{StaffingRequest.count} \n"
   StaffingRequest.all.each do |req|
     @staffing_request = req
+    puts @staffing_request.to_json
+
     steps %Q{
       Given there is a user "role=Care Giver;verified=true"
-      Given the user has already accepted a request "role=Care Giver"
+      Given the user has already accepted this request
     }
+
   end
 end
 

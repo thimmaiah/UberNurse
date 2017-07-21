@@ -103,6 +103,7 @@ end
 
 Given(/^there are "(\d+)" of verified requests$/) do |count|
   (1..count.to_i).each do |i|
+    puts "\nCreating request #{i}\n" 
     @staffing_request = FactoryGirl.build(:staffing_request)
     @staffing_request.care_home = @care_home
     @staffing_request.user = @care_home.users.admins.first
@@ -119,6 +120,11 @@ Then(/^I must see all the requests$/) do
   end
 end
 
+When(/^I click on the request$/) do
+  @staffing_request = StaffingRequest.first
+  item = "#StaffingRequest-#{@staffing_request.id}-item"
+  page.find(item).click
+end
 
 When(/^I click on the request I must see the request details$/) do
   StaffingRequest.all.each do |req|
@@ -183,8 +189,8 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.role)
   expect(page).to have_content(@staffing_request.request_status)
   expect(page).to have_content(@staffing_request.payment_status)
-  expect(page).to have_content(@staffing_request.start_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@staffing_request.end_date.in_time_zone("London").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.start_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.end_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@staffing_request.start_code)
   expect(page).to have_content(@staffing_request.end_code)
 end
@@ -215,4 +221,21 @@ end
 
 Then(/^the request overtime mins must be "([^"]*)"$/) do |arg1|
   @staffing_request.night_shift_minutes.should == arg1.to_i
+end
+
+Then(/^the request must be cancelled$/) do
+  sleep(1)
+  @staffing_request.reload
+  puts "\n######### StaffingRequest Reloaded ###########\n"
+  puts @staffing_request.to_json
+
+  @staffing_request.request_status.should == "Cancelled"
+end
+
+When(/^the request is cancelled by the user$/) do
+  find(".fab-md").click
+  sleep(1)
+  click_on "Cancel"
+  sleep(1)
+  click_on "Yes"
 end
