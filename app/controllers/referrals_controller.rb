@@ -2,40 +2,41 @@ class ReferralsController < ApplicationController
   before_action :authenticate_user!
   load_and_authorize_resource param_method: :referral_params
 
-
-  respond_to :html
-
+  # GET /referrals
   def index
-    @referrals = Referral.all
-    respond_with(@referrals)
+    @referrals = @referrals.page(@page).per(@per_page)
+    render json: @referrals.includes(:user)
   end
 
+  # GET /referrals/1
   def show
-    respond_with(@referral)
+    render json: @referral
   end
 
-  def new
-    @referral = Referral.new
-    respond_with(@referral)
-  end
-
-  def edit
-  end
-
+  # POST /referrals
   def create
     @referral = Referral.new(referral_params)
-    @referral.save
-    respond_with(@referral)
+    @referral.user_id = current_user.id
+
+    if @referral.save
+      render json: @referral, status: :created, location: @referral
+    else
+      render json: @referral.errors, status: :unprocessable_entity
+    end
   end
 
+  # PATCH/PUT /referrals/1
   def update
-    @referral.update(referral_params)
-    respond_with(@referral)
+    if @referral.update(referral_params)
+      render json: @referral
+    else
+      render json: @referral.errors, status: :unprocessable_entity
+    end
   end
 
+  # DELETE /referrals/1
   def destroy
     @referral.destroy
-    respond_with(@referral)
   end
 
   private

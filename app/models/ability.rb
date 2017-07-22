@@ -42,7 +42,7 @@ class Ability
         can :read, Payment, :user_id =>@user.id
         can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
         can :create, Rating, :rated_entity_type=>"CareHome"
-        can [:read, :create], Referral, :user_id =>@user.id
+        can [:read, :manage], Referral, :user_id =>@user.id
 
     end
 

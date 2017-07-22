@@ -12,7 +12,6 @@ class ReferralDashboard < Administrate::BaseDashboard
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,
-    role: Field::Select.with_options(collection: User::ROLE),
     user_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -37,7 +36,6 @@ class ReferralDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :role,
     :user_id,
     :created_at,
     :updated_at,
@@ -50,7 +48,6 @@ class ReferralDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :role,
     :user_id,
   ].freeze
 
