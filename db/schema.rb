@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170722153137) do
+ActiveRecord::Schema.define(version: 20170722165019) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -161,13 +161,15 @@ ActiveRecord::Schema.define(version: 20170722153137) do
   end
 
   create_table "referrals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "first_name", limit: 50
-    t.string   "last_name",  limit: 50
+    t.string   "first_name",      limit: 50
+    t.string   "last_name",       limit: 50
     t.string   "email"
-    t.string   "role",       limit: 15
+    t.string   "role",            limit: 15
     t.integer  "user_id"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "referral_status", limit: 10
+    t.string   "payment_status",  limit: 10
     t.index ["email"], name: "index_referrals_on_email", using: :btree
     t.index ["user_id"], name: "index_referrals_on_user_id", using: :btree
   end

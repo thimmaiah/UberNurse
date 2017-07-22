@@ -12,6 +12,8 @@ class ReferralDashboard < Administrate::BaseDashboard
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,
+    referral_status: Field::Select.with_options(collection: Referral::REFERAL_STATUS),
+    payment_status: Field::Select.with_options(collection: Referral::PAYMENT_STATUS),
     user_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -27,6 +29,8 @@ class ReferralDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
+    :referral_status,
+    :payment_status
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -36,6 +40,8 @@ class ReferralDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
+    :referral_status,
+    :payment_status,
     :user_id,
     :created_at,
     :updated_at,
@@ -48,6 +54,8 @@ class ReferralDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
+    :referral_status,
+    :payment_status,
     :user_id,
   ].freeze
 
