@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :referrals
   namespace :admin do
     resources :users
     resources :care_homes
@@ -13,6 +14,7 @@ Rails.application.routes.draw do
     resources :shifts
     resources :user_docs
     resources :rates
+    resources :referrals
     resources :holidays
     get '/payments_export', to: 'payments_export#index'
     get '/payments_export/form', to: 'payments_export#form'

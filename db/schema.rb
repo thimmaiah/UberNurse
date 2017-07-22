@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170708063817) do
+ActiveRecord::Schema.define(version: 20170722153137) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -158,6 +158,18 @@ ActiveRecord::Schema.define(version: 20170708063817) do
     t.index ["rated_entity_id"], name: "index_ratings_on_rated_entity_id", using: :btree
     t.index ["rated_entity_type"], name: "index_ratings_on_rated_entity_type", using: :btree
     t.index ["shift_id"], name: "index_ratings_on_shift_id", using: :btree
+  end
+
+  create_table "referrals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "first_name", limit: 50
+    t.string   "last_name",  limit: 50
+    t.string   "email"
+    t.string   "role",       limit: 15
+    t.integer  "user_id"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["email"], name: "index_referrals_on_email", using: :btree
+    t.index ["user_id"], name: "index_referrals_on_user_id", using: :btree
   end
 
   create_table "shifts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

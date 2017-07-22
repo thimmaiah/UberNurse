@@ -42,6 +42,8 @@ class Ability
         can :read, Payment, :user_id =>@user.id
         can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
         can :create, Rating, :rated_entity_type=>"CareHome"
+        can [:read, :create], Referral, :user_id =>@user.id
+
     end
 
     def employee_privilages
@@ -51,6 +53,7 @@ class Ability
         can :read, Rating
         can :read, CqcRecord
         can :read, Holiday
+        can [:read, :create], Referral, :user_id =>@user.id
     end
 
     def admin_privilages

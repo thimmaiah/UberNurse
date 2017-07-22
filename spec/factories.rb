@@ -1,6 +1,13 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :referral do
+    first_name "MyString"
+    last_name "MyString"
+    email "MyString"
+    role "MyString"
+    user_id 1
+  end
   factory :holiday do
     name "MyString"
     date "2017-05-23"
