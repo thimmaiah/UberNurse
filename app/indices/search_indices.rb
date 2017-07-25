@@ -19,6 +19,15 @@ ThinkingSphinx::Index.define :care_home, :with => :real_time do
   has verified, :type=>:boolean
 end
 
+ThinkingSphinx::Index.define :referral, :with => :real_time do
+  # fields
+  indexes first_name
+  indexes last_name
+  indexes email
+  has referral_status, :type=>:string
+  has payment_status, :type=>:string
+end
+
 ThinkingSphinx::Index.define :post_code, :with => :real_time do
   # fields
   indexes postcode
