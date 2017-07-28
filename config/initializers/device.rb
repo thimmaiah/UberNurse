@@ -3,7 +3,7 @@
 Devise.setup do |config|
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = 'admin@connuct.co.uk'
+  config.mailer_sender = 'noreply@connuct.co.uk'
   
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Spree::UserMailer'

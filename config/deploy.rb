@@ -11,8 +11,8 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
  
-#server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
-server '35.176.41.207', user: "ubuntu", roles: [:web, :app, :db], primary: true
+server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
+#server '35.176.41.207', user: "ubuntu", roles: [:web, :app, :db], primary: true
 
 set :ssh_options, {
   user: 'ubuntu',
@@ -113,14 +113,6 @@ namespace :deploy do
     end
   end
 
-  desc "rake assets."
-  task :precompile_assets do
-    on roles(:app) do
-      
-    end
-  end
-
-
   desc "Uploads dev apk remote servers."
   task :upload_dev_apk do
     on roles(:app) do
@@ -137,7 +129,6 @@ namespace :deploy do
 
   before :starting,     :check_revision
   before "deploy:migrate", :upload_env
-  before :finishing,    :precompile_assets
   #before :finishing,    :upload_angular
   #before :finishing,    :upload_dev_apk
   after  :finishing,    :cleanup

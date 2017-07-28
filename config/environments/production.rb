@@ -81,7 +81,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     :address => "email-smtp.eu-west-1.amazonaws.com",
     :domain => "connuct.co.uk",
-    :port => 25,
+    :port => 587,
     :user_name => ENV["SES_SMTP_USERNAME"],
     :password => ENV["SES_SMTP_PASSWORD"],
     :authentication => :login,

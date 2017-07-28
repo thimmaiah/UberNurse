@@ -7,6 +7,7 @@ require 'capistrano/scm/git'
 install_plugin Capistrano::SCM::Git
 require 'capistrano/rvm'
 require 'capistrano/bundler'
+load 'deploy/assets'
 
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 # Load DSL and Setup Up Stages
