@@ -22,6 +22,7 @@ config/secrets.yml
 # TODO Comment out this rule if environment variables can be committed
 .env
 .env.local
+.env.production
 
 ## Environment normalization:
 /.bundle
@@ -43,3 +44,4 @@ bower.json
 
 # Ignore Byebug command history file.
 .byebug_history
+*.log
