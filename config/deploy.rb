@@ -11,8 +11,8 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
  
-#server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
-server '35.176.41.207', user: "ubuntu", roles: [:web, :app, :db], primary: true
+server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
+#server '35.176.41.207', user: "ubuntu", roles: [:web, :app, :db], primary: true
 
 set :ssh_options, {
   user: 'ubuntu',
@@ -108,11 +108,13 @@ namespace :deploy do
   desc "Uploads .env remote servers."
   task :upload_env do
     on roles(:app) do
-      upload!("/home/thimmaiah/work/UberNurse/.env", "#{current_path}", recursive: false)
-      upload!("/home/thimmaiah/work/UberNurse/.env.local", "#{current_path}", recursive: false)
+      puts "Uploading .env files to #{release_path}"
+      upload!("/home/thimmaiah/work/UberNurse/.env", "#{release_path}", recursive: false)
+      upload!("/home/thimmaiah/work/UberNurse/.env.local", "#{release_path}", recursive: false)
       roles(:web).each do |host|
-        upload!("/home/thimmaiah/work/UberNurse/.env.production", "#{current_path}", recursive: false) if host.hostname == "35.176.41.207"
+        upload!("/home/thimmaiah/work/UberNurse/.env.production", "#{release_path}", recursive: false) if host.hostname == "35.176.41.207"
       end
+
       
     end
   end

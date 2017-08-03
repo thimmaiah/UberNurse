@@ -34,7 +34,7 @@ class ShiftCreatorJob < ApplicationJob
       ExceptionNotifier.notify_exception(e)
     ensure
       # Run this again
-      ShiftCreatorJob.set(wait: 1.minutes.from_now.getutc).perform_later
+      ShiftCreatorJob.set(wait: 1.minute).perform_later
     end
     return nil
 
@@ -43,7 +43,7 @@ class ShiftCreatorJob < ApplicationJob
   def self.add_to_queue
     if Delayed::Backend::ActiveRecord::Job.where("handler like '%ShiftCreatorJob%'").count == 0
       logger.info "ShiftCreatorJob: queued"
-      ShiftCreatorJob.set(wait: 1.minutes.from_now.getutc).perform_later
+      ShiftCreatorJob.set(wait: 1.minute).perform_later
     else
       logger.info "ShiftCreatorJob: already queued. Nothing done"
     end
