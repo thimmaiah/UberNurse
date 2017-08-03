@@ -33,7 +33,7 @@ test: &test
 
 production:
   <<: *default
-  database: UberNurse_production
+  database: UberNurseProduction
 
 cucumber:
   <<: *test

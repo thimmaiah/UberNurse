@@ -23,7 +23,7 @@ class ShiftPendingJob < ApplicationJob
       logger.error e.backtrace
     ensure
       # Run this again
-      ShiftPendingJob.set(wait: MAX_PENDING_SLOT_TIME_MINS.minute).perform_later
+      ShiftPendingJob.set(wait: MAX_PENDING_SLOT_TIME_MINS.minutes).perform_later
     end
 
     Rails.logger.info "ShiftPendingJob: End"
@@ -32,8 +32,8 @@ class ShiftPendingJob < ApplicationJob
 
   def self.add_to_queue
     if Delayed::Backend::ActiveRecord::Job.where("handler like '%ShiftPendingJob%'").count == 0
-      puts "ShiftPendingJob queued"
-      ShiftPendingJob.set(wait: MAX_PENDING_SLOT_TIME_MINS.minute).perform_later
+      Rails.logger.debug "ShiftPendingJob queued"
+      ShiftPendingJob.set(wait: MAX_PENDING_SLOT_TIME_MINS.minutes).perform_later
     else
       puts "ShiftPendingJob already queued. Nothing done"
     end
