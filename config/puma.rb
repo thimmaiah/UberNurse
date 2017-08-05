@@ -45,3 +45,27 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+workers 4
+threads 1,4
+preload_app!
+daemonize true
+pidfile 'tmp/pids/puma.pid'
+stdout_redirect 'log/puma.log', 'log/puma.log', true
+
+bind 'unix://tmp/sockets/puma.sock'
+state_path 'tmp/puma.state'
+
+on_worker_boot do |worker_index|
+
+  # write worker pid
+  File.open("tmp/pids/puma_worker_#{worker_index}.pid", "w") { |f| f.puts Process.pid }
+
+  # reconnect to redis
+  # Redis.current.client.reconnect
+
+  ActiveSupport.on_load(:active_record) do
+    ActiveRecord::Base.establish_connection
+  end
+  
+end

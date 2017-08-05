@@ -1,7 +1,6 @@
 # Load DSL and Setup Up Stages
 lock "3.8.1"
 
-set :stage, :production
  
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined
 Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
@@ -11,8 +10,10 @@ Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
 # Defines a single server with a list of roles and multiple properties.
 # You can define all roles on a single server, or split them:
  
-server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
-#server '35.176.41.207', user: "ubuntu", roles: [:web, :app, :db], primary: true
+#server 'dev.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
+server 'prod.connuct.co.uk', user: "ubuntu", roles: [:web, :app, :db], primary: true
+
+set :rails_env, fetch(:stage)
 
 set :ssh_options, {
   user: 'ubuntu',
@@ -32,7 +33,6 @@ set :linked_dirs, fetch(:linked_dirs, []).push('log', 'volumes', 'tmp/pids', 'tm
 # Don't change these unless you know what you're doing
 set :pty,             true
 set :use_sudo,        false
-set :stage,           :production
 set :deploy_via,      :remote_cache
 set :deploy_to,       "/home/ubuntu/UberNurse"
 on :start do    
@@ -108,14 +108,12 @@ namespace :deploy do
   desc "Uploads .env remote servers."
   task :upload_env do
     on roles(:app) do
-      puts "Uploading .env files to #{release_path}"
+      rails_env = fetch(:rails_env)
+      puts "Uploading .env files to #{release_path} #{rails_env}"
       upload!("/home/thimmaiah/work/UberNurse/.env", "#{release_path}", recursive: false)
       upload!("/home/thimmaiah/work/UberNurse/.env.local", "#{release_path}", recursive: false)
-      roles(:web).each do |host|
-        upload!("/home/thimmaiah/work/UberNurse/.env.production", "#{release_path}", recursive: false) if host.hostname == "35.176.41.207"
-      end
-
-      
+      upload!("/home/thimmaiah/work/UberNurse/.env.staging", "#{release_path}", recursive: false) if rails_env == :staging
+      upload!("/home/thimmaiah/work/UberNurse/.env.production", "#{release_path}", recursive: false) if rails_env == :production      
     end
   end
 
