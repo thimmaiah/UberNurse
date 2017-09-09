@@ -61,7 +61,7 @@ end
 
 Then(/^the users auto selected date should be set to today$/) do
   @user.reload
-  @user.auto_selected_date.should == Date.today
+  (@user.auto_selected_date - Time.now).should  < 100
 end
 
 Then(/^I must see the shift$/) do

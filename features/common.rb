@@ -100,10 +100,22 @@ Then(/^the user receives an email with "([^"]*)" as the subject$/) do |subject|
   expect(current_email.subject).to eq subject
 end
 
+Then(/^the user receives an email with "([^"]*)" in the subject$/) do |subject|
+  open_email(@user.email)
+  expect(current_email.subject).to include subject
+end
+
+
 Then(/^the "([^"]*)" receives an email with "([^"]*)" as the subject$/) do |email, subject|
   open_email(email)
   expect(current_email.subject).to eq subject
 end
+
+Then(/^the "([^"]*)" receives an email with "([^"]*)" in the subject$/) do |email, subject|
+  open_email(email)
+  expect(current_email.subject).to include subject
+end
+
 
 Then(/^the admin user receives an email with "([^"]*)" as the subject$/) do |subject|
   open_email(ENV['ADMIN_EMAIL'])
@@ -157,7 +169,7 @@ Given(/^the user has already closed this request$/) do
   steps %{
       And the user has already accepted this request
       Given jobs are being dispatched
-      Then the user receives an email with "Shift Confirmed" as the subject
+      Then the user receives an email with "Shift Confirmed" in the subject
       And when the user enters the start and end code
       Given jobs are being dispatched
   }

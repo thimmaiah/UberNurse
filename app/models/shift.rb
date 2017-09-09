@@ -58,12 +58,14 @@ class Shift < ApplicationRecord
         self.staffing_request.save
       end
       UserNotifierMailer.shift_cancelled(self).deliver_later
+      self.send_shift_cancelled_sms(self)
     end
   end
 
   def shift_accepted
     if(self.response_status_changed? && self.response_status == "Accepted")
       UserNotifierMailer.shift_accepted(self).deliver_later
+      self.send_shift_accepted_sms(self)
     end
   end
 
@@ -73,12 +75,14 @@ class Shift < ApplicationRecord
       self.start_date = Time.now
       self.start_date = self.start_date.change({sec: 0}) if self.start_date
       UserNotifierMailer.shift_started(self).deliver_later
+      self.send_shift_started_sms(self)
     end
     if(self.end_code_changed?)
       # End Time cannot be < 4 hours from start time
       self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
       self.end_date = self.end_date.change({sec: 0}) if self.end_date
       UserNotifierMailer.shift_ended(self).deliver_later
+      self.send_shift_ended_sms(self)
     end
   end
 
@@ -86,7 +90,7 @@ class Shift < ApplicationRecord
     if(self.response_status != 'Rejected')
       PushNotificationJob.new.perform(self)
       UserNotifierMailer.shift_notification(self).deliver_later
-      self.user.send_shift_sms_notification(self)
+      self.send_shift_sms_notification(self)
     end
   end
 
@@ -96,7 +100,8 @@ class Shift < ApplicationRecord
       errors.add(:start_code, "Start Code does not match with the request start code")
     end
 
-    if(self.start_code_changed? && (self.staffing_request.start_date - Time.now)/60 > 15 )
+    time_from_now = (self.staffing_request.start_date - Time.now)/60 
+    if(self.start_code_changed? && time_from_now > 15)  
       errors.add(:start_code, "Shift cannot start before the allotted shift time #{self.staffing_request.start_date.in_time_zone("UTC").to_s(:custom_datetime)}")
     end
 
@@ -169,6 +174,37 @@ class Shift < ApplicationRecord
 
     self.end_date = self.start_date + 8.hours
     self.save
+  end
+
+
+
+  def send_shift_sms_notification(shift)
+    msg = "You have a new shift assigned at #{shift.care_home.name}. Please open the Care Connuct app and accept or reject the shift."
+    send_sms(msg)
+  end
+
+  def send_shift_accepted_sms(shift)
+    msg = "Shift assigned at #{shift.care_home.name} has been accepted."
+    send_sms(msg)
+  end
+
+  def send_shift_cancelled_sms(shift)
+    msg = "Shift assigned at #{shift.care_home.name} has been cancelled."
+    send_sms(msg)
+  end
+
+  def send_shift_started_sms(shift)
+    msg = "Shift assigned at #{shift.care_home.name} has started."
+    send_sms(msg)
+  end
+
+  def send_shift_ended_sms(shift)
+    msg = "Shift assigned at #{shift.care_home.name} has ended."
+    send_sms(msg)
+  end
+
+  def send_sms(msg)
+    self.user.send_sms(msg)
   end
 
 end

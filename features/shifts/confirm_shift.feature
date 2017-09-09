@@ -13,7 +13,7 @@ Scenario Outline: Accept My Shift
   When I click "Accept"
   Then the shift is "Accepted"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Confirmed" as the subject
+  Then the user receives an email with "Shift Confirmed" in the subject
 
   Examples:
   	|request	                           | user                            |
@@ -33,7 +33,7 @@ Scenario Outline: Decline My Shift
   When I click "Decline"
   Then the shift is "Rejected"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Cancelled" as the subject
+  Then the user receives an email with "Shift Cancelled" in the subject
 
   Examples:
     |request                             | user                            |

@@ -88,7 +88,7 @@ class ShiftCreatorJob < ApplicationJob
   def create_shift(selected_user, staffing_request)
 
     # Create the response from the selected user and mark him as auto selected
-    selected_user.auto_selected_date = Date.today
+    selected_user.auto_selected_date = Time.now
 
     # Create the shift
     shift = Shift.new(staffing_request_id: staffing_request.id,

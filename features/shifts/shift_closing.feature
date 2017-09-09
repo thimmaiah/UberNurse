@@ -7,14 +7,14 @@ Scenario Outline: Close Shift
   Given there is a user "<user>"
   And the user has already accepted this request
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Confirmed" as the subject
+  Then the user receives an email with "Shift Confirmed" in the subject
   And when the user enters the start and end code
   Given jobs are being dispatched
   Then the shift price is computed and stored
   Then the payment for the shift is generated
   Then the shift is marked as closed
   And the request is marked as closed 
-  Then the user receives an email with "Shift Ended" as the subject
+  Then the user receives an email with "Shift Ended" in the subject
 
   Examples:
   	|request	                         | user                            |
@@ -33,7 +33,7 @@ Scenario Outline: Add Start Code
   And when the user enters the "start_code" "<start_code>" in the UI
   Then he must see the message "<msg>"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Started" as the subject
+  Then the user receives an email with "Shift Started" in the subject
 
   Examples:
     |request                          | user                            | start_code  |  msg            |
@@ -64,7 +64,7 @@ Scenario Outline: Add End Code
   And when the user enters the "end_code" "<end_code>" in the UI
   Then he must see the message "<msg>"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Ended" as the subject
+  Then the user receives an email with "Shift Ended" in the subject
 
   Examples:
     |request                        | user                            | end_code  |  msg            |

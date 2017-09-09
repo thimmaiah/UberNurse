@@ -132,10 +132,6 @@ class User < ApplicationRecord
     send_sms(msg)
   end
 
-  def send_shift_sms_notification(shift)
-    msg = "You have a new shift assigned at #{shift.care_home.name}. Please open the Care Connuct app and accept or reject the shift."
-    send_sms(msg)
-  end
 
   def send_sms(msg)
     to_phone = self.phone

@@ -318,7 +318,7 @@ ActiveRecord::Schema.define(version: 20170722165019) do
     t.string   "sort_code",                     limit: 6
     t.string   "bank_account",                  limit: 8
     t.boolean  "verified"
-    t.date     "auto_selected_date"
+    t.datetime "auto_selected_date"
     t.decimal  "lat",                                         precision: 18, scale: 15
     t.decimal  "lng",                                         precision: 18, scale: 15
     t.string   "postcode",                      limit: 10

@@ -9,7 +9,7 @@ Scenario Outline: Shift Confirmation Email sent
   And the user has already accepted this request
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
-  Then the user receives an email with "Shift Confirmation" as the subject
+  Then the user receives an email with "Shift Confirmation" in the subject
 
   Examples:
   	|request                           |user	           |time       | count |
