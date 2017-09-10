@@ -22,6 +22,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
+    care_home_payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
     versions: VersionField
   }.freeze
 
@@ -36,6 +37,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :care_home,
     :response_status,
     :payment_status,
+    :care_home_payment_status,
     :rated,
   ].freeze
 
@@ -56,6 +58,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :payment_status,
+    :care_home_payment_status,
     :versions
   ].freeze
 
@@ -66,7 +69,8 @@ class ShiftDashboard < Administrate::BaseDashboard
     :start_code,
     :end_code,
     :response_status,
-    :payment_status
+    :payment_status,
+    :care_home_payment_status
   ].freeze
 
   # Overwrite this method to customize how staffing responses are displayed

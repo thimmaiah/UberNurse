@@ -102,7 +102,7 @@ class UserNotifierMailer < ApplicationMailer
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email, :cc=>@shift.user.email,
+    mail( :to => @user.email, :cc=>@shift.staffing_request.user.email,
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 

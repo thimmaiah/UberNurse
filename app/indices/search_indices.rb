@@ -118,6 +118,7 @@ ThinkingSphinx::Index.define :shift, :with => :real_time do
   has accepted,  :type => :boolean
   has response_status, :type => :string
   has payment_status, :type => :string
+  has care_home_payment_status, :type => :string
   has start_code, :type => :string
   has end_code, :type => :string
 end

@@ -14,11 +14,13 @@ class Payment < ApplicationRecord
 
 	def update_payment_status
 		self.shift.payment_status = "Pending"
+		self.shift.care_home_payment_status = "Pending"
 		self.shift.save
 	end
 
 	def revert_payment_status
 		self.shift.payment_status = nil
+		self.shift.care_home_payment_status = nil
 		self.shift.save
 	end
 end

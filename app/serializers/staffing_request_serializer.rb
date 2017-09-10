@@ -24,4 +24,8 @@ class StaffingRequestSerializer < ActiveModel::Serializer
   	object.end_date.in_time_zone("Europe/London").strftime("%Y-%m-%dT%H:%M")
   end
 
+  def created_at
+    object.created_at.in_time_zone("Europe/London").strftime("%Y-%m-%dT%H:%M")
+  end
+
 end
