@@ -17,11 +17,11 @@ class StaffingRequestSerializer < ActiveModel::Serializer
 
   # We need to always send Lon dates back - as the time should be Lon time
   def start_date
-  	object.start_date.in_time_zone("UTC").strftime("%Y-%m-%dT%H:%M")
+  	object.start_date.in_time_zone("Europe/London").strftime("%Y-%m-%dT%H:%M")
   end
 
   def end_date
-  	object.end_date.in_time_zone("UTC").strftime("%Y-%m-%dT%H:%M")
+  	object.end_date.in_time_zone("Europe/London").strftime("%Y-%m-%dT%H:%M")
   end
 
 end
