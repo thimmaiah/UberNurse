@@ -189,8 +189,8 @@ Then(/^I must see the request details$/) do
   expect(page).to have_content(@staffing_request.role)
   expect(page).to have_content(@staffing_request.request_status)
   expect(page).to have_content(@staffing_request.payment_status)
-  expect(page).to have_content(@staffing_request.start_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@staffing_request.end_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.start_date.in_time_zone("Europe/London").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@staffing_request.end_date.in_time_zone("Europe/London").strftime("%d/%m/%Y %H:%M") )
   expect(page).to have_content(@staffing_request.start_code)
   expect(page).to have_content(@staffing_request.end_code)
 end

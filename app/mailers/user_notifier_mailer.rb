@@ -139,7 +139,7 @@ class UserNotifierMailer < ApplicationMailer
     email = @staffing_request.user.email
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
     mail( :to => email,
-          :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}"" )
+          :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}" )
 
   end
 

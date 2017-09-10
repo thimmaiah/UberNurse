@@ -72,8 +72,8 @@ Then(/^I must see the shift$/) do
     expect(page).to have_content(@shift.user.last_name)
     expect(page).to have_content(@shift.user.phone)
   end
-  expect(page).to have_content(@shift.staffing_request.start_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
-  expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("UTC").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@shift.staffing_request.start_date.in_time_zone("Europe/London").strftime("%d/%m/%Y %H:%M") )
+  expect(page).to have_content(@shift.staffing_request.end_date.in_time_zone("Europe/London").strftime("%d/%m/%Y %H:%M") )
 
 end
 
