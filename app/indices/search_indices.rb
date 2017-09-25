@@ -31,6 +31,7 @@ end
 ThinkingSphinx::Index.define :post_code, :with => :real_time do
   # fields
   indexes postcode
+  indexes postcode_wo_spaces
 end
 
 
