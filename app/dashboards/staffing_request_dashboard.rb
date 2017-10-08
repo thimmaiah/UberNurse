@@ -56,6 +56,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :shifts,
     :payment,
     :id,
+    :role,
     :start_date,
     :end_date,
     :price,
@@ -77,6 +78,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :start_date,
     :end_date,
+    :role,
     :request_status,
     :auto_deny_in,
     :shift_status,
