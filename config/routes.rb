@@ -10,7 +10,11 @@ Rails.application.routes.draw do
     resources :payments
     resources :post_codes
     resources :ratings
-    resources :staffing_requests
+    resources :staffing_requests do
+      collection do
+        get :find_care_givers
+      end
+    end
     resources :shifts
     resources :user_docs
     resources :rates
