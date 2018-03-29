@@ -70,4 +70,10 @@ class StaffingRequest < ApplicationRecord
     (self.start_date - self.created_at)/(60 * 60)
   end
 
+  def find_care_givers(max_kms_from_care_home)
+    User.search   :with => {:role => self.role, :active=>true, :verified=>true, :geodist => 0.0..max_kms_from_care_home*100000.0}, 
+                  :geo=>[self.care_home.lat, self.care_home.lng],
+                  :order => "geodist ASC"
+  end
+
 end

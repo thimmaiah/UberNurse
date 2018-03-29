@@ -12,6 +12,10 @@ module Admin
       end
     end
 
+    def find_care_givers
+      @staffing_request = StaffingRequest.find(params[:id])
+      @users = @staffing_request.find_care_givers(params[:max_distance].to_i)      
+    end
 
     # Define a custom finder by overriding the `find_resource` method:
     # def find_resource(param)

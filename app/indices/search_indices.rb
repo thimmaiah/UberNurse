@@ -65,6 +65,7 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   has lng, :as => :longitude,  :type => :float
   has verified, :type=>:boolean
   has phone_verified, :type=>:boolean
+  has active, :type=>:boolean
   has role, :type=>:string
   has auto_selected_date, :type => :timestamp
 end

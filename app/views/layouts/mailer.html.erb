@@ -202,6 +202,16 @@
       .powered-by a {
         text-decoration: none; }
 
+      .logo {
+        text-align: center;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+        width: 60px;
+        height:60px;
+      }
+
       hr {
         border: 0;
         border-bottom: 1px solid #f6f6f6;
@@ -279,7 +289,14 @@
 
             <!-- START CENTERED WHITE CONTAINER -->
             <table class="main">
-            <h1 style="color:grey;">Care Connect</h1>
+              <tr>
+                <td><%= image_tag('Logo.png', :class => "logo") %></td>
+              </tr>
+              <tr>
+                <td><h1 style="color:grey;">Connuct</h1></td>
+              </tr>
+              
+            
               <!-- START MAIN CONTENT AREA -->
               <tr>
                 <td class="wrapper">
