@@ -12,10 +12,10 @@ Rails.application.routes.draw do
     resources :ratings
     resources :staffing_requests do
       collection do
-        get :find_care_givers
         get :manual_shift_search_user
       end
       member do 
+        get :find_care_givers
         post :manual_shift
       end
     end

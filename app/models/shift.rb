@@ -59,11 +59,19 @@ class Shift < ApplicationRecord
     # Update the request
     staffing_request.broadcast_status = "Sent"
     staffing_request.shift_status = "Found"
+    prev_shift = staffing_request.shifts.last
 
     Shift.transaction do
+      
       shift.save!
-      selected_user.save
+      selected_user.save      
       staffing_request.save
+      # Cancel any prev shift
+      if(prev_shift)
+        prev_shift.response_status = "Cancelled"
+        prev_shift.save
+      end
+
     end
 
     return shift
