@@ -45,6 +45,31 @@ class Shift < ApplicationRecord
     self.staffing_request.shift_status = "Found"
   end
 
+
+  def self.create_shift(selected_user, staffing_request)
+
+    # Create the response from the selected user and mark him as auto selected
+    selected_user.auto_selected_date = Time.now
+
+    # Create the shift
+    shift = Shift.new(staffing_request_id: staffing_request.id,
+                      user_id: selected_user.id,
+                      care_home_id:staffing_request.care_home_id,
+                      response_status: "Pending")
+    # Update the request
+    staffing_request.broadcast_status = "Sent"
+    staffing_request.shift_status = "Found"
+
+    Shift.transaction do
+      shift.save!
+      selected_user.save
+      staffing_request.save
+    end
+
+    return shift
+
+  end
+
   def shift_cancelled
     if(self.response_status_changed? &&
        ["Rejected", "Auto Rejected", "Cancelled"].include?(self.response_status))

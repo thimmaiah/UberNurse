@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     resources :staffing_requests do
       collection do
         get :find_care_givers
+        get :manual_shift_search_user
+      end
+      member do 
+        post :manual_shift
       end
     end
     resources :shifts

@@ -28,7 +28,7 @@ end
 
 gem 'mysql2'
 #gem 'jdbc-mysql',      '= 5.1.35', :platform => :jruby
-gem 'thinking-sphinx', '~> 3.3.0'
+gem 'thinking-sphinx'
 
 gem 'oauth'
 gem 'active_model_serializers'

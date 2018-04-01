@@ -17,6 +17,25 @@ module Admin
       @users = @staffing_request.find_care_givers(params[:max_distance].to_i)      
     end
 
+    def manual_shift_search_user
+      @staffing_request_id = params[:staffing_request_id]
+    end
+
+    def manual_shift
+
+      if(params[:user_id])
+        @user = User.find(params[:user_id])
+      elsif (params[:user_id])
+        @user = User.find_by_email(params[:email])
+      end
+
+      @staffing_request = StaffingRequest.find(params[:id])
+      logger.debug "Creating manual shift for #{@user} and #{@staffing_request}"
+
+      @shift = Shift.create_shift(@user, @staffing_request)
+      redirect_to admin_shift_path(@shift)
+    end
+
     # Define a custom finder by overriding the `find_resource` method:
     # def find_resource(param)
     #   StaffingRequest.find_by!(slug: param)
