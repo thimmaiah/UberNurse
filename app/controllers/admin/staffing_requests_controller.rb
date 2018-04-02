@@ -8,13 +8,14 @@ module Admin
         search(StaffingRequest)
       else
         super
-        @resources = StaffingRequest.page(params[:page]).per(10)
+        @resources = StaffingRequest.page(params[:page]).per(20)
       end
     end
 
     def find_care_givers
       @staffing_request = StaffingRequest.find(params[:id])
-      @users = @staffing_request.find_care_givers(params[:max_distance].to_i)      
+      page = params[:page] ? params[:page].to_i : 1
+      @users = @staffing_request.find_care_givers(params[:max_distance].to_i, page)      
     end
 
     def manual_shift_search_user

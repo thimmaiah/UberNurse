@@ -19,6 +19,14 @@ class CareHome < ApplicationRecord
     end
   end
 
+  def latitude_in_radians
+    Math::PI * lat / 180.0
+  end
+
+  def longitude_in_radians
+    Math::PI * lng / 180.0
+  end
+
   before_create :set_defaults
   def set_defaults
     self.verified = false if verified == nil

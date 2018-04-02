@@ -32,7 +32,7 @@ as well as a link to its edit page.
 
     <%= link_to("Assign Manual Shift", manual_shift_search_user_admin_staffing_requests_path(staffing_request_id: page.resource.id), class: "button") %>
 
-    <%= link_to("Find Care Givers", find_care_givers_admin_staffing_request_path(page.resource, max_distance: 100), class: "button") %>
+    <%= link_to("Find Care Givers within 100 Kms", find_care_givers_admin_staffing_request_path(page.resource, max_distance: 100), class: "button") %>
 
   </div>
 </header>

@@ -55,6 +55,15 @@ class User < ApplicationRecord
 
   end
 
+  def latitude_in_radians
+    Math::PI * lat / 180.0
+  end
+
+  def longitude_in_radians
+    Math::PI * lng / 180.0
+  end
+
+
   def add_unsubscribe_hash
     self.unsubscribe_hash = SecureRandom.hex
     self.subscription = true

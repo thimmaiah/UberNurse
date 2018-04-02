@@ -42,6 +42,22 @@
         </th>
 
         <th class="cell-label
+        cell-label--string
+        cell-label--false
+        " scope="col">
+        Phone
+
+        </th>
+        <th class="cell-label
+        cell-label--string
+        cell-label--false
+        " scope="col">
+        PostCode
+
+        </th>
+
+
+        <th class="cell-label
         cell-label--select
         cell-label--false
         " scope="col">
@@ -54,14 +70,6 @@
         cell-label--false
         " scope="col">
         Distance
-
-       </th>
-
-       <th class="cell-label
-        cell-label--select
-        cell-label--false
-        " scope="col">
-        Distance 2
 
        </th>
 
@@ -87,14 +95,17 @@
           <td class="cell-data cell-data--string">
             <%= link_to user.email, admin_user_path(user), :class => "action-show" %>
           </td>
+          <td class="cell-data cell-data--string">
+            <%= link_to user.phone, admin_user_path(user), :class => "action-show" %>
+          </td>
+          <td class="cell-data cell-data--string">
+            <%= link_to user.postcode, admin_user_path(user), :class => "action-show" %>
+          </td>
           <td class="cell-data cell-data--select">
             <%= link_to user.role, admin_user_path(user), :class => "action-show" %>
           </td>
           <td class="cell-data cell-data--select">
-            <%= user.distance / 100000 %> Kms to postcode <%= user.postcode %>
-          </td>
-          <td class="cell-data cell-data--select">
-            <%= user.distance_from(@staffing_request.care_home)  %>
+            <%= (user.distance / 1000).round(2) %> Kms
           </td>
           <td><a class="action-edit button" href="/admin/users/913/edit">Edit</a></td>
 
@@ -102,5 +113,7 @@
       <% end %>
   </tbody>
 </table>
+
+<%= paginate @users %>
 
 </section>

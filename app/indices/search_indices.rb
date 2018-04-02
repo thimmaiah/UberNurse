@@ -17,6 +17,8 @@ ThinkingSphinx::Index.define :care_home, :with => :real_time do
   indexes name
   has zone, :type=>:string
   has verified, :type=>:boolean
+  has latitude_in_radians, as: :latitude, type: :float
+  has longitude_in_radians, as: :longitude, type: :float
 end
 
 ThinkingSphinx::Index.define :referral, :with => :real_time do
@@ -61,8 +63,8 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   indexes speciality
 
   # attributes
-  has lat, :as => :latitude,  :type => :float 
-  has lng, :as => :longitude,  :type => :float
+  has latitude_in_radians, as: :latitude, type: :float
+  has longitude_in_radians, as: :longitude, type: :float
   has verified, :type=>:boolean
   has phone_verified, :type=>:boolean
   has active, :type=>:boolean
