@@ -82,7 +82,7 @@
   	  <% @users.each do |user| %>
       <tr class="js-table-row"
           tabindex="0"
-          role=link data-url=/admin/users/913          >
+          role=link data-url=<%= admin_user_path(user) %>          >
           <td class="cell-data cell-data--number">
             <%= link_to user.id, admin_user_path(user), :class => "action-show" %>
           </td>
@@ -107,7 +107,7 @@
           <td class="cell-data cell-data--select">
             <%= (user.distance / 1000).round(2) %> Kms
           </td>
-          <td><a class="action-edit button" href="/admin/users/913/edit">Edit</a></td>
+          <td><%= link_to "Assign Shift", manual_shift_admin_staffing_request_path(params[:id], :user_id => user.id), :method=>:post, :class=>"button" %></a></td>
 
       </tr>
       <% end %>
