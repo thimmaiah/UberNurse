@@ -12,6 +12,9 @@ class ShiftDashboard < Administrate::BaseDashboard
     staffing_request: Field::BelongsTo,
     care_home: Field::BelongsTo,
     payment: Field::HasOne,
+    price: Field::Number.with_options(decimals: 2),
+    total_price: Field::Number.with_options(decimals: 2),
+    markup: Field::Number.with_options(decimals: 2),
     rating: Field::HasOne,
     id: Field::Number,
     start_code: Field::String,
@@ -39,6 +42,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :payment_status,
     :care_home_payment_status,
     :rated,
+    :total_price
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -48,6 +52,9 @@ class ShiftDashboard < Administrate::BaseDashboard
     :staffing_request,
     :care_home,
     :payment,
+    :total_price,
+    :markup,
+    :price,
     :rating,
     :id,
     :start_code,

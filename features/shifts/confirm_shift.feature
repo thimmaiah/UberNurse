@@ -6,7 +6,7 @@ Scenario Outline: Accept My Shift
   Given there is a user "<user>"
   And the shift creator job runs
   Given Im logged in 
-  When I click "New Shifts Available"
+  When I click "Pending Shifts"
   Then I must see the shift 
   Given jobs are cleared
   When I click the shift for details
@@ -26,7 +26,7 @@ Scenario Outline: Decline My Shift
   Given there is a user "<user>"
   And the shift creator job runs
   Given Im logged in 
-  When I click "New Shifts Available"
+  When I click "Pending Shifts"
   Then I must see the shift 
   Given jobs are cleared
   When I click the shift for details

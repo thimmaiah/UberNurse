@@ -15,7 +15,7 @@ class ShiftCloseJob < ApplicationJob
     # generate a payment record
     payment = Payment.new(shift_id: shift.id, user_id: shift.user_id, 
       care_home_id: shift.care_home_id, paid_by_id: shift.staffing_request.user_id,
-      amount: shift.price, notes: "Thank you for your service.",
+      amount: shift.total_price, notes: "Thank you for your service.",
       staffing_request_id: shift.staffing_request_id)
     
     req = shift.staffing_request

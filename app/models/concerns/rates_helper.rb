@@ -30,7 +30,9 @@ module RatesHelper
     staffing_request.pricing_audit["factor_value"] = factor_value
     staffing_request.pricing_audit["factor_name"] = factor_name
     staffing_request.pricing_audit["price"] = billing
-    staffing_request.price = billing
+    staffing_request.price = billing 
+    staffing_request.vat = billing * ENV["VAT"].to_f 
+    staffing_request.total_price = billing + staffing_request.vat
 
     logger.debug(staffing_request.pricing_audit)
 
@@ -60,6 +62,9 @@ module RatesHelper
     shift.pricing_audit["factor_name"] = factor_name
     shift.pricing_audit["price"] = billing
     shift.price = billing
+    shift.markup = billing * ENV["MARKUP"].to_f
+    shift.total_price = shift.price - shift.markup
+    
 
     logger.debug("pricing_audit = #{shift.pricing_audit}")
 

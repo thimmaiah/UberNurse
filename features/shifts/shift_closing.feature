@@ -64,6 +64,8 @@ Scenario Outline: Add End Code
   And when the user enters the "end_code" "<end_code>" in the UI
   Then he must see the message "<msg>"
   Given jobs are being dispatched
+  Then the markup should be computed
+  Then the total price should be computed  
   Then the user receives an email with "Shift Ended" in the subject
 
   Examples:

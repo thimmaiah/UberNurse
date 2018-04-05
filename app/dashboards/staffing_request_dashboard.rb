@@ -18,6 +18,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     role: Field::Select.with_options(collection: User::ROLE), 
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
     price: Field::Number.with_options(decimals: 2),
+    total_price: Field::Number.with_options(decimals: 2),
+    vat: Field::Number.with_options(decimals: 2),
     pricing_audit: Field::String, 
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
@@ -44,7 +46,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :request_status,
     :shift_status,
-    :price,
+    :total_price,
     :broadcast_status
   ].freeze
 
@@ -59,7 +61,9 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :role,
     :start_date,
     :end_date,
+    :total_price,
     :price,
+    :vat,
     :pricing_audit,
     :request_status,
     :auto_deny_in,

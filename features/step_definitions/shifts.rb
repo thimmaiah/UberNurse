@@ -208,7 +208,7 @@ end
 Then(/^the payment for the shift is generated$/) do
   @payment = Payment.last
   @payment.shift_id.should == @shift.id
-  @payment.amount.should == @shift.price
+  @payment.amount.should == @shift.total_price
   @payment.care_home_id.should == @staffing_request.care_home_id
   @payment.user_id.should == @shift.user_id
 end
@@ -286,4 +286,20 @@ Then(/^the shift must be cancelled$/) do
   @shift.response_status.should == "Cancelled"
   @shift.staffing_request.broadcast_status.should == "Pending"
   @shift.staffing_request.shift_status.should == nil
+end
+
+
+Given(/^a manual shift is created$/) do
+  @shift = Shift.create_shift(@user, @staffing_request)
+end
+
+
+Then(/^the markup should be computed$/) do
+  @shift.reload
+  puts "Price = #{@shift.price}, Markup = #{ENV['MARKUP']}"
+  @shift.markup.should == (@shift.price * ENV["MARKUP"].to_f).round(2)
+end
+
+Then(/^the total price should be computed$/) do
+  @shift.total_price.should == (@shift.price - @shift.markup).round(2)
 end

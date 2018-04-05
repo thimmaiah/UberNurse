@@ -6,7 +6,7 @@ Scenario Outline: View My Shift
   Given there is a user "<user>"
   And the shift creator job runs
   Given Im logged in 
-  When I click "New Shifts Available"
+  When I click "Pending Shifts"
   Then I must see the shift 
   When I click the shift for details
   Then I must see the shift details
@@ -19,7 +19,7 @@ Scenario Outline: View My Shift
 Scenario Outline: Cannot View Others Shifts
   Given there are "<number>" of shifts
   Given Im a logged in user "<user>"
-  When I click "New Shifts Available"
+  When I click "Pending Shifts"
   Then I must not see the shifts 
 
   Examples:
