@@ -20,11 +20,11 @@ class CareHome < ApplicationRecord
   end
 
   def latitude_in_radians
-    Math::PI * lat / 180.0
+    Math::PI * lat / 180.0 if lat
   end
 
   def longitude_in_radians
-    Math::PI * lng / 180.0
+    Math::PI * lng / 180.0 if lng
   end
 
   before_create :set_defaults

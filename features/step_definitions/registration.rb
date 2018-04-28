@@ -28,10 +28,10 @@ When(/^I fill and submit the registration page$/) do
   if(@user.role == 'Care Giver' || @user.role == 'Nurse')
 
 
-    fields = [ "postcode", "pref_commute_distance"]
+    fields = [ "pref_commute_distance", "postcode"]
     fields.each do |k|
       fill_in(k, with: @user[k])
-      sleep(0.5)
+      sleep(1)
     end
 
     sleep(1)

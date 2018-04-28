@@ -37,9 +37,9 @@ Scenario Outline: Home page menus Care Giver
   Then I should see the all the home page menus "<menus>"
 
   Examples:
-    |user                                                                     |menus                |
-    |role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
-    |role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Banking Information;Qualifying Certificate;ID Card;Address Proof;DBS|
+    |user                                                   |menus                |
+    |role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Qualifying Certificate;ID Card;Address Proof;DBS|
+    |role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Qualifying Certificate;ID Card;Address Proof;DBS|
 
 
 
@@ -52,8 +52,8 @@ Scenario Outline: Home page menus Admin
   Then I should see the all the home page menus "<menus>"
 
   Examples:
-    |care_home     |user                                                 |menus                       |
-    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information;|
-    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;Banking Information|
+    |care_home     |user                               |menus                |
+    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;|
+    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;|
 
 

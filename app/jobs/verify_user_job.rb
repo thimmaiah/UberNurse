@@ -29,10 +29,11 @@ class VerifyUserJob < ApplicationJob
     end
 
     # Did we have all the required docs?
-    if(doc_count == UserDoc::DOC_TYPES.length &&
-       user.phone_verified &&
-       user.bank_account != nil && 
-       user.sort_code != nil)
+    if(doc_count == UserDoc::DOC_TYPES.length 
+       && user.phone_verified 
+       # && user.bank_account != nil  
+       # && user.sort_code != nil
+       )
 
       verified = true
 
