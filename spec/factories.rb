@@ -42,7 +42,7 @@ FactoryGirl.define do
   end
 
   factory :staffing_request do
-    start_date {Date.today + 1.day + 8.hours}
+    start_date {Date.today + 1.day + 2.hours}
     end_date {start_date + 8.hours}
     rate_per_hour 15
     request_status {"Open"}
@@ -52,6 +52,8 @@ FactoryGirl.define do
     payment_status {"Unpaid"}
     start_code {rand.to_s[2..6]}
     end_code {rand.to_s[2..6]}
+    created_at {Time.now - 1.day}
+    updated_at {Time.now - 1.day}
   end
 
   factory :care_home do

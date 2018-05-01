@@ -20,4 +20,8 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      shift:
+        price: "Care Giver Payout"
+        total_price: "Care Home Bill Amount"

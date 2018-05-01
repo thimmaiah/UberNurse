@@ -9,7 +9,11 @@ Given(/^a unsaved request "([^"]*)"$/) do |args|
   end
 
   @staffing_request = FactoryGirl.build(:staffing_request)
-
+  # Ensure its not a last minute request
+  @staffing_request.created_at = Time.now - 1.day
+  @staffing_request.updated_at = Time.now - 1.day
+  @staffing_request.start_date = @staffing_request.start_date.change({hour:3.5})
+  @staffing_request.end_date = @staffing_request.end_date.change({hour:13.5})
   key_values(@staffing_request, args)
   @staffing_request.care_home = @care_home
   @staffing_request.user = @care_home.users.admins.first
@@ -34,6 +38,7 @@ end
 Given(/^the request is on a weekday$/) do
   while(@staffing_request.start_date.on_weekend?)
     @staffing_request.start_date = @staffing_request.start_date + 1.day
+    puts "\n Moving start date by 1 day as its curr on a weekend"
   end
 
   @staffing_request.end_date = @staffing_request.start_date + 8.hours
@@ -59,7 +64,7 @@ Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg
   }
 
   # Note we only test daytime hours here - hence start at 8:00 am only
-  @staffing_request.start_date = Date.today.end_of_week + 8.hours
+  @staffing_request.start_date = Date.today.end_of_week + 3.5.hours
   @staffing_request.end_date = @staffing_request.start_date + arg2.to_f.hours
   @staffing_request.save!
 
@@ -89,7 +94,7 @@ Given(/^there is a request "([^"]*)" on a bank holiday$/) do |arg1|
       Given a unsaved request "#{arg1}"
   }
 
-  @staffing_request.start_date = Date.today.end_of_week + 8.hours
+  @staffing_request.start_date = Date.today.end_of_week + 3.5.hours
   @staffing_request.end_date = @staffing_request.start_date + 10.hours
   @staffing_request.save!
 

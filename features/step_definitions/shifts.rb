@@ -297,9 +297,12 @@ end
 Then(/^the markup should be computed$/) do
   @shift.reload
   puts "Price = #{@shift.price}, Markup = #{ENV['MARKUP']}"
-  @shift.markup.should == (@shift.price * ENV["MARKUP"].to_f).round(2)
+  @shift.markup.should == (@shift.pricing_audit["billing"] * ENV["MARKUP"].to_f).round(2)
 end
 
 Then(/^the total price should be computed$/) do
-  @shift.total_price.should == (@shift.price - @shift.markup).round(2)
+  billing = @shift.pricing_audit["billing"]
+  vat = billing * ENV["VAT"].to_f.round(2)     
+  markup = (billing * ENV["MARKUP"].to_f).round(2)
+  @shift.total_price.should == (billing + vat).round(2)
 end
