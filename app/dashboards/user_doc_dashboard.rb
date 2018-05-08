@@ -60,6 +60,7 @@ class UserDocDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :user_id,
     :doc_type,
     :verified,
     :not_available,
