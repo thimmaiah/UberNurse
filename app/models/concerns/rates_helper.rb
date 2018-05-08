@@ -66,6 +66,7 @@ module RatesHelper
     shift.pricing_audit["vat"] = vat
     shift.pricing_audit["markup"] = markup
 
+    shift.billing = billing
     shift.vat = vat
     shift.markup = markup
     shift.price = (billing - markup).round(2)

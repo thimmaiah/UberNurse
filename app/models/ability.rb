@@ -53,6 +53,7 @@ class Ability
         can :read, Rating
         can :read, CqcRecord
         can :read, Holiday
+        can :read, Shift, :care_home_id=>@user.care_home_id         
         can [:read, :create], Referral, :user_id =>@user.id
     end
 

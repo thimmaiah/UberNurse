@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180501134424) do
+ActiveRecord::Schema.define(version: 20180508153622) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -113,6 +113,10 @@ ActiveRecord::Schema.define(version: 20180501134424) do
     t.datetime "updated_at",                        null: false
     t.integer  "staffing_request_id"
     t.datetime "deleted_at"
+    t.float    "billing",             limit: 24
+    t.float    "vat",                 limit: 24
+    t.float    "markup",              limit: 24
+    t.float    "care_giver_amount",   limit: 24
     t.index ["care_home_id"], name: "index_payments_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["shift_id"], name: "index_payments_on_shift_id", using: :btree
@@ -204,6 +208,7 @@ ActiveRecord::Schema.define(version: 20180501134424) do
     t.float    "markup",                   limit: 24
     t.float    "total_price",              limit: 24
     t.float    "vat",                      limit: 24
+    t.float    "billing",                  limit: 24
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree

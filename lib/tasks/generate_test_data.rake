@@ -25,7 +25,7 @@ namespace :uber_nurse do
 
     begin
 
-      (1..10).each do | i |
+      (1..4).each do | i |
         h = FactoryGirl.build(:care_home)
         h.save
         #puts u.to_xml(:include => :care_home_industry_mappings)

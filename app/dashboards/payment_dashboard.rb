@@ -16,6 +16,10 @@ class PaymentDashboard < Administrate::BaseDashboard
     paid_by: Field::BelongsTo.with_options(class_name: "User"),
     paid_by_id: Field::Number,
     amount: Field::Number.with_options(decimals: 2),
+    billing: Field::Number.with_options(decimals: 2),
+    vat: Field::Number.with_options(decimals: 2),
+    markup: Field::Number.with_options(decimals: 2),
+    care_giver_amount: Field::Number.with_options(decimals: 2),
     notes: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -31,7 +35,11 @@ class PaymentDashboard < Administrate::BaseDashboard
     :user,
     :care_home,
     :staffing_request,
+    :billing,
+    :vat,
     :amount,
+    :markup,
+    :care_giver_amount,    
     :notes
   ].freeze
 
@@ -44,7 +52,11 @@ class PaymentDashboard < Administrate::BaseDashboard
     :staffing_request,
     :paid_by,
     :id,
-    :amount,
+    :billing,
+    :vat,    
+    :amount,    
+    :markup,
+    :care_giver_amount,
     :notes,
     :created_at,
     :updated_at,
@@ -54,7 +66,11 @@ class PaymentDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :amount,
+    :amount,    
+    :care_giver_amount,
+    :vat,
+    :markup,
+    :billing,
     :notes,
   ].freeze
 
