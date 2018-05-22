@@ -33,3 +33,7 @@ every :reboot do
 	command "cd /home/ubuntu/UberNurse/current && RAILS_ENV=production ./script/delayed_job start"
 	command "cd /home/ubuntu/UberNurse/current && sudo docker-compose -f config/elk-docker-compose.yml up -d"
 end
+
+every 1.month, :at => "start of the month at 11pm"
+	
+end

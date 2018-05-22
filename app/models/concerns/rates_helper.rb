@@ -66,12 +66,17 @@ module RatesHelper
     shift.pricing_audit["vat"] = vat
     shift.pricing_audit["markup"] = markup
 
+    # Add the pricing data to the shift
     shift.billing = billing
     shift.vat = vat
     shift.markup = markup
     shift.price = (billing - markup).round(2)
     shift.total_price = (billing + vat).round(2)
-    
+
+    # Add the mins worked to the shift
+    shift.day_mins_worked = day_mins
+    shift.night_mins_worked = night_mins
+    shift.total_mins_worked = day_mins + night_mins
 
     logger.debug("pricing_audit = #{shift.pricing_audit}")
 

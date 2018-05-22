@@ -6,7 +6,7 @@ class UserDoc < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:user_doc)
   validates_presence_of :doc_type, :user_id, :name
 
-  DOC_TYPES = ["Qualifying Certificate", "ID Card", "Address Proof", "DBS"]
+  DOC_TYPES = ["Qualification Certificate", "ID Card", "Address Proof", "DBS"]
 
   has_attached_file :doc, {validate_media_type: false}
   validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/]

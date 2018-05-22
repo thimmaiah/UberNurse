@@ -33,6 +33,8 @@ class Shift < ApplicationRecord
   after_create :broadcast_shift
 
   attr_accessor :closing_started
+  attr_accessor :testing
+
   # Set by the request when it is cancelled/closed. 
   # see StaffingRequest.update_response_status && Shift.shift_cancelled
   attr_accessor :closed_by_parent_request
@@ -134,7 +136,7 @@ class Shift < ApplicationRecord
     end
 
     time_from_now = (self.staffing_request.start_date - Time.now)/60 
-    if(self.start_code_changed? && time_from_now > 15)  
+    if(self.start_code_changed? && time_from_now > 15 && self.testing != true)  
       errors.add(:start_code, "Shift cannot start before the allotted shift time #{self.staffing_request.start_date.in_time_zone("Europe/London").to_s(:custom_datetime)}")
     end
 
@@ -201,12 +203,15 @@ class Shift < ApplicationRecord
 
   # Used only for testing - do not use in actual code
   def set_codes_test
+    self.testing = true
     self.start_code = self.staffing_request.start_code
     self.end_code = self.staffing_request.end_code
-    self.save
-
+    self.save!
+    if self.start_date == nil
+      self.start_date = self.staffing_request.start_date
+    end
     self.end_date = self.start_date + 8.hours
-    self.save
+    self.save!
   end
 
 
@@ -240,4 +245,11 @@ class Shift < ApplicationRecord
     self.user.send_sms(msg)
   end
 
+  def self.month_closed_shifts(date=Date.today)
+    month_start = date.beginning_of_month
+    month_end = date.end_of_month
+    # Find all the users who had completed shifts in the prev months
+    closed_shifts = Shift.joins(:staffing_request).where(response_status:"Closed").where("staffing_requests.start_date >= ? and staffing_requests.start_date < ?", month_start, month_end + 1.day)
+    closed_shifts 
+  end
 end

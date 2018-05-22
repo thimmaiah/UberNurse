@@ -212,6 +212,12 @@ namespace :uber_nurse do
 
           req.broadcast_status = "Sent"
           req.save
+
+          if rand(2) > 0
+            u.set_codes_test
+            u.reload
+            ShiftCloseJob.new.perform(u.id)
+          end
           #puts u.to_xml
           puts "Shift #{u.id}"
         end
@@ -321,7 +327,7 @@ namespace :uber_nurse do
 
   desc "Generating all Fake Data"
   task :generateFakeAll => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers,
-  :generateFakeAdmin, :generateFakeReq, :generateFakeResp, :generateFakePayments, 
+  :generateFakeAdmin, :generateFakeReq, :generateFakeResp, 
   :generateFakeRatings, :finalize] do
     puts "Generating all Fake Data"
   end

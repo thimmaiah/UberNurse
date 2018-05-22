@@ -171,6 +171,14 @@ class User < ApplicationRecord
     return self.phone_verified
   end
 
+  def mins_worked_in_month(date=Date.today)
+    som = date.beginning_of_month
+    eom = date.end_of_month
+    month_shifts = self.shifts.joins(:staffing_request).where("staffing_requests.start_date >= ? and staffing_requests.start_date < ?", som, eom + 1.day)
+    month_total_mins_worked = month_shifts.sum(:total_mins_worked)
+    month_total_mins_worked
+  end
+
   # for testing only in factories - do not use in prod
   def postcodelatlng=(postcodelatlng)
     self.postcode = postcodelatlng.postcode
