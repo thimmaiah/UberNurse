@@ -10,6 +10,7 @@ class UserDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
     user_docs: Field::HasMany,
+    shifts: Field::HasMany,
     id: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
@@ -58,6 +59,7 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :user_docs,
+    :shifts,
     :verified,
     :ready_for_verification,
     :phone_verified,
