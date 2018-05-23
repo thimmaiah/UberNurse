@@ -12,6 +12,7 @@ Then(/^A shift must be created for the user for the request$/) do
 end
 
 Given(/^the user has already accepted this request$/) do
+  puts "\n #{@user.email} accepting request #{@staffing_request.id}"
   @shift = FactoryGirl.build(:shift)
   @shift.user = @user
   @shift.staffing_request = @staffing_request
@@ -190,14 +191,7 @@ end
 Then(/^when the user enters the start and end code$/) do
 
   # The start date must be now, else the UI will not allow the start code to be entered
-  @staffing_request.start_date = Time.now
-  @staffing_request.end_date = Time.now + 8.hours
-  @staffing_request.save!
-
-
-  @shift.start_code = @staffing_request.start_code
-  @shift.end_code = @staffing_request.end_code
-  @shift.save
+  @shift.set_codes_test
 end
 
 Then(/^the shift price is computed and stored$/) do

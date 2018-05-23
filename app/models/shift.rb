@@ -210,7 +210,7 @@ class Shift < ApplicationRecord
     if self.start_date == nil
       self.start_date = self.staffing_request.start_date
     end
-    self.end_date = self.start_date + 8.hours
+    self.end_date = self.start_date + 10.hours
     self.save!
   end
 

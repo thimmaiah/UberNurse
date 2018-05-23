@@ -47,7 +47,7 @@ class CareHome < ApplicationRecord
 
   after_save :update_coordinates
   def update_coordinates
-    if(self.postcode_changed?)
+    if(self.postcode_changed? && Rails.env != "test")
       GeocodeJob.perform_later(self)
     end
   end

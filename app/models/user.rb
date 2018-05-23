@@ -8,6 +8,7 @@ class User < ApplicationRecord
   belongs_to :care_home, optional: true
   has_many :staffing_requests
   has_many :shifts
+  has_many :payments
   has_many :user_docs, -> { order(:verified=>:desc) }
   has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
   has_many :ratings, as: :rated_entity
@@ -83,7 +84,7 @@ class User < ApplicationRecord
   end
 
   def update_coordinates
-    if(self.postcode && self.postcode_changed?)
+    if(self.postcode && self.postcode_changed? && Rails.env != "test")
       GeocodeJob.perform_later(self)
     end
   end

@@ -37,7 +37,7 @@ class Payment < ApplicationRecord
 		hours_worked = (user.mins_worked_in_month(date) / 60).round(0)
 		logger.debug "Payment.generate_incentive: User #{user.id} worked #{hours_worked} hours for month #{date.beginning_of_month}"
 		key = nil
-		if(hours_worked >= 8 && hours_worked < 48)
+		if(hours_worked >= 24 && hours_worked < 48)
 			key = "24-48"
 		elsif (hours_worked >= 48 && hours_worked < 72)
 			key = "48-72"
@@ -69,6 +69,8 @@ class Payment < ApplicationRecord
 				payment.save!
 				return payment
 			end
+		else
+			logger.debug "Generating no incentive for #{user.id} for #{hours_worked} hours in month #{date.end_of_month}."
 		end
 		
 	end
