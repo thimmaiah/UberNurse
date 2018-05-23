@@ -24,7 +24,7 @@ set :output, "log/cron_log.log"
 every 1.day, :at => '3:30 am' do
   runner "ShiftCreatorJob.add_to_queue"
   runner "ShiftPendingJob.add_to_queue"
-  runner "DocRefreshNotificationJob.perform"
+  runner "DocRefreshNotificationJob.perform_now"
 end
 
 every :reboot do
@@ -34,6 +34,6 @@ every :reboot do
 	command "cd /home/ubuntu/UberNurse/current && sudo docker-compose -f config/elk-docker-compose.yml up -d"
 end
 
-every 1.month, :at => "start of the month at 11pm"
-	
+every 1.month, :at => "start of the month at 11pm" do
+	runner "GenerateIncentivesJob.perform_now"
 end
