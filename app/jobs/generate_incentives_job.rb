@@ -4,7 +4,7 @@ class GenerateIncentivesJob < ApplicationJob
   def perform()
 
   	# We need to generate the incentives for the prev month
-  	prev_month_start = Date.today.beginning_of_month
+  	prev_month_start = Date.today.beginning_of_month.prev_month
   	Rails.logger.debug "GenerateIncentivesJob: Generating incentives for month starting #{prev_month_start}"
   	# Find all the closed shifts for the prev month
   	prev_month_closed_shifts = Shift.month_closed_shifts(prev_month_start)

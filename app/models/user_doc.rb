@@ -9,7 +9,7 @@ class UserDoc < ApplicationRecord
   DOC_TYPES = ["Qualification Certificate", "ID Card", "Address Proof", "DBS"]
 
   has_attached_file :doc, {validate_media_type: false}
-  validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/, /pdf\z/, /JPE?G\z/]
+  validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/, /pdf\z/, /JPE?G\z/, /doc\z/, /docx\z/]
 
   scope :not_rejected, -> { where "verified = true or verified is null" }
   scope :not_expired, -> { where "expired = false" }

@@ -1,12 +1,24 @@
 module RatesHelper
 
-  def base_price(entity, rate)
+  def base_price(entity, rate, factor_name, factor_value)
     total_mins = entity.minutes_worked 
     night_mins = entity.night_shift_minutes
     day_mins = total_mins - night_mins
 
-    night_factor = ENV["NIGHT_FACTOR"].to_f
-    base = (day_mins  + night_mins * night_factor) * rate.amount / 60
+    case factor_name
+    when "DEFAULT_FACTOR"
+      night_factor = ENV["NIGHT_FACTOR"].to_f
+    when "WEEKEND_FACTOR"
+      night_factor = ENV["WEEKEND_NIGHT_FACTOR"].to_f
+    when "BANK_HOLIDAY_FACTOR"
+      night_factor = factor_value
+    when "LAST_MINUTE_FACTOR"
+      night_factor = factor_value
+    else
+      night_factor = factor_value
+    end
+    
+    base = (day_mins * factor_value + night_mins * night_factor) * rate.amount / 60
 
     return base, day_mins, night_mins
   end
@@ -15,12 +27,13 @@ module RatesHelper
   def price_estimate(staffing_request)
     rate = billing_rate(staffing_request)
 
-    # Basic rate multiplication
-    base, day_mins, night_mins = base_price(staffing_request, rate)
-
-    # Ensure we get the factor for surge pricing
+    # Ensure we get the factor for weekend, bank holiday or surge pricing
     factor_name, factor_value = factor(staffing_request)
-    billing = (base * factor_value).round(2)
+    
+    # Basic rate multiplication
+    base, day_mins, night_mins = base_price(staffing_request, rate, factor_name, factor_value)
+
+    billing = base.round(2)
 
     # Audit trail
     staffing_request.pricing_audit["day_time_hours_worked"] = staffing_request.human_readable_time(day_mins)
@@ -46,12 +59,13 @@ module RatesHelper
 
     rate = billing_rate(staffing_request)
 
-    # Basic rate multiplication
-    base, day_mins, night_mins = base_price(shift, rate)
-
-    # Ensure we get the factor for surge pricing
+    # Ensure we get the factor for weekend, bank holiday or surge pricing
     factor_name, factor_value = factor(staffing_request)
-    billing = (base * factor_value).round(2)
+    
+    # Basic rate multiplication
+    base, day_mins, night_mins = base_price(shift, rate, factor_name, factor_value)
+
+    billing = base.round(2)
     vat = billing * ENV["VAT"].to_f.round(2)     
     markup = (billing * ENV["MARKUP"].to_f).round(2)
 

@@ -14,9 +14,9 @@ Scenario Outline: Pricing Request
   	|care_home		|admin 			|request	                            |start_time |end_time    |rate|price |
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:14}   |10  |60    |
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:18}   |10  |100   |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |12  |124   |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |15  |60    |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |10  |106   |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |12  |122   |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |15  |54    |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |10  |96    |
     
 
 Scenario Outline: Pricing Request on Weekend
@@ -27,10 +27,10 @@ Scenario Outline: Pricing Request on Weekend
   Then the price for the Staffing Request must be "<price>"
   Examples:
     |care_home    |admin      |request                              |hours  |rate|price   |
-    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |133     |
-    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |133     |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |10     |12  |160     |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |10     |15  |200     |
+    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |120     |
+    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10     |10  |120     |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |10     |12  |144     |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |10     |15  |180     |
 
 
 Scenario Outline: Pricing Request last minute
@@ -41,10 +41,10 @@ Scenario Outline: Pricing Request last minute
   Then the price for the Staffing Request must be "<price>"
   Examples:
     |care_home    |admin      |request                              |hours |rate|price   |
-    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2     |10  |133     |
-    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2.5   |10  |133     |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |2.8   |12  |160     |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |3     |15  |200     |
+    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2     |10  |120     |
+    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|2.5   |10  |120     |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |2.8   |12  |144     |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |3     |15  |180     |
 
 
 Scenario Outline: Pricing Request on bank holiday
@@ -57,8 +57,8 @@ Scenario Outline: Pricing Request on bank holiday
     |care_home    |admin      |request                              |rate|price   |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10  |150     |
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|10  |150     |
-    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |12  |180   |
-    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |15  |225   |
+    |verified=true|role=Admin |role=Nurse;speciality=Generalist     |12  |180     |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |15  |225     |
 
 
 
