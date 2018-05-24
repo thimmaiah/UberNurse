@@ -56,6 +56,14 @@ Given(/^the request end time is "([^"]*)"$/) do |arg1|
 end
 
 
+Given(/^the request is on a weekend$/) do
+  @staffing_request.start_date = Date.today.end_of_week + 3.5.hours
+  @staffing_request.end_date = @staffing_request.start_date + 10.hours
+  @staffing_request.save!
+
+  puts "\n#####StaffingRequest####\n"
+  puts @staffing_request.to_json
+end
 
 Given(/^there is a request "([^"]*)" on a weekend for "([^"]*)"$/) do |arg1, arg2|
   steps %Q{
