@@ -5,7 +5,13 @@ Rails.application.routes.draw do
 
   resources :referrals
   namespace :admin do
-    resources :users
+    resources :users do
+      collection do
+        get :export
+        get :export_form
+      end
+    end
+
     resources :care_homes
     resources :payments
     resources :post_codes
