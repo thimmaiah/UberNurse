@@ -33,5 +33,10 @@ module Admin
 
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
+    def destroy
+      @resource = User.find(params[:id])
+      @resource.really_destroy!
+      redirect_to action: :index
+    end
   end
 end
