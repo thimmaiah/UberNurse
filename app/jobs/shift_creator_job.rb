@@ -121,7 +121,7 @@ class ShiftCreatorJob < ApplicationJob
     begin
       user.distance_from(staffing_request.care_home) < user.pref_commute_distance
     rescue Exception => e
-      logger.error "ShiftCreatorJob: #{e.message}"
+      logger.error "ShiftCreatorJob: #{e.message} for staffing_request #{staffing_request.id} and user #{user.id}"
       logger.error e.backtrace
       ExceptionNotifier.notify_exception(e)
       false

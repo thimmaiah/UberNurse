@@ -52,6 +52,7 @@ class UserDashboard < Administrate::BaseDashboard
     :ready_for_verification,
     :phone_verified,
     :role,
+    :pref_commute_distance,
     :created_at
   ].freeze
 
