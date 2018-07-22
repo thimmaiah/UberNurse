@@ -12,9 +12,9 @@ class ShiftDashboard < Administrate::BaseDashboard
     staffing_request: Field::BelongsTo,
     care_home: Field::BelongsTo,
     payment: Field::HasOne,
-    price: Field::Number.with_options(decimals: 2),
-    total_price: Field::Number.with_options(decimals: 2),
-    billing: Field::Number.with_options(decimals: 2),
+    carer_base: Field::Number.with_options(decimals: 2),
+    care_home_total_amount: Field::Number.with_options(decimals: 2),
+    care_home_base: Field::Number.with_options(decimals: 2),
     markup: Field::Number.with_options(decimals: 2),
     vat: Field::Number.with_options(decimals: 2),
     rating: Field::HasOne,
@@ -45,7 +45,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :payment_status,
     :care_home_payment_status,
     :rated,
-    :total_price
+    :care_home_total_amount
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -55,11 +55,11 @@ class ShiftDashboard < Administrate::BaseDashboard
     :staffing_request,
     :care_home,
     :payment,
-    :billing,
+    :care_home_base,
     :vat,
-    :total_price,
+    :care_home_total_amount,
     :markup,
-    :price,        
+    :carer_base,        
     :rating,
     :id,
     :start_code,
@@ -81,11 +81,11 @@ class ShiftDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :start_code,
     :end_code,
-    :billing,
-    :price,
+    :care_home_base,
+    :carer_base,
     :markup,
     :vat,    
-    :total_price,
+    :care_home_total_amount,
     :response_status,
     :payment_status,
     :care_home_payment_status

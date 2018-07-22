@@ -147,7 +147,7 @@ class Shift < ApplicationRecord
 
   def close_shift
     # Ensure this gets priced, if we have the right star / end codes
-    if(!self.closing_started && price == nil &&
+    if(!self.closing_started && self.carer_base == nil &&
        self.start_code == self.staffing_request.start_code &&
        self.end_code == self.staffing_request.end_code)
 

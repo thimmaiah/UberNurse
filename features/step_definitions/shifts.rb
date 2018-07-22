@@ -196,13 +196,13 @@ end
 
 Then(/^the shift price is computed and stored$/) do
   @shift.reload
-  @shift.price.should_not be nil
+  @shift.care_home_base.should_not be nil
 end
 
 Then(/^the payment for the shift is generated$/) do
   @payment = Payment.last
   @payment.shift_id.should == @shift.id
-  @payment.amount.should == @shift.total_price
+  @payment.amount.should == @shift.care_home_total_amount
   @payment.care_home_id.should == @staffing_request.care_home_id
   @payment.user_id.should == @shift.user_id
 end
@@ -290,13 +290,13 @@ end
 
 Then(/^the markup should be computed$/) do
   @shift.reload
-  puts "Price = #{@shift.price}, Markup = #{ENV['MARKUP']}"
-  @shift.markup.should == (@shift.pricing_audit["billing"] * ENV["MARKUP"].to_f).round(2)
+  puts "care_home_base = #{@shift.care_home_base}, carer_base = #{@shift.carer_base}}"
+  @shift.markup.should == (@shift.pricing_audit["care_home_base"] - @shift.pricing_audit["carer_base"]).round(2)
 end
 
 Then(/^the total price should be computed$/) do
-  billing = @shift.pricing_audit["billing"]
-  vat = billing * ENV["VAT"].to_f.round(2)     
-  markup = (billing * ENV["MARKUP"].to_f).round(2)
-  @shift.total_price.should == (billing + vat).round(2)
+  care_home_base = @shift.pricing_audit["care_home_base"]
+  vat = care_home_base * ENV["VAT"].to_f.round(2)     
+  markup = (@shift.pricing_audit["care_home_base"] - @shift.pricing_audit["carer_base"]).round(2)
+  @shift.care_home_total_amount.should == (care_home_base + vat).round(2)
 end

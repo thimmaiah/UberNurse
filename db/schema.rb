@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180520044513) do
+ActiveRecord::Schema.define(version: 20180722150749) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -144,9 +144,19 @@ ActiveRecord::Schema.define(version: 20180520044513) do
     t.string   "zone"
     t.string   "role"
     t.string   "speciality"
-    t.float    "amount",     limit: 24
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.float    "amount",                  limit: 24
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
+    t.float    "carer_weekday",           limit: 24
+    t.float    "care_home_weekday",       limit: 24
+    t.float    "carer_weeknight",         limit: 24
+    t.float    "care_home_weeknight",     limit: 24
+    t.float    "carer_weekend",           limit: 24
+    t.float    "care_home_weekend",       limit: 24
+    t.float    "carer_weekend_night",     limit: 24
+    t.float    "care_home_weekend_night", limit: 24
+    t.float    "carer_bank_holiday",      limit: 24
+    t.float    "care_home_bank_holiday",  limit: 24
   end
 
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -195,7 +205,7 @@ ActiveRecord::Schema.define(version: 20180520044513) do
     t.datetime "deleted_at"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.float    "price",                    limit: 24
+    t.float    "carer_base",               limit: 24
     t.text     "pricing_audit",            limit: 65535
     t.integer  "confirm_sent_count"
     t.date     "confirm_sent_at"
@@ -206,9 +216,9 @@ ActiveRecord::Schema.define(version: 20180520044513) do
     t.boolean  "care_home_rated"
     t.string   "care_home_payment_status", limit: 10
     t.float    "markup",                   limit: 24
-    t.float    "total_price",              limit: 24
+    t.float    "care_home_total_amount",   limit: 24
     t.float    "vat",                      limit: 24
-    t.float    "billing",                  limit: 24
+    t.float    "care_home_base",           limit: 24
     t.integer  "day_mins_worked"
     t.integer  "night_mins_worked"
     t.integer  "total_mins_worked"
@@ -223,24 +233,24 @@ ActiveRecord::Schema.define(version: 20180520044513) do
     t.integer  "user_id"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.float    "rate_per_hour",    limit: 24
-    t.string   "request_status",   limit: 20
-    t.float    "auto_deny_in",     limit: 24
+    t.float    "rate_per_hour",          limit: 24
+    t.string   "request_status",         limit: 20
+    t.float    "auto_deny_in",           limit: 24
     t.integer  "response_count"
-    t.string   "payment_status",   limit: 20
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.string   "start_code",       limit: 10
-    t.string   "end_code",         limit: 10
+    t.string   "payment_status",         limit: 20
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "start_code",             limit: 10
+    t.string   "end_code",               limit: 10
     t.string   "broadcast_status"
     t.datetime "deleted_at"
-    t.string   "role",             limit: 20
-    t.string   "speciality",       limit: 100
-    t.text     "pricing_audit",    limit: 65535
-    t.float    "price",            limit: 24
+    t.string   "role",                   limit: 20
+    t.string   "speciality",             limit: 100
+    t.text     "pricing_audit",          limit: 65535
+    t.float    "care_home_base",         limit: 24
     t.string   "shift_status"
-    t.float    "vat",              limit: 24
-    t.float    "total_price",      limit: 24
+    t.float    "vat",                    limit: 24
+    t.float    "care_home_total_amount", limit: 24
     t.index ["care_home_id"], name: "index_staffing_requests_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree

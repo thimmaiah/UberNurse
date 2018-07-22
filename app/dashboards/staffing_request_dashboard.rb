@@ -17,8 +17,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     end_date: Field::DateTime,
     role: Field::Select.with_options(collection: User::ROLE), 
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
-    price: Field::Number.with_options(decimals: 2),
-    total_price: Field::Number.with_options(decimals: 2),
+    care_home_base: Field::Number.with_options(decimals: 2),
+    care_home_total_amount: Field::Number.with_options(decimals: 2),
     vat: Field::Number.with_options(decimals: 2),
     pricing_audit: Field::String, 
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
@@ -46,7 +46,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :request_status,
     :shift_status,
-    :total_price,
+    :care_home_total_amount,
     :broadcast_status
   ].freeze
 
@@ -61,8 +61,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :role,
     :start_date,
     :end_date,
-    :total_price,
-    :price,
+    :care_home_total_amount,
+    :care_home_base,
     :vat,
     :pricing_audit,
     :request_status,
