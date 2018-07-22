@@ -29,12 +29,13 @@ module Admin
         template ="carer"
       when "Care Home"
         template = "care_home"
+        @payments = @payments.where("care_home_id is not null")
       when "Both"
         template = "both"
       end
 
       logger.info "################## #{params[:report_format]}, #{template}"
-      render template: "admin/payments_export/#{template}"
+      render xlsx: "admin/payments_export/#{template}"
     end
   end
 

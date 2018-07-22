@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Carer") do |sheet|
+  sheet.add_row ["Id", "Billing", "VAT", "Care Home Amount", "Care Home", "Care Home Phone", "Care Home Bank Acct", "Care Home Sort Code", "Staffing Request Id", "Request Start", "Request End", "Created At", "Notes"]
+  @payments.each do |payment|
+    sheet.add_row [payment.id, payment.billing, payment.vat, payment.amount, payment.care_home&.name, payment.care_home&.phone, payment.care_home&.bank_account, payment.care_home&.sort_code, payment.staffing_request&.id, payment.staffing_request&.start_date, payment.staffing_request&.end_date, payment.created_at, payment.notes ]
+  end
+end

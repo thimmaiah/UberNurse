@@ -8,11 +8,11 @@
     <Table>
       <Row>
         <Cell><Data ss:Type="String">ID</Data></Cell>
-        <Cell><Data ss:Type="String">Amount</Data></Cell>
         <Cell><Data ss:Type="String">Care Giver Amount</Data></Cell>
-        <Cell><Data ss:Type="String">Vat</Data></Cell>
         <Cell><Data ss:Type="String">Markup</Data></Cell>
         <Cell><Data ss:Type="String">Billing</Data></Cell>
+        <Cell><Data ss:Type="String">Vat</Data></Cell>
+        <Cell><Data ss:Type="String">Care Home Amount</Data></Cell>
         
         <Cell><Data ss:Type="String">First Name</Data></Cell>
         <Cell><Data ss:Type="String">Last Name</Data></Cell>
@@ -35,11 +35,11 @@
     <% @payments.each do |payment| %>
       <Row>
         <Cell><Data ss:Type="Number"><%= payment.id %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= payment.amount %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= payment.care_giver_amount %></Data></Cell>
-        <Cell><Data ss:Type="Number"><%= payment.vat %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= payment.markup %></Data></Cell>
         <Cell><Data ss:Type="Number"><%= payment.billing %></Data></Cell>        
+        <Cell><Data ss:Type="Number"><%= payment.vat %></Data></Cell>
+        <Cell><Data ss:Type="Number"><%= payment.amount %></Data></Cell>
         <Cell><Data ss:Type="String"><%= payment.user&.first_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= payment.user&.last_name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= payment.user&.phone %></Data></Cell>
