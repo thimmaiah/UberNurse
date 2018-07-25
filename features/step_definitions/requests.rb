@@ -210,14 +210,18 @@ end
 
 
 Then(/^the price for the Staffing Request must be "([^"]*)"$/) do |price|
-  puts "\n######### Pricing ###########\n"
-  puts @staffing_request.to_json
+  # puts "\n######### Pricing ###########\n"
+  # puts @staffing_request.to_json
 
   ret = Rate.price_estimate(@staffing_request)
   computed_prices = eval(price)
   computed_prices.keys.each do |key|
     ret[key].should == computed_prices[key] 
   end
+end
+
+Then(/^the carer amount for the Staffing Request must be "([^"]*)"$/) do |arg1|
+  @staffing_request.pricing_audit["carer_base"].should == arg1.to_f
 end
 
 
