@@ -213,16 +213,17 @@ Then(/^the price for the Staffing Request must be "([^"]*)"$/) do |price|
   puts "\n######### Pricing ###########\n"
   puts @staffing_request.to_json
 
-  Rate.price_estimate(@staffing_request).should == price.to_f
+  ret = Rate.price_estimate(@staffing_request)
+  computed_prices = eval(price)
+  computed_prices.keys.each do |key|
+    ret[key].should == computed_prices[key] 
+  end
 end
 
 
 Given(/^the rate is "([^"]*)"$/) do |arg1|
   Rate.where(zone:@staffing_request.care_home.zone,
-             role:@staffing_request.role,
-             speciality: @staffing_request.speciality).update(amount: arg1.to_f)
-  Rate.where(zone:@staffing_request.care_home.zone,
-             role:@staffing_request.role).update(amount: arg1.to_f)
+             role:@staffing_request.role).update_all(eval(arg1))
 end
 
 

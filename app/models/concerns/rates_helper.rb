@@ -67,6 +67,10 @@ module RatesHelper
     day_time_hours_worked = staffing_request.human_readable_time(day_mins)
     night_time_hours_worked = staffing_request.human_readable_time(night_mins)
 
+    staffing_request.care_home_base = care_home_base 
+    staffing_request.vat = care_home_base * ENV["VAT"].to_f.round(2) 
+    staffing_request.care_home_total_amount = (care_home_base + staffing_request.vat).round(2)
+
     staffing_request.pricing_audit["calc"] = "day_time_hours_worked x rate + night_time_hours_worked x rate"   
     staffing_request.pricing_audit["calc_carer_base"] = calc_carer_base   
     staffing_request.pricing_audit["calc_care_home_base"] = calc_care_home_base   
@@ -76,13 +80,11 @@ module RatesHelper
     staffing_request.pricing_audit["carer_base"] = carer_base
     staffing_request.pricing_audit["care_home_base"] = care_home_base
     staffing_request.pricing_audit["factor_name"] = factor_name
-    staffing_request.care_home_base = care_home_base 
-    staffing_request.vat = care_home_base * ENV["VAT"].to_f.round(2) 
-    staffing_request.care_home_total_amount = (care_home_base + staffing_request.vat).round(2)
+    staffing_request.pricing_audit["vat"] = staffing_request.vat
 
     logger.debug(staffing_request.pricing_audit)
 
-    care_home_base.round(0)
+    staffing_request
 
   end
 
@@ -135,7 +137,7 @@ module RatesHelper
 
     logger.debug("pricing_audit = #{shift.pricing_audit}")
 
-    care_home_base.round(0)
+    shift
 
   end
 

@@ -16,10 +16,18 @@ FactoryGirl.define do
 
 
   factory :rate do
-    zone "MyString"
-    role "MyString"
-    speciality "MyString"
-    amount 1.5
+    zone "North"
+    role "Care Giver"
+    carer_weekday 9
+    care_home_weekday 11
+    carer_weeknight 11
+    care_home_weeknight 14
+    carer_weekend 11
+    care_home_weekend 13
+    carer_weekend_night 12
+    care_home_weekend_night 15
+    carer_bank_holiday 14
+    care_home_bank_holiday 20    
   end
 
   factory :rating do

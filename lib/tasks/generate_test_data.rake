@@ -300,16 +300,13 @@ namespace :uber_nurse do
 
       ["North", "South"].each do |zone|
         ["Nurse", "Care Giver"].each do |role|
-          User::SPECIALITY.each do |spec|
             u = FactoryGirl.build(:rate)
-            u.speciality = spec
+            #u.speciality = spec
             u.role = role
             u.zone = zone
-            u.amount = 10 + rand(5)
-            u.save # Generate payments only for some accepted responses
+            u.save 
             #puts u.to_xml
             puts "Rate #{u.id}"
-          end
         end
       end
 
