@@ -61,3 +61,13 @@ input[type="submit"], .button {
 .search__clear {
 	padding: 5px;
 }
+
+
+
+dl > .attribute-label {
+	width: 200px;
+}
+
+dl > .attribute-data {
+	width: calc(75% - 1rem)
+}

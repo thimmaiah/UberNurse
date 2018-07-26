@@ -145,7 +145,7 @@ class ShiftCreatorJob < ApplicationJob
 
       # Get the shift bookings for this user on the same time as this req
       same_day_bookings = get_same_day_booking(user, staffing_request)
-      Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings}"
+      Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings.length}"
 
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)

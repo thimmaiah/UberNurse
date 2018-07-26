@@ -11,6 +11,7 @@ class UserDashboard < Administrate::BaseDashboard
     care_home: Field::BelongsTo,
     user_docs: Field::HasMany,
     shifts: Field::HasMany,
+    versions: VersionField,
     id: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
@@ -59,8 +60,7 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :user_docs,
-    :shifts,
+    :user_docs,    
     :verified,
     :ready_for_verification,
     :phone_verified,
@@ -76,7 +76,9 @@ class UserDashboard < Administrate::BaseDashboard
     :bank_account,
     :active,
     :postcode,
-    :care_home
+    :care_home,
+    :shifts,
+    :versions
 
   ].freeze
 
