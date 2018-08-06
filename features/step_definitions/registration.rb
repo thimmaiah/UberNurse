@@ -27,13 +27,14 @@ When(/^I fill and submit the registration page$/) do
 
   if(@user.role == 'Care Giver' || @user.role == 'Nurse')
 
-
-    fields = [ "pref_commute_distance", "postcode"]
+    fields = [ "postcode"]
     fields.each do |k|
       fill_in(k, with: @user[k])
       sleep(1)
     end
 
+    ionic_select(@user.pref_commute_distance, "pref_commute_distance", true)
+    
     sleep(1)
 
   end
