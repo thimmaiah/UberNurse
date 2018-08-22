@@ -98,8 +98,14 @@ class User < ApplicationRecord
     self.total_rating = 0
     self.rating_count = 0
     self.active = true
+
     if(self.is_temp? && self.verified == nil)
       self.verified = false
+    end
+    
+    # Default the speciality
+    if(self.is_temp? && self.speciality == nil)
+      self.speciality = "Generalist"
     end
   end
 

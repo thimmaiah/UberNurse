@@ -6,7 +6,7 @@ class ShiftCreatorJob < ApplicationJob
 
     begin
       # For each open request which has not yet been broadcasted
-      StaffingRequest.current.open.not_broadcasted.each do |staffing_request|
+      StaffingRequest.current.open.not_manual_assignment.not_broadcasted.each do |staffing_request|
                                                                                                                             
         begin
           # Select a temp who can be assigned this shift
@@ -139,7 +139,7 @@ class ShiftCreatorJob < ApplicationJob
 
     selected_user = nil
 
-    User.where(role:staffing_request.role).active.verified.order("auto_selected_date ASC").each do |user|
+    User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|
 
       Rails.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
 

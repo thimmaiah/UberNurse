@@ -27,6 +27,7 @@ class StaffingRequest < ApplicationRecord
   scope :cancelled, -> {where(request_status:"Cancelled")}
   scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
   scope :current, -> {where("start_date >= ?", Time.now)}
+  scope :not_manual_assignment, -> {where("manual_assignment_flag = ?", false)}
 
   before_create :set_defaults, :price_estimate
 
@@ -35,9 +36,17 @@ class StaffingRequest < ApplicationRecord
     self.request_status = "Open"
     self.broadcast_status = "Pending"
     self.payment_status = "Unpaid"
+    
     # Zero out the seconds - it causes lots of problems when calculating time spent
     self.start_date = self.start_date.change({sec: 0})
     self.end_date = self.end_date.change({sec: 0})
+
+    # Copy over the manual_assignment_flag from the care_home
+    self.manual_assignment_flag = self.care_home.manual_assignment_flag 
+    self.manual_assignment_flag = false if self.manual_assignment_flag == nil
+
+    # Ask for a Generalist if the speciality is not set
+    self.speciality = "Generalist" if self.speciality == nil
   end
 
 

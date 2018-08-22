@@ -12,13 +12,14 @@ Scenario Outline: New Shift
   Examples:
   	|request	                           | user                            |
   	|role=Care Giver                     |role=Care Giver;verified=true    |
+    |role=Nurse                          |role=Nurse;verified=true         |
   	|role=Nurse;speciality=Generalist    |role=Nurse;verified=true         |
-    |role=Nurse;speciality=Generalist    |role=Nurse;speciality=Pediatric Care;verified=true|
     |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
-    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true        |
+    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true |
   	
 
-Scenario Outline: New Shift for spcialist users with no match
+Scenario Outline: New Shift for specialist users with no match
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -27,8 +28,10 @@ Scenario Outline: New Shift for spcialist users with no match
 
   Examples:
     |request                              | user                            |
-    |role=Nurse;speciality=Generalist     |role=Care Giver;verified=true         |    
+    |role=Nurse;speciality=Generalist     |role=Care Giver;verified=true    |    
     |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
+    |role=Nurse;speciality=Generalist     |role=Care Giver;speciality=Mental Health;verified=true  |
+    |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
     
 
 Scenario Outline: New Shift for unverified users

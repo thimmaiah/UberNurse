@@ -33,6 +33,7 @@ class CareHome < ApplicationRecord
     self.image_url = "assets/icon/homecare.png"
     self.total_rating = 0
     self.rating_count = 0
+    self.manual_assignment_flag = false if self.manual_assignment_flag == nil
   end
 
   after_create :send_verification_mail

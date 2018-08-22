@@ -89,6 +89,7 @@ FactoryGirl.define do
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
     verified {true}
+    #manual_assignment_flag {false}
   end
 
   factory :user do

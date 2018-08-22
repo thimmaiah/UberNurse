@@ -10,6 +10,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     verified: Field::Boolean,
+    manual_assignment_flag: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     users: Field::HasMany,
     staffing_requests: Field::HasMany,
@@ -38,6 +39,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :town,
     :postcode,
     :verified,
+    :manual_assignment_flag,
     :zone
   ].freeze
 
@@ -48,6 +50,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :name,
     :phone,
     :verified,
+    :manual_assignment_flag,
     :zone,
     :address,
     :town,
@@ -73,6 +76,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :postcode,
     :image_url,
     :verified,
+    :manual_assignment_flag,
     :zone
   ].freeze
 

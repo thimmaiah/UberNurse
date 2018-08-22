@@ -9,6 +9,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
+    manual_assignment_flag: Field::Boolean,
     user: Field::BelongsTo,
     shifts: Field::HasMany,
     payment: Field::HasOne,
@@ -41,6 +42,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :care_home,
+    :manual_assignment_flag,
     :user,
     :start_date,
     :end_date,
@@ -54,11 +56,13 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :care_home,
+    :manual_assignment_flag,
     :user,
     :shifts,
     :payment,
     :id,
     :role,
+    :speciality,
     :start_date,
     :end_date,
     :care_home_total_amount,
@@ -82,7 +86,9 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :start_date,
     :end_date,
+    :manual_assignment_flag,
     :role,
+    :speciality,
     :request_status,
     :auto_deny_in,
     :shift_status,

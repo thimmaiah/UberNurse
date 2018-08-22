@@ -53,6 +53,7 @@ class UserDashboard < Administrate::BaseDashboard
     :ready_for_verification,
     :phone_verified,
     :role,
+    :speciality,
     :pref_commute_distance,
     :created_at
   ].freeze
@@ -69,6 +70,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :role,
+    :speciality,
     :sex,
     :phone,
     :pref_commute_distance,
@@ -92,6 +94,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :role,
+    :speciality,
     :sex,
     :phone,
     :pref_commute_distance,

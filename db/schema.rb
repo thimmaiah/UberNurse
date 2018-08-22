@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180722150749) do
+ActiveRecord::Schema.define(version: 20180822043813) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180722150749) do
     t.boolean  "accept_bank_transactions"
     t.datetime "accept_bank_transactions_date"
     t.string   "phone",                         limit: 12
+    t.boolean  "manual_assignment_flag"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -251,6 +252,7 @@ ActiveRecord::Schema.define(version: 20180722150749) do
     t.string   "shift_status"
     t.float    "vat",                    limit: 24
     t.float    "care_home_total_amount", limit: 24
+    t.boolean  "manual_assignment_flag"
     t.index ["care_home_id"], name: "index_staffing_requests_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
     t.index ["user_id"], name: "index_staffing_requests_on_user_id", using: :btree
