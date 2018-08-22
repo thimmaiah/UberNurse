@@ -42,7 +42,7 @@ class StaffingRequest < ApplicationRecord
     self.end_date = self.end_date.change({sec: 0})
 
     # Copy over the manual_assignment_flag from the care_home
-    self.manual_assignment_flag = self.care_home.manual_assignment_flag 
+    self.manual_assignment_flag = self.care_home.manual_assignment_flag if self.manual_assignment_flag == nil 
     self.manual_assignment_flag = false if self.manual_assignment_flag == nil
 
     # Ask for a Generalist if the speciality is not set

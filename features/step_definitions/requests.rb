@@ -257,3 +257,11 @@ When(/^the request is cancelled by the user$/) do
   sleep(1)
   click_on "Yes"
 end
+
+
+
+Given(/^the request manual assignment is set to "([^"]*)"$/) do |arg1|
+  @staffing_request.manual_assignment_flag = (arg1 == "true")
+  @staffing_request.save!
+end
+

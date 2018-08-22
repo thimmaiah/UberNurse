@@ -33,6 +33,22 @@ Scenario Outline: New Shift for specialist users with no match
     |role=Nurse;speciality=Generalist     |role=Care Giver;speciality=Mental Health;verified=true  |
     |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
     
+Scenario Outline: New Shift for manual assignment care homes
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Given the request manual assignment is set to "false"
+  And the shift creator job runs
+  Then A shift must be created for the user for the request
+  And the request broadcast status must change to "Sent"
+  And the users auto selected date should be set to today 
+
+  Examples:
+    |request                                      | user                          |
+    |role=Nurse;manual_assignment_flag=true       |role=Nurse;verified=true       |    
+    |role=Care Giver;manual_assignment_flag=true  |role=Care Giver;verified=true  |    
+
 
 Scenario Outline: New Shift for unverified users
   Given there is a request "<request>"
