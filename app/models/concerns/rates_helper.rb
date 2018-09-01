@@ -67,6 +67,7 @@ module RatesHelper
     day_time_hours_worked = staffing_request.human_readable_time(day_mins)
     night_time_hours_worked = staffing_request.human_readable_time(night_mins)
 
+    staffing_request.carer_base = carer_base 
     staffing_request.care_home_base = care_home_base 
     staffing_request.vat = care_home_base * ENV["VAT"].to_f.round(2) 
     staffing_request.care_home_total_amount = (care_home_base + staffing_request.vat).round(2)

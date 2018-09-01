@@ -30,6 +30,7 @@ class StaffingRequest < ApplicationRecord
   scope :not_manual_assignment, -> {where("manual_assignment_flag = ?", false)}
 
   before_create :set_defaults, :price_estimate
+  after_create :send_admin_notification
 
   def set_defaults
     # We now have auto approval
@@ -56,6 +57,10 @@ class StaffingRequest < ApplicationRecord
     # Ensure the request gets a price estimate before it is saved
     self.created_at = Time.now
     Rate.price_estimate(self)
+  end
+
+  def send_admin_notification
+    UserNotifierMailer.staffing_request_created(self).deliver_later
   end
 
   before_save :update_response_status

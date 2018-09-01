@@ -61,11 +61,21 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Please verify your Care Home' )
   end
 
+  def staffing_request_created(staffing_request)
+    @staffing_request = staffing_request
+    email = ENV["ADMIN_EMAIL"]
+    logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
+    mail( :to => email,
+          :subject => "New request from #{staffing_request.care_home.name}" )
+
+  end
+
   def shift_notification(shift)
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :bcc => ENV['ADMIN_EMAIL'],
           :subject => "New Shift Available: #{@shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 
@@ -75,6 +85,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :bcc => ENV['ADMIN_EMAIL'],
           :cc => @shift.staffing_request.user.email,
           :subject => "Shift Started: #{@shift.start_date.to_s(:custom_datetime)} ")
   end
@@ -84,6 +95,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :bcc => ENV['ADMIN_EMAIL'],
           :cc => @shift.staffing_request.user.email,
           :subject => "Shift Ended: #{shift.end_date.to_s(:custom_datetime)}" )
   end
@@ -94,6 +106,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :bcc => ENV['ADMIN_EMAIL'],
           :cc => @shift.staffing_request.user.email,
           :subject => "Shift Cancelled: #{@shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
@@ -102,7 +115,7 @@ class UserNotifierMailer < ApplicationMailer
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email, :cc=>@shift.staffing_request.user.email,
+    mail( :to => @user.email, :cc=>@shift.staffing_request.user.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 
@@ -130,7 +143,7 @@ class UserNotifierMailer < ApplicationMailer
     @shift = shift
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
+    mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => 'Shift Confirmation' )
   end
 
@@ -138,7 +151,7 @@ class UserNotifierMailer < ApplicationMailer
     @staffing_request = staffing_request
     email = @staffing_request.user.email
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
-    mail( :to => email,
+    mail( :to => email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}" )
 
   end
