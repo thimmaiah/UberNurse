@@ -79,8 +79,7 @@ class UserDashboard < Administrate::BaseDashboard
     :active,
     :postcode,
     :care_home,
-    :shifts,
-    :versions
+    :shifts
 
   ].freeze
 

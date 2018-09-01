@@ -14,6 +14,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     shifts: Field::HasMany,
     payment: Field::HasOne,
     id: Field::Number,
+    care_home_id: Field::Number,
+    user_id: Field::Number,
     start_date: Field::DateTime,
     end_date: Field::DateTime,
     role: Field::Select.with_options(collection: User::ROLE), 
@@ -89,9 +91,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :role,
     :speciality,
-    :request_status,
-    :auto_deny_in,
-    :shift_status,
+    :care_home_id,
+    :user_id,
     :start_code,
     :end_code
   ].freeze
