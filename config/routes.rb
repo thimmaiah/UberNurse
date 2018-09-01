@@ -8,7 +8,8 @@ Rails.application.routes.draw do
     resources :users do
       collection do
         get :export
-        get :export_form
+        get :export_form        
+        get :profile  
       end
     end
 

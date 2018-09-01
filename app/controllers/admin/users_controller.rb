@@ -38,5 +38,13 @@ module Admin
       @resource.really_destroy!
       redirect_to action: :index
     end
+
+    def profile            
+      @resource = User.find(params[:id])      
+      render "profile", locals: {
+        page: Administrate::Page::Form.new(dashboard, @resource)
+      }
+    end
+
   end
 end

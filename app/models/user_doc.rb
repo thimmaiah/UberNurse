@@ -14,10 +14,11 @@ class UserDoc < ApplicationRecord
   scope :not_rejected, -> { where "verified = true or verified is null" }
   scope :not_expired, -> { where "expired = false" }
 
-  scope :certificates, -> { where doc_type: "Certificate" }
+  scope :certificates, -> { where doc_type: "Qualification Certificate" }
   scope :id_cards, -> { where doc_type: "ID Card" }
   scope :address_proofs, -> { where doc_type: "Address Proof" }
   scope :dbs, -> { where doc_type: "DBS" }
+
 
   after_save :verify_user
   def verify_user

@@ -33,8 +33,8 @@ as well as a link to its edit page.
     <%= link_to("New Document", new_admin_user_doc_path(user_id: page.resource.id), class: "button") %>
 
     <% if page.resource.role == "Nurse" || page.resource.role == "Care Giver"%>
-    <a class="button" href="/admin/payments_export/form?user_id=<%=page.resource.id%>"> Payment Export
-    </a>
+    <a class="button" href="/admin/payments_export/form?user_id=<%=page.resource.id%>"> Payment Export </a>
+    <a class="button" href="/admin/users/profile?id=<%=page.resource.id%>"> Profile </a>
     <% end %>
 
   </div>

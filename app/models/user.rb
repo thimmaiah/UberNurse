@@ -193,4 +193,9 @@ class User < ApplicationRecord
     self.lat = postcodelatlng.latitude
     self.lng = postcodelatlng.longitude
   end
+
+  def current_docs
+    self.user_docs.not_expired.where(verified: true)
+  end
+
 end
