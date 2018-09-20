@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
 
 
+  resources :trainings
+  resources :profiles
   resources :referrals
   namespace :admin do
     resources :users do
@@ -12,6 +14,8 @@ Rails.application.routes.draw do
         get :profile  
       end
     end
+    resources :profiles
+    resources :trainings
 
     resources :care_homes
     resources :payments

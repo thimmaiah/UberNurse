@@ -7,6 +7,7 @@ class User < ApplicationRecord
   validates_presence_of :first_name, :last_name, :email, :role, :phone
 
   belongs_to :care_home, optional: true
+  has_one :profile
   has_many :staffing_requests
   has_many :shifts
   has_many :payments

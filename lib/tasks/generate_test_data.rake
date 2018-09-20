@@ -82,6 +82,18 @@ namespace :uber_nurse do
         u.role = "Care Giver"
         u.image_url = images[rand(images.length)]
         u.save
+
+        p = FactoryGirl.build(:profile)
+        p.user = u
+        p.role = u.role
+        p.known_as = u.first_name
+        p.save
+        (1..3).each do |ti|
+          t = FactoryGirl.build(:training)
+          t.profile = p
+          t.user = u
+          t.save
+        end
         #puts u.to_xml
         puts "User #{u.id}"
         i = i + 1
@@ -96,6 +108,19 @@ namespace :uber_nurse do
         u.image_url = images[rand(images.length)]
         u.save
         #puts u.to_xml
+        p = FactoryGirl.build(:profile)
+        p.user = u
+        p.role = u.role
+        p.known_as = u.first_name
+        p.save
+        
+        (1..3).each do |ti|
+          t = FactoryGirl.build(:training)
+          t.profile = p
+          t.user = u
+          t.save
+        end
+        
         puts "User #{u.id}"
         i = i + 1
       end

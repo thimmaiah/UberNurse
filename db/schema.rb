@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180822072832) do
+ActiveRecord::Schema.define(version: 20180920033623) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -103,6 +103,27 @@ ActiveRecord::Schema.define(version: 20180822072832) do
     t.index ["date"], name: "index_holidays_on_date", using: :btree
   end
 
+  create_table "login_activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "scope"
+    t.string   "strategy"
+    t.string   "identity"
+    t.boolean  "success"
+    t.string   "failure_reason"
+    t.string   "user_type"
+    t.integer  "user_id"
+    t.string   "context"
+    t.string   "ip"
+    t.text     "user_agent",     limit: 65535
+    t.text     "referrer",       limit: 65535
+    t.string   "city"
+    t.string   "region"
+    t.string   "country"
+    t.datetime "created_at"
+    t.index ["identity"], name: "index_login_activities_on_identity", using: :btree
+    t.index ["ip"], name: "index_login_activities_on_ip", using: :btree
+    t.index ["user_type", "user_id"], name: "index_login_activities_on_user_type_and_user_id", using: :btree
+  end
+
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "shift_id"
     t.integer  "user_id"
@@ -139,6 +160,33 @@ ActiveRecord::Schema.define(version: 20180822072832) do
     t.decimal "longitude",                    precision: 18, scale: 15, null: false
     t.string  "postcode_wo_spaces"
     t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
+  end
+
+  create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.date     "date_of_CRB_DBS_check"
+    t.date     "dob"
+    t.string   "pin",                             limit: 15
+    t.boolean  "enhanced_crb"
+    t.boolean  "crd_dbs_returned"
+    t.boolean  "isa_returned"
+    t.string   "crd_dbs_number",                  limit: 20
+    t.boolean  "eligible_to_work_UK"
+    t.boolean  "confirmation_of_identity"
+    t.date     "references_received"
+    t.boolean  "dl_passport"
+    t.boolean  "all_required_paperwork_checked"
+    t.boolean  "registered_under_disability_act"
+    t.boolean  "connuct_policies"
+    t.string   "form_completed_by",               limit: 50
+    t.string   "position",                        limit: 25
+    t.date     "date_sent"
+    t.date     "date_received"
+    t.string   "known_as",                        limit: 50
+    t.string   "role",                            limit: 25
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
   create_table "rates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -286,6 +334,18 @@ ActiveRecord::Schema.define(version: 20180822072832) do
     t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
+  end
+
+  create_table "trainings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.boolean  "undertaken"
+    t.date     "date_completed"
+    t.integer  "profile_id"
+    t.integer  "user_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["profile_id"], name: "index_trainings_on_profile_id", using: :btree
+    t.index ["user_id"], name: "index_trainings_on_user_id", using: :btree
   end
 
   create_table "user_docs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -1,6 +1,33 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :training do
+    name {Faker::Company.bs}
+    undertaken true
+    date_completed {Date.today - rand(5).years}
+  end
+
+  factory :profile do
+    date_of_CRB_DBS_check {Date.today - rand(10).months}
+    dob {Date.today - 20.years - rand(20).years}
+    pin ""
+    enhanced_crb true
+    crd_dbs_returned true
+    isa_returned true
+    crd_dbs_number {rand.to_s[2..10]}
+    eligible_to_work_UK true
+    confirmation_of_identity true
+    references_received {Date.today - 10.days}
+    dl_passport true
+    all_required_paperwork_checked true
+    registered_under_disability_act false
+    connuct_policies true
+    form_completed_by "Naomi"
+    date_sent {Date.today - 2.days}
+    date_received {Date.today - 5.days}
+    position "Business Consultant"
+  end
+
   factory :referral do
     first_name "MyString"
     last_name "MyString"

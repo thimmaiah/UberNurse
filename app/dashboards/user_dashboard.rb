@@ -10,6 +10,7 @@ class UserDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
     user_docs: Field::HasMany,
+    profile: Field::HasOne,
     shifts: Field::HasMany,
     versions: VersionField,
     id: Field::Number,
@@ -61,6 +62,7 @@ class UserDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :profile,
     :user_docs,    
     :verified,
     :ready_for_verification,
