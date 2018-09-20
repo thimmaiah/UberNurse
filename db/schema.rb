@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920033623) do
+ActiveRecord::Schema.define(version: 20180920072242) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -271,6 +271,7 @@ ActiveRecord::Schema.define(version: 20180920033623) do
     t.integer  "day_mins_worked"
     t.integer  "night_mins_worked"
     t.integer  "total_mins_worked"
+    t.boolean  "manual_close"
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree

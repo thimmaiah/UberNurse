@@ -19,8 +19,11 @@ class ShiftDashboard < Administrate::BaseDashboard
     vat: Field::Number.with_options(decimals: 2),
     rating: Field::HasOne,
     id: Field::Number,
+    manual_close: Field::Boolean,
     start_code: Field::String,
     end_code: Field::String,
+    start_date: Field::DateTime,
+    end_date: Field::DateTime,
     response_status: Field::Select.with_options(collection: Shift::RESPONSE_STATUS),
     accepted: Field::Boolean,
     rated: Field::Boolean,
@@ -41,6 +44,8 @@ class ShiftDashboard < Administrate::BaseDashboard
     :id,
     :user,
     :care_home,
+    :start_date,
+    :end_date,
     :response_status,
     :payment_status,
     :care_home_payment_status,
@@ -62,8 +67,11 @@ class ShiftDashboard < Administrate::BaseDashboard
     :carer_base,        
     :rating,
     :id,
+    :manual_close,
     :start_code,
     :end_code,
+    :start_date,
+    :end_date,
     :response_status,
     :pricing_audit,
     :accepted,
@@ -79,16 +87,11 @@ class ShiftDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :start_date,
+    :end_date,
     :start_code,
     :end_code,
-    :care_home_base,
-    :carer_base,
-    :markup,
-    :vat,    
-    :care_home_total_amount,
-    :response_status,
-    :payment_status,
-    :care_home_payment_status
+    :manual_close,
   ].freeze
 
   # Overwrite this method to customize how staffing responses are displayed

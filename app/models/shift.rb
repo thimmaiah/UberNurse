@@ -106,18 +106,21 @@ class Shift < ApplicationRecord
 
 
   def update_dates
-    if(self.start_code_changed?)
-      self.start_date = Time.now
-      self.start_date = self.start_date.change({sec: 0}) if self.start_date
-      UserNotifierMailer.shift_started(self).deliver_later
-      self.send_shift_started_sms(self)
-    end
-    if(self.end_code_changed?)
-      # End Time cannot be < 4 hours from start time
-      self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
-      self.end_date = self.end_date.change({sec: 0}) if self.end_date
-      UserNotifierMailer.shift_ended(self).deliver_later
-      self.send_shift_ended_sms(self)
+    # Sometimes admin have to manually close a shift, so they supply the start/end codes and dates
+    if(!manual_close)
+      if(self.start_code_changed?)
+        self.start_date = Time.now
+        self.start_date = self.start_date.change({sec: 0}) if self.start_date
+        UserNotifierMailer.shift_started(self).deliver_later
+        self.send_shift_started_sms(self)
+      end
+      if(self.end_code_changed?)
+        # End Time cannot be < 4 hours from start time
+        self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
+        self.end_date = self.end_date.change({sec: 0}) if self.end_date
+        UserNotifierMailer.shift_ended(self).deliver_later
+        self.send_shift_ended_sms(self)
+      end
     end
   end
 
@@ -136,7 +139,7 @@ class Shift < ApplicationRecord
     end
 
     time_from_now = (self.staffing_request.start_date - Time.now)/60 
-    if(self.start_code_changed? && time_from_now > 60 && self.testing != true)  
+    if(!manual_close && self.start_code_changed? && time_from_now > 60 && self.testing != true)  
       errors.add(:start_code, "Shift cannot start before the allotted shift time #{self.staffing_request.start_date.in_time_zone("Europe/London").to_s(:custom_datetime)}")
     end
 
