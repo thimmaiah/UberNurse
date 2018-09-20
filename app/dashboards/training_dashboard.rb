@@ -26,7 +26,6 @@ class TrainingDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :name,
     :undertaken,
     :date_completed,
@@ -40,8 +39,8 @@ class TrainingDashboard < Administrate::BaseDashboard
     :name,
     :undertaken,
     :date_completed,
-    :profile_id,
-    :user_id,
+    :profile,
+    :user,
     :created_at,
     :updated_at,
   ].freeze
@@ -50,11 +49,11 @@ class TrainingDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :profile_id,
+    :user_id,
     :name,
     :undertaken,
     :date_completed,
-    :profile_id,
-    :user_id,
   ].freeze
 
   # Overwrite this method to customize how trainings are displayed

@@ -1,21 +1,10 @@
 module Admin
   class TrainingsController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = Training.
-    #     page(params[:page]).
-    #     per(10)
-    # end
-
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   Training.find_by!(slug: param)
-    # end
-
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+    def new   
+      resource = Training.new(user_id: params[:user_id], profile_id: params[:profile_id])
+      render locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+      }
+    end
   end
 end
