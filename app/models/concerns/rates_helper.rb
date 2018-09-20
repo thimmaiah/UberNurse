@@ -65,8 +65,8 @@ module RatesHelper
     care_home_base = care_home_base.round(2)
 
     # Audit trail
-    day_time_hours_worked = staffing_request.human_readable_time(day_mins)
-    night_time_hours_worked = staffing_request.human_readable_time(night_mins)
+    day_time_hours_worked = staffing_request.human_readable_time(day_mins.to_i)
+    night_time_hours_worked = staffing_request.human_readable_time(night_mins.to_i)
 
     staffing_request.carer_base = carer_base 
     staffing_request.care_home_base = care_home_base 
@@ -109,8 +109,8 @@ module RatesHelper
     markup = (care_home_base - carer_base).round(2)
 
     # Audit trail
-    day_time_hours_worked = shift.human_readable_time(day_mins)
-    night_time_hours_worked = shift.human_readable_time(night_mins)
+    day_time_hours_worked = shift.human_readable_time(day_mins.to_i)
+    night_time_hours_worked = shift.human_readable_time(night_mins.to_i)
 
     shift.pricing_audit["calc"] = "day_time_hours_worked x rate + night_time_hours_worked x rate"   
     shift.pricing_audit["calc_carer_base"] = calc_carer_base   
