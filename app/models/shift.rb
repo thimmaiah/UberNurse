@@ -136,7 +136,7 @@ class Shift < ApplicationRecord
     end
 
     time_from_now = (self.staffing_request.start_date - Time.now)/60 
-    if(self.start_code_changed? && time_from_now > 15 && self.testing != true)  
+    if(self.start_code_changed? && time_from_now > 60 && self.testing != true)  
       errors.add(:start_code, "Shift cannot start before the allotted shift time #{self.staffing_request.start_date.in_time_zone("Europe/London").to_s(:custom_datetime)}")
     end
 
