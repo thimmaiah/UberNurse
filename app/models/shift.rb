@@ -255,4 +255,14 @@ class Shift < ApplicationRecord
     closed_shifts = Shift.joins(:staffing_request).where(response_status:"Closed").where("staffing_requests.start_date >= ? and staffing_requests.start_date < ?", month_start, month_end + 1.day)
     closed_shifts 
   end
+
+  def create_payment
+    Payment.new(shift_id: self.id, user_id: self.user_id, 
+      care_home_id: self.care_home_id, paid_by_id: self.staffing_request.user_id,
+      billing: self.care_home_base, amount: self.care_home_total_amount, 
+      vat: self.vat, markup: self.markup, care_giver_amount: self.carer_base,
+      notes: "Thank you for your service.",
+      staffing_request_id: self.staffing_request_id)
+    
+  end
 end

@@ -5,9 +5,10 @@ module RatesHelper
     night_mins = entity.night_shift_minutes
     day_mins = total_mins - night_mins
 
-    day_time_hours_worked = entity.human_readable_time(day_mins)
-    night_time_hours_worked = entity.human_readable_time(night_mins)
+    day_time_hours_worked = entity.human_readable_time(day_mins.to_i)
+    night_time_hours_worked = entity.human_readable_time(night_mins.to_i)
 
+    logger.debug("total_mins = #{total_mins}, night_mins = #{night_mins}, day_mins = #{day_mins}, day_time_hours_worked = #{day_time_hours_worked}, night_time_hours_worked = #{night_time_hours_worked}")
     
     case factor_name
       when "DEFAULT_FACTOR"
@@ -30,8 +31,8 @@ module RatesHelper
     night_mins = entity.night_shift_minutes
     day_mins = total_mins - night_mins
 
-    day_time_hours_worked = entity.human_readable_time(day_mins)
-    night_time_hours_worked = entity.human_readable_time(night_mins)
+    day_time_hours_worked = entity.human_readable_time(day_mins.to_i)
+    night_time_hours_worked = entity.human_readable_time(night_mins.to_i)
 
     case factor_name
       when "DEFAULT_FACTOR"
@@ -99,8 +100,8 @@ module RatesHelper
     factor_name = factor(staffing_request)
     
     # Basic rate multiplication
-    carer_base, day_mins, night_mins, calc_carer_base = carer_amount(staffing_request, rate, factor_name)
-    care_home_base, day_mins, night_mins, calc_care_home_base = care_home_amount(staffing_request, rate, factor_name)
+    carer_base, day_mins, night_mins, calc_carer_base = carer_amount(shift, rate, factor_name)
+    care_home_base, day_mins, night_mins, calc_care_home_base = care_home_amount(shift, rate, factor_name)
     carer_base = carer_base.round(2)
     care_home_base = care_home_base.round(2)
 

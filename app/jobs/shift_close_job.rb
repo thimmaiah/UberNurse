@@ -13,12 +13,7 @@ class ShiftCloseJob < ApplicationJob
     Rails.logger.info "ShiftCloseJob priced shift #{shift.id} @ #{shift.care_home_total_amount}"
 
     # generate a payment record
-    payment = Payment.new(shift_id: shift.id, user_id: shift.user_id, 
-      care_home_id: shift.care_home_id, paid_by_id: shift.staffing_request.user_id,
-      billing: shift.care_home_base, amount: shift.care_home_total_amount, 
-      vat: shift.vat, markup: shift.markup, care_giver_amount: shift.carer_base,
-      notes: "Thank you for your service.",
-      staffing_request_id: shift.staffing_request_id)
+    payment = shift.create_payment
     
     req = shift.staffing_request
     req.request_status = "Closed"
