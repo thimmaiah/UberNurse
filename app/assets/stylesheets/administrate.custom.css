@@ -71,3 +71,8 @@ dl > .attribute-label {
 dl > .attribute-data {
 	width: calc(75% - 1rem)
 }
+
+.profile_pic {
+	max-height: 300px;
+	max-width: 200px;
+}
