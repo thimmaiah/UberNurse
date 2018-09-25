@@ -114,8 +114,15 @@ class UserNotifierMailer < ApplicationMailer
   def shift_accepted(shift)
     @shift = shift
     @user = shift.user
+
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email, :cc=>@shift.staffing_request.user.email, :bcc => ENV['ADMIN_EMAIL'],
+    
+    @to = "Care Giver"
+    mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
+          :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" ).deliver
+
+    @to = "Care Home"
+    mail( :to => @shift.staffing_request.user.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 

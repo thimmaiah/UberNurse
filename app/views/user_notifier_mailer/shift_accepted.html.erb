@@ -7,9 +7,16 @@
     <h2>Shift Confirmed</h2>
     <p>
     	
-	</p>
+	  </p>
 
-	<%= render partial: "shift" %>
-	
+  	<%= render partial: "shift" %>
+
+    <% if @to == "Care Home" && @user.profile.present? %>
+      </br>
+      </br>
+      <h2>Care Giver Profile</h2>
+      <%= render partial: "profile" %>
+  	<% end %>
+
   </body>
 </html>
