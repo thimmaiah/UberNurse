@@ -6,6 +6,23 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   puts @user.to_json
 end
 
+Given(/^the user has a profile$/) do
+  @profile = FactoryGirl.build(:profile)
+  @profile.user = @user
+  @profile.role = @user.role
+  @profile.known_as = @user.first_name
+        
+  @profile.save!
+  @user.profile = @profile
+end
+
+Then(/^the email has the profile in the body$/) do
+  current_email.body.should include("Profile")
+  current_email.body.should include("Known As")
+  current_email.body.should include("Role")
+end
+
+
 Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|
   @user = FactoryGirl.build(:user)
   key_values(@user, arg1)

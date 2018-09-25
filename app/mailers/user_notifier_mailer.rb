@@ -117,12 +117,7 @@ class UserNotifierMailer < ApplicationMailer
 
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     
-    @to = "Care Giver"
-    mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
-          :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" ).deliver
-
-    @to = "Care Home"
-    mail( :to => @shift.staffing_request.user.email, :bcc => ENV['ADMIN_EMAIL'],
+    mail( :to => @shift.staffing_request.user.email, :cc=>@user.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 

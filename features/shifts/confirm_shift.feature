@@ -4,6 +4,7 @@ Feature: View Shift
 Scenario Outline: Accept My Shift
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the user has a profile
   And the shift creator job runs
   Given Im logged in 
   When I click "Pending Shifts"
@@ -14,6 +15,7 @@ Scenario Outline: Accept My Shift
   Then the shift is "Accepted"
   Given jobs are being dispatched
   Then the user receives an email with "Shift Confirmed" in the subject
+  And the email has the profile in the body
 
   Examples:
   	|request	                           | user                            |
