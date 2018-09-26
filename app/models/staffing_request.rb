@@ -68,7 +68,7 @@ class StaffingRequest < ApplicationRecord
     if( self.request_status_changed? &&
         (self.request_status == 'Closed' || self.request_status == 'Cancelled') )
       # Need to ensure that request whose shift has started cannot be cancelled.
-      if(self.request_status == "Cancelled" && self.shifts.last.start_code != nil)
+      if(self.request_status == "Cancelled" && self.shifts.last && self.shifts.last.start_code != nil)
         errors.add(:request_status, "Cannot cancel request when the shift has started.")
       else
         # Ensure all responses are also closed so they dont show up on the UI
