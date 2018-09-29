@@ -37,3 +37,7 @@ end
 every 1.month, :at => "start of the month at 11pm" do
 	runner "GenerateIncentivesJob.perform_now"
 end
+
+every 1.week, :at => "start of the week at 11pm" do
+	runner "Stat.generate_all"
+end

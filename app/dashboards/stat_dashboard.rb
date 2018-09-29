@@ -16,6 +16,7 @@ class StatDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     as_of_date: Field::DateTime,
     date_range: Field::String,
+    stat_type: Field::String,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -25,7 +26,8 @@ class StatDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :name,    
+    :name,
+    :stat_type,    
     :value,
     :as_of_date,
     :date_range,
@@ -37,6 +39,7 @@ class StatDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :stat_type,
     :description,
     :value,
     :created_at,
@@ -50,6 +53,7 @@ class StatDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :stat_type,
     :description,
     :value,
     :as_of_date,
