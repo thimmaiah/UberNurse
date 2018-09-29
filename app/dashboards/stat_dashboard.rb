@@ -37,15 +37,17 @@ class StatDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :id,
+    
     :name,
+    :as_of_date,
+    :date_range,    
+    :value,
     :stat_type,
     :description,
-    :value,
     :created_at,
     :updated_at,
-    :as_of_date,
-    :date_range,
+    :id,
+    
   ].freeze
 
   # FORM_ATTRIBUTES
