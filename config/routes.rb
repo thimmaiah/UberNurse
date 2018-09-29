@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :stats
   resources :trainings
   resources :profiles
   resources :referrals
@@ -35,6 +36,7 @@ Rails.application.routes.draw do
     resources :rates
     resources :referrals
     resources :holidays
+    resources :stats
     get '/payments_export', to: 'payments_export#index'
     get '/payments_export/form', to: 'payments_export#form'
     root to: "users#index"

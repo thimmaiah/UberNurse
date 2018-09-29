@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180920072242) do
+ActiveRecord::Schema.define(version: 20180929042824) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -335,6 +335,17 @@ ActiveRecord::Schema.define(version: 20180920072242) do
     t.index ["deleted_at"], name: "index_staffing_responses_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_staffing_responses_on_staffing_request_id", using: :btree
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
+  end
+
+  create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name",        limit: 100
+    t.string   "description"
+    t.string   "value"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.date     "as_of_date"
+    t.string   "date_range",  limit: 40
+    t.string   "stat_type",   limit: 20
   end
 
   create_table "trainings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

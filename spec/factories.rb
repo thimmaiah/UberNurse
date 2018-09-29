@@ -1,6 +1,11 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :stat do
+    name "MyString"
+    description "MyString"
+    value "MyString"
+  end
   factory :training do
     name {Faker::Company.bs}
     undertaken true

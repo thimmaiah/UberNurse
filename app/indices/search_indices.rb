@@ -58,6 +58,7 @@ end
 ThinkingSphinx::Index.define :user, :with => :real_time do
   # fields
   indexes first_name
+  indexes email
   indexes last_name
   indexes postcode
   indexes speciality
