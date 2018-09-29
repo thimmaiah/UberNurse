@@ -25,13 +25,13 @@ class StatDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
     :name,
-    :stat_type,    
+    :date_range,
     :value,
     :as_of_date,
-    :date_range,
+    :stat_type,    
     :description,
+    :id,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
