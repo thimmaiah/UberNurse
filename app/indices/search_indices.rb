@@ -12,6 +12,14 @@ ThinkingSphinx::Index.define :staffing_request, :with => :real_time do
   has shift_status, :type=>:string
 end
 
+ThinkingSphinx::Index.define :stat, :with => :real_time do
+  # fields
+  indexes name, :sortable => true
+  has stat_type, :type => :string
+
+end
+
+
 ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
   indexes name

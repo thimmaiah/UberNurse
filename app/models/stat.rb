@@ -1,5 +1,7 @@
 class Stat < ApplicationRecord
 
+	after_save ThinkingSphinx::RealTime.callback_for(:stat)
+
 	def self.user_stats(date=Date.today)
 
 		week = date.beginning_of_week
