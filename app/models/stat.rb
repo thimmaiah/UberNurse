@@ -2,14 +2,21 @@ class Stat < ApplicationRecord
 
 	after_save ThinkingSphinx::RealTime.callback_for(:stat)
 
+	def self.generate_all(date=Date.today)
+		self.user_stats(date)
+		self.care_home_stats(date)		
+		self.staffing_request_stats(date)
+		self.shift_stats(date)		
+	end
+
 	def self.user_stats(date=Date.today)
 
 		week = date.beginning_of_week
 		month = date.beginning_of_month
 		type = "User"
 		
-
-		Stat.where(stat_type: type).delete_all
+		# We will regenerate this week, month and all time - so delete it before we regenerate
+		Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
 
 		[true, false].each do |verified|
 			vFlag = verified ? "Verified" : "Unverified"
@@ -52,7 +59,9 @@ class Stat < ApplicationRecord
 		type = "CareHome"
 		
 
-		Stat.where(stat_type: type).delete_all
+		# We will regenerate this week, month and all time - so delete it before we regenerate
+		Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
+
 
 		[true, false].each do |verified|
 			vFlag = verified ? "Verified" : "Unverified"
@@ -93,7 +102,9 @@ class Stat < ApplicationRecord
 		type = "StaffingRequest"
 		
 
-		Stat.where(stat_type: type).delete_all
+		# We will regenerate this week, month and all time - so delete it before we regenerate
+		Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
+
 
 		StaffingRequest::REQ_STATUS.each do |status|
 			
@@ -136,7 +147,9 @@ class Stat < ApplicationRecord
 		type = "Shift"
 		
 
-		Stat.where(stat_type: type).delete_all
+		# We will regenerate this week, month and all time - so delete it before we regenerate
+		Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
+
 
 		Shift::RESPONSE_STATUS.each do |status|
 			
