@@ -7,6 +7,7 @@ class Stat < ApplicationRecord
 		self.care_home_stats(date)		
 		self.staffing_request_stats(date)
 		self.shift_stats(date)		
+		self.generate_financials(date)
 	end
 
 	def self.user_stats(date=Date.today)
@@ -166,6 +167,48 @@ class Stat < ApplicationRecord
 				as_of_date: date, date_range: "All time", value: Shift.where("response_status  =?", status  ).count)				
 		
 		end
+
+	end
+
+	def self.generate_financials(date=Date.today)
+
+		week = date.beginning_of_week
+		month = date.beginning_of_month
+		type = "Financials"
+		desc = "Financials"		
+		status = "Closed"
+
+		# We will regenerate this week, month and all time - so delete it before we regenerate
+		Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
+
+
+		Stat.create(name: "Income from Care Homes", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Week of #{week}", value: Shift.where("response_status  =? and  created_at >= ?", status  , week).sum(:care_home_total_amount).round(2))
+
+		Stat.create(name: "Expenses for Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Week of #{week}", value: Shift.where("response_status  =? and  created_at >= ?", status  , week).sum(:carer_base).round(2))
+
+		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Week of #{week}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , week).sum(:total_mins_worked) / 60).round(2))
+
+		Stat.create(name: "Income from Care Homes", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Month of #{month}", value: Shift.where("response_status  =? and  created_at >= ?", status  , month).sum(:care_home_total_amount).round(2))
+
+		Stat.create(name: "Expenses for Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Month of #{month}", value: Shift.where("response_status  =? and  created_at >= ?", status  , month).sum(:carer_base).round(2))
+
+		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Month of #{month}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , month).sum(:total_mins_worked) / 60).round(2))
+
+		Stat.create(name: "Income from Care Homes", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "All time", value: Shift.where("response_status  =?", status).sum(:care_home_total_amount).round(2))
+
+		Stat.create(name: "Expenses for Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "All time", value: Shift.where("response_status  =?", status).sum(:carer_base).round(2))
+
+		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "All time", value: (Shift.where("response_status  =? ", status).sum(:total_mins_worked) / 60).round(2))
+	
 
 	end
 

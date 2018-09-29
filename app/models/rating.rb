@@ -16,6 +16,7 @@ class Rating < ApplicationRecord
   def add_entity_ratings
     self.rated_entity.total_rating = 0 if self.rated_entity.total_rating == nil
     self.rated_entity.rating_count = 0 if self.rated_entity.rating_count == nil
+    self.stars = 5 if self.stars == nil
 
     self.rated_entity.total_rating = self.rated_entity.total_rating + self.stars
     self.rated_entity.rating_count = self.rated_entity.rating_count + 1
