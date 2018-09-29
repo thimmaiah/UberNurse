@@ -17,6 +17,7 @@ module Admin
       end
     end
 
+    
     def setup_search
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
