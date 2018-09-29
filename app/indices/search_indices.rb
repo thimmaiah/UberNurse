@@ -15,6 +15,8 @@ end
 ThinkingSphinx::Index.define :stat, :with => :real_time do
   # fields
   indexes name, :sortable => true
+  indexes date_range, :sortable => true
+
   has stat_type, :type => :string
   has as_of_date, :type => :timestamp
 

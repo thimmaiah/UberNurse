@@ -191,6 +191,9 @@ class Stat < ApplicationRecord
 		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
 			as_of_date: date, date_range: "Week of #{week}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , week).sum(:total_mins_worked) / 60).round(2))
 
+		Stat.create(name: "Number of Closed Shifts", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Week of #{week}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , week).count))
+
 		Stat.create(name: "Income from Care Homes", stat_type: type, description: desc, 
 			as_of_date: date, date_range: "Month of #{month}", value: Shift.where("response_status  =? and  created_at >= ?", status  , month).sum(:care_home_total_amount).round(2))
 
@@ -199,6 +202,9 @@ class Stat < ApplicationRecord
 
 		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
 			as_of_date: date, date_range: "Month of #{month}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , month).sum(:total_mins_worked) / 60).round(2))
+
+		Stat.create(name: "Number of Closed Shifts", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "Month of #{month}", value: (Shift.where("response_status  =? and  created_at >= ?", status  , month).count))
 
 		Stat.create(name: "Income from Care Homes", stat_type: type, description: desc, 
 			as_of_date: date, date_range: "All time", value: Shift.where("response_status  =?", status).sum(:care_home_total_amount).round(2))
@@ -209,6 +215,8 @@ class Stat < ApplicationRecord
 		Stat.create(name: "Hours worked by Care Givers", stat_type: type, description: desc, 
 			as_of_date: date, date_range: "All time", value: (Shift.where("response_status  =? ", status).sum(:total_mins_worked) / 60).round(2))
 	
+		Stat.create(name: "Number of Closed Shifts", stat_type: type, description: desc, 
+			as_of_date: date, date_range: "All time", value: (Shift.where("response_status  =? ", status).count))
 
 	end
 
