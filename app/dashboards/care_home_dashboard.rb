@@ -15,6 +15,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     users: Field::HasMany,
     staffing_requests: Field::HasMany,
     name: Field::String,
+    speciality: Field::Select.with_options(collection: User::SPECIALITY),
     phone: Field::String,
     address: Field::String.with_options(required: true),
     town: Field::String.with_options(required: true),
@@ -48,6 +49,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :speciality,
     :phone,
     :verified,
     :manual_assignment_flag,
@@ -70,6 +72,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :speciality,
     :phone,
     :address,
     :town,

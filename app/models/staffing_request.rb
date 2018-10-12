@@ -46,8 +46,16 @@ class StaffingRequest < ApplicationRecord
     self.manual_assignment_flag = self.care_home.manual_assignment_flag if self.manual_assignment_flag == nil 
     self.manual_assignment_flag = false if self.manual_assignment_flag == nil
 
-    # Ask for a Generalist if the speciality is not set
-    self.speciality = "Generalist" if self.speciality == nil
+    
+    if self.speciality == nil
+      if self.care_home.speciality != nil
+        # Some care homes have a default speciality
+        self.speciality = self.care_home.speciality 
+      else  
+        # Ask for a Generalist if the speciality is not set
+        self.speciality = "Generalist" 
+      end
+    end
   end
 
 
