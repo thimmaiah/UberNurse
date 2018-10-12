@@ -35,6 +35,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
+    :speciality,
     :phone,
     :address,
     :town,
