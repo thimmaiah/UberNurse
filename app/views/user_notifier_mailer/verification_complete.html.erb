@@ -5,8 +5,14 @@
   </head>
   <body>
     <h2>Dear <%=@user.first_name%>, Verification Complete</h2>
-    <p>
-    	Your documents have been verified. Please log into the app. Note that you will now be eligible for shifts within your preferred commute distance.
-	</p>
+    <% if @user.role == "Admin" %>
+    	<p>
+	    	Your account have been verified. Please log into the app to enter staffing requests.
+		</p>
+    <% else %>
+	    <p>
+	    	Your documents have been verified. Please log into the app. Note that you will now be eligible for shifts within your preferred commute distance.
+		</p>
+	<% end %>
   </body>
 </html>

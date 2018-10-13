@@ -37,7 +37,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :name,
     :speciality,
     :phone,
-    :address,
     :town,
     :postcode,
     :verified,
