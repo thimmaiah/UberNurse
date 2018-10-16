@@ -148,11 +148,11 @@ class Shift < ApplicationRecord
     end
   end
 
-  def close_shift
+  def close_shift(force=false)
     # Ensure this gets priced, if we have the right star / end codes
-    if(!self.closing_started && self.carer_base == nil &&
-       self.start_code == self.staffing_request.start_code &&
-       self.end_code == self.staffing_request.end_code)
+    if ( (  !self.closing_started && self.carer_base == nil &&
+            self.start_code == self.staffing_request.start_code &&
+            self.end_code == self.staffing_request.end_code) || force )
 
       ShiftCloseJob.perform_later(self.id)
       # This callback gets called multiple times - we want to do this only once. Hence closing_started

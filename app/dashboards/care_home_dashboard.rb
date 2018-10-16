@@ -23,6 +23,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     image_url: Field::Text,
+    care_home_broadcast_group: Field::String,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
   }.freeze
@@ -54,6 +55,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :verified,
     :manual_assignment_flag,
     :zone,
+    :care_home_broadcast_group,
     :address,
     :town,
     :postcode,
@@ -74,6 +76,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :name,
     :speciality,
     :phone,
+    :care_home_broadcast_group,
     :address,
     :town,
     :postcode,
