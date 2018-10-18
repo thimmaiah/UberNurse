@@ -15,6 +15,7 @@ namespace :uber_nurse do
     Payment.delete_all
     Rating.delete_all
     PaperTrail::Version.delete_all
+    Stat.delete_all
   end
 
 
@@ -27,6 +28,7 @@ namespace :uber_nurse do
 
       (1..4).each do | i |
         h = FactoryGirl.build(:care_home)
+        h.created_at = Date.today - rand(4).weeks - rand(7).days
         h.save
         #puts u.to_xml(:include => :care_home_industry_mappings)
         puts "CareHome #{h.id}"
@@ -65,6 +67,7 @@ namespace :uber_nurse do
           u.password = "admin#{i}@gmail.com"
           u.role = "Admin"
           u.care_home_id = c.id
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
           #puts u.to_xml
           puts "User #{u.id}"
@@ -81,6 +84,7 @@ namespace :uber_nurse do
         u.password = "user#{i}@gmail.com"
         u.role = "Care Giver"
         u.image_url = images[rand(images.length)]
+        u.created_at = Date.today - rand(4).weeks - rand(7).days
         u.save
 
         p = FactoryGirl.build(:profile)
@@ -106,6 +110,7 @@ namespace :uber_nurse do
         u.password = "user#{i}@gmail.com"          
         u.role = "Nurse"
         u.image_url = images[rand(images.length)]
+        u.created_at = Date.today - rand(4).weeks - rand(7).days
         u.save
         #puts u.to_xml
         p = FactoryGirl.build(:profile)
@@ -198,9 +203,11 @@ namespace :uber_nurse do
         count = rand(3) + 1
         (1..count).each do |j|
           u = FactoryGirl.build(:staffing_request)
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.care_home = c
           u.request_status = rand(10) > 2 ? "Approved" : "Rejected"
           u.user = c.users[0]
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
           #puts u.to_xml
           puts "StaffingRequest #{u.id}"

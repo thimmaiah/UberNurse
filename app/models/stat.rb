@@ -3,6 +3,7 @@ class Stat < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:stat)
 
   def self.generate_all(date=Date.today)
+  	Rails.logger.debug "Generating stats for #{date}"
     self.user_stats(date)
     self.care_home_stats(date)
     self.staffing_request_stats(date)
@@ -265,5 +266,12 @@ class Stat < ApplicationRecord
     user_stats = Stat.search(duration, with: {stat_type: stat_type}, order: :as_of_date, page: 1, per_page: 100)
   end
 
+  def self.generate_from(start_date)
+  	s = start_date.end_of_week
+  	while( s < Date.today.beginning_of_week ) 
+  		self.generate_all(s)
+  		s = s + 7.days
+  	end
+  end
 
 end

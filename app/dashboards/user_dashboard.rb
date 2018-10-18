@@ -37,6 +37,7 @@ class UserDashboard < Administrate::BaseDashboard
     phone_verified: Field::Boolean,
     postcode: Field::String,
     created_at: Field::DateTime,
+    auto_selected_date: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
