@@ -32,6 +32,7 @@ every :reboot do
 	rake "assets:precompile"
 	command "cd /home/ubuntu/UberNurse/current && RAILS_ENV=production ./script/delayed_job start"
 	command "cd /home/ubuntu/UberNurse/current && sudo docker-compose -f config/elk-docker-compose.yml up -d"
+	command "cd /home/ubuntu/UberNurse/current && bundle exec pumactl -S /home/ubuntu/UberNurse/shared/tmp/pids/puma.state -F /home/ubuntu/UberNurse/shared/puma.rb restart"
 end
 
 every 1.month, :at => "start of the month at 11pm" do

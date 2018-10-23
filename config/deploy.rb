@@ -1,5 +1,5 @@
 # Load DSL and Setup Up Stages
-lock "3.8.1"
+lock "3.11.0"
 
  
 # Load custom tasks from `lib/capistrano/tasks` if you have any defined

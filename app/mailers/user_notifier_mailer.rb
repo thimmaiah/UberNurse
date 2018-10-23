@@ -161,11 +161,15 @@ class UserNotifierMailer < ApplicationMailer
   def send_codes_to_broadcast_group(shift)
     @shift      = shift
     
+    emails = @shift.staffing_request.user.email
+
     if(@shift.care_home.care_home_broadcast_group)
-      logger.debug("Sending mail to #{@shift.care_home.care_home_broadcast_group} from #{ENV['NOREPLY']}")
-      mail( :to => @shift.care_home.care_home_broadcast_group, :bcc => ENV['ADMIN_EMAIL'],
-            :subject => 'Shift Confirmation: Start / End Codes' )
+      emails += ",#{@shift.care_home.care_home_broadcast_group}"  
     end
+    
+    logger.debug("Sending mail to #{@shift.care_home.care_home_broadcast_group} from #{ENV['NOREPLY']}")
+    mail( :to => emails, :bcc => ENV['ADMIN_EMAIL'],
+            :subject => 'Shift Confirmation: Start / End Codes' )
 
   end
 
