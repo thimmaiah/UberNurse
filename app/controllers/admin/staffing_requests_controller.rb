@@ -42,7 +42,7 @@ module Admin
 
         # Find the request
         @staffing_request = StaffingRequest.find(params[:id])
-        logger.debug "Creating manual shift for #{@user} and #{@staffing_request}"
+        logger.debug "Creating manual shift for #{@user.id} and #{@staffing_request.id} by #{current_user.id}"
         
         # Manually create the shift - all notifications will go out automatically
         @shift = Shift.create_shift(@user, @staffing_request)

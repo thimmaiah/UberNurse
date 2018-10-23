@@ -12,8 +12,6 @@ class ShiftConfirmJob < ApplicationJob
     		# Send a mail asking the user to confirm
     		UserNotifierMailer.shift_confirmation(shift).deliver        
     		shift.confirmation_sent()
-        # Send a mail to the broacast group with the start / end codes
-        UserNotifierMailer.send_codes_to_broadcast_group(shift).deliver
     	end
     	
     end

@@ -111,6 +111,17 @@ Given(/^jobs are cleared$/) do
   Delayed::Job.delete_all
 end
 
+Then("the care giver receives an email with {string} in the subject") do |subject|
+  open_email(@shift.user.email)
+  expect(current_email.subject).to include subject
+end
+
+
+Then("the requestor receives an email with {string} in the subject") do |subject|
+  open_email(@staffing_request.user.email)
+  expect(current_email.subject).to include subject
+end
+
 
 Then(/^the user receives an email with "([^"]*)" as the subject$/) do |subject|
   open_email(@user.email)

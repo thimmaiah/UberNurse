@@ -126,7 +126,7 @@ class UserNotifierMailer < ApplicationMailer
 
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     
-    mail( :to => @shift.staffing_request.user.email, :cc=>@user.email, :bcc => ENV['ADMIN_EMAIL'],
+    mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 
@@ -159,8 +159,8 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def send_codes_to_broadcast_group(shift)
-    @shift      = shift
-    
+    @shift = shift
+    @user  = shift.user
     emails = @shift.staffing_request.user.email
 
     if(@shift.care_home.care_home_broadcast_group)
@@ -169,7 +169,7 @@ class UserNotifierMailer < ApplicationMailer
     
     logger.debug("Sending mail to #{@shift.care_home.care_home_broadcast_group} from #{ENV['NOREPLY']}")
     mail( :to => emails, :bcc => ENV['ADMIN_EMAIL'],
-            :subject => 'Shift Confirmation: Start / End Codes' )
+            :subject => 'Shift Confirmed: Start / End Codes' )
 
   end
 

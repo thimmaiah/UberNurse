@@ -101,6 +101,8 @@ class Shift < ApplicationRecord
     if(self.response_status_changed? && self.response_status == "Accepted")
       UserNotifierMailer.shift_accepted(self).deliver_later
       self.send_shift_accepted_sms(self)
+      # Send a mail to the broacast group with the start / end codes
+      UserNotifierMailer.send_codes_to_broadcast_group(self).deliver
     end
   end
 
