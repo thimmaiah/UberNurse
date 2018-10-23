@@ -169,7 +169,7 @@ class UserNotifierMailer < ApplicationMailer
     
     logger.debug("Sending mail to #{@shift.care_home.care_home_broadcast_group} from #{ENV['NOREPLY']}")
     mail( :to => emails, :bcc => ENV['ADMIN_EMAIL'],
-            :subject => 'Shift Confirmed: Start / End Codes' )
+            :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}: #{shift.user.first_name}: Start / End Codes" )
 
   end
 

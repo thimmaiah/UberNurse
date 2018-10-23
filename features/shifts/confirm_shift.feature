@@ -15,7 +15,7 @@ Scenario Outline: Accept My Shift
   Then the shift is "Accepted"
   Given jobs are being dispatched
   Then the care giver receives an email with "Shift Confirmed" in the subject
-  Then the requestor receives an email with "Shift Confirmed: Start / End Codes" in the subject  
+  Then the requestor receives an email with "Shift Confirmed" in the subject  
   And the email has the profile in the body
 
   Examples:
