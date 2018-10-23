@@ -4,6 +4,15 @@ Given(/^the shift creator job runs$/) do
   puts "\n#{@shift.to_json}\n"
 end
 
+Given("the care home has a preferred care giver") do
+  @care_home.preferred_care_giver_ids = @user.id.to_s
+  @care_home.save!
+end
+
+Then("A shift must be created for the preferred care giver for the request") do
+  @shift.user_id.should == @care_home.preferred_care_givers.first.id
+end
+
 
 Then(/^A shift must be created for the user for the request$/) do
   @shift = Shift.last

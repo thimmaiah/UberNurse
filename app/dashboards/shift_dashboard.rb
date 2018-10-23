@@ -20,6 +20,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     rating: Field::HasOne,
     id: Field::Number,
     manual_close: Field::Boolean,
+    preferred_care_giver_selected: Field::Boolean, 
     start_code: Field::String,
     end_code: Field::String,
     start_date: Field::DateTime,
@@ -47,8 +48,8 @@ class ShiftDashboard < Administrate::BaseDashboard
     :start_date,
     :end_date,
     :response_status,
-    :payment_status,
-    :care_home_payment_status,
+    :manual_close,
+    :preferred_care_giver_selected,
     :rated,
     :care_home_total_amount
   ].freeze
@@ -68,6 +69,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :rating,
     :id,
     :manual_close,
+    :preferred_care_giver_selected,
     :start_code,
     :end_code,
     :start_date,

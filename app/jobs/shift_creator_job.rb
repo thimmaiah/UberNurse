@@ -10,11 +10,11 @@ class ShiftCreatorJob < ApplicationJob
                                                                                                                             
         begin
           # Select a temp who can be assigned this shift
-          selected_user = select_user(staffing_request)
+          selected_user, preferred_care_giver_selected = select_user(staffing_request)
 
           # If we find a suitable temp - create a shift
           if selected_user
-            Shift.create_shift(selected_user, staffing_request)
+            Shift.create_shift(selected_user, staffing_request, preferred_care_giver_selected)
           else
             logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
             if(staffing_request.shift_status != "Not Found")
@@ -137,10 +137,32 @@ class ShiftCreatorJob < ApplicationJob
 
   def select_user(staffing_request)
 
-    selected_user = nil
+    # Check if the care home has preferred care givers
+    pref_care_givers = staffing_request.care_home.preferred_care_givers
+    if(pref_care_givers)      
+      # Check if any of the pref_care_givers can be assigned to the shift
+      pref_care_givers.each do |user|
+        if(assign_user_to_shift?(staffing_request, user))
+          Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected preferred care giver"
+          return user, true
+        end
+      end
+    end
 
+    # If we cannot get a preferred_care_giver, then lets try everyone else
+    # Change this to Geo search in 50 km radius of the care home. TODO
     User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|
+      if(assign_user_to_shift?(staffing_request, user))
+        Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
+        return user, false
+      end
+    end
 
+
+    return null, false
+  end
+
+  def assign_user_to_shift?(staffing_request, user)
       Rails.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
 
       # Get the shift bookings for this user on the same time as this req
@@ -155,16 +177,11 @@ class ShiftCreatorJob < ApplicationJob
       commute_ok = pref_commute_ok?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
 
-      if(same_day_bookings.length == 0 && !rejected && commute_ok)
-        Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
-        selected_user = user
-        break
+      if(same_day_bookings.length == 0 && !rejected && commute_ok)        
+        return true
       end
-    end
 
-
-    selected_user
+      return false
   end
-
   
 end

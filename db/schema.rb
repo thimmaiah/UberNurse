@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181016082226) do
+ActiveRecord::Schema.define(version: 20181023170806) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20181016082226) do
     t.boolean  "manual_assignment_flag"
     t.string   "speciality",                    limit: 100
     t.string   "care_home_broadcast_group"
+    t.string   "preferred_care_giver_ids"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -244,36 +245,37 @@ ActiveRecord::Schema.define(version: 20181016082226) do
   create_table "shifts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "staffing_request_id"
     t.integer  "user_id"
-    t.string   "start_code",               limit: 10
-    t.string   "end_code",                 limit: 10
-    t.string   "response_status",          limit: 20
+    t.string   "start_code",                    limit: 10
+    t.string   "end_code",                      limit: 10
+    t.string   "response_status",               limit: 20
     t.boolean  "accepted"
     t.boolean  "rated"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
     t.integer  "care_home_id"
-    t.string   "payment_status",           limit: 10
+    t.string   "payment_status",                limit: 10
     t.datetime "deleted_at"
     t.datetime "start_date"
     t.datetime "end_date"
-    t.float    "carer_base",               limit: 24
-    t.text     "pricing_audit",            limit: 65535
+    t.float    "carer_base",                    limit: 24
+    t.text     "pricing_audit",                 limit: 65535
     t.integer  "confirm_sent_count"
     t.date     "confirm_sent_at"
-    t.string   "confirmed_status",         limit: 20
+    t.string   "confirmed_status",              limit: 20
     t.integer  "confirmed_count"
     t.date     "confirmed_at"
     t.boolean  "viewed"
     t.boolean  "care_home_rated"
-    t.string   "care_home_payment_status", limit: 10
-    t.float    "markup",                   limit: 24
-    t.float    "care_home_total_amount",   limit: 24
-    t.float    "vat",                      limit: 24
-    t.float    "care_home_base",           limit: 24
+    t.string   "care_home_payment_status",      limit: 10
+    t.float    "markup",                        limit: 24
+    t.float    "care_home_total_amount",        limit: 24
+    t.float    "vat",                           limit: 24
+    t.float    "care_home_base",                limit: 24
     t.integer  "day_mins_worked"
     t.integer  "night_mins_worked"
     t.integer  "total_mins_worked"
     t.boolean  "manual_close"
+    t.boolean  "preferred_care_giver_selected"
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree

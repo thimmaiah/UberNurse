@@ -19,6 +19,27 @@ Scenario Outline: New Shift
     |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true |
   	
 
+
+Scenario Outline: New Shift for preferred care givers
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  Given there is a user "<user>"
+  Given the care home has a preferred care giver
+  Given there is a user "<user>"
+  And the shift creator job runs
+  Then A shift must be created for the preferred care giver for the request
+  And the request broadcast status must change to "Sent"
+
+  Examples:
+    |request                             | user                            |
+    |role=Care Giver                     |role=Care Giver;verified=true    |
+    |role=Nurse                          |role=Nurse;verified=true         |
+    |role=Nurse;speciality=Generalist    |role=Nurse;verified=true         |
+    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true |
+
+
 Scenario Outline: New Shift for specialist users with no match
   Given there is a request "<request>"
   Given there is a user "<user>"
