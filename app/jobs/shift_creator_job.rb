@@ -159,7 +159,7 @@ class ShiftCreatorJob < ApplicationJob
     end
 
 
-    return null, false
+    return nil, false
   end
 
   def assign_user_to_shift?(staffing_request, user)
