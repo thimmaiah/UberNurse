@@ -31,7 +31,11 @@ Rails.application.routes.draw do
         post :manual_shift
       end
     end
-    resources :shifts
+    resources :shifts do
+      member do 
+        get :resend_start_end_codes
+      end
+    end  
     resources :user_docs
     resources :rates
     resources :referrals
