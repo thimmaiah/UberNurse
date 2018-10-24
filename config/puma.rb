@@ -54,7 +54,7 @@ pidfile 'tmp/pids/puma.pid'
 stdout_redirect 'log/puma.log', 'log/puma.log', true
 
 bind 'unix://tmp/sockets/puma.sock'
-state_path 'tmp/puma.state'
+state_path 'tmp/pids/puma.state'
 
 on_worker_boot do |worker_index|
 

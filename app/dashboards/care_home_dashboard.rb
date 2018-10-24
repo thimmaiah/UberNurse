@@ -24,6 +24,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     image_url: Field::Text,
     care_home_broadcast_group: Field::String,
+    preferred_care_giver_ids: Field::String,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
   }.freeze
@@ -56,6 +57,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :zone,
     :care_home_broadcast_group,
+    :preferred_care_giver_ids,
     :address,
     :town,
     :postcode,
@@ -77,6 +79,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :speciality,
     :phone,
     :care_home_broadcast_group,
+    :preferred_care_giver_ids,
     :address,
     :town,
     :postcode,
