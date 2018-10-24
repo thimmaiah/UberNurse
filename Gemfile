@@ -17,6 +17,8 @@ gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+gem 'awesome_print'
+
 # Use Capistrano for deployment
 group :development do
     gem 'capistrano',         require: false

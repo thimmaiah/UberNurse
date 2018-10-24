@@ -23,7 +23,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     care_home_base: Field::Number.with_options(decimals: 2),
     care_home_total_amount: Field::Number.with_options(decimals: 2),
     vat: Field::Number.with_options(decimals: 2),
-    pricing_audit: Field::String, 
+    pricing_audit: HashField, 
     request_status: Field::Select.with_options(collection: StaffingRequest::REQ_STATUS),
     auto_deny_in: Field::Number.with_options(decimals: 2),
     response_count: Field::Number,

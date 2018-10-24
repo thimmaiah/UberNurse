@@ -28,7 +28,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     response_status: Field::Select.with_options(collection: Shift::RESPONSE_STATUS),
     accepted: Field::Boolean,
     rated: Field::Boolean,
-    pricing_audit: Field::String, 
+    pricing_audit: HashField, 
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
