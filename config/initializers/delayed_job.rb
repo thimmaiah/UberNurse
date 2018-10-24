@@ -27,7 +27,7 @@ Delayed::Worker.class_eval do
 end
 
 
-if Rails.env.development?
+unless Rails.env.development?
   module Delayed
     module Backend
       module ActiveRecord
