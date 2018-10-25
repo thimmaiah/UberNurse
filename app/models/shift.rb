@@ -42,6 +42,7 @@ class Shift < ApplicationRecord
   def set_defaults
     self.confirm_sent_count = 0
     self.confirmed_count = 0
+    self.notification_count = 0
     # update the request
     self.staffing_request.broadcast_status = "Sent"
     self.staffing_request.shift_status = "Found"
@@ -129,10 +130,34 @@ class Shift < ApplicationRecord
 
   def broadcast_shift
     if(self.response_status != 'Rejected')
+      logger.debug "Brodcasting shift #{self.id}"
       PushNotificationJob.new.perform(self)
       UserNotifierMailer.shift_notification(self).deliver_later
       self.send_shift_sms_notification(self)
     end
+  end
+
+  # Used to broadcast the shift n number of times on regular intervals
+  def broadcast_shift_again
+    max_count = ENV['MAX_SHIFT_NOTIFICATION_COUNT'].to_i
+    max_time  = ENV["MAX_PENDING_SLOT_TIME_MINS"].to_i
+
+    time_elapsed =  (Time.now - self.created_at)/60    
+    self.notification_count ||= 0
+    logger.debug "Brodcasting shift again: #{self.id}, time_elapsed = #{time_elapsed}, notification_count = #{self.notification_count}, #{max_time / max_count}"
+    # If we've not sent out the max number of notifications & if the elapsed time is > the next notification time
+    # If we have a 30 min MAX_PENDING_SLOT_TIME_MINS
+    # And have a MAX_SHIFT_NOTIFICATION_COUNT of 3
+    # Then we can send out a notification after every 10 mins 3 times
+    if( self.notification_count < max_count && 
+        time_elapsed > (max_time / max_count) * (self.notification_count + 1) )
+      # Send out the notifications
+      self.broadcast_shift
+      self.notification_count += 1  
+      return self.save
+    end
+
+    return false
   end
 
   def check_codes

@@ -76,7 +76,7 @@ class UserNotifierMailer < ApplicationMailer
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :bcc => ENV['ADMIN_EMAIL'],
-          :subject => "New Shift Available: #{@shift.staffing_request.start_date.to_s(:custom_datetime)}" )
+          :subject => "New Shift Available: #{@shift.staffing_request.start_date.to_s(:custom_datetime)} : Notification #{shift.notification_count}" )
   end
 
 

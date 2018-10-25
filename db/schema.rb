@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181023170806) do
+ActiveRecord::Schema.define(version: 20181025080748) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20181023170806) do
     t.index ["date"], name: "index_holidays_on_date", using: :btree
   end
 
-  create_table "login_activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "login_activities", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "scope"
     t.string   "strategy"
     t.string   "identity"
@@ -165,7 +165,7 @@ ActiveRecord::Schema.define(version: 20181023170806) do
     t.index ["postcode"], name: "index_postcodelatlng_on_postcode", using: :btree
   end
 
-  create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "profiles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "user_id"
     t.date     "date_of_CRB_DBS_check"
     t.date     "dob"
@@ -276,6 +276,7 @@ ActiveRecord::Schema.define(version: 20181023170806) do
     t.integer  "total_mins_worked"
     t.boolean  "manual_close"
     t.boolean  "preferred_care_giver_selected"
+    t.integer  "notification_count"
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree
@@ -341,7 +342,7 @@ ActiveRecord::Schema.define(version: 20181023170806) do
     t.index ["user_id"], name: "index_staffing_responses_on_user_id", using: :btree
   end
 
-  create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "stats", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",        limit: 100
     t.string   "description"
     t.string   "value"
@@ -352,7 +353,7 @@ ActiveRecord::Schema.define(version: 20181023170806) do
     t.string   "stat_type",   limit: 20
   end
 
-  create_table "trainings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "trainings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name"
     t.boolean  "undertaken"
     t.date     "date_completed"

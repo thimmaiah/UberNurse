@@ -30,7 +30,7 @@ as well as a link to its edit page.
       class: "button",
     ) if valid_action? :edit %>
 
-    <%= link_to("Send Start / End Codes", resend_start_end_codes_admin_shift_path(id: page.resource.id), class: "button") %>
+    <%= link_to("Send Start / End Codes", resend_start_end_codes_admin_shift_path(id: page.resource.id), class: "button") if page.resource.response_status == "Accepted" %>
 
   </div>
 </header>

@@ -10,11 +10,13 @@ class ShiftPendingJob < ApplicationJob
         # Check if the shift has exceeded MAX_PENDING_SLOT_TIME_MINS
         time_elapsed =  (Time.now - shift.created_at)/60
         if( time_elapsed > MAX_PENDING_SLOT_TIME_MINS)
-        # No acceptance received, Lets Auto Reject        
-        Rails.logger.info("ShiftPendingJob: Shift #{shift.id} for #{shift.user.email}"\
-          " has not been accepted for #{time_elapsed} minutes. Auto Rejected")
+          # No acceptance received, Lets Auto Reject        
+          Rails.logger.info("ShiftPendingJob: Shift #{shift.id} for #{shift.user.email}"\
+            " has not been accepted for #{time_elapsed} minutes. Auto Rejected")
           shift.response_status = "Auto Rejected"
           shift.save!
+        else 
+          shift.broadcast_shift_again
         end
     end
 
