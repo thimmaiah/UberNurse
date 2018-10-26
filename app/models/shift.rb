@@ -290,7 +290,8 @@ class Shift < ApplicationRecord
       billing: self.care_home_base, amount: self.care_home_total_amount, 
       vat: self.vat, markup: self.markup, care_giver_amount: self.carer_base,
       notes: "Thank you for your service.",
-      staffing_request_id: self.staffing_request_id)
+      staffing_request_id: self.staffing_request_id,
+      created_at: self.end_date)
     
   end
 end
