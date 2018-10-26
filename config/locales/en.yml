@@ -28,3 +28,6 @@ en:
       profile:
         dl_passport: "Driving License / Passport"
         connuct_policies: "Staff Happy to work under Connuct Policies and Procedures"
+      payment:
+        amount: "Care Home Billing (Amount + VAT)"
+        billing: "Care Home Amount"   

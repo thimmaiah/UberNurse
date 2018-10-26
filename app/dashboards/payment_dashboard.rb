@@ -38,8 +38,8 @@ class PaymentDashboard < Administrate::BaseDashboard
     :billing,
     :vat,
     :amount,
-    :markup,
     :care_giver_amount,    
+    :markup,    
     :notes
   ].freeze
 
@@ -54,9 +54,9 @@ class PaymentDashboard < Administrate::BaseDashboard
     :id,
     :billing,
     :vat,    
-    :amount,    
-    :markup,
+    :amount,        
     :care_giver_amount,
+    :markup,
     :notes,
     :created_at,
     :updated_at,
