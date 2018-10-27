@@ -1,5 +1,6 @@
 namespace :db do  desc "Backup database to AWS-S3"
   task :backup => [:environment] do
+    puts "Backing up db to S3"
     datestamp = Time.now.strftime("%Y-%m-%d_%H-%M-%S")
     backup_filename = "#{Rails.root.basename}-#{datestamp}.sql"
     db_config = ActiveRecord::Base.configurations[Rails.env]
@@ -7,7 +8,7 @@ namespace :db do  desc "Backup database to AWS-S3"
     # process backup
     `mysqldump -u #{ENV['DB_USER']} -p#{ENV['DB_PASS']} -h#{ENV['DB_HOST']} -i -c -q #{db_config['database']} > tmp/#{backup_filename}`
     `gzip -9 tmp/#{backup_filename}`
-    puts "Created backup: #{backup_filename}"
+    puts "Created backup: tmp/#{backup_filename}"
 
     # save to aws-s3
     bucket_name = "connuct-#{Rails.env}-db-backup" #gotcha: bucket names are unique across AWS-S3
@@ -33,12 +34,22 @@ namespace :db do  desc "Backup database to AWS-S3"
       })
     end
 
-    puts "\n Uploading tmp/#{backup_filename}.gz #{bucket_name}"
+    puts "Uploading tmp/#{backup_filename}.gz to S3 bucket #{bucket_name}"
     object = s3.bucket(bucket_name).object(File.basename(backup_filename))
     object.upload_file("tmp/#{backup_filename}.gz")
-
+    puts "Upload completed successfully"
     # remove local backup file
     `rm -f tmp/#{backup_filename}.gz`
+
+    # Removing old backups
+    puts "Deleting old backups"
+    bucket.objects.each do |obj|
+      if (obj.last_modified < (Date.today - 2.weeks))
+        puts "Deleting DB backup from S3: #{obj.key}"
+        obj.delete
+      end
+    end
+
   end
 end
 

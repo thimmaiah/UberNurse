@@ -26,14 +26,16 @@ namespace :uber_nurse do
 
     begin
 
+      User::SPECIALITY.each do |sp|
       (1..4).each do | i |
-        h = FactoryGirl.build(:care_home)
-        h.created_at = Date.today - rand(4).weeks - rand(7).days
-        h.save
-        #puts u.to_xml(:include => :care_home_industry_mappings)
-        puts "CareHome #{h.id}"
+          h = FactoryGirl.build(:care_home)
+          h.created_at = Date.today - rand(4).weeks - rand(7).days
+          h.speciality = sp
+          h.save
+          #puts u.to_xml(:include => :care_home_industry_mappings)
+          puts "CareHome #{h.id}"
+        end
       end
-
     rescue Exception => exception
       puts exception.backtrace.join("\n")
       raise exception
@@ -77,57 +79,63 @@ namespace :uber_nurse do
 
       i = 1
       # Now generate some consumers
-      (1..10).each do |j|
-        u = FactoryGirl.build(:user)        
-        u.verified = true
-        u.email = "user#{i}@gmail.com"
-        u.password = "user#{i}@gmail.com"
-        u.role = "Care Giver"
-        u.image_url = images[rand(images.length)]
-        u.created_at = Date.today - rand(4).weeks - rand(7).days
-        u.save
+      User::SPECIALITY.each do |sp|
+        (1..4).each do |j|
+          u = FactoryGirl.build(:user)        
+          u.verified = true
+          u.email = "user#{i}@gmail.com"
+          u.password = "user#{i}@gmail.com"
+          u.role = "Care Giver"
+          u.speciality = sp
+          u.image_url = images[rand(images.length)]
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
+          u.save
 
-        p = FactoryGirl.build(:profile)
-        p.user = u
-        p.role = u.role
-        p.known_as = u.first_name
-        p.save
-        (1..3).each do |ti|
-          t = FactoryGirl.build(:training)
-          t.profile = p
-          t.user = u
-          t.save
+          p = FactoryGirl.build(:profile)
+          p.user = u
+          p.role = u.role
+          p.known_as = u.first_name
+          p.save
+          (1..3).each do |ti|
+            t = FactoryGirl.build(:training)
+            t.profile = p
+            t.user = u
+            t.save
+          end
+          #puts u.to_xml
+          puts "User #{u.id}"
+          i = i + 1
         end
-        #puts u.to_xml
-        puts "User #{u.id}"
-        i = i + 1
       end
 
-      (1..10).each do |j|
-        u = FactoryGirl.build(:user)
-        u.verified = true
-        u.email = "user#{i}@gmail.com"
-        u.password = "user#{i}@gmail.com"          
-        u.role = "Nurse"
-        u.image_url = images[rand(images.length)]
-        u.created_at = Date.today - rand(4).weeks - rand(7).days
-        u.save
-        #puts u.to_xml
-        p = FactoryGirl.build(:profile)
-        p.user = u
-        p.role = u.role
-        p.known_as = u.first_name
-        p.save
-        
-        (1..3).each do |ti|
-          t = FactoryGirl.build(:training)
-          t.profile = p
-          t.user = u
-          t.save
+      User::SPECIALITY.each do |sp|
+        (1..4).each do |j|
+          u = FactoryGirl.build(:user)
+          u.verified = true
+          u.email = "user#{i}@gmail.com"
+          u.password = "user#{i}@gmail.com"          
+          u.role = "Nurse"
+          u.speciality = sp
+          u.image_url = images[rand(images.length)]
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
+          u.save
+          #puts u.to_xml
+          p = FactoryGirl.build(:profile)
+          p.user = u
+          p.role = u.role
+          p.known_as = u.first_name
+          p.save
+          
+          (1..3).each do |ti|
+            t = FactoryGirl.build(:training)
+            t.profile = p
+            t.user = u
+            t.save
+          end
+          
+          puts "User #{u.id}"
+          i = i + 1
         end
-        
-        puts "User #{u.id}"
-        i = i + 1
       end
 
       u = FactoryGirl.build(:user)
