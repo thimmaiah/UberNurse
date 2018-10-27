@@ -227,7 +227,8 @@ end
 
 Given(/^the rate is "([^"]*)"$/) do |arg1|
   Rate.where(zone:@staffing_request.care_home.zone,
-             role:@staffing_request.role).update_all(eval(arg1))
+             role:@staffing_request.role,
+             speciality: @staffing_request.speciality).update_all(eval(arg1))
 end
 
 

@@ -38,9 +38,8 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :speciality,
-    :phone,
+    :care_home_broadcast_group,
     :town,
-    :postcode,
     :verified,
     :manual_assignment_flag,
     :zone

@@ -332,13 +332,16 @@ namespace :uber_nurse do
 
       ["North", "South"].each do |zone|
         ["Nurse", "Care Giver"].each do |role|
+          User::SPECIALITY.each do |sp|
             u = FactoryGirl.build(:rate)
             #u.speciality = spec
             u.role = role
             u.zone = zone
+            u.speciality = sp
             u.save 
             #puts u.to_xml
             puts "Rate #{u.id}"
+          end
         end
       end
 

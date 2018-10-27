@@ -145,9 +145,19 @@ module RatesHelper
 
 
   def billing_rate(staffing_request)
-    #rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: staffing_request.speciality).first
-    rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role).first
+    
+    rate = nil
+    # Get the rate for the speciality if there is one
+    if (staffing_request.speciality)
+        rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: staffing_request.speciality).first
+    end
+    # Get the Generalist rate if we have no rate
+    if(rate == nil)
+        rate = Rate.where(zone: staffing_request.care_home.zone, role: staffing_request.role, speciality: "Generalist").first
+    end
+
     rate
+    
   end
 
   def factor(staffing_request)
