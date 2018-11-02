@@ -50,6 +50,7 @@ set :puma_init_active_record, true  # Change to true if using ActiveRecord
 
 
 
+
 ## Defaults:
 # set :scm,           :git
 # set :branch,        :master

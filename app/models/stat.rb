@@ -11,52 +11,59 @@ class Stat < ApplicationRecord
     self.generate_financials(date)
   end
 
-  def self.user_stats(date=Date.today)
 
+  def self.init(type, date=Date.today, delete_prev=false)
     week = date.beginning_of_week
     month = date.beginning_of_month
-    type = "User"
 
-    # We will regenerate this week, month and all time - so delete it before we regenerate
-    Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
+    Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all if delete_prev
+
+    return week, month, type
+  end
+
+  def self.createWeekMonthAllStats(date, type, query, description=nil, delete_prev=false)
+
+      week, month, type = init(type, date,delete_prev)
+
+      description ||= "Stat #{type} on #{date}"
+
+      Stat.create(name: name, stat_type: type, description: description,
+                  as_of_date: date, date_range: "Week of #{week}", 
+                  value: query.where("created_at >= ? and created_at <= ?", 
+                    week, week.end_of_week).count)
+
+      Stat.create(name: name, stat_type: type, description: description,
+                  as_of_date: date, date_range: "Month of #{month}", 
+                  value: query.where("created_at >= ? and created_at <= ?", 
+                    month, month.end_of_month).count)
+
+      Stat.create(name: name, stat_type: type, description: description,
+                  as_of_date: date, date_range: "All time", 
+                  value: query.count)
+
+  end
+
+
+  def self.important_stat(date=Date.today)
+    week. month, type = init("Important", date)
+
+  end
+
+  def self.user_stats(date=Date.today)
+
 
     [true, false].each do |verified|
       vFlag = verified ? "Verified" : "Unverified"
 
-      name = "Total #{vFlag} User Count"
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} users",
-                  as_of_date: date, date_range: "Week of #{week}", 
-                  value: User.where("verified=? and  created_at >= ? and created_at <= ?", 
-                  	verified, week, week.end_of_week).count)
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} users",
-                  as_of_date: date, date_range: "Month of #{month}", 
-                  value: User.where("verified=? and  created_at >= ? and created_at <= ?", 
-                  	verified, month, month.end_of_month).count)
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} users",
-                  as_of_date: date, date_range: "All time", 
-                  value: User.where("verified=?", verified).count)
-
+      query, description, delete_prev = User.where("verified=?", verified), "All #{vFlag} users", true
+      self.createWeekMonthAllStats(date, "User", query, description, delete_prev)
 
 
       User::ROLE.each do |role|
         name = "Total #{vFlag} #{role} Count"
 
-        Stat.create(name: name , stat_type: type, description: "All #{vFlag} #{role}",
-                    as_of_date: date, date_range: "Week of #{week}", 
-                    value: User.where("verified=? and  role = ? and created_at >= ? and created_at <= ?", 
-                    	verified, role, week, week.end_of_week).count)
-
-        Stat.create(name: name, stat_type: type, description: "All #{vFlag} #{role}",
-                    as_of_date: date, date_range: "Month of #{month}", 
-                    value: User.where("verified=? and  role = ? and created_at >= ? and created_at <= ?", 
-                    	verified, role, month, month.end_of_month).count)
-
-        Stat.create(name: name, stat_type: type, description: "All #{vFlag} #{role}",
-                    as_of_date: date, date_range: "All time", 
-                    value: User.where("verified=? and  role = ?", verified, role).count)
+        query, description, delete_prev = User.where("verified=? and role=?", verified, role), "All #{vFlag} #{role} users", true
+        self.createWeekMonthAllStats(date, "User", query, description, delete_prev)
 
       end
     end
@@ -66,52 +73,18 @@ class Stat < ApplicationRecord
 
   def self.care_home_stats(date=Date.today)
 
-    week = date.beginning_of_week
-    month = date.beginning_of_month
-    type = "CareHome"
-
-
-    # We will regenerate this week, month and all time - so delete it before we regenerate
-    Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
-
 
     [true, false].each do |verified|
       vFlag = verified ? "Verified" : "Unverified"
 
-      name = "Total #{vFlag} Care Home Count"
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} care homes",
-                  as_of_date: date, date_range: "Week of #{week}", 
-                  value: CareHome.where("verified=? and  created_at >= ? and created_at <= ?", 
-                  	verified, week, week.end_of_week).count)
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} care_homes",
-                  as_of_date: date, date_range: "Month of #{month}", 
-                  value: CareHome.where("verified=? and  created_at >= ? and created_at <= ?", 
-                  	verified, month, month.end_of_month).count)
-
-      Stat.create(name: name, stat_type: type, description: "All #{vFlag} care_homes",
-                  as_of_date: date, date_range: "All time", 
-                  value: CareHome.where("verified=?", verified).count)
-
+      query, description, delete_prev = CareHome.where("verified=?", verified), "All #{vFlag} care homes", true
+      self.createWeekMonthAllStats(date, "CareHome", query, description, delete_prev)
 
 
       CareHome::ZONES.each do |zone|
-        name = "Care Home #{vFlag} #{zone} Zone Count"
 
-        Stat.create(name: name , stat_type: type, description: "All #{vFlag} #{zone}",
-                    as_of_date: date, date_range: "Week of #{week}", 
-                    value: CareHome.where("verified=? and  zone = ? and created_at >= ? and created_at <= ?", 
-                    	verified, zone  , week, week.end_of_week).count)
-
-        Stat.create(name: name, stat_type: type, description: "All #{vFlag} #{zone}",
-                    as_of_date: date, date_range: "Month of #{month}", 
-                    value: CareHome.where("verified=? and  zone   = ? and created_at >= ? and created_at <= ?", 
-                    	verified, zone  ,month, month.end_of_month).count)
-
-        Stat.create(name: name, stat_type: type, description: "All #{vFlag} #{zone}",
-                    as_of_date: date, date_range: "All time", 
-                    value: CareHome.where("verified=? and  zone   = ?", verified, zone  ).count)
+        query, description, delete_prev = CareHome.where("verified=? and zone=?", verified, zone), "All #{vFlag} care homes in zone #{zone}", true
+        self.createWeekMonthAllStats(date, "CareHome", query, description, delete_prev)
 
       end
     end
@@ -119,54 +92,18 @@ class Stat < ApplicationRecord
 
   def self.staffing_request_stats(date=Date.today)
 
-    week = date.beginning_of_week
-    month = date.beginning_of_month
-    type = "StaffingRequest"
-
-
-    # We will regenerate this week, month and all time - so delete it before we regenerate
-    Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
-
 
     StaffingRequest::REQ_STATUS.each do |status|
 
-      name = "Total #{status} StaffingRequest Count"
-      desc = "#{status} StaffingRequest"
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Week of #{week}", 
-                  value: StaffingRequest.where("request_status=? and  created_at >= ? and created_at <= ?", 
-                  	status  , week, week.end_of_week).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Month of #{month}", 
-                  value: StaffingRequest.where("request_status=? and  created_at >= ? and created_at <= ?", 
-                  	status  , month, month.end_of_month).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "All time", 
-                  value: StaffingRequest.where("request_status=?", status  ).count)
+      query, description, delete_prev = StaffingRequest.where("request_status=?", status), "#{status} StaffingRequest", true
+      self.createWeekMonthAllStats(date, "StaffingRequest", query, description, delete_prev)
 
     end
 
     StaffingRequest::SHIFT_STATUS.each do |status|
 
-      name = "Total Shifts: #{status} StaffingRequest Count"
-      desc = "Shifts: #{status} StaffingRequest"
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Week of #{week}", 
-                  value: StaffingRequest.where("shift_status=? and  created_at >= ? and created_at <= ?", 
-                  	status  , week, week.end_of_week).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Month of #{month}", 
-                  value: StaffingRequest.where("shift_status=? and  created_at >= ? and created_at <= ?", 
-                  	status  , month, month.end_of_month).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "All time", 
-                  value: StaffingRequest.where("shift_status=?", status  ).count)
+      query, description, delete_prev = StaffingRequest.where("shift_status=?", status), "Shifts: #{status} StaffingRequest", true
+      self.createWeekMonthAllStats(date, "StaffingRequest", query, description, delete_prev)
 
     end
 
@@ -174,33 +111,14 @@ class Stat < ApplicationRecord
 
   def self.shift_stats(date=Date.today)
 
-    week = date.beginning_of_week
-    month = date.beginning_of_month
-    type = "Shift"
-
-
-    # We will regenerate this week, month and all time - so delete it before we regenerate
-    Stat.where("stat_type = ? and date_range in (?)", type, ["Week of #{week}", "Month of #{month}", "All Time"]).delete_all
-
 
     Shift::RESPONSE_STATUS.each do |status|
 
       name = "Total #{status} Shift Count"
       desc = "#{status} Shift"
 
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Week of #{week}", 
-                  value: Shift.where("response_status  =? and  created_at >= ? and created_at <= ?", 
-                  	status  , week, week.end_of_week).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "Month of #{month}", 
-                  value: Shift  .where("response_status  =? and  created_at >= ? and created_at <= ?", 
-                  	status  , month, month.end_of_month).count)
-
-      Stat.create(name: name, stat_type: type, description: desc,
-                  as_of_date: date, date_range: "All time", 
-                  value: Shift.where("response_status  =?", status  ).count)
+      query, description, delete_prev = Shift.where("response_status=?", status), "#{status} Shift", true
+      self.createWeekMonthAllStats(date, "Shift", query, description, delete_prev)
 
     end
 
@@ -273,5 +191,6 @@ class Stat < ApplicationRecord
   		s = s + 7.days
   	end
   end
+
 
 end

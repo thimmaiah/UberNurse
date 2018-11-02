@@ -1,4 +1,5 @@
 check process delayed_job
   with pidfile  /home/ubuntu/UberNurse/current/tmp/pids/delayed_job.pid
-  start program = "/etc/monit/scripts/delayed_job start"
-  stop program = "/etc/monit/scripts/delayed_job stop"
+  start program = "/bin/su - ubuntu -c 'RAILS_ENV=production /home/ubuntu/UberNurse/current/script/delayed_job -e production start'"
+  stop program = "/bin/su - ubuntu -c 'RAILS_ENV=production /home/ubuntu/UberNurse/current/script/delayed_job -e production stop'"
+
