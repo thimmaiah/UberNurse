@@ -12,8 +12,8 @@ class ShiftCloseJob < ApplicationJob
 
     Rails.logger.info "ShiftCloseJob priced shift #{shift.id} @ #{shift.care_home_total_amount}"
 
-    # generate a payment record
-    payment = shift.create_payment
+    # generate a payment record only if one does not exists - we dont want to generate 2 payments on manual close
+    payment = shift.payment ? shift.payment : shift.create_payment
     
     req = shift.staffing_request
     req.request_status = "Closed"
