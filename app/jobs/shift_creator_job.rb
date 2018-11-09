@@ -21,6 +21,7 @@ class ShiftCreatorJob < ApplicationJob
               UserNotifierMailer.no_shift_found(staffing_request).deliver
             end
             staffing_request.shift_status = "Not Found"
+            staffing_request.broadcast_status = "Sent"
             staffing_request.save
           end
         rescue Exception => e

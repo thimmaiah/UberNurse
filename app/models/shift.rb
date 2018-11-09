@@ -51,34 +51,38 @@ class Shift < ApplicationRecord
 
   def self.create_shift(selected_user, staffing_request, preferred_care_giver_selected=false)
 
-    # Create the response from the selected user and mark him as auto selected
-    selected_user.auto_selected_date = Time.now
+    if (staffing_request.shifts.open.where(user_id: selected_user.id).count > 0)
+      raise "Open shift already exists for user #{selected_user.id} and staffing_request #{staffing_request.id}"
+    else
+      # Create the response from the selected user and mark him as auto selected
+      selected_user.auto_selected_date = Time.now
 
-    # Create the shift
-    shift = Shift.new(staffing_request_id: staffing_request.id,
-                      user_id: selected_user.id,
-                      care_home_id:staffing_request.care_home_id,
-                      response_status: "Pending",
-                      preferred_care_giver_selected: preferred_care_giver_selected)
-    # Update the request
-    staffing_request.broadcast_status = "Sent"
-    staffing_request.shift_status = "Found"
-    prev_shift = staffing_request.shifts.last
+      # Create the shift
+      shift = Shift.new(staffing_request_id: staffing_request.id,
+                        user_id: selected_user.id,
+                        care_home_id:staffing_request.care_home_id,
+                        response_status: "Pending",
+                        preferred_care_giver_selected: preferred_care_giver_selected)
+      # Update the request
+      staffing_request.broadcast_status = "Sent"
+      staffing_request.shift_status = "Found"
+      prev_shift = staffing_request.shifts.last
 
-    Shift.transaction do
-      
-      shift.save!
-      selected_user.save      
-      staffing_request.save
-      # Cancel any prev shift
-      if(prev_shift)
-        prev_shift.response_status = "Cancelled"
-        prev_shift.save
+      Shift.transaction do
+        
+        shift.save!
+        selected_user.save      
+        staffing_request.save
+        # Cancel any prev shift
+        if(prev_shift)
+          prev_shift.response_status = "Cancelled"
+          prev_shift.save
+        end
+
       end
 
+      return shift
     end
-
-    return shift
 
   end
 

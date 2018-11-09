@@ -39,17 +39,22 @@ module Admin
         flash[:error] = "Manual shift creation unsuccessfull: No user found"
         redirect_to manual_shift_search_user_admin_staffing_requests_path(staffing_request_id: params[:id])
       else      
-
-        # Find the request
         @staffing_request = StaffingRequest.find(params[:id])
         logger.debug "Creating manual shift for #{@user.id} and #{@staffing_request.id} by #{current_user.id}"
-        
-        # Manually create the shift - all notifications will go out automatically
-        @shift = Shift.create_shift(@user, @staffing_request)
+          
+        # Check if we already have an open shift for thi user and this request
+        if (@staffing_request.shifts.open.where(user_id: @user.id).count > 0)
+          flash[:error] = "Manual shift creation unsuccessfull: Open shift already exists for user #{@user.id} and staffing_request #{@staffing_request.id}"
+          redirect_to manual_shift_search_user_admin_staffing_requests_path(staffing_request_id: params[:id])
+        else
+          # Find the request
+          # Manually create the shift - all notifications will go out automatically
+          @shift = Shift.create_shift(@user, @staffing_request)
 
-        # Redirect to the newly created shift
-        flash[:success] = "Manual shift creation successfull"
-        redirect_to admin_shift_path(@shift)
+          # Redirect to the newly created shift
+          flash[:success] = "Manual shift creation successfull"
+          redirect_to admin_shift_path(@shift)
+        end
       end
     end
 
