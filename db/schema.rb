@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181025080748) do
+ActiveRecord::Schema.define(version: 20181109141642) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -443,6 +443,7 @@ ActiveRecord::Schema.define(version: 20181025080748) do
     t.string   "sms_verification_code",         limit: 5
     t.string   "title"
     t.boolean  "ready_for_verification"
+    t.boolean  "allow_password_change",                                                 default: false,   null: false
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
