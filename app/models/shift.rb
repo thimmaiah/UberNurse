@@ -64,21 +64,25 @@ class Shift < ApplicationRecord
                         response_status: "Pending",
                         preferred_care_giver_selected: preferred_care_giver_selected)
       # Update the request
-      staffing_request.broadcast_status = "Sent"
-      staffing_request.shift_status = "Found"
       prev_shift = staffing_request.shifts.last
 
       Shift.transaction do
         
-        shift.save!
-        selected_user.save      
-        staffing_request.save
         # Cancel any prev shift
-        if(prev_shift)
+        if(prev_shift && prev_shift.response_status == "Pending")
           prev_shift.response_status = "Cancelled"
           prev_shift.save
         end
 
+        # save this new shift
+        shift.save!
+        # Update the user
+        selected_user.save
+        # And ensure the staffing request is updated      
+        staffing_request.broadcast_status = "Sent"
+        staffing_request.shift_status = "Found"      
+        staffing_request.save
+        
       end
 
       return shift
@@ -134,7 +138,7 @@ class Shift < ApplicationRecord
 
   def broadcast_shift
     if(self.response_status != 'Rejected')
-      logger.debug "Brodcasting shift #{self.id}"
+      logger.debug "Broadcasting shift #{self.id}"
       PushNotificationJob.new.perform(self)
       UserNotifierMailer.shift_notification(self).deliver_later
       self.send_shift_sms_notification(self)

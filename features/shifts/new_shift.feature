@@ -108,6 +108,22 @@ Scenario Outline: New Shift when already rejected
     |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 
+Scenario Outline: New Shift to different user when already rejected
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the user has already rejected this request
+  Given there is a user "<user>"
+  And the shift creator job runs
+  Then A shift must be created for the user for the request
+  And the request broadcast status must change to "Sent"
+  And the users auto selected date should be set to today 
+  
+  Examples:
+    |request                                        | user                            |
+    |role=Care Giver;start_code=1111;end_code=0000  | role=Care Giver;verified=true   |
+    |role=Nurse;start_code=1111;end_code=0000       | role=Nurse;verified=true        |
+
+
 Scenario Outline: New Shift when already booked in the same time shift
   Given there is a user "<user>"
   And the user has already accepted a request "<other_request>"
