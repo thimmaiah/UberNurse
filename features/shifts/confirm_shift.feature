@@ -1,5 +1,5 @@
-Feature: View Shift
-  View a shift for temps given a new request
+Feature: Confirm Shift
+  Accept / Decline shift by a carer
 
 Scenario Outline: Accept My Shift
   Given there is a request "<request>"
@@ -36,7 +36,8 @@ Scenario Outline: Decline My Shift
   When I click "Decline"
   Then the shift is "Rejected"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Cancelled" in the subject
+  Then the care giver receives an email with "Shift Cancelled" in the subject
+  Then the requestor receives no email
 
   Examples:
     |request                             | user                            |

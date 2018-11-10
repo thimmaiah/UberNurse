@@ -94,10 +94,15 @@ Scenario Outline: Cancel Accepted Shift
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already accepted this request
+  Given jobs are being dispatched
   Given Im logged in 
   And I cancel the shift
   Then the shift must be cancelled
   And I must see the message "No Shifts Available"
+  Given jobs are being dispatched
+  Then the care giver receives an email with "Shift Cancelled" in the subject
+  Then the requestor receives an email with "Shift Cancelled" in the subject
+
   Examples:
     |request                          | user                            | start_code  |  msg            |
     |role=Care Giver;start_code=1111  |role=Care Giver;verified=true    | 1111        | 1111   |

@@ -106,16 +106,16 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
 
-    if (@shift.response_status == "Auto Rejected")
+    if (@shift.response_status == "Cancelled")
       # Notify only the shift user, Do NOT notify the staffing_request.user
       mail( :to => @user.email,
             :bcc => ENV['ADMIN_EMAIL'],
+            :cc => @shift.staffing_request.user.email,
             :subject => "Shift Cancelled: #{@shift.staffing_request.start_date.to_s(:custom_datetime)}" )
     else
       # Also notify the staffing_request.user
       mail( :to => @user.email,
-            :bcc => ENV['ADMIN_EMAIL'],
-            :cc => @shift.staffing_request.user.email,
+            :bcc => ENV['ADMIN_EMAIL'],            
             :subject => "Shift Cancelled: #{@shift.staffing_request.start_date.to_s(:custom_datetime)}" )
     end
   end

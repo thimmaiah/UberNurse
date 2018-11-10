@@ -14,3 +14,20 @@ Scenario Outline: Auto Reject Shift
     |role=Care Giver                     | 20  | Pending          |
     |role=Nurse;speciality=Generalist    | 28  | Pending          |
     
+
+Scenario Outline: Auto Reject Shift
+  Given there is a shift for a user "<user>" with status "Pending"
+  And the shift was created "<mins>" before
+  Given jobs are being dispatched
+  And the shift pending job runs
+  Then A shift status must be "<status>"
+  Given jobs are being dispatched
+  Then the care giver receives an email with "Shift Cancelled" in the subject
+  Then the requestor receives no email
+  
+
+  Examples:
+    |user                                |mins | status           |
+    |role=Care Giver                     | 45  | Auto Rejected    |
+    |role=Nurse;speciality=Generalist    | 32  | Auto Rejected    |
+    
