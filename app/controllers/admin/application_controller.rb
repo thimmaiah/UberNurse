@@ -10,7 +10,7 @@ module Admin
     before_action :check_admin
 
     def check_admin
-      if current_user && current_user.role == "Super User"
+      if current_user && (current_user.role == "Super User" || current_user.role == "Agency")
         return true
       else
         return false

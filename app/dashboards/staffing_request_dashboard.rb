@@ -8,6 +8,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    agency: Field::BelongsTo,
     care_home: Field::BelongsTo,
     manual_assignment_flag: Field::Boolean,
     user: Field::BelongsTo,
@@ -57,6 +58,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :agency,
     :care_home,
     :manual_assignment_flag,
     :user,

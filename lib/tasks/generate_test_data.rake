@@ -16,9 +16,21 @@ namespace :uber_nurse do
     Rating.delete_all
     PaperTrail::Version.delete_all
     Stat.delete_all
+    Agency.delete_all
   end
 
 
+  desc "generates fake Agencies for testing"
+  task :generateFakeAgencies => :environment do
+    begin
+      (1..1).each do |i|
+        FactoryGirl.create(:agency)
+      end
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+  end  
 
   desc "generates fake CareHomes for testing"
   task :generateFakeCareHomes => :environment do
@@ -26,16 +38,22 @@ namespace :uber_nurse do
 
     begin
 
+
+      agency_ids = Agency.all.collect(&:id)
       User::SPECIALITY.each do |sp|
-      (1..4).each do | i |
+        (1..2).each do | i |
           h = FactoryGirl.build(:care_home)
           h.created_at = Date.today - rand(4).weeks - rand(7).days
           h.speciality = sp
           h.save
           #puts u.to_xml(:include => :care_home_industry_mappings)
           puts "CareHome #{h.id}"
+          agency_ids.sample(2).to_set.each do |aid|
+            AgencyCareHomeMapping.create(agency_id: aid, care_home_id: h.id)
+          end
         end
       end
+      
     rescue Exception => exception
       puts exception.backtrace.join("\n")
       raise exception
@@ -70,103 +88,93 @@ namespace :uber_nurse do
           u.role = "Admin"
           u.care_home_id = c.id
           u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
+          u.save!
           #puts u.to_xml
           puts "User #{u.id}"
+          AgencyUserMapping.create(agency_id: c.agency_care_home_mappings.sample.id, user_id: u.id)
           i = i + 1
         end
       end
 
-      i = 1
-      # Now generate some consumers
-      User::SPECIALITY.each do |sp|
-        (1..4).each do |j|
-          u = FactoryGirl.build(:user)        
-          u.verified = true
-          u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com"
-          u.role = "Care Giver"
-          u.speciality = sp
-          u.image_url = images[rand(images.length)]
-          u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
+      Agency.all.each do |agency|
+          i = 1
+          # Now generate some consumers
+          User::SPECIALITY.each do |sp|
+            (1..4).each do |j|
+              u = FactoryGirl.build(:user)        
+              u.verified = true
+              u.email = "carer#{i}_#{agency.id}@gmail.com"
+              u.password = "carer#{i}_#{agency.id}@gmail.com"
+              u.role = "Care Giver"
+              u.speciality = sp
+              u.image_url = images[rand(images.length)]
+              u.created_at = Date.today - rand(4).weeks - rand(7).days
+              u.save!
+              AgencyUserMapping.create(agency_id: agency.id, user_id: u.id)
 
-          p = FactoryGirl.build(:profile)
-          p.user = u
-          p.role = u.role
-          p.known_as = u.first_name
-          p.save
-          (1..3).each do |ti|
-            t = FactoryGirl.build(:training)
-            t.profile = p
-            t.user = u
-            t.save
+              p = FactoryGirl.build(:profile)
+              p.user = u
+              p.agency = agency
+              p.role = u.role
+              p.known_as = u.first_name
+              p.save!
+              (1..2).each do |ti|
+                t = FactoryGirl.build(:training)
+                t.profile = p
+                t.user = u
+                t.agency = agency
+                t.save!
+              end
+              #puts u.to_xml
+              puts "User #{u.id}"
+              i = i + 1
+            end
           end
-          #puts u.to_xml
-          puts "User #{u.id}"
-          i = i + 1
-        end
-      end
 
-      User::SPECIALITY.each do |sp|
-        (1..4).each do |j|
-          u = FactoryGirl.build(:user)
-          u.verified = true
-          u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com"          
-          u.role = "Nurse"
-          u.speciality = sp
-          u.image_url = images[rand(images.length)]
-          u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
-          #puts u.to_xml
-          p = FactoryGirl.build(:profile)
-          p.user = u
-          p.role = u.role
-          p.known_as = u.first_name
-          p.save
-          
-          (1..3).each do |ti|
-            t = FactoryGirl.build(:training)
-            t.profile = p
-            t.user = u
-            t.save
+          User::SPECIALITY.each do |sp|
+            (1..2).each do |j|
+              u = FactoryGirl.build(:user)
+              u.verified = true
+              u.email = "nurse#{i}_#{agency.id}@gmail.com"
+              u.password = "nurse#{i}_#{agency.id}@gmail.com"          
+              u.role = "Nurse"
+              u.speciality = sp
+              u.image_url = images[rand(images.length)]
+              u.created_at = Date.today - rand(4).weeks - rand(7).days
+              u.save!
+              AgencyUserMapping.create(agency_id: agency.id, user_id: u.id)
+              #puts u.to_xml
+              p = FactoryGirl.build(:profile)
+              p.agency = agency
+              p.user = u
+              p.role = u.role
+              p.known_as = u.first_name
+              p.save!
+              
+              (1..2).each do |ti|
+                t = FactoryGirl.build(:training)
+                t.agency = agency
+                t.profile = p
+                t.user = u
+                t.save!
+              end
+              
+              puts "User #{u.id}"
+              i = i + 1
+            end
           end
-          
-          puts "User #{u.id}"
-          i = i + 1
-        end
+
+        u = FactoryGirl.build(:user)
+        u.verified = true        # Ensure User role is USER_ROLE_ID
+        u.role = "Agency"      
+        u.save
+        #puts u.to_xml
+        puts "User #{u.id}"
+        AgencyUserMapping.create(agency_id: agency.id, user_id: u.id)
+
       end
 
-      u = FactoryGirl.build(:user)
-      u.verified = true
-      u.email = "thimmaiah@gmail.com"
-      u.password = u.email
-      u.first_name="Mohith"
-      u.last_name="Thimmaiah"
-      # Ensure User role is USER_ROLE_ID
-      u.role = "Care Giver"
-      u.save
-      #puts u.to_xml
-      puts "User #{u.id}"
-
-      u = FactoryGirl.build(:user)
-      u.email = "employee@ubernurse.com"
-      u.password = u.email
-      u.role = "Employee"
-      u.care_home = CareHome.first
-      u.save
-      #puts u.to_xml
-      puts "User #{u.id}"
-
-      u = FactoryGirl.build(:user)
-      u.email = "admin@ubernurse.com"
-      u.password = u.email
-      u.role = "Admin"
-      u.care_home = CareHome.first
-      u.save
-      #puts u.to_xml
-      puts "User #{u.id}"
+      
 
       u = FactoryGirl.build(:user)
       u.email = "root@ubernurse.com"
@@ -213,6 +221,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:staffing_request)
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.care_home = c
+          u.agency = c.agencies.sample
           u.request_status = rand(10) > 2 ? "Approved" : "Rejected"
           u.user = c.users[0]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
@@ -242,6 +251,7 @@ namespace :uber_nurse do
         (1..count).each do |j|
           u = FactoryGirl.build(:shift)
           u.staffing_request = req
+          u.agency = req.agency
           u.care_home_id = req.care_home_id
           u.user = care_givers[rand(care_givers.length)]
           u.save
@@ -280,6 +290,7 @@ namespace :uber_nurse do
       resps.each do |resp|
         u = FactoryGirl.build(:payment)
         u.shift = resp
+        u.agency = resp.agency
         u.staffing_request_id = resp.staffing_request_id
         u.care_home_id = resp.care_home_id
         u.user_id = resp.user_id
@@ -309,6 +320,7 @@ namespace :uber_nurse do
       resps.each do |resp|
         u = FactoryGirl.build(:rating)
         u.shift = resp
+        u.agency = resp.agency
         u.rated_entity = resp.user
         u.created_by_id = resp.staffing_request.user_id
         u.care_home_id = resp.staffing_request.care_home_id
@@ -318,6 +330,7 @@ namespace :uber_nurse do
 
         u = FactoryGirl.build(:rating)
         u.shift = resp
+        u.agency = resp.agency
         u.rated_entity = resp.care_home
         u.created_by_id = resp.user_id
         u.care_home_id = resp.staffing_request.care_home_id
@@ -338,17 +351,20 @@ namespace :uber_nurse do
 
     begin
 
-      ["North", "South"].each do |zone|
-        ["Nurse", "Care Giver"].each do |role|
-          User::SPECIALITY.each do |sp|
-            u = FactoryGirl.build(:rate)
-            #u.speciality = spec
-            u.role = role
-            u.zone = zone
-            u.speciality = sp
-            u.save 
-            #puts u.to_xml
-            puts "Rate #{u.id}"
+      Agency.all.each do |agency|
+        ["North", "South"].each do |zone|
+          ["Nurse", "Care Giver"].each do |role|
+            User::SPECIALITY.each do |sp|
+              u = FactoryGirl.build(:rate)
+              #u.speciality = spec
+              u.role = role
+              u.zone = zone
+              u.agency = agency
+              u.speciality = sp
+              u.save 
+              #puts u.to_xml
+              puts "Rate #{u.id}"
+            end
           end
         end
       end
@@ -366,13 +382,13 @@ namespace :uber_nurse do
   end
 
   desc "Generating all Fake Data"
-  task :generateFakeAll => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers,
+  task :generateFakeAll => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers,
   :generateFakeAdmin, :generateFakeReq, :generateFakeResp, 
   :generateFakeRatings, :finalize] do
     puts "Generating all Fake Data"
   end
 
-  task :generateLoadTestData => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
+  task :generateLoadTestData => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
     puts "Generating all Fake Data"
   end
 

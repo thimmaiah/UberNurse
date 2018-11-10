@@ -9,6 +9,7 @@ class ReferralDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agency: Field::BelongsTo,
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,

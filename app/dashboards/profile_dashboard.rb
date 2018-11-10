@@ -11,6 +11,7 @@ class ProfileDashboard < Administrate::BaseDashboard
     user: Field::BelongsTo,
     trainings: Field::HasMany,
     id: Field::Number,
+    agency: Field::BelongsTo,
     user_id: Field::Number,
     date_of_CRB_DBS_check: Field::DateTime,
     dob: Field::DateTime,

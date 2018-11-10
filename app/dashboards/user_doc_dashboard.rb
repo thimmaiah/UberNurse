@@ -8,6 +8,7 @@ class UserDocDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    agency: Field::BelongsTo,
     id: Field::Number,
     user_id: Field::Number,
     name: Field::String,

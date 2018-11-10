@@ -1,5 +1,7 @@
 class Stat < ApplicationRecord
 
+  belongs_to :agency
+  
   after_save ThinkingSphinx::RealTime.callback_for(:stat)
 
   def self.generate_all(date=Date.today)

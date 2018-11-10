@@ -1,21 +1,23 @@
 module Admin
   class RatesController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = Rate.
-    #     page(params[:page]).
-    #     per(10)
-    # end
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   Rate.find_by!(slug: param)
-    # end
+    before_action :authenticate_user!
+    load_and_authorize_resource
+    
+    def index
+      search_term = params[:search].to_s.strip
+        
+      resources = @rates.page(params[:page]).per(records_per_page)
+      page = Administrate::Page::Collection.new(dashboard, order: order)
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+      render locals: {
+        resources: resources,
+        search_term: search_term,
+        page: page,
+        show_search_bar: show_search_bar?,
+      }
+
+    end
+
   end
 end

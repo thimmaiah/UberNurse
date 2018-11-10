@@ -1,5 +1,6 @@
 class UserDoc < ApplicationRecord
 
+  belongs_to :agency
   belongs_to :user
 
   acts_as_paranoid

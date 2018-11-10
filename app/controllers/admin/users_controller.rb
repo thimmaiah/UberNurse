@@ -2,13 +2,14 @@ module Admin
   class UsersController < Admin::ApplicationController
     
     before_action :authenticate_user!
+    load_and_authorize_resource
 
     def index
       if params[:search].present?        
         search(User)
       else
         super  
-        @resources = User.page(params[:page]).per(10)
+        @resources = @users.page(params[:page]).per(10)
         if(params[:created_at] == 'today')
           @resources = @resources.where("created_at >= ?", Date.today)
         end
@@ -19,7 +20,7 @@ module Admin
       start_date = params[:created_at_start]
       end_date = params[:created_at_end]
       logger.debug "roles = #{params[:roles]}"
-      @resources = User.where("created_at >= ? and created_at <= ?", start_date, end_date)
+      @resources = @users.where("created_at >= ? and created_at <= ?", start_date, end_date)
       @resources = @resources.where(role: params[:roles]) if params[:roles].present?
     end
 
@@ -34,13 +35,13 @@ module Admin
     # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
     # for more information
     def destroy
-      @resource = User.find(params[:id])
+      @resource = @user
       @resource.really_destroy!
       redirect_to action: :index
     end
 
     def profile            
-      @resource = User.find(params[:id])      
+      @resource = @user
       render "profile", locals: {
         page: Administrate::Page::Form.new(dashboard, @resource)
       }

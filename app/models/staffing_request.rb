@@ -12,6 +12,7 @@ class StaffingRequest < ApplicationRecord
   BROADCAST_STATUS =["Sent", "Failed"]
   SHIFT_STATUS =["Not Found", "Found"]
 
+  belongs_to :agency
   belongs_to :care_home
   belongs_to :user
   has_many :shifts

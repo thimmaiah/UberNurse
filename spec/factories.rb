@@ -1,11 +1,23 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
-  factory :stat do
-    name "MyString"
-    description "MyString"
-    value "MyString"
+  factory :agency_care_home_mapping do
+    care_home_id 1
+    agency_id 1
   end
+  factory :agency_user_mapping do
+    user_id 1
+    agency_id 1
+  end
+
+  factory :agency do
+    name {Faker::Company.name}
+    broadcast_group "#{Faker::Internet.email}, #{Faker::Internet.email}"
+    address {Faker::Address.street_address}
+    postcode { PostCode.offset(rand(PostCode.count)).first.postcode }
+    phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
+  end
+  
   factory :training do
     name {Faker::Company.bs}
     undertaken true
@@ -116,7 +128,7 @@ FactoryGirl.define do
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
-    postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }
+    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
@@ -136,7 +148,7 @@ FactoryGirl.define do
     password {email}
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     address { Faker::Address.street_address }
-    postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }
+    postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     #postcodelatlng { PostCode.offset(rand(PostCode.count)).first }
     confirmation_sent_at { Time.now }
     confirmed_at { Time.now }

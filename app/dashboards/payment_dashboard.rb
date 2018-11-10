@@ -9,6 +9,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agency_id: Field::Number,
     user: Field::BelongsTo,
     care_home: Field::BelongsTo,
     shift: Field::BelongsTo,

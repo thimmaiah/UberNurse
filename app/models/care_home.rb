@@ -3,6 +3,8 @@ class CareHome < ApplicationRecord
   acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:care_home)
 
+  has_many :agency_care_home_mappings
+  has_many :agencies, :through => :agency_care_home_mappings
   has_many :users
   has_many :staffing_requests
   validates_presence_of :name, :postcode

@@ -9,6 +9,7 @@ class StatDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agency: Field::BelongsTo,
     name: Field::String,
     description: Field::String,
     value: Field::String,

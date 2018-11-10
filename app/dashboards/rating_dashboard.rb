@@ -9,6 +9,7 @@ class RatingDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     shift: Field::BelongsTo,
+    agency: Field::BelongsTo,
     rated_entity: Field::Polymorphic,
     care_home: Field::BelongsTo,
     created_by: Field::BelongsTo.with_options(class_name: "User"),

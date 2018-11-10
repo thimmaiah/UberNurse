@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-
-
-
+  resources :agency_care_home_mappings
+  resources :agency_user_mappings
+  resources :agencies
   resources :stats
   resources :trainings
   resources :profiles
@@ -41,6 +41,8 @@ Rails.application.routes.draw do
     resources :referrals
     resources :holidays
     resources :stats
+    resources :agencies
+
     get '/payments_export', to: 'payments_export#index'
     get '/payments_export/form', to: 'payments_export#form'
     root to: "users#index"

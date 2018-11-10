@@ -8,6 +8,7 @@ class TrainingDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
+    agency: Field::BelongsTo,
     user: Field::BelongsTo,
     profile: Field::BelongsTo,
     id: Field::Number,

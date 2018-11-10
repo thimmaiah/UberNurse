@@ -9,6 +9,7 @@ class RateDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agency: Field::BelongsTo,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     role: Field::Select.with_options(collection: User::ROLE),
     speciality: Field::Select.with_options(collection: User::SPECIALITY),

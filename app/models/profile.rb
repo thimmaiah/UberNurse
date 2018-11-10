@@ -1,4 +1,6 @@
 class Profile < ApplicationRecord
+
+	belongs_to :agency
 	belongs_to :user
 	has_many :trainings
 

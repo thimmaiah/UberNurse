@@ -6,6 +6,9 @@ class User < ApplicationRecord
 
   validates_presence_of :first_name, :last_name, :email, :role, :phone
 
+  has_many :agency_user_mappings
+  has_many :agencies, :through => :agency_user_mappings
+
   belongs_to :care_home, optional: true
   has_one :profile
   has_many :staffing_requests
@@ -199,4 +202,7 @@ class User < ApplicationRecord
     self.user_docs.not_expired.where(verified: true)
   end
 
+  def agency_ids
+    self.agency_user_mappings.collect(&:agency_id)
+  end
 end

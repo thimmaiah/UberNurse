@@ -9,6 +9,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agencies: Field::HasMany,
     verified: Field::Boolean,
     manual_assignment_flag: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
