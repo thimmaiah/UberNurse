@@ -19,6 +19,7 @@ class StaffingRequest < ApplicationRecord
 
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash
+  serialize :select_user_audit, Hash
 
   after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 

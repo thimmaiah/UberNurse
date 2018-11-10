@@ -6,7 +6,7 @@
   </head>
 
   <body>
-    <h2>The following request was created.</h2>
+    <h2><%= link_to "Request #{@staffing_request.id}", admin_staffing_request_url(@staffing_request) %> was created.</h2>
 
     <%= render partial: "request" %>
 

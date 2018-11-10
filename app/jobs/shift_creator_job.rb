@@ -138,12 +138,14 @@ class ShiftCreatorJob < ApplicationJob
 
   def select_user(staffing_request)
 
+    staffing_request.select_user_audit = {}
     # Check if the care home has preferred care givers
     pref_care_givers = staffing_request.care_home.preferred_care_givers
     if(pref_care_givers)      
       # Check if any of the pref_care_givers can be assigned to the shift
       pref_care_givers.each do |user|
-        if(assign_user_to_shift?(staffing_request, user))
+        assign = assign_user_to_shift?(staffing_request, user)
+        if(assign)
           Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected preferred care giver"
           return user, true
         end
@@ -153,7 +155,9 @@ class ShiftCreatorJob < ApplicationJob
     # If we cannot get a preferred_care_giver, then lets try everyone else
     # Change this to Geo search in 50 km radius of the care home. TODO
     User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|
-      if(assign_user_to_shift?(staffing_request, user))
+      
+      assign = assign_user_to_shift?(staffing_request, user)
+      if(assign)
         Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
         return user, false
       end
@@ -164,24 +168,36 @@ class ShiftCreatorJob < ApplicationJob
   end
 
   def assign_user_to_shift?(staffing_request, user)
+
+      audit = {}
+
+      audit["email"] = user.email
+
       Rails.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
 
       # Get the shift bookings for this user on the same time as this req
       same_day_bookings = get_same_day_booking(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings.length}"
+      audit["same_day_bookings"] = same_day_bookings.length
 
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
-
+      audit["user_rejected_request"] = rejected
+      
       # Check pref_commute_distance
       commute_ok = pref_commute_ok?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
+      audit["commute_ok"] = commute_ok
+
+      staffing_request.select_user_audit[user.last_name + " " + user.first_name] = audit
 
       if(same_day_bookings.length == 0 && !rejected && commute_ok)        
+        audit["selected"] = true
         return true
       end
 
+      audit["selected"] = false
       return false
   end
   
