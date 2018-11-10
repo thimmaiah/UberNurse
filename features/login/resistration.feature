@@ -7,6 +7,7 @@ Scenario Outline: User Registration Successfully
   When I fill and submit the registration page
   Then I should see the "<msg1>"
   Then when I click the confirmation link
+  Then I should see the "Thank you for confirming your email address. Please launch the app and follow the instructions there."
   Then the user should be confirmed
   And I am at the login page
   When I fill and submit the login page

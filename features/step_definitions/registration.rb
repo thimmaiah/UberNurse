@@ -45,7 +45,7 @@ end
 
 Then(/^when I click the confirmation link$/) do
   @saved_user = User.last
-  visit("http://localhost:3000/auth/confirmation?config=default&confirmation_token=#{@saved_user.confirmation_token}&redirect_url=http://localhost:8100")
+  visit("http://localhost:3000/auth/confirmation?config=default&confirmation_token=#{@saved_user.confirmation_token}&redirect_url=#{ENV['REDIRECT_SUCCESSFULL_EMAIL_VERIFICATION']}")
 end
 
 Then(/^the user should be confirmed$/) do
