@@ -39,7 +39,7 @@ gem 'cancancan'
 
 gem 'rack-attack'
 gem 'omniauth'
-gem 'devise_token_auth'
+gem 'devise_token_auth', "1.0.0"
 gem 'scout_apm'
 
 # for background tasks
