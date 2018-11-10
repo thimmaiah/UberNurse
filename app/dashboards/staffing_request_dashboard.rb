@@ -93,10 +93,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :role,
     :speciality,
-    :care_home_id,
-    :user_id,
-    :start_code,
-    :end_code
+    :care_home,
+    :user_id
   ].freeze
 
   # Overwrite this method to customize how staffing requests are displayed

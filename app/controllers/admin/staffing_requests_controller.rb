@@ -12,6 +12,38 @@ module Admin
       end
     end
 
+    def new
+      resource = resource_class.new
+      resource.start_date = (DateTime.now + 1.day).change({hour: 8}) 
+      resource.end_date = (DateTime.now + 1.day).change({hour: 20})
+
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource),
+      }
+    end
+
+
+    def create
+      resource = resource_class.new(resource_params)
+
+      resource.agency_id = current_user.agency_id if resource.agency_id == nil
+      resource.user_id = resource.care_home.users.first.id if resource.user_id == nil
+      resource.start_code = rand.to_s[2..5]
+      resource.end_code = rand.to_s[2..5]
+
+      if resource.save
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
+
+
     def find_care_givers
       @staffing_request = StaffingRequest.find(params[:id])
       page = params[:page] ? params[:page].to_i : 1

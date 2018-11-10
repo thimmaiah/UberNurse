@@ -1,29 +1,27 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Agency -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @agency.name %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @agency.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:broadcast_group) %>:</strong></dt>
+  <dd><%= @agency.broadcast_group %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
+  <dd><%= @agency.address %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:postcode) %>:</strong></dt>
+  <dd><%= @agency.postcode %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:phone) %>:</strong></dt>
+  <dd><%= @agency.phone %></dd>
+</dl>
 
-<p>
-  <strong>Broadcast group:</strong>
-  <%= @agency.broadcast_group %>
-</p>
-
-<p>
-  <strong>Address:</strong>
-  <%= @agency.address %>
-</p>
-
-<p>
-  <strong>Postcode:</strong>
-  <%= @agency.postcode %>
-</p>
-
-<p>
-  <strong>Phone:</strong>
-  <%= @agency.phone %>
-</p>
-
-<%= link_to 'Edit', edit_agency_path(@agency) %> |
-<%= link_to 'Back', agencies_path %>
+<%= link_to t('.back', :default => t("helpers.links.back")),
+              agencies_path, :class => 'btn btn-default'  %>
+<%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_agency_path(@agency), :class => 'btn btn-default' %>
+<%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              agency_path(@agency),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>

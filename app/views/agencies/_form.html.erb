@@ -1,42 +1,62 @@
-<%= form_for(agency) do |f| %>
-  <% if agency.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(agency.errors.count, "error") %> prohibited this agency from being saved:</h2>
+<%= form_for @agency, :html => { :class => "form-horizontal agency" } do |f| %>
 
-      <ul>
-      <% agency.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <% if @agency.errors.any? %>
+    <div id="error_expl" class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= pluralize(@agency.errors.count, "error") %> prohibited this agency from being saved:</h3>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @agency.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
+  <div class="form-group">
+    <%= f.label :name, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :name, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:name) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :broadcast_group, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :broadcast_group, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:broadcast_group) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :address, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :address, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:address) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :postcode, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :postcode, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:postcode) %>
+  </div>
+  <div class="form-group">
+    <%= f.label :phone, :class => 'control-label col-lg-2' %>
+    <div class="col-lg-10">
+      <%= f.text_field :phone, :class => 'form-control' %>
+    </div>
+    <%=f.error_span(:phone) %>
   </div>
 
-  <div class="field">
-    <%= f.label :broadcast_group %>
-    <%= f.text_field :broadcast_group %>
+  <div class="form-group">
+    <div class="col-lg-offset-2 col-lg-10">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                agencies_path, :class => 'btn btn-default' %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= f.label :address %>
-    <%= f.text_field :address %>
-  </div>
-
-  <div class="field">
-    <%= f.label :postcode %>
-    <%= f.text_field :postcode %>
-  </div>
-
-  <div class="field">
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
 <% end %>

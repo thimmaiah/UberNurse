@@ -7,6 +7,44 @@ Rails.application.routes.draw do
   resources :trainings
   resources :profiles
   resources :referrals
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
+  
+  resources :ratings
+  resources :payments
+  resources :user_docs
+
+  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+    passwords: 'passwords'
+  }
+
+  resources :hiring_responses
+  resources :hiring_requests
+  resources :care_homes
+  resources :users do
+    collection do
+      post :send_sms_verification      
+      post :verify_sms_verification
+      post :resend_confirmation
+    end
+  end
+  resources :post_codes
+  resources :shifts
+  resources :staffing_requests do
+    collection do
+      post :price
+    end
+  end
+  resources :rates
+  resources :holidays
+  resources :cqc_records
+
+  get 'users/unsubscribe/:unsubscribe_hash', to: 'users#unsubscribe', :as => 'unsubscribe'
+
+
+
   namespace :admin do
     resources :users do
       collection do
@@ -49,40 +87,6 @@ Rails.application.routes.draw do
   end
 
 
-  if Rails.env.development?
-    mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  end
   
-  resources :ratings
-  resources :payments
-  resources :user_docs
-
-  mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-    passwords: 'passwords'
-  }
-
-  resources :hiring_responses
-  resources :hiring_requests
-  resources :care_homes
-  resources :users do
-    collection do
-      post :send_sms_verification      
-      post :verify_sms_verification
-      post :resend_confirmation
-    end
-  end
-  resources :post_codes
-  resources :shifts
-  resources :staffing_requests do
-    collection do
-      post :price
-    end
-  end
-  resources :rates
-  resources :holidays
-  resources :cqc_records
-
-  get 'users/unsubscribe/:unsubscribe_hash', to: 'users#unsubscribe', :as => 'unsubscribe'
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
