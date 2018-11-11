@@ -178,17 +178,17 @@ class ShiftCreatorJob < ApplicationJob
       # Get the shift bookings for this user on the same time as this req
       same_day_bookings = get_same_day_booking(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings.length}"
-      audit["same_day_bookings"] = same_day_bookings.length
+      audit["same_day_bookings"] = same_day_bookings.length > 0 ? "Yes" : "No"
 
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, rejected = #{rejected}"
-      audit["user_rejected_request"] = rejected
+      audit["user_rejected_request"] = rejected ? "Yes" : "No"
       
       # Check pref_commute_distance
       commute_ok = pref_commute_ok?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
-      audit["commute_ok"] = commute_ok
+      audit["commute_ok"] = commute_ok ? "Yes" : "No"
 
       staffing_request.select_user_audit[user.last_name + " " + user.first_name] = audit
 
