@@ -9,6 +9,14 @@ module Admin
     before_action :authenticate_user!
     before_action :check_admin
 
+    before_action :default_params
+
+    def default_params
+      params[:order] ||= 'id'
+      params[:direction] ||= 'desc'
+    end
+    
+
     def check_admin
       if current_user && current_user.role == "Super User"
         return true

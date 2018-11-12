@@ -120,12 +120,15 @@ class ShiftCreatorJob < ApplicationJob
 
   def pref_commute_ok?(user, staffing_request)
     begin
-      user.distance_from(staffing_request.care_home) < user.pref_commute_distance
+      travel_distance = user.distance_from(staffing_request.care_home)
+      diff = (travel_distance - user.pref_commute_distance).round(1)
+      ok = user.pref_commute_distance > travel_distance
+      return ok, diff
     rescue Exception => e
       logger.error "ShiftCreatorJob: #{e.message} for staffing_request #{staffing_request.id} and user #{user.id}"
       logger.error e.backtrace
       ExceptionNotifier.notify_exception(e)
-      false
+      return false, 0
     end
   end
 
@@ -179,6 +182,7 @@ class ShiftCreatorJob < ApplicationJob
       same_day_bookings = get_same_day_booking(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, same_day_bookings = #{same_day_bookings.length}"
       audit["same_day_bookings"] = same_day_bookings.length > 0 ? "Yes" : "No"
+      audit["same_day_bookings_shifts"] = same_day_bookings.collect(&:id).join(",") if same_day_bookings.length > 0 
 
       # Check if this user has already rejected this req
       rejected = user_rejected_request?(user, staffing_request)
@@ -186,9 +190,10 @@ class ShiftCreatorJob < ApplicationJob
       audit["user_rejected_request"] = rejected ? "Yes" : "No"
       
       # Check pref_commute_distance
-      commute_ok = pref_commute_ok?(user, staffing_request)
+      commute_ok, diff = pref_commute_ok?(user, staffing_request)
       Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id}, commute_ok = #{commute_ok}"
       audit["commute_ok"] = commute_ok ? "Yes" : "No"
+      audit["extra_commute_distance"] =  diff if !commute_ok
 
       staffing_request.select_user_audit[user.last_name + " " + user.first_name] = audit
 
