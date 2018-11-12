@@ -159,14 +159,18 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   key_values(@staffing_request, args)
   page.find("#new_staffing_request_btn").click()
 
-  ionic_select(@staffing_request.role, "role", true)
-  #ionic_select(@staffing_request.speciality, "speciality", false)
 
   fields = ["start_code", "end_code"]
   fields.each do |k|
+    fill_in(k, with: '')
+    sleep(1)    
+    fill_in(k, with: '')
+    sleep(1)
     fill_in(k, with: @staffing_request[k])
   end
 
+  ionic_select(@staffing_request.role, "role", true)
+  #ionic_select(@staffing_request.speciality, "speciality", false)
 
   click_on("Save")
   sleep(1)

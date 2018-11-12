@@ -17,6 +17,8 @@ class StaffingRequest < ApplicationRecord
   has_many :shifts
   has_one :payment
 
+  validates_presence_of :user_id, :care_home_id, :start_date, :end_date, :role
+
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash
   serialize :select_user_audit, Hash
