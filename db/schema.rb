@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181110165549) do
+ActiveRecord::Schema.define(version: 20181113160305) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -209,6 +209,8 @@ ActiveRecord::Schema.define(version: 20181110165549) do
     t.float    "care_home_weekend_night", limit: 24
     t.float    "carer_bank_holiday",      limit: 24
     t.float    "care_home_bank_holiday",  limit: 24
+    t.integer  "care_home_id"
+    t.index ["care_home_id"], name: "index_rates_on_care_home_id", using: :btree
   end
 
   create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

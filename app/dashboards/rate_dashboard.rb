@@ -9,10 +9,11 @@ class RateDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    care_home_id: Field::Number,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     role: Field::Select.with_options(collection: User::ROLE),
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
-
+    care_home: Field::BelongsTo,
     carer_weekday: Field::Number.with_options(decimals: 2),
     care_home_weekday: Field::Number.with_options(decimals: 2),
     carer_weeknight: Field::Number.with_options(decimals: 2),
@@ -37,6 +38,7 @@ class RateDashboard < Administrate::BaseDashboard
     :id,
     :zone,
     :role,
+    :care_home,
     :speciality,
     :carer_weekday,
     :care_home_weekday,
@@ -54,6 +56,7 @@ class RateDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
+    :care_home,
     :zone,
     :role,
     :speciality,
@@ -75,6 +78,7 @@ class RateDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :care_home_id,
     :zone,
     :role,
     :speciality,

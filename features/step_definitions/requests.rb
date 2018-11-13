@@ -228,6 +228,17 @@ Then(/^the carer amount for the Staffing Request must be "([^"]*)"$/) do |arg1|
   @staffing_request.pricing_audit["carer_base"].should == arg1.to_f
 end
 
+Given(/^the custom rate is "([^"]*)"$/) do |arg1|    
+
+    params = eval(arg1)
+    params["care_home_id"] = @staffing_request.care_home_id
+    params["zone"] = @staffing_request.care_home.zone
+    params["role"] = @staffing_request.role
+    params["speciality"] = @staffing_request.speciality
+    Rate.where("care_home_id is not NULL")
+            .update_all(params)
+end
+
 
 Given(/^the rate is "([^"]*)"$/) do |arg1|
   Rate.where(zone:@staffing_request.care_home.zone,
