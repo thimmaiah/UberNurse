@@ -1,6 +1,8 @@
 class ShiftsController < ApplicationController
-  before_action :authenticate_user!
-  load_and_authorize_resource param_method: :shift_params
+  
+  before_action :authenticate_user!, :except => [:reject_anonymously]
+
+  load_and_authorize_resource param_method: :shift_params, :except => [:reject_anonymously]
 
   # GET /shifts
   def index
@@ -56,6 +58,17 @@ class ShiftsController < ApplicationController
   def destroy
     @shift.response_status = "Cancelled"
     @shift.save
+  end
+
+  def reject_anonymously
+    @shift = Shift.find(params[:id])
+    if (params[:hash] == @shift.generate_anonymous_reject_hash)
+      @shift.response_status = "Rejected"
+      @shift.save
+      redirect_to "http://blog.connuct.co.uk/unsubscribe?rejected=true"
+    else
+      redirect_to "http://blog.connuct.co.uk/unsubscribe?rejected=failed"
+    end
   end
 
   private

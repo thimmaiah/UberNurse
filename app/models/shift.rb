@@ -305,4 +305,9 @@ class Shift < ApplicationRecord
       created_at: self.end_date)
     
   end
+
+  def generate_anonymous_reject_hash
+    Digest::SHA256.hexdigest self.id.to_s + ENV['SHIFT_REJECT_SECRET']
+  end
+
 end

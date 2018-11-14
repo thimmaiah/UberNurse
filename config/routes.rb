@@ -70,7 +70,12 @@ Rails.application.routes.draw do
     end
   end
   resources :post_codes
-  resources :shifts
+  resources :shifts do 
+    member do 
+      get :reject_anonymously
+    end
+  end
+
   resources :staffing_requests do
     collection do
       post :price
