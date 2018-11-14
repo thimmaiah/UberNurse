@@ -50,6 +50,10 @@ Given(/^the user has already rejected this request$/) do
   puts @shift.to_json
 end
 
+Given("the user has already started this request") do
+  Shift.where(id: @shift.id).update_all(start_code: @shift.staffing_request.start_code)
+end
+
 
 Then(/^A shift must not be created for the user for the request$/) do
   @user.shifts.not_rejected.where(staffing_request_id:@staffing_request.id).length.should == 0
