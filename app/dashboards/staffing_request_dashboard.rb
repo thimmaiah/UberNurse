@@ -11,7 +11,10 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     care_home: Field::BelongsTo,
     manual_assignment_flag: Field::Boolean,
     user: Field::BelongsTo,
-    shifts: Field::HasMany,
+    shifts: Field::HasMany.with_options(
+      sort_by: 'start_date',
+      direction: 'desc',
+    ),
     payment: Field::HasOne,
     id: Field::Number,
     care_home_id: Field::Number,

@@ -9,7 +9,10 @@ class ShiftDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
-    staffing_request: Field::BelongsTo,
+    staffing_request: Field::BelongsTo.with_options(
+      sort_by: 'start_date',
+      direction: 'desc',
+    ),
     care_home: Field::BelongsTo,
     payment: Field::HasOne,
     carer_base: Field::Number.with_options(decimals: 2),

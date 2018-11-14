@@ -4,6 +4,9 @@ module Admin
     # you can overwrite any of the RESTful actions. For example:
     #
     def index
+
+       params[:order] = "start_date" if params[:order] == 'id'
+
       if params[:search].present?
         search(Shift)
       else

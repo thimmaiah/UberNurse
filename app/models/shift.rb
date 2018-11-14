@@ -200,7 +200,10 @@ class Shift < ApplicationRecord
 
 
   def send_confirm?
-    sendFlag = Time.now > self.next_confirm_time && self.confirmed_status != "Declined"
+    sendFlag =  Time.now > self.next_confirm_time && # Time to send the confirm
+                self.start_code == nil && # Shift has not yet started
+                self.confirmed_status != "Rejected" # Shift has not been rejected by the carer
+                
     logger.debug("Shift: sendFlag = #{sendFlag}")
     return sendFlag
   end

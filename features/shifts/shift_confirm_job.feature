@@ -10,6 +10,7 @@ Scenario Outline: Shift Confirmation Email sent
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
   Then the user receives an email with "Shift Confirmation" in the subject
+  And the shift confirm_sent count is incremented from "<count>" by 1
   
 
   Examples:
@@ -30,6 +31,7 @@ Scenario Outline: Shift Confirmation Email not sent
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
   Then the user receives no email
+  And the shift confirm_sent count is incremented from "<count>" by 0
 
   Examples:
     |request                           |user             |time       | count |

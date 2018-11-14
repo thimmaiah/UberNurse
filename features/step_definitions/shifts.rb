@@ -197,6 +197,12 @@ Given(/^the shift has confirm_sent "([^"]*)" times$/) do |arg1|
   end
 end
 
+Then("the shift confirm_sent count is incremented from {string} by {int}") do |count, inc|
+  @shift.reload
+  @shift.confirm_sent_count.should == count.to_i + inc
+end
+
+
 Then(/^when the user enters the start and end code$/) do
 
   # The start date must be now, else the UI will not allow the start code to be entered
