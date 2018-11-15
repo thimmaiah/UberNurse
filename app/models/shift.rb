@@ -200,7 +200,8 @@ class Shift < ApplicationRecord
 
 
   def send_confirm?
-    sendFlag =  Time.now > self.next_confirm_time && # Time to send the confirm
+    nct = self.next_confirm_time
+    sendFlag =  nct && Time.now > nct && # Time to send the confirm
                 self.start_code == nil && # Shift has not yet started
                 self.confirmed_status != "Rejected" # Shift has not been rejected by the carer
                 
