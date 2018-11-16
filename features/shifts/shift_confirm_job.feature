@@ -1,7 +1,7 @@
-Feature: Shift Confirmation Email
-  Generate a Shift Confirmation Email
+Feature: Shift Reminder Email
+  Generate a Shift Reminder Email
 
-Scenario Outline: Shift Confirmation Email sent
+Scenario Outline: Shift Reminder Email sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -9,7 +9,7 @@ Scenario Outline: Shift Confirmation Email sent
   And the user has already accepted this request
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
-  Then the user receives an email with "Shift Confirmation" in the subject
+  Then the user receives an email with "Shift Reminder" in the subject
   And the shift confirm_sent count is incremented from "<count>" by 1
   
 
@@ -22,7 +22,7 @@ Scenario Outline: Shift Confirmation Email sent
     
 
 
-Scenario Outline: Shift Confirmation Email not sent
+Scenario Outline: Shift Reminder Email not sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -41,7 +41,7 @@ Scenario Outline: Shift Confirmation Email not sent
     |role=Nurse;speciality=Generalist  |role=Nurse       | 61.minutes| 2  |
    
 
-Scenario Outline: Rejected Shift Confirmation Email not sent
+Scenario Outline: Rejected Shift Reminder Email not sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -60,7 +60,7 @@ Scenario Outline: Rejected Shift Confirmation Email not sent
     |role=Nurse;speciality=Generalist  |role=Nurse       | 30.minutes| 2  |
 
 
-Scenario Outline: Started Shift Confirmation Email not sent
+Scenario Outline: Started Shift Reminder Email not sent
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
