@@ -5,8 +5,9 @@ class ShiftConfirmJob < ApplicationJob
   	Rails.logger.info "ShiftConfirmJob: Start"
 
     begin
-      # Send confirmations for every accepted shift, to ensure the care giver is going to show up
-      Shift.accepted.each do |shift|
+      # Send confirmations for every accepted shift, which has not yet started, 
+      # to ensure the care giver is going to show up
+      Shift.joins(:staffing_request).accepted.where("staffing_requests.start_date > ?", Time.now).each do |shift|
       	
       	Rails.logger.info "ShiftConfirmJob: checking #{shift.id}"
       	if(shift.send_confirm?)

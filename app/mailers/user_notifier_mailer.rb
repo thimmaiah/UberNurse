@@ -155,7 +155,7 @@ class UserNotifierMailer < ApplicationMailer
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
-          :subject => 'Shift Confirmation' )
+          :subject => "Shift Reminder: #{@shift.staffing_request.care_home.name} @ #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 
   def send_codes_to_broadcast_group(shift)

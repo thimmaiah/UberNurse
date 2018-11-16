@@ -10,7 +10,7 @@ module StartEndTimeHelper
   end
 
   def human_readable_time(minutes)
-    "#{(minutes / 60).round(0)} hrs, #{(minutes % 60).round(0)} mins"
+    "#{(minutes / 60).truncate(0)} hrs, #{(minutes % 60).round(0)} mins"
   end
 
   def night_shift_minutes
