@@ -20,6 +20,7 @@ class Shift < ApplicationRecord
 
 
   scope :not_rejected, -> {where("response_status <> 'Rejected'")}
+  scope :not_cancelled, -> {where("response_status <> 'Cancelled'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
   scope :pending, -> {where("response_status = 'Pending'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
@@ -202,8 +203,9 @@ class Shift < ApplicationRecord
   def send_confirm?
     nct = self.next_confirm_time
     sendFlag =  nct && Time.now > nct && # Time to send the confirm
+    			self.response_status == 'Accepted' &&   
                 self.start_code == nil && # Shift has not yet started
-                self.confirmed_status != "Rejected" # Shift has not been rejected by the carer
+                self.confirmed_status != "Declined" # Shift has not been rejected by the carer
                 
     logger.debug("Shift: sendFlag = #{sendFlag}")
     return sendFlag
