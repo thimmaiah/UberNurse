@@ -106,4 +106,5 @@ Scenario Outline: Overtime Mins
     |start_date=2017-06-07 21:00:00;end_date=2017-06-07 23:30:00  |150        |
     |start_date=2017-06-07 07:00:00;end_date=2017-06-08 07:00:00  |720        |
     |start_date=2017-06-07 21:00:00;end_date=2017-06-08 21:00:00  |720        |
+    |start_date=2017-06-07 7:00:00;end_date=2017-06-07 22:00:00   |180        |
   
