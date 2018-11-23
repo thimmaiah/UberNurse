@@ -1,7 +1,7 @@
 wb = xlsx_package.workbook
 wb.add_worksheet(name: "Carer") do |sheet|
-  sheet.add_row ["Id", "Billing", "VAT", "Care Home Amount", "Care Home", "Care Home Sort Code", "Staffing Request Id", "Shift Id", "Day Hours", "Night Hours", "Factor", "Shift Start", "Shift End", "Created At", "Notes"]
+  sheet.add_row ["Id", "Billing", "VAT", "Care Home Amount", "Care Home", "Care Home Sort Code", "Staffing Request Id", "Shift Id", "Day Hours", "Night Hours", "Factor", "Shift Start", "Shift End", "Created At", "Notes", "Calc", "Payroll Calc"]
   @payments.each do |payment|
-    sheet.add_row [payment.id, payment.billing, payment.vat, payment.amount, payment.care_home&.name, payment.care_home&.sort_code, payment.staffing_request&.id, payment.shift&.id, payment.shift&.pricing_audit["day_time_hours_worked"], payment.shift&.pricing_audit["night_time_hours_worked"], payment.shift&.pricing_audit["factor_name"], payment.shift&.start_date, payment.shift&.end_date, payment.created_at, payment.shift.pricing_audit.map{|k,v| "#{k}=#{v}"}.join("\n") ]
+    sheet.add_row [payment.id, payment.billing, payment.vat, payment.amount, payment.care_home&.name, payment.care_home&.sort_code, payment.staffing_request&.id, payment.shift&.id, payment.shift&.pricing_audit["day_time_hours_worked"], payment.shift&.pricing_audit["night_time_hours_worked"], payment.shift&.pricing_audit["factor_name"], payment.shift&.start_date, payment.shift&.end_date, payment.created_at, payment.notes, payment.shift&.pricing_audit["calc_care_home_base"], payment.shift.pricing_audit.map{|k,v| "#{k}=#{v}"}.join("\n") ]
   end
 end
