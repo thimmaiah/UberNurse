@@ -158,13 +158,13 @@ module RatesHelper
     if (staffing_request.speciality)        
         # speciality rate for the specific care home if it exists
         custom_speciality_rate = speciality_rate.where(care_home_id: staffing_request.care_home_id).first
-        rate = custom_speciality_rate ? custom_speciality_rate : speciality_rate.first
+        rate = custom_speciality_rate ? custom_speciality_rate : speciality_rate.where(care_home_id: nil).first
     end
     # Get the Generalist rate if we have no rate
     if(rate == nil)
         # generalist rate for the specific care home if it exists
         custom_generalist_rate = generalist_rate.where(care_home_id: staffing_request.care_home_id).first
-        rate = custom_generalist_rate ? custom_generalist_rate : generalist_rate.first
+        rate = custom_generalist_rate ? custom_generalist_rate : generalist_rate.where(care_home_id: nil).first
     end
 
     rate
