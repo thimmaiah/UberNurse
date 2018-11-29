@@ -24,6 +24,7 @@ class Shift < ApplicationRecord
   scope :accepted, -> {where("response_status = 'Accepted'")}
   scope :pending, -> {where("response_status = 'Pending'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
+  scope :rejected_or_auto, -> {where("response_status = 'Rejected' or response_status = 'Auto Rejected'")}
   scope :cancelled, -> {where("response_status = 'Cancelled'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 

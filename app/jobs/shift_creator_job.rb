@@ -83,7 +83,7 @@ class ShiftCreatorJob < ApplicationJob
 
   # Check if this user has already rejected this request
   def user_rejected_request?(user, staffing_request)
-    user.shifts.rejected.where(staffing_request_id: staffing_request.id).length > 0
+    user.shifts.rejected_or_auto.where(staffing_request_id: staffing_request.id).length > 0
   end
 
   
