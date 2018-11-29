@@ -107,6 +107,18 @@ Scenario Outline: New Shift when already rejected
     |start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
     |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
+Scenario Outline: New Shift when already auto rejected
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the user has already auto rejected this request
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
+
+  Examples:
+    |request                                        | user                            |
+    |start_code=1111;end_code=0000 | role=Care Giver;verified=true   |
+    |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 Scenario Outline: New Shift to different user when already rejected
   Given there is a request "<request>"

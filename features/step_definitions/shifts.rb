@@ -50,6 +50,21 @@ Given(/^the user has already rejected this request$/) do
   puts @shift.to_json
 end
 
+Given(/^the user has already auto rejected this request$/) do
+  @shift = FactoryGirl.build(:shift)
+  @shift.user = @user
+  @shift.staffing_request = @staffing_request
+  @shift.care_home_id = @staffing_request.care_home_id
+  @shift.save
+
+  @shift.response_status = "Auto Rejected"
+  @shift.save!
+
+  puts "\n#####Rejected Shift####\n"
+  puts @shift.to_json
+end
+
+
 Given("the user has already started this request") do
   Shift.where(id: @shift.id).update_all(start_code: @shift.staffing_request.start_code)
 end
