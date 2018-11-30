@@ -65,8 +65,10 @@ class UserNotifierMailer < ApplicationMailer
     @staffing_request = staffing_request
     email = ENV["ADMIN_EMAIL"]
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
+
+    subject = staffing_request.manual_assignment_flag ? "Manual assignment required: New request from #{staffing_request.care_home.name}" : "New request from #{staffing_request.care_home.name}"
     mail( :to => email,
-          :subject => "New request from #{staffing_request.care_home.name}" )
+          :subject => subject )
 
   end
 
