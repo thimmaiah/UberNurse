@@ -5,8 +5,6 @@ module Admin
     #
     def index
 
-       params[:order] = "start_date" if params[:order] == 'id'
-
       if params[:search].present?
         search(Shift)
       else
