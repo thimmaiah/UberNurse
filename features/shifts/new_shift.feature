@@ -151,4 +151,20 @@ Scenario Outline: New Shift when already booked in the same time shift
     |role=Care Giver  | role=Care Giver;verified=true   | role=Care Giver   |
     |role=Care Giver  | role=Nurse;verified=true        | role=Care Giver   |
     |role=Care Giver  | role=Care Giver;verified=true   | role=Care Giver   |
-    
+  
+Scenario Outline: New Shift for Sister Care Home
+  Given there is a request "<request>" for a sister care home
+  Given there is a user "<user>"
+  And the shift creator job runs
+  Then A shift must be created for the user for the request
+  And the request broadcast status must change to "Sent"
+  And the users auto selected date should be set to today 
+
+  Examples:
+    |request                             | user                            |
+    |care_home_id=2;role=Care Giver                     |role=Care Giver;verified=true    |
+    |care_home_id=2;role=Nurse                          |role=Nurse;verified=true         |
+    |care_home_id=3;role=Nurse;speciality=Generalist    |role=Nurse;verified=true         |
+    |care_home_id=3;role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |care_home_id=3;role=Nurse;speciality=Pediatric Care|role=Nurse;speciality=Pediatric Care;verified=true|
+    |care_home_id=3;role=Nurse;speciality=Mental Health |role=Nurse;speciality=Mental Health;verified=true |

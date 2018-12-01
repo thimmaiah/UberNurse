@@ -168,10 +168,16 @@ class UserNotifierMailer < ApplicationMailer
     if(@shift.care_home.care_home_broadcast_group)
       emails += ",#{@shift.care_home.care_home_broadcast_group}"  
     end
+
+    if @shift.care_home.sister_care_homes
+      subject = "Shift Confirmed: #{shift.care_home.name}: #{shift.staffing_request.start_date.to_s(:custom_datetime)}: #{shift.user.first_name}: Start / End Codes"
+    else
+      subject = "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}: #{shift.user.first_name}: Start / End Codes"
+    end
     
     logger.debug("Sending mail to #{@shift.care_home.care_home_broadcast_group} from #{ENV['NOREPLY']}")
     mail( :to => emails, :bcc => ENV['ADMIN_EMAIL'],
-            :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}: #{shift.user.first_name}: Start / End Codes" )
+            :subject => subject )
 
   end
 

@@ -1,6 +1,6 @@
 Given(/^a unsaved request "([^"]*)"$/) do |args|
 
-  puts "####creating and unsaved request from args #{args}\n"
+  puts "\n####creating and unsaved request from args #{args}\n"
 
   if(!@care_home)
     steps %Q{
@@ -15,7 +15,8 @@ Given(/^a unsaved request "([^"]*)"$/) do |args|
   @staffing_request.start_date = @staffing_request.start_date.change({hour:3.5})
   @staffing_request.end_date = @staffing_request.end_date.change({hour:13.5})
   key_values(@staffing_request, args)
-  @staffing_request.care_home = @care_home
+  
+  @staffing_request.care_home = @care_home if @staffing_request.care_home_id == nil
   @staffing_request.user = @care_home.users.admins.first
 end
 
@@ -32,6 +33,23 @@ Given(/^there is a request "([^"]*)"$/) do |args|
   @staffing_request.save!
   puts "\n#####StaffingRequest####\n"
   puts @staffing_request.to_json
+end
+
+Given("there is a request {string} for a sister care home") do |args|
+  if(!@care_home)
+    steps %Q{
+      Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
+      Given the care home has sister care homes "name=Awesome Care Home#name=Wonder Care"
+    }
+  end
+  steps %Q{
+    Given a unsaved request "#{args}"
+  }
+
+  @staffing_request.save!
+  puts "\n#####StaffingRequest####\n"
+  puts @staffing_request.to_json
+
 end
 
 
@@ -170,6 +188,7 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   end
 
   ionic_select(@staffing_request.role, "role", true)
+  ionic_select(@staffing_request.care_home.name, "care_home_id", true) if @staffing_request.care_home_id
   #ionic_select(@staffing_request.speciality, "speciality", false)
 
   click_on("Save")
@@ -190,7 +209,11 @@ Then(/^the request must be saved$/) do
   last.end_date.hour.should == 16
 
   last.user_id.should == @user.id
-  last.care_home_id.should == @user.care_home_id
+  if(@staffing_request.care_home_id)
+    last.care_home_id.should == @staffing_request.care_home_id
+  else
+    last.care_home_id.should == @user.care_home_id
+  end
   last.request_status.should == "Open"
   last.payment_status.should == "Unpaid"
   last.broadcast_status.should == "Pending"

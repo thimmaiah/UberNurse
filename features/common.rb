@@ -72,6 +72,17 @@ Then(/^I must see the message "([^"]*)"$/) do |arg1|
   expect(page).to have_content(arg1)
 end
 
+Given("the care home has sister care homes {string}") do |sch|
+  sch.split("#").each do |sch_agrs|
+    care_home = FactoryGirl.build(:care_home)
+    care_home.verified = true
+    key_values(care_home, sch_agrs)
+    care_home.save!
+  end
+  @care_home.sister_care_homes = CareHome.where("id <> ?", @care_home.id).collect(&:id).join(",")
+  @care_home.save!
+  puts "\n ## sister_care_homes = #{@care_home.sister_care_homes} ##"
+end
 
 
 Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|
