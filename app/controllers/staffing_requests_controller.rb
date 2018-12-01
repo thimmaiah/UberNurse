@@ -4,6 +4,8 @@ class StaffingRequestsController < ApplicationController
 
   # GET /staffing_requests
   def index
+    @per_page = 100
+    @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids)
     @staffing_requests = @staffing_requests.open.order("start_date asc").page(@page).per(@per_page)
     render json: @staffing_requests.includes(:user, :care_home, :shifts), include: "user,care_home"
   end
@@ -28,7 +30,13 @@ class StaffingRequestsController < ApplicationController
   def create
     @staffing_request = StaffingRequest.new(staffing_request_params)
     @staffing_request.user_id = current_user.id
-    @staffing_request.care_home_id = current_user.care_home_id
+    # Sometimes we get requests with care home - where 1 person manages multiple care homes
+    if(@staffing_request.care_home_id)
+      # Make sure we can book a req for this care home, if its not a sister care home - deny access
+      raise CanCan::AccessDenied unless current_user.belongs_to_care_home(@staffing_request.care_home_id)
+    else
+      @staffing_request.care_home_id = current_user.care_home_id
+    end
 
     if @staffing_request.save
       render json: @staffing_request, status: :created, location: @staffing_request

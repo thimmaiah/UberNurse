@@ -199,4 +199,17 @@ class User < ApplicationRecord
     self.user_docs.not_expired.where(verified: true)
   end
 
+  def care_homes
+    CareHome.where(id: self.care_home_ids)
+  end
+
+  def care_home_ids
+    ids = [self.care_home_id]
+    ids.concat self.care_home.sister_care_homes.split(",").map{|x| x.to_i} if self.care_home.sister_care_homes
+    ids
+  end
+
+  def belongs_to_care_home(care_home_id)
+    self.care_home_ids.include?(care_home_id)
+  end
 end

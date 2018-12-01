@@ -61,7 +61,11 @@ class Ability
         employee_privilages
         can :manage, CareHome, :id=>@user.care_home_id
         can :manage, User, :care_home_id=>@user.care_home_id
-        can :manage, StaffingRequest, :care_home_id=>@user.care_home_id
+        can :create, StaffingRequest
+        can :manage, StaffingRequest  do |req| 
+            # We allow people to manage req for the care home they belong to or for sister care homes
+            @user.belongs_to_care_home(req.care_home_id)
+        end
         can :read, Shift, :care_home_id=>@user.care_home_id         
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id

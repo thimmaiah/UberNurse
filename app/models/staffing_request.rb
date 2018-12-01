@@ -83,7 +83,7 @@ class StaffingRequest < ApplicationRecord
         errors.add(:request_status, "Cannot cancel request when the shift has started.")
       else
         # Ensure all responses are also closed so they dont show up on the UI
-        self.shifts.each do |resp|
+        self.shifts.open.each do |resp|
           resp.response_status = self.request_status
           resp.closed_by_parent_request = true
           resp.save
