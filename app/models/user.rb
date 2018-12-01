@@ -205,7 +205,7 @@ class User < ApplicationRecord
 
   def care_home_ids
     ids = [self.care_home_id]
-    ids.concat self.care_home.sister_care_homes.split(",").map{|x| x.to_i} if self.care_home.sister_care_homes
+    ids.concat self.care_home.sister_care_homes.split(",").map{|x| x.to_i} if self.care_home && self.care_home.sister_care_homes
     ids
   end
 

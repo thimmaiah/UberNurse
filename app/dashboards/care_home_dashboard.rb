@@ -39,6 +39,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :speciality,
+    :sister_care_homes,
     :care_home_broadcast_group,
     :town,
     :verified,

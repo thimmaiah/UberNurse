@@ -21,7 +21,7 @@ class UserSerializer < ActiveModel::Serializer
   end
 
   def sister_care_homes
-    object.care_homes if object.care_home.sister_care_homes
+    object.care_homes if object.care_home && object.care_home.sister_care_homes
   end
 
 end

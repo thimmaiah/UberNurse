@@ -1,6 +1,6 @@
 Given(/^a unsaved request "([^"]*)"$/) do |args|
 
-  puts "\n####creating and unsaved request from args #{args}\n"
+  puts "\n####creating and unsaved request from args \n#{args}\n"
 
   if(!@care_home)
     steps %Q{
