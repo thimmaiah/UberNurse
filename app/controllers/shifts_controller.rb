@@ -6,6 +6,9 @@ class ShiftsController < ApplicationController
 
   # GET /shifts
   def index
+
+    @shifts = Shift.where(care_home_id: current_user.care_home_ids) if current_user.care_home_id && !@shifts
+
     if (params[:staffing_request_id].present?)
         @shifts = @shifts.where(staffing_request_id: params[:staffing_request_id])
     end

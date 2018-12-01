@@ -5,7 +5,7 @@ class StaffingRequestsController < ApplicationController
   # GET /staffing_requests
   def index
     @per_page = 100
-    @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids)
+    @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids) if !@staffing_requests
     @staffing_requests = @staffing_requests.open.order("start_date asc").page(@page).per(@per_page)
     render json: @staffing_requests.includes(:user, :care_home, :shifts), include: "user,care_home"
   end

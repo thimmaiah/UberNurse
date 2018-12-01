@@ -66,7 +66,10 @@ class Ability
             # We allow people to manage req for the care home they belong to or for sister care homes
             @user.belongs_to_care_home(req.care_home_id)
         end
-        can :read, Shift, :care_home_id=>@user.care_home_id         
+        can :read, Shift do |shift| 
+            # We allow people to manage req for the care home they belong to or for sister care homes
+            @user.belongs_to_care_home(shift.care_home_id)
+        end
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id
     end
