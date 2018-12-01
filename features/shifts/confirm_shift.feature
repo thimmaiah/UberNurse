@@ -36,7 +36,7 @@ Scenario Outline: Decline My Shift
   When I click "Decline"
   Then the shift is "Rejected"
   Given jobs are being dispatched
-  Then the care giver receives an email with "Shift Cancelled" in the subject
+  Then the care giver receives an email with "Shift Rejected" in the subject
   Then the requestor receives no email
 
   Examples:

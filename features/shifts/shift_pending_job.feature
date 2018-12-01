@@ -22,7 +22,7 @@ Scenario Outline: Auto Reject Shift
   And the shift pending job runs
   Then A shift status must be "<status>"
   Given jobs are being dispatched
-  Then the care giver receives an email with "Shift Cancelled" in the subject
+  Then the care giver receives an email with "Shift Auto Rejected" in the subject
   Then the requestor receives no email
   
 
