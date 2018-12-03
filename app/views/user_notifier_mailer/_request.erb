@@ -19,6 +19,15 @@
 		</td>
 	</tr>
 
+	<% if @staffing_request.notes %>
+		<tr>
+			<td>Notes</td>
+			<td>
+				<%= @staffing_request.notes %>
+			</td>
+		</tr>
+	<% end %>
+
 
 	<tr>
 		<td>Address</td>

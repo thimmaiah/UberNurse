@@ -28,6 +28,7 @@ class StaffingRequest < ApplicationRecord
   scope :open, -> {where(request_status:"Open")}
   scope :closed, -> {where(request_status:"Closed")}
   scope :cancelled, -> {where(request_status:"Cancelled")}
+  scope :not_cancelled, -> {where("request_status <> 'Cancelled'")}
   scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
   scope :current, -> {where("start_date >= ?", Time.now)}
   scope :not_manual_assignment, -> {where("manual_assignment_flag = ?", false)}

@@ -22,6 +22,15 @@
 		<td><%= @shift.care_home.phone %></td>
 	</tr>
 
+	<% if @shift.staffing_request.notes %>
+		<tr>
+			<td>Notes</td>
+			<td>
+				<%= @shift.staffing_request.notes %>
+			</td>
+		</tr>
+	<% end %>
+
 	<tr>
 		<td>Address</td>
 		<td>

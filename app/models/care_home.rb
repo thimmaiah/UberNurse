@@ -11,6 +11,7 @@ class CareHome < ApplicationRecord
   ZONES = ["North", "South"]
 
   scope :verified, -> { where verified: true }
+  scope :unverified, -> { where verified: false }
 
   reverse_geocoded_by :lat, :lng do |obj,results|
     if geo = results.first

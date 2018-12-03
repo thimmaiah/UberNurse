@@ -1,6 +1,18 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :recurring_request do
+    care_home_id 1
+    user_id 1
+    start_date ""
+    end_date "2018-12-01 21:58:51"
+    role "MyString"
+    speciality "MyString"
+    on "MyString"
+    start_on "2018-12-01"
+    end_on "2018-12-01"
+    audit "MyText"
+  end
   factory :stat do
     name "MyString"
     description "MyString"

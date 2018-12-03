@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h2>Stats for week <%= @week %></h2>
+    <table>
+      <tr>  
+	    <td style="width:300px;">
+	      Verified Care Givers 
+	    </td>
+	    <td>
+	      <%= User.care_givers.verified.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Verified Nurses 
+	    </td>
+	    <td>
+	      <%= User.nurses.verified.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Verified Care Home Admins 
+	    </td>
+	    <td>
+	      <%= User.admins.verified.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Verified Care Homes 
+	    </td>
+	    <td>
+	      <%= CareHome.verified.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Carer Logins in last 30 daye 
+	    </td>
+	    <td>
+	      <%= User.where("current_sign_in_at > ?", Date.today - 30.days).count %>
+	    </td>
+	  </tr>
+	  
+	  <tr>  
+	    <td>
+	      Shift Count
+	    </td>
+	    <td>
+	      <% 
+	      	sc = Shift.joins(:user).group(:email).count 
+	      %>
+	      1 - 5: <%= sc.select{|k,v| v >= 1 && v < 5}.length %> </br>
+	      5 - 10: <%= sc.select{|k,v| v >= 5 && v < 10}.length %> </br>
+	      10+   : <%= sc.select{|k,v| v >= 10}.length %>
+	    </td>
+	  </tr>
+	  
+	  
+	  <tr>  
+	    <td>
+	      Staffing Requests Count
+	    </td>
+	    <td>
+	      <%= StaffingRequest.not_cancelled.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Shift Count
+	    </td>
+	    <td>
+	      Accepted: <%= Shift.accepted.count %>, Hours: <%= Shift.accepted.sum(:total_mins_worked) / 60 %>  </br>
+	      Cancelled: <%= Shift.cancelled.count %> </br>
+	      Rejected: <%= Shift.rejected_or_auto.count %>
+	    </td>
+	  </tr>
+
+
+	  <tr>  
+	    <td>
+	      Care Home Count
+	    </td>
+	    <td>
+	      Verified: <%= CareHome.verified.count %> </br>
+	      UnVerified: <%= CareHome.unverified.count %>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td colspan=2>
+	      Care Home Requests Count</br>
+	      <%= raw ap StaffingRequest.joins(:care_home).not_cancelled.group(:name).count %>
+	    </td>
+	  </tr>
+	  
+	</table>  
+  </body>
+</html>

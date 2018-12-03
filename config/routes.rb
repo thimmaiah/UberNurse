@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :recurring_requests
   resources :stats
   resources :trainings
   resources :profiles

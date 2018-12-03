@@ -36,6 +36,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     start_code: Field::String,
     end_code: Field::String,
+    notes: Field::String,
     broadcast_status: Field::Select.with_options(collection: StaffingRequest::BROADCAST_STATUS),
     versions: VersionField
   }.freeze
@@ -71,6 +72,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :speciality,
     :start_date,
     :end_date,
+    :notes,
     :care_home_total_amount,
     :care_home_base,
     :vat,
@@ -99,7 +101,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :care_home_id,
     :user_id,
     :start_code,
-    :end_code
+    :end_code,
+    :notes
   ].freeze
 
   # Overwrite this method to customize how staffing requests are displayed
