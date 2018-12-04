@@ -67,6 +67,7 @@ class PaymentDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :amount,    
+    :user,
     :care_giver_amount,
     :vat,
     :markup,

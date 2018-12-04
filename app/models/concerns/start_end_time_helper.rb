@@ -31,7 +31,7 @@ module StartEndTimeHelper
         night_shift_end   = self.end_date
         logger.debug "Condition 1"
 
-      elsif(self.start_date.hour <= 8 && self.end_date.hour >= 20)        
+      elsif(self.start_date.hour < 8 && self.end_date.hour >= 20)        
         # Here there are 2 separate night elements
         early_morning_shift = (self.end_date.change({hour:8,min:0,sec:0}) - self.start_date).to_f / 60
         late_night_shift = (self.end_date - self.end_date.change({hour:20,min:0,sec:0})).to_f / 60
@@ -40,7 +40,7 @@ module StartEndTimeHelper
         
         logger.debug "early_morning_shift = #{early_morning_shift} late_night_shift = #{late_night_shift} Condition 1.5"
 
-      elsif(self.start_date.hour <= 8 && self.end_date.hour >= 8)
+      elsif(self.start_date.hour < 8 && self.end_date.hour >= 8)
         night_shift_start = self.start_date
         night_shift_end   = self.end_date.change({hour:8,min:0,sec:0})
         logger.debug "Condition 2"

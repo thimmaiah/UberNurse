@@ -15,10 +15,12 @@ Scenario Outline: Pricing Request
   Examples:
   	|care_home		|admin 			|request	                            |start_time |end_time    |rate            |price | carer_amount |
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:14}   | {carer_weekday:9, care_home_weekday:10}  |{care_home_base:60, care_home_total_amount:72}    | 54 |
+    |verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8, minutes:10}   |{hour:14}   | {carer_weekday:9, care_home_weekday:10}  |{care_home_base:60, care_home_total_amount:72}    | 54 |    
     |verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:7}   |{hour:22}   | {carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:11}  |{care_home_base:153, care_home_total_amount:183.6}    | 138 |    
   	|verified=true|role=Admin |role=Care Giver;speciality=Generalist|{hour:8}   |{hour:18}   |{carer_weekday:9, care_home_weekday:10}  |{care_home_base:100, care_home_total_amount:120}    | 90 |
     |verified=true|role=Admin |role=Nurse;speciality=Generalist     |{hour:7}   |{hour:17}   |{carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:12}  |{care_home_base:102, care_home_total_amount:122.4}| 91 |
     |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20}  |{hour:23}   |{carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:15}  |{care_home_base:45, care_home_total_amount:54}    | 30 |
+    |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:20, minutes:10}  |{hour:23}   |{carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:15}  |{care_home_base:45, care_home_total_amount:54}    | 30 |    
     |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |{carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:15}  |{care_home_base:120, care_home_total_amount:144}    | 80 |
     
 Scenario Outline: Pricing Request - Custom Rates
