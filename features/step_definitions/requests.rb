@@ -304,3 +304,14 @@ Given(/^the request manual assignment is set to "([^"]*)"$/) do |arg1|
   @staffing_request.save!
 end
 
+Given("there is a recurring request {string}"") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When("requests are generated for the first time") do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then("there should be {string} requests generated") do |string|
+  pending # Write code here that turns the phrase above into concrete actions
+end

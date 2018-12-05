@@ -2,8 +2,6 @@ class RecurringRequest < ApplicationRecord
 	belongs_to :care_home
 	belongs_to :user
 
-	# Gives the weekdays on which the requests should be booked
-	serialize :on, Array
 	# Audit of all requests generated from this
 	serialize :audit, Hash
 
@@ -14,38 +12,43 @@ class RecurringRequest < ApplicationRecord
 		self.next_generation_date = self.start_on
 	end
 
-	def get_date(date, wday)
-    	d = Date.today.beginning_of_week + date.strftime('%H').to_i.hours + date.strftime('%M').to_i.minutes + (wday - 1).days
+	# This takes the following params
+	# time_only - this is the start_date or end_date put into the RecurringRequest, which captures the time
+	# wday - the day of the week the request is being genrated for
+	# week - The week for which the request is being generated 
+	def get_date(time_only, wday, week)
+    	d = week.beginning_of_week + time_only.strftime('%H').to_i.hours + time_only.strftime('%M').to_i.minutes + (wday - 1).days
     	d.in_time_zone("London").strftime("%d/%m/%Y %H:%M")
   	end
 	
-	def create_for_week(generate_from_date=self.next_generation_date)
+	def create_for_week(week=self.next_generation_date)
 
-		if(generate_from_date >= self.start_on && generate_from_date <= self.end_on)
+		if(week >= self.start_on && week <= self.end_on)
 
-			if self.audit[generate_from_date] == nil
-			  	logger.debug "RecurringRequest: Generating requests for #{self.id} #{generate_from_date}."	
+			if self.audit[week] == nil
+			  	logger.debug "RecurringRequest: Generating requests for #{self.id} #{week}."	
 				# For each day that the request needs to be generated
-				self.on.each do |wday|
-					self.create_request(generate_from_date, wday)
+				days = self.on.split(",").map{|x| x.to_i}
+				days.each do |wday|
+					self.create_request(week, wday)
 				end
 	      	else
-	      		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{generate_from_date}. Already generated."
+	      		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{week}. Already generated."
 	        end
     	else
-    		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{generate_from_date} which is outside start on #{self.start_on} and end on #{self.end_on}."
+    		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{week} which is outside start on #{self.start_on} and end on #{self.end_on}."
     	end
         
-        self.next_generation_date = Date.today.next_week(:friday)
+        self.next_generation_date = week.next_week
         self.save
 	end
 
-	def create_request(generate_from_date, wday)
+	def create_request(week, wday)
 
-		self.audit[generate_from_date] ||= []
+		self.audit[week] ||= []
 
-		start_date = get_date(self.start_date, wday)
-        end_date = get_date(self.end_date, wday) 
+		start_date = get_date(self.start_date, wday, week)
+        end_date = get_date(self.end_date, wday, week) 
 
         sd = Date.parse(start_date)
 
@@ -57,8 +60,8 @@ class RecurringRequest < ApplicationRecord
 	                                  start_code: rand.to_s[2..5], end_code: rand.to_s[2..5])
 
 	        req.save!
-	        logger.debug "RecurringRequest: Generated request #{req.to_json} for Week: #{generate_from_date}, Day: #{wday}"
-	        self.audit[generate_from_date] << req.id
+	        logger.debug "RecurringRequest: Generated request #{req.to_json} for Week: #{week}, Day: #{wday}"
+	        self.audit[week] << "#{req.id} on #{req.start_date}"
 	        self.save
 	    else
 	    	logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{start_date} which is outside start on #{self.start_on} and end on #{self.end_on}."

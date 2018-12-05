@@ -23,6 +23,7 @@ Rails.application.routes.draw do
     resources :payments
     resources :post_codes
     resources :ratings
+    resources :recurring_requests
     resources :staffing_requests do
       collection do
         get :manual_shift_search_user
