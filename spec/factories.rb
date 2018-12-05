@@ -2,18 +2,20 @@ include ActionDispatch::TestProcess
 
 FactoryGirl.define do
   factory :recurring_request do
-    start_date {Date.today + 1.day + 2.hours}
-    end_date {start_date + 8.hours}
+    start_date {Date.today.beginning_of_week + 2.hours}
+    end_date {Date.today.beginning_of_week + 8.hours}
     role {["Nurse", "Care Giver"][rand(2)]}
     on "1,3,5"
     start_on {start_date}
-    end_on {start_date + 15.days}
+    end_on {start_on + 2.weeks - 1.day}
   end
+
   factory :stat do
     name "MyString"
     description "MyString"
     value "MyString"
   end
+  
   factory :training do
     name {Faker::Company.bs}
     undertaken true
@@ -48,6 +50,7 @@ FactoryGirl.define do
     role "MyString"
     user_id 1
   end
+  
   factory :holiday do
     name "MyString"
     date "2017-05-23"
@@ -165,7 +168,6 @@ FactoryGirl.define do
       confirmation_sent_at nil
       sign_in_count nil
     end
-
 
   end
 
