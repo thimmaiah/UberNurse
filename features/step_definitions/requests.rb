@@ -304,8 +304,12 @@ Given(/^the request manual assignment is set to "([^"]*)"$/) do |arg1|
   @staffing_request.save!
 end
 
-Given("there is a recurring request {string}"") do |string|
-  pending # Write code here that turns the phrase above into concrete actions
+Given("there is a recurring request {string}") do |args|
+  @recurring_request = FactoryGirl.build(:recurring_request)
+  key_values(@recurring_request, args)
+  @recurring_request.save!
+  puts "\n#####RecurringRequest####\n"
+  puts @recurring_request.to_json
 end
 
 When("requests are generated for the first time") do

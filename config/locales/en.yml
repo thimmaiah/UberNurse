@@ -25,7 +25,6 @@ en:
       recurring_request:
         start_date: "First Request Start Date"
         end_date: "First Request End Date"
-        start_on: "Start On (Sames as Start Date)"
       shift:
         price: "Care Giver Payout"
         total_price: "Care Home Bill Amount"

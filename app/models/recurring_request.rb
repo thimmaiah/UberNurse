@@ -9,7 +9,8 @@ class RecurringRequest < ApplicationRecord
 
 	before_create :set_defaults
 	def set_defaults
-		self.next_generation_date = self.start_on
+		self.start_on = self.start_date
+		self.next_generation_date = self.start_date
 	end
 
 	# This takes the following params

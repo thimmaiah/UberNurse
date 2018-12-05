@@ -2,16 +2,12 @@ include ActionDispatch::TestProcess
 
 FactoryGirl.define do
   factory :recurring_request do
-    care_home_id 1
-    user_id 1
-    start_date ""
-    end_date "2018-12-01 21:58:51"
-    role "MyString"
-    speciality "MyString"
-    on "MyString"
-    start_on "2018-12-01"
-    end_on "2018-12-01"
-    audit "MyText"
+    start_date {Date.today + 1.day + 2.hours}
+    end_date {start_date + 8.hours}
+    role {["Nurse", "Care Giver"][rand(2)]}
+    on "1,3,5"
+    start_on {start_date}
+    end_on {start_date + 15.days}
   end
   factory :stat do
     name "MyString"

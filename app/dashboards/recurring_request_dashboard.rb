@@ -72,7 +72,6 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :role,
     :speciality,
     :on,
-    :start_on,
     :end_on,
   ].freeze
 
