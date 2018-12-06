@@ -9,9 +9,9 @@ Scenario Outline: Auto Reject Shift
 
   Examples:
   	|user	                               |mins | status           |
-  	|role=Care Giver                     | 45  | Auto Rejected    |
-  	|role=Nurse;speciality=Generalist    | 32  | Auto Rejected    |
-    |role=Care Giver                     | 20  | Pending          |
+  	|role=Care Giver                     | 65  | Auto Rejected    |
+  	|role=Nurse;speciality=Generalist    | 62  | Auto Rejected    |
+    |role=Care Giver                     | 45  | Pending          |
     |role=Nurse;speciality=Generalist    | 28  | Pending          |
     
 
@@ -28,6 +28,6 @@ Scenario Outline: Auto Reject Shift
 
   Examples:
     |user                                |mins | status           |
-    |role=Care Giver                     | 45  | Auto Rejected    |
-    |role=Nurse;speciality=Generalist    | 32  | Auto Rejected    |
+    |role=Care Giver                     | 65  | Auto Rejected    |
+    |role=Nurse;speciality=Generalist    | 90  | Auto Rejected    |
     

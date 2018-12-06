@@ -6,7 +6,7 @@ class RecurringRequest < ApplicationRecord
 	serialize :audit, Hash
 
 	# 3 days because we run the RecurringRequestJob on Friday - so it must generate the req for next Monday
-	scope :ready_for_generation, -> {where("start_on <= ?  and end_on >= ?", Date.today + 3.days, Date.today)}	
+	scope :ready_for_generation, -> {where("start_on <= ?  and end_on >= ?", Date.today + 7.days, Date.today)}	
 
 	before_create :set_defaults
 	def set_defaults

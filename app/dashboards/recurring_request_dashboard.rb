@@ -8,7 +8,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    care_home: Field::BelongsTo,
+    care_home: BelongsToOrderedField,
     user: Field::BelongsTo,
     user_id: Field::Number,
     id: Field::Number,
