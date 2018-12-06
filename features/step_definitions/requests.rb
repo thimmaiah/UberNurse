@@ -360,9 +360,11 @@ When("all recurring requests are generated") do
 
 end
 
+# Note this is a brittle check, the start_on and end_on are set in the factory and are set 2 weeks apart.
 Then("the recurring requests generated are for all the dates between start on and end on") do
+
   working_days = StartEndTimeHelper.business_days_between(@recurring_request.start_on, @recurring_request.end_on)
-  weeks = working_days / 5
+  weeks = (working_days + 1)/ 5
   req_per_week = @recurring_request.on.split(",").length
   puts "\n working_days = #{working_days} weeks = #{weeks} req_per_week = #{req_per_week} \n"
   (weeks * req_per_week).should == StaffingRequest.all.count

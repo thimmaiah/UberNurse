@@ -5,11 +5,12 @@ class RecurringRequest < ApplicationRecord
 	# Audit of all requests generated from this
 	serialize :audit, Hash
 
-	scope :open, -> {where("start_on >= ? and end_on <= ?", Date.today.beginning_of_day, Date.today.beginning_of_day)}	
+	# 3 days because we run the RecurringRequestJob on Friday - so it must generate the req for next Monday
+	scope :ready_for_generation, -> {where("start_on <= ?  and end_on >= ?", Date.today + 3.days, Date.today)}	
 
 	before_create :set_defaults
 	def set_defaults
-		self.start_on = self.start_date - 1.day
+		self.start_on = self.start_date
 		self.next_generation_date = self.start_date
 		self.speciality = "Generalist" if self.speciality == nil
 	end
@@ -44,8 +45,10 @@ class RecurringRequest < ApplicationRecord
     		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{week} which is outside start on #{self.start_on} and end on #{self.end_on}."
     	end
         
-        self.next_generation_date = week.next_week
-        self.save
+        if(week.next_week <= self.end_on)
+	        self.next_generation_date = week.next_week  
+	        self.save
+	    end
 
         return req_count
 	end
@@ -78,5 +81,15 @@ class RecurringRequest < ApplicationRecord
 	    end
 
 	    return created
+	end
+
+
+	def self.generate
+	  	Rails.logger.info "RecurringRequest: Generate Start"
+	    RecurringRequest.ready_for_generation.each do |rr|
+	        rr.create_for_week
+	    end
+	    Rails.logger.info "RecurringRequest: Generate End"
+	    nil
 	end
 end
