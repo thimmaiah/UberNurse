@@ -26,12 +26,14 @@ class StaffingRequest < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
   scope :open, -> {where(request_status:"Open")}
+  scope :not_found, -> {where(shift_status:"Not Found")}
   scope :closed, -> {where(request_status:"Closed")}
   scope :cancelled, -> {where(request_status:"Cancelled")}
   scope :not_cancelled, -> {where("request_status <> 'Cancelled'")}
   scope :not_broadcasted, -> {where("broadcast_status <> 'Sent'")}
   scope :current, -> {where("start_date >= ?", Time.now)}
   scope :not_manual_assignment, -> {where("manual_assignment_flag = ?", false)}
+  scope :manual_assignment, -> {where("manual_assignment_flag = ?", true)}
 
   before_create :set_defaults, :price_estimate
   after_create :send_admin_notification

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+
+  <body>
+
+    <h2>The following requests have no shifts assigned.</h2>
+    
+    <table cellpadding="5" cellspacing="5">
+	    <% 
+	    	@staffing_requests.each do |staffing_request| 
+	    	@staffing_request = staffing_request	
+	    %>
+	    	<%= render partial: "request" %>
+	    <% end %>
+	</table>
+
+	<h2>The following requests have to be manually assigned .</h2>
+    
+    <table cellpadding="5" cellspacing="5">
+	    <% 
+	    	StaffingRequest.open.manual_assignment.each do |staffing_request| 
+	    	@staffing_request = staffing_request	
+	    %>
+	    	<%= render partial: "request" %>
+	    <% end %>
+	</table>
+
+  </body>
+</html>
