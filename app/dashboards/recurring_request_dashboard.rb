@@ -56,12 +56,12 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :speciality,
     :on,
     :start_on,
-    :end_on,
-    :audit,
+    :end_on,    
     :created_at,
     :updated_at,
     :next_generation_date,
-    :staffing_requests
+    :staffing_requests,
+    :audit
   ].freeze
 
   # FORM_ATTRIBUTES
