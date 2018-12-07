@@ -9,6 +9,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
+    recurring_request: Field::BelongsTo,
     manual_assignment_flag: Field::Boolean,
     user: Field::BelongsTo,
     shifts: Field::HasMany.with_options(
@@ -91,6 +92,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :start_code,
     :end_code,
     :broadcast_status,
+    :recurring_request,
     :select_user_audit
   ].freeze
 

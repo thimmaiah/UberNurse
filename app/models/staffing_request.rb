@@ -19,6 +19,7 @@ class StaffingRequest < ApplicationRecord
 
   has_one :accepted_shift, -> { where(response_status:["Accepted", "Closed"]) }, :class_name => 'Shift' 
 
+  belongs_to :recurring_request
 
   validates_presence_of :user_id, :care_home_id, :start_date, :end_date, :role
 
