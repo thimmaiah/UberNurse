@@ -9,6 +9,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     care_home: BelongsToOrderedField,
+    staffing_requests: Field::HasMany,
     user: Field::BelongsTo,
     user_id: Field::Number,
     preferred_carer_id: Field::Number,
@@ -60,6 +61,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :next_generation_date,
+    :staffing_requests
   ].freeze
 
   # FORM_ATTRIBUTES

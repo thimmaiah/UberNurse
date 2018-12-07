@@ -13,7 +13,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     manual_assignment_flag: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     users: Field::HasMany,
-    staffing_requests: Field::HasMany,
+    staffing_requests: Field::HasMany.with_options(limit: 10, sort_by: :start_date),
     name: Field::String,
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
     phone: Field::String,

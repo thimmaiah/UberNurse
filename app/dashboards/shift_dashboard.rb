@@ -102,7 +102,7 @@ class ShiftDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how staffing responses are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(shift)
-  #   "Shift ##{shift.id}"
-  # end
+  def display_resource(shift)
+    "Shift ##{shift.id}: #{shift.user.first_name}"
+  end
 end

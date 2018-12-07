@@ -1,6 +1,7 @@
 class RecurringRequest < ApplicationRecord
 	belongs_to :care_home
 	belongs_to :user
+	has_many :staffing_requests
 
 	# Audit of all requests generated from this
 	serialize :audit, Hash
@@ -69,6 +70,7 @@ class RecurringRequest < ApplicationRecord
 	                                  role: self.role, speciality: self.speciality, 
 	                                  start_date: start_date, end_date: end_date,
 	                                  preferred_carer_id: self.preferred_carer_id,
+	                                  recurring_request_id: self.id,
 	                                  start_code: rand.to_s[2..5], end_code: rand.to_s[2..5])
 
 	        req.save!
