@@ -144,6 +144,9 @@ class ShiftCreatorJob < ApplicationJob
     staffing_request.select_user_audit = {}
     # Check if the care home has preferred care givers
     pref_care_givers = staffing_request.care_home.preferred_care_givers
+    # Sometimes we need to route the request to a specific carer first
+    pref_care_givers.unshift(staffing_request.preferred_carer) if staffing_request.preferred_carer_id
+    
     if(pref_care_givers)      
       # Check if any of the pref_care_givers can be assigned to the shift
       pref_care_givers.each do |user|

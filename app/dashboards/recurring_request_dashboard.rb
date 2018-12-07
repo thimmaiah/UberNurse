@@ -11,6 +11,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     care_home: BelongsToOrderedField,
     user: Field::BelongsTo,
     user_id: Field::Number,
+    preferred_carer_id: Field::Number,
     id: Field::Number,
     start_date: Field::DateTime,
     end_date: Field::DateTime,

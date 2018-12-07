@@ -68,12 +68,13 @@ class RecurringRequest < ApplicationRecord
 	        req = StaffingRequest.new(care_home_id: self.care_home_id, user_id: self.user_id, 
 	                                  role: self.role, speciality: self.speciality, 
 	                                  start_date: start_date, end_date: end_date,
+	                                  preferred_carer_id: self.preferred_carer_id,
 	                                  start_code: rand.to_s[2..5], end_code: rand.to_s[2..5])
 
 	        req.save!
 	        logger.debug "RecurringRequest: Generated request #{req.to_json} for Week: #{week}, Day: #{wday}"
 	        
-	        self.audit[week] << "#{req.id} on #{req.start_date}"
+	        self.audit[week] << "#{req.id} on #{req.start_date} "
 	        self.save
 	        created = true
 	    else
@@ -81,6 +82,10 @@ class RecurringRequest < ApplicationRecord
 	    end
 
 	    return created
+	end
+
+	def preferred_carer
+		User.find(preferred_carer_id) if preferred_carer_id
 	end
 
 

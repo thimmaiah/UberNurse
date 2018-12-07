@@ -111,4 +111,8 @@ class StaffingRequest < ApplicationRecord
 
   end
 
+  def preferred_carer
+    User.find(preferred_carer_id) if preferred_carer_id
+  end
+  
 end
