@@ -3,9 +3,12 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
+  <style>
+    table#striped_table tr:nth-child(even) { background-color:#dddddd; }
+  </style>
   <body>
     <h2>Stats for week <%= @week %></h2>
-    <table>
+    <table id="striped_table" cellpadding="2" cellspacing="2">
       <tr>  
 	    <td style="width:300px;">
 	      Verified Care Givers 
@@ -44,10 +47,10 @@
 
 	  <tr>  
 	    <td>
-	      Carer Logins in last 30 daye 
+	      Carer Logins in last 30 days 
 	    </td>
 	    <td>
-	      <%= User.where("current_sign_in_at > ?", Date.today - 30.days).count %>
+	      <%= User.temps.verified.where("current_sign_in_at > ?", Date.today - 30.days).count %>
 	    </td>
 	  </tr>
 	  
@@ -71,7 +74,8 @@
 	      Staffing Requests Count
 	    </td>
 	    <td>
-	      <%= StaffingRequest.not_cancelled.count %>
+	      Total: <%= StaffingRequest.not_cancelled.count %> </br>
+	      This Week: <%= StaffingRequest.not_cancelled.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).count %> </br>
 	    </td>
 	  </tr>
 
@@ -80,12 +84,21 @@
 	      Shift Count
 	    </td>
 	    <td>
-	      Accepted: <%= Shift.accepted.count %>, Hours: <%= Shift.accepted.sum(:total_mins_worked) / 60 %>  </br>
+	      Accepted: <%= Shift.accepted_or_closed.count %>, Hours: <%= Shift.accepted_or_closed.sum(:total_mins_worked) / 60 %>  </br>
 	      Cancelled: <%= Shift.cancelled.count %> </br>
 	      Rejected: <%= Shift.rejected_or_auto.count %>
 	    </td>
 	  </tr>
 
+	  <tr>  
+	    <td>
+	      Shift Hours
+	    </td>
+	    <td>
+	      Total Hours: <%= Shift.accepted_or_closed.sum(:total_mins_worked) / 60 %>  </br>
+	      This Weeks Hours: <%= Shift.accepted_or_closed.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).sum(:total_mins_worked) / 60 %>  </br>
+	    </td>
+	  </tr>
 
 	  <tr>  
 	    <td>
@@ -103,7 +116,42 @@
 	      <%= raw ap StaffingRequest.joins(:care_home).not_cancelled.group(:name).count %>
 	    </td>
 	  </tr>
-	  
+
+	  <tr>  
+	    <td colspan=2>
+	      Care Home Requests Count - last 2 weeks</br>
+	      <%= raw ap StaffingRequest.joins(:care_home).not_cancelled.where("staffing_requests.created_at >= ?", Date.today - 2.weeks).group(:name).count %>
+	    </td>
+	  </tr>
+		
+	  <tr>  
+	    <td>
+	      Avg # of Requests / Care Home
+	    </td>
+	    <td>
+	      <%= StaffingRequest.not_cancelled.count / CareHome.verified.count %> </br>
+	    </td>
+	  </tr>
+
+	  <tr>  
+	    <td>
+	      Billing Last 7 days
+	    </td>
+	    <td>
+	      From Care Home: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 7.days, Date.today).sum(:care_home_total_amount).round(2) %> </br>
+	      To Carers: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 7.days, Date.today).sum(:carer_base).round(2) %> </br>
+	    </td>
+	  </tr>	  
+
+	  <tr>  
+	    <td>
+	      Billing Last 30 days
+	    </td>
+	    <td>
+	      From Care Home: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 30.days, Date.today).sum(:care_home_total_amount).round(2) %> </br>
+	      To Carers: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 30.days, Date.today).sum(:carer_base).round(2) %> </br>
+	    </td>
+	  </tr>	  
 	</table>  
   </body>
 </html>

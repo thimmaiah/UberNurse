@@ -4,12 +4,15 @@
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
-
+  <style>
+    table#striped_table tr:nth-child(even) { background-color:#dddddd; }
+  </style>
+  
   <body>
 
     <h2>The following requests have no shifts assigned.</h2>
     
-    <table cellpadding="2" cellspacing="2">
+    <table id="striped_table" cellpadding="2" cellspacing="2">
 	    <% 
 	    	@staffing_requests.each do |staffing_request| 
 	    	@staffing_request = staffing_request	

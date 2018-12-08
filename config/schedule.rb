@@ -40,7 +40,7 @@ every 1.month, :at => "start of the month at 11pm" do
 	runner "GenerateIncentivesJob.perform_now"
 end
 
-every 30.minutes do
+every 60.minutes do
 	runner "StatsMailer.request_with_no_responses.deliver_now"
 end
 
@@ -48,4 +48,8 @@ end
 every :friday, :at => "9am" do
 	#runner "Stat.generate_all"
 	runner "RecurringRequest.generate"
+end
+
+every :friday, :at => "5pm" do
+	runner "StatsMailer.stats_email"
 end

@@ -22,6 +22,8 @@ class Shift < ApplicationRecord
   scope :not_rejected, -> {where("response_status <> 'Rejected' and response_status <> 'Auto Rejected'")}
   scope :not_cancelled, -> {where("response_status <> 'Cancelled'")}
   scope :accepted, -> {where("response_status = 'Accepted'")}
+  scope :closed, -> {where("response_status = 'Closed'")}
+  scope :accepted_or_closed, -> {where("response_status in ('Closed', 'Accepted')")}
   scope :pending, -> {where("response_status = 'Pending'")}
   scope :rejected, -> {where("response_status = 'Rejected'")}
   scope :rejected_or_auto, -> {where("response_status = 'Rejected' or response_status = 'Auto Rejected'")}

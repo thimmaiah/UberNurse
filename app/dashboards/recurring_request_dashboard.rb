@@ -70,6 +70,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :care_home,
     :user_id,
+    :preferred_carer_id,
     :start_date,
     :end_date,
     :role,
