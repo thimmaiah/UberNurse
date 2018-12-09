@@ -105,6 +105,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :role,
     :speciality,
+    :request_status,
     :care_home_id,
     :user_id,
     :start_code,

@@ -59,9 +59,9 @@
 	      <% 
 	      	sc = Shift.joins(:user).group(:email).count 
 	      %>
-	      1 - 5  Carers: <%= sc.select{|k,v| v >= 1 && v < 5}.length %> Shifts </br>
-	      5 - 10 Carers: <%= sc.select{|k,v| v >= 5 && v < 10}.length %> Shifts </br>
-	      10+    Carers: <%= sc.select{|k,v| v >= 10}.length %> Shifts
+	      1 - 5  Carers: <%= sc.select{|k,v| v >= 1 && v < 5}.length %> Shifts, </br>
+	      5 - 10 Carers: <%= sc.select{|k,v| v >= 5 && v < 10}.length %> Shifts, </br>
+	      10+    Carers: <%= sc.select{|k,v| v >= 10}.length %> Shifts,
 	    </td>
 	  </tr>
 	  
@@ -71,7 +71,7 @@
 	      Staffing Requests Count
 	    </td>
 	    <td>
-	      Total: <%= StaffingRequest.not_cancelled.count %> </br>
+	      Total: <%= StaffingRequest.not_cancelled.count %>, </br>
 	      This Week: <%= StaffingRequest.not_cancelled.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).count %> </br>
 	    </td>
 	  </tr>
@@ -81,9 +81,9 @@
 	      Shift Count
 	    </td>
 	    <td>
-	      Accepted: <%= Shift.accepted_or_closed.count %>, Hours: <%= Shift.accepted_or_closed.sum(:total_mins_worked) / 60 %>  </br>
-	      Cancelled: <%= Shift.cancelled.count %> </br>
-	      Rejected: <%= Shift.rejected.count %> </br>
+	      Accepted: <%= Shift.accepted_or_closed.count %>, Hours: <%= Shift.accepted_or_closed.sum(:total_mins_worked) / 60 %>,  </br>
+	      Cancelled: <%= Shift.cancelled.count %>, </br>
+	      Rejected: <%= Shift.rejected.count %>, </br>
 	      Auto Rejected: <%= Shift.auto_rejected.count %>
 	    </td>
 	  </tr>
@@ -122,7 +122,7 @@
 	      Billing Last 7 days
 	    </td>
 	    <td>
-	      From Care Home: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 7.days, Date.today).sum(:care_home_total_amount).round(2) %> </br>
+	      From Care Home (Without VAT): <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 7.days, Date.today).sum(:care_home_base).round(2) %> </br>
 	      To Carers: <%= Shift.closed.where("updated_at >=? and updated_at <=?", Date.today - 7.days, Date.today).sum(:carer_base).round(2) %> </br>
 	    </td>
 	  </tr>	  

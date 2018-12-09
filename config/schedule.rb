@@ -51,5 +51,5 @@ every :friday, :at => "9am" do
 end
 
 every :friday, :at => "5pm" do
-	runner "StatsMailer.stats_email"
+	runner "StatsMailer.stats_email.deliver_now"
 end
