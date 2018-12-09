@@ -5,7 +5,7 @@
   </head>
   <body>
     <h2>Stats for week <%= @week %></h2>
-    <table id="striped_table" cellpadding="2" cellspacing="2">
+    <table id="striped_table" cellpadding="15" cellspacing="2">
       <tr>  
 	    <td style="width:300px;">
 	      Verified Care Givers 
@@ -81,7 +81,8 @@
 	      Shift Count
 	    </td>
 	    <td>
-	      Accepted: <%= Shift.accepted_or_closed.count %>, Hours: <%= Shift.accepted_or_closed.sum(:total_mins_worked) / 60 %>,  </br>
+	      Total Closed: <%= Shift.closed.count %>, Hours: <%= Shift.closed.sum(:total_mins_worked) / 60 %>,  </br>
+	      Total Closed Last Week: <%= Shift.closed.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).count %>, Hours: <%= Shift.closed.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).sum(:total_mins_worked) / 60 %>,  </br>
 	      Cancelled: <%= Shift.cancelled.count %>, </br>
 	      Rejected: <%= Shift.rejected.count %>, </br>
 	      Auto Rejected: <%= Shift.auto_rejected.count %>
@@ -103,8 +104,10 @@
 	      Care Home Count
 	    </td>
 	    <td>
-	      Verified: <%= CareHome.verified.count %> </br>
-	      UnVerified: <%= CareHome.unverified.count %>
+	      Verified: <%= CareHome.verified.count %>, </br>
+	      UnVerified: <%= CareHome.unverified.count %>, </br>
+	      Signed Up Last Week: <%= CareHome.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).count %>, </br>
+	      Signed Up Last Week & Verified: <%= CareHome.verified.where("created_at >=? and created_at <=?", Date.today - 7.days, Date.today).count %> </br>
 	    </td>
 	  </tr>
 		
