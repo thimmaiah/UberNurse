@@ -103,6 +103,6 @@ class ShiftDashboard < Administrate::BaseDashboard
   # across all pages of the admin dashboard.
   #
   def display_resource(shift)
-    "Shift ##{shift.id}: #{shift.user.first_name}"
+    "Shift ##{shift.id}: #{shift.user.first_name}: #{shift.response_status}"
   end
 end

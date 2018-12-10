@@ -18,6 +18,7 @@ class StaffingRequest < ApplicationRecord
   has_one :payment
 
   has_one :accepted_shift, -> { where(response_status:["Accepted", "Closed"]) }, :class_name => 'Shift' 
+  has_one :assigned_shift, -> { where(response_status:["Accepted", "Closed", "Pending"]) }, :class_name => 'Shift' 
 
   belongs_to :recurring_request
 

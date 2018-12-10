@@ -17,7 +17,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
       direction: 'desc',
     ),
 
-    accepted_shift: Field::HasOne.with_options(class_name: "Shift"),
+    assigned_shift: Field::HasOne.with_options(class_name: "Shift"),
     payment: Field::HasOne,
     id: Field::Number,
     care_home_id: Field::Number,
@@ -61,7 +61,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :shift_status,
     :care_home_total_amount,
     :broadcast_status,
-    :accepted_shift
+    :assigned_shift
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
