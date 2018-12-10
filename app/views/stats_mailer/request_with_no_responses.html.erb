@@ -11,7 +11,7 @@
     
     <table id="striped_table" cellpadding="2" cellspacing="2">
 	    <% 
-	    	@staffing_requests.each do |staffing_request| 
+	    	@staffing_requests.order("start_date asc").each do |staffing_request| 
 	    	@staffing_request = staffing_request	
 	    %>
 	    	<%= render partial: "request" %>
@@ -22,7 +22,7 @@
     
     <table cellpadding="5" cellspacing="5">
 	    <% 
-	    	StaffingRequest.open.manual_assignment.each do |staffing_request| 
+	    	StaffingRequest.open.manual_assignment.order("start_date asc").each do |staffing_request| 
 	    	@staffing_request = staffing_request	
 	    %>
 	    	<%= render partial: "request" %>
