@@ -9,20 +9,28 @@ class ShiftCreatorJob < ApplicationJob
       StaffingRequest.current.open.not_manual_assignment.not_broadcasted.each do |staffing_request|
                                                                                                                             
         begin
-          # Select a temp who can be assigned this shift
-          selected_user, preferred_care_giver_selected = select_user(staffing_request)
 
-          # If we find a suitable temp - create a shift
-          if selected_user
-            Shift.create_shift(selected_user, staffing_request, preferred_care_giver_selected)
+          if ((Time.now.hour > 22 || Time.now.hour < 8) && staffing_request.start_date > Time.now + 1.day)
+            # Its late in the night & carers will not accept the request
+            # The shift is only required tomorrow
+            logger.debug "Skipping shift creation for #{staffing_request.id} as its late in the night and the start time is tomorrow"
           else
-            logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
-            if(staffing_request.shift_status != "Not Found")
-              UserNotifierMailer.no_shift_found(staffing_request).deliver
+            # Select a temp who can be assigned this shift
+            selected_user, preferred_care_giver_selected = select_user(staffing_request)
+
+            # If we find a suitable temp - create a shift
+            if selected_user
+              Shift.create_shift(selected_user, staffing_request, preferred_care_giver_selected)
+            else
+              logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
+              if(staffing_request.shift_status != "Not Found")
+                UserNotifierMailer.no_shift_found(staffing_request).deliver
+              end
+              staffing_request.shift_status = "Not Found"
+              staffing_request.broadcast_status = "Sent"
+              staffing_request.save
             end
-            staffing_request.shift_status = "Not Found"
-            staffing_request.broadcast_status = "Sent"
-            staffing_request.save
+
           end
         rescue Exception => e
           logger.error "ShiftCreatorJob: #{e.message}"
