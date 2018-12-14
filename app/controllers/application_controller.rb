@@ -22,6 +22,12 @@ class ApplicationController < ActionController::API
         :sex, :title, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience, 
         :referal_code, :accept_terms, :care_home_id, :password, :image_url, :verified, :sort_code, :bank_account])
   end
+
+  before_action :set_paper_trail_whodunnit
+  def set_paper_trail_whodunnit
+    PaperTrail.request.whodunnit = current_user.id if current_user
+  end
+
   # Exception handling via email notification
   before_action :prepare_exception_notifier
   private

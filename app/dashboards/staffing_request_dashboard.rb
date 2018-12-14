@@ -53,13 +53,13 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :care_home,
-    :manual_assignment_flag,
     :user,
     :start_date,
     :end_date,
+    :care_home_total_amount,
+    :manual_assignment_flag,
     :request_status,
     :shift_status,
-    :care_home_total_amount,
     :broadcast_status,
     :assigned_shift
   ].freeze

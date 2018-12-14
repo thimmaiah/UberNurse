@@ -7,7 +7,16 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_user!
+
     before_action :check_admin
+
+    def check_admin
+      if current_user && current_user.role == "Super User"
+        return true
+      else
+        return false
+      end
+    end
 
     before_action :default_params
 
@@ -16,13 +25,10 @@ module Admin
       params[:direction] ||= 'desc'
     end
     
+    before_action :set_paper_trail_whodunnit
 
-    def check_admin
-      if current_user && current_user.role == "Super User"
-        return true
-      else
-        return false
-      end
+    def set_paper_trail_whodunnit
+      PaperTrail.request.whodunnit = current_user.id if current_user
     end
 
     
