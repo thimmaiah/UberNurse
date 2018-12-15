@@ -33,6 +33,8 @@ as defined by the routes in the `admin/` namespace
   
   <a class="navigation__link " href="/admin/staffing_requests?order=start_date"> Staffing Requests </a>
   <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=request_status%3D'Open',shift_status%3D'Not Found'"> - Without Shifts</a>
+  <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=manual_assignment_flag%3Dtrue,request_status%3D'Open'"> - Pending Manual Assignment</a>
+  
   <a class="navigation__link child-nav" href="/admin/recurring_requests"> - Recurring Requests</a>
 
 

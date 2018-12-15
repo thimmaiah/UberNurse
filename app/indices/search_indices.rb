@@ -10,6 +10,7 @@ ThinkingSphinx::Index.define :staffing_request, :with => :real_time do
   has request_status, :type=>:string
   has broadcast_status, :type=>:string
   has shift_status, :type=>:string
+  has manual_assignment_flag, :type=>:boolean
 end
 
 ThinkingSphinx::Index.define :stat, :with => :real_time do
