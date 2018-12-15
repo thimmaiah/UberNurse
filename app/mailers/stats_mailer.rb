@@ -7,8 +7,9 @@ class StatsMailer < ApplicationMailer
 	end
 
 	def request_with_no_responses
-		@staffing_requests = StaffingRequest.open.not_found
+		@not_found = StaffingRequest.open.not_found
+		@manual = StaffingRequest.open.manual_assignment
 		mail( :to => "#{ENV['ADMIN_EMAIL']}, #{ENV['MGT_EMAIL']}",
-	          :subject => "Requests with no responses: #{@staffing_requests.count}" )
+	          :subject => "No responses: #{@not_found.count}, Manual Assignment: #{@manual.count}" )
 	end
 end
