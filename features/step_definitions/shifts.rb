@@ -277,8 +277,9 @@ Given(/^when the user enters the "([^"]*)" "([^"]*)" in the UI$/) do |start_end_
 
   sleep(1)
   start_end_field == 'start_code' ?  click_on("Start Shift") : click_on("End Shift")
+  sleep(1)
   fill_in(start_end_field, with: code)
-  sleep(1.5)
+  sleep(1)
   click_on("Submit")
   sleep(1)
   click_on("Yes")
