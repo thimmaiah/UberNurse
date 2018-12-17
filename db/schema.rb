@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181207152120) do
+ActiveRecord::Schema.define(version: 20181217030047) do
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 20181207152120) do
     t.string   "care_home_broadcast_group"
     t.string   "preferred_care_giver_ids"
     t.string   "sister_care_homes",             limit: 30
+    t.boolean  "limit_shift_to_pref_carer"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end

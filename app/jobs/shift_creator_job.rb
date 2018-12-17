@@ -151,9 +151,13 @@ class ShiftCreatorJob < ApplicationJob
 
     staffing_request.select_user_audit = {}
     # Check if the care home has preferred care givers
-    pref_care_givers = staffing_request.care_home.preferred_care_givers
-    # Sometimes we need to route the request to a specific carer first
-    pref_care_givers.unshift(staffing_request.preferred_carer) if staffing_request.preferred_carer_id
+    pref_care_givers = nil
+    if staffing_request.preferred_carer_id
+	    # Sometimes we need to route the request to a specific carer first
+	    pref_care_givers = [staffing_request.preferred_carer]   
+    else
+    	pref_care_givers = staffing_request.care_home.preferred_care_givers
+	end
     
     if(pref_care_givers)      
       # Check if any of the pref_care_givers can be assigned to the shift
@@ -166,17 +170,21 @@ class ShiftCreatorJob < ApplicationJob
       end
     end
 
-    # If we cannot get a preferred_care_giver, then lets try everyone else
-    # Change this to Geo search in 50 km radius of the care home. TODO
-    User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|
-      
-      assign = assign_user_to_shift?(staffing_request, user)
-      if(assign)
-        Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
-        return user, false
-      end
-    end
-
+    if(staffing_request.preferred_carer_id == nil)
+	    # If there are no pref carers, or if we dont want to limit to pref carers
+	    if(pref_care_givers == nil || !limit_shift_to_pref_carer)
+		    # If we cannot get a preferred_care_giver, then lets try everyone else if the care home allows it
+		    # Change this to Geo search in 50 km radius of the care home. TODO
+		    User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|
+		      
+		      assign = assign_user_to_shift?(staffing_request, user)
+		      if(assign)
+		        Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected user"
+		        return user, false
+		      end
+		    end
+		end
+	end
 
     return nil, false
   end

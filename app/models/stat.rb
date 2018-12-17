@@ -56,7 +56,7 @@ class Stat < ApplicationRecord
       vFlag = verified ? "Verified" : "Unverified"
 
       query, description, delete_prev = User.where("verified=?", verified), "All #{vFlag} users", true
-      self.createWeekMonthAllStats(date, "User", query, description, delete_prev)
+      # self.createWeekMonthAllStats(date, "User", query, description, delete_prev)
 
 
       User::ROLE.each do |role|
@@ -81,12 +81,12 @@ class Stat < ApplicationRecord
       self.createWeekMonthAllStats(date, "CareHome", query, description, delete_prev)
 
 
-      CareHome::ZONES.each do |zone|
+      # CareHome::ZONES.each do |zone|
 
-        query, description, delete_prev = CareHome.where("verified=? and zone=?", verified, zone), "All #{vFlag} care homes in zone #{zone}", true
-        self.createWeekMonthAllStats(date, "CareHome", query, description, delete_prev)
+      #   query, description, delete_prev = CareHome.where("verified=? and zone=?", verified, zone), "All #{vFlag} care homes in zone #{zone}", true
+      #   self.createWeekMonthAllStats(date, "CareHome", query, description, delete_prev)
 
-      end
+      # end
     end
   end
 

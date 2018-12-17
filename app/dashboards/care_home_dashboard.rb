@@ -9,6 +9,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    limit_shift_to_pref_carer: Field::Boolean,
     verified: Field::Boolean,
     manual_assignment_flag: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
@@ -57,6 +58,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :verified,
     :manual_assignment_flag,
     :zone,
+    :limit_shift_to_pref_carer,
     :sister_care_homes,
     :care_home_broadcast_group,
     :preferred_care_giver_ids,
@@ -89,7 +91,8 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :image_url,
     :verified,
     :manual_assignment_flag,
-    :zone
+    :zone,
+    :limit_shift_to_pref_carer
   ].freeze
 
   # Overwrite this method to customize how care_homes are displayed
