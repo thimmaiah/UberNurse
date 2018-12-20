@@ -75,6 +75,33 @@ class ShiftsController < ApplicationController
     end
   end
 
+  def start_end_shift
+    @shift = Shift.find(params[:id])
+
+    qr_code = params[:qr_code]
+    # Compare the qr code sent by the app to that in the care home db
+    if(@shift.user_id == current_user.id && @shift.care_home.qr_code == qr_code)
+      
+      if(@shift.start_code == nil)
+        # Start the shift
+        @shift.start_code = @shift.staffing_request.start_code
+      else
+        # End the shift
+        @shift.end_code = @shift.staffing_request.end_code
+      end
+        
+      if @shift.save
+        render json: @shift
+      else
+        render json: @shift.errors, status: :unprocessable_entity
+      end
+    else
+      render json: {error: "Invalid QR Code"}, status: :unprocessable_entity
+    end
+
+  end
+  
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_shift

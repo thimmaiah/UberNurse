@@ -172,7 +172,7 @@ class ShiftCreatorJob < ApplicationJob
 
     if(staffing_request.preferred_carer_id == nil)
 	    # If there are no pref carers, or if we dont want to limit to pref carers
-	    if(pref_care_givers == nil || !limit_shift_to_pref_carer)
+	    if(pref_care_givers == nil || !staffing_request.care_home.limit_shift_to_pref_carer)
 		    # If we cannot get a preferred_care_giver, then lets try everyone else if the care home allows it
 		    # Change this to Geo search in 50 km radius of the care home. TODO
 		    User.where(role:staffing_request.role, speciality:staffing_request.speciality).active.verified.order("auto_selected_date ASC").each do |user|

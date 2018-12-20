@@ -75,6 +75,7 @@ Rails.application.routes.draw do
   resources :shifts do 
     member do 
       get :reject_anonymously
+      get :start_end_shift
     end
   end
 

@@ -10,7 +10,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181217030047) do
+ActiveRecord::Schema.define(version: 20181219164442) do
+
+  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "broadcast_group"
+    t.string   "address"
+    t.string   "postcode",        limit: 10
+    t.string   "phone",           limit: 12
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "care_home_id"
+    t.integer  "agency_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["agency_id"], name: "index_agency_care_home_mappings_on_agency_id", using: :btree
+    t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
+  end
+
+  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.integer  "agency_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_agency_user_mappings_on_agency_id", using: :btree
+    t.index ["user_id"], name: "index_agency_user_mappings_on_user_id", using: :btree
+  end
 
   create_table "care_homes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -40,6 +68,7 @@ ActiveRecord::Schema.define(version: 20181217030047) do
     t.string   "preferred_care_giver_ids"
     t.string   "sister_care_homes",             limit: 30
     t.boolean  "limit_shift_to_pref_carer"
+    t.string   "qr_code",                       limit: 10
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -232,7 +261,7 @@ ActiveRecord::Schema.define(version: 20181217030047) do
     t.index ["shift_id"], name: "index_ratings_on_shift_id", using: :btree
   end
 
-  create_table "recurring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "recurring_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "care_home_id"
     t.integer  "user_id"
     t.datetime "start_date"

@@ -20,6 +20,7 @@ class StaffingRequestsController < ApplicationController
     render json: @staffing_request
   end
 
+
   # GET /staffing_requests/1
   def show
     render json: @staffing_request, include: "shifts"
