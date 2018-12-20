@@ -16,8 +16,7 @@ class CareHomesController < ApplicationController
   end
 
   def new_qr_code
-    current_user.care_home.qr_code = rand(4 ** 4)
-    current_user.care_home.save
+    current_user.care_home.new_qr_code
     render json: current_user.care_home
   end
 

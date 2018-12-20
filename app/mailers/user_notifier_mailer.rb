@@ -142,6 +142,27 @@ class UserNotifierMailer < ApplicationMailer
     end
   end
 
+  def care_home_qr_code(care_home)
+
+    require 'rqrcode'
+
+    @care_home = care_home
+
+    qrcode = RQRCode::QRCode.new(@care_home.qr_code)
+    svg = qrcode.as_svg
+    IO.write("#{Rails.root}/public/tmp/#{@care_home.qr_code.to_s}.svg", svg.to_s)
+    
+    emails = @care_home.users.collect(&:email).join(",")
+
+    if(@care_home.care_home_broadcast_group)
+      emails += ",#{@care_home.care_home_broadcast_group}"  
+    end
+
+    logger.debug("Sending mail to #{emails} from #{ENV['NOREPLY']}")
+    mail( :to => emails,
+          :subject => "Care Home QR Code: #{Date.today}" )
+  
+  end
 
   def no_shift_found(staffing_request)
     @staffing_request = staffing_request

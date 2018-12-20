@@ -83,4 +83,9 @@ class CareHome < ApplicationRecord
     end
   end
 
+  def new_qr_code
+    self.qr_code = rand(7 ** 7)
+    self.save
+    UserNotifierMailer.care_home_qr_code(self).deliver_later
+  end
 end
