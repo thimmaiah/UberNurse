@@ -15,6 +15,12 @@ class CareHomesController < ApplicationController
     render json: @care_home
   end
 
+  def new_qr_code
+    current_user.care_home.qr_code = rand(4 ** 4)
+    current_user.care_home.save
+    render json: current_user.care_home
+  end
+
   # POST /care_homes
   def create
     @care_home = CareHome.new(care_home_params)

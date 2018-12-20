@@ -63,7 +63,13 @@ Rails.application.routes.draw do
 
   resources :hiring_responses
   resources :hiring_requests
-  resources :care_homes
+  
+  resources :care_homes do
+    collection do
+      get :new_qr_code
+    end
+  end
+
   resources :users do
     collection do
       post :send_sms_verification      
