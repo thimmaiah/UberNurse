@@ -26,7 +26,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     image_url: Field::Text,
     care_home_broadcast_group: Field::String,
     sister_care_homes: Field::String,
-    qr_code: Field::String,
+    qr_code: QrCodeField,
     preferred_care_giver_ids: Field::String,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
