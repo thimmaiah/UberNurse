@@ -10,7 +10,7 @@ class ShiftCreatorJob < ApplicationJob
                                                                                                                             
         begin
 
-          if ((Time.now.hour > 22 || Time.now.hour < 8) && staffing_request.start_date > Time.now + 1.day)
+          if ( (Time.now.hour > 22 || Time.now.hour < 8) && staffing_request.start_date > Time.now + 1.day && Rails.env != "test")
             # Its late in the night & carers will not accept the request
             # The shift is only required tomorrow
             logger.debug "Skipping shift creation for #{staffing_request.id} as its late in the night and the start time is tomorrow"
