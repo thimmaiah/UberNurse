@@ -142,6 +142,7 @@ class UserNotifierMailer < ApplicationMailer
     end
   end
 
+  layout false, :only => 'care_home_qr_code'
   def care_home_qr_code(care_home)
 
     require 'rqrcode'
@@ -149,8 +150,17 @@ class UserNotifierMailer < ApplicationMailer
     @care_home = care_home
 
     qrcode = RQRCode::QRCode.new(@care_home.qr_code)
-    svg = qrcode.as_svg
-    IO.write("#{Rails.root}/public/tmp/#{@care_home.qr_code.to_s}.svg", svg.to_s)
+    png = qrcode.as_png(
+          resize_gte_to: false,
+          resize_exactly_to: false,
+          fill: 'white',
+          color: 'black',
+          size: 360,
+          border_modules: 4,
+          module_px_size: 6,
+          file: nil # path to write
+          )
+    File.open("#{Rails.root}/public/system/#{@care_home.qr_code.to_s}.png", 'wb') {|file| file.write(png.to_s) }
     
     emails = @care_home.users.collect(&:email).join(",")
 

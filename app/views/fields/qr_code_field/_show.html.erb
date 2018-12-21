@@ -3,9 +3,10 @@
 	require 'rqrcode'
 	qrcode = RQRCode::QRCode.new(field.to_s)
 	svg = qrcode.as_svg
-	IO.write("#{Rails.root}/public/tmp/#{field.to_s}.svg", svg.to_s)
+	IO.write("#{Rails.root}/public/system/#{field.to_s}.svg", svg.to_s)
 %>
 
-	<img src='<%= "/tmp/#{field.to_s}.svg" %>'></img>
+	<img src='<%= "/system/#{field.to_s}.svg" %>'></img>
+	
 
 <% end %>

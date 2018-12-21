@@ -8,12 +8,17 @@
   	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	    <tr>
 	        <td align="center">
-	            <h2> <%= @care_home.name %>: QR Code To Start/End Shifts. </h2>
+	            <h2> <%= @care_home.name %></h2>
 	        </td>
 	    </tr>
 	    <tr>
 	        <td align="center">
-	            <p><%= image_tag "/tmp/#{@care_home.qr_code}.svg" %></p>
+	            <h2> QR Code To Start/End Shifts </h2>
+	        </td>
+	    </tr>
+	    <tr>
+	        <td align="center">
+	            <p><%= image_tag "/system/#{@care_home.qr_code}.png", style: "width:200px;height:200px;" %></p>
 	        </td>
 	    </tr>
 	    <tr>
