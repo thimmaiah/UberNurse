@@ -53,6 +53,12 @@ Given("there is a request {string} for a sister care home") do |args|
 end
 
 
+Given("the request can be started now") do
+  @staffing_request.start_date = Time.now
+  @staffing_request.end_date = Time.now + 8.hours
+  @staffing_request.save!
+end
+
 Given(/^the request is on a weekday$/) do
   while(@staffing_request.start_date.on_weekend?)
     @staffing_request.start_date = @staffing_request.start_date + 1.day
@@ -369,3 +375,5 @@ Then("the recurring requests generated are for all the dates between start on an
   puts "\n working_days = #{working_days} weeks = #{weeks} req_per_week = #{req_per_week} \n"
   (weeks * req_per_week).should == StaffingRequest.all.count
 end
+
+

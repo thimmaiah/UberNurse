@@ -317,4 +317,26 @@ class Shift < ApplicationRecord
     Digest::SHA256.hexdigest self.id.to_s + ENV['SHIFT_REJECT_SECRET']
   end
 
+  def accept_qr_code(qr_code, current_user)
+    if(self.user_id == current_user.id && self.care_home.qr_code == qr_code)
+      
+      if(self.start_code == nil)
+        # Start the shift
+        self.start_code = self.staffing_request.start_code
+      else
+        # End the shift
+        self.end_code = self.staffing_request.end_code
+      end
+        
+      if self.save
+        return true
+      else
+        return false
+      end
+    else
+      errors.add(:qr_code, "Invalid QR Code")
+      return false
+    end
+  end
+
 end

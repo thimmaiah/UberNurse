@@ -250,7 +250,6 @@ Then(/^the request is marked as closed$/) do
   @staffing_request.request_status.should == "Closed"
 end
 
-
 Given(/^the shift has a valid start code$/) do
   # The start date must be now, else the UI will not allow the start code to be entered
   @staffing_request.start_date = Time.now
@@ -334,4 +333,35 @@ Then(/^the total price should be computed$/) do
   vat = care_home_base * ENV["VAT"].to_f.round(2)     
   markup = (@shift.pricing_audit["care_home_base"] - @shift.pricing_audit["carer_base"]).round(2)
   @shift.care_home_total_amount.should == (care_home_base + vat).round(2)
+end
+
+
+
+Given("the user scans the QR code") do
+  accepted = @shift.accept_qr_code(@shift.care_home.qr_code, @shift.user)
+  accepted.should == true
+end
+
+Then("the shift is started") do
+  @shift.reload
+  @shift.start_code.should == @shift.staffing_request.start_code
+  @shift.start_date.should_not == nil
+end
+
+Then("the shift is ended") do
+  @shift.reload
+  @shift.end_code.should == @shift.staffing_request.end_code
+  @shift.end_date.should_not == nil
+end
+
+
+Given("the user scans the wrong QR code") do
+  accepted = @shift.accept_qr_code(@shift.care_home.qr_code + "000", @shift.user)
+  accepted.should == false
+end
+
+Then("the shift is not started") do
+  @shift.reload
+  @shift.start_code.should == nil
+  @shift.start_date.should == nil
 end

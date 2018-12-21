@@ -80,25 +80,12 @@ class ShiftsController < ApplicationController
 
     qr_code = params[:qr_code]
     # Compare the qr code sent by the app to that in the care home db
-    if(@shift.user_id == current_user.id && @shift.care_home.qr_code == qr_code)
-      
-      if(@shift.start_code == nil)
-        # Start the shift
-        @shift.start_code = @shift.staffing_request.start_code
-      else
-        # End the shift
-        @shift.end_code = @shift.staffing_request.end_code
-      end
-        
-      if @shift.save
-        render json: @shift
-      else
-        render json: @shift.errors, status: :unprocessable_entity
-      end
+    if(@shift.accept_qr_code(qr_code, current_user))      
+      render json: @shift
     else
-      render json: {error: "Invalid QR Code"}, status: :unprocessable_entity
+      render json: @shift.errors, status: :unprocessable_entity
     end
-
+    
   end
   
 
