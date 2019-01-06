@@ -82,8 +82,7 @@ When(/^I request a sms verification code$/) do
   within("#verification_page") do
     sleep(1)
     click_on("Send Verification Code")
-    sleep(1)
-
+    sleep(2)
   end
   click_on("Yes")
   sleep(1)
