@@ -1,6 +1,21 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :agency_user_mapping do
+    agency Agency.all.sample
+    user User.temps.all.sample
+  end
+  factory :agency_care_home_mapping do
+    agency Agency.all.sample
+    care_home CareHome.all.sample
+  end
+  factory :agency do
+    name {Faker::Company.name}
+    address {Faker::Address.street_address}
+    postcode { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first.postcode }
+    phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
+  end
+
   factory :recurring_request do
     start_date {Date.today.beginning_of_week + 2.hours}
     end_date {Date.today.beginning_of_week + 8.hours}

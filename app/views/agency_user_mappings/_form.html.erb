@@ -1,0 +1,27 @@
+<%= form_for(agency_user_mapping) do |f| %>
+  <% if agency_user_mapping.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(agency_user_mapping.errors.count, "error") %> prohibited this agency_user_mapping from being saved:</h2>
+
+      <ul>
+      <% agency_user_mapping.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :agency_id %>
+    <%= f.text_field :agency_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.text_field :user_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

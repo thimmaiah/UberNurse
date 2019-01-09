@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Agency:</strong>
+  <%= @agency_user_mapping.agency %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @agency_user_mapping.user %>
+</p>
+
+<%= link_to 'Edit', edit_agency_user_mapping_path(@agency_user_mapping) %> |
+<%= link_to 'Back', agency_user_mappings_path %>
