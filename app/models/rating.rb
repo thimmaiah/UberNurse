@@ -3,6 +3,7 @@ class Rating < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:rating)
   COMMENTS = ["Great Work", "Good Work", "Not Bad", "Can Improve"]
 
+  belongs_to :agency
   belongs_to :shift
   belongs_to :rated_entity, polymorphic: true
   belongs_to :care_home

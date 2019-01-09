@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190109060459) do
+ActiveRecord::Schema.define(version: 20190109083035) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -25,8 +25,13 @@ ActiveRecord::Schema.define(version: 20190109060459) do
   create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "care_home_id"
     t.integer  "agency_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.boolean  "verified"
+    t.text     "care_home_broadcast_group", limit: 65535
+    t.boolean  "manual_assignment_flag"
+    t.string   "preferred_care_giver_ids"
+    t.boolean  "limit_shift_to_pref_carer"
     t.index ["agency_id"], name: "index_agency_care_home_mappings_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
@@ -36,6 +41,7 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.integer  "agency_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "verified"
     t.index ["agency_id"], name: "index_agency_user_mappings_on_agency_id", using: :btree
     t.index ["user_id"], name: "index_agency_user_mappings_on_user_id", using: :btree
   end
@@ -173,6 +179,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.float    "vat",                 limit: 24
     t.float    "markup",              limit: 24
     t.float    "care_giver_amount",   limit: 24
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_payments_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_payments_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_payments_on_deleted_at", using: :btree
     t.index ["shift_id"], name: "index_payments_on_shift_id", using: :btree
@@ -220,6 +228,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.string   "role",                            limit: 25
     t.datetime "created_at",                                 null: false
     t.datetime "updated_at",                                 null: false
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_profiles_on_agency_id", using: :btree
     t.index ["user_id"], name: "index_profiles_on_user_id", using: :btree
   end
 
@@ -241,6 +251,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.float    "carer_bank_holiday",      limit: 24
     t.float    "care_home_bank_holiday",  limit: 24
     t.integer  "care_home_id"
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_rates_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_rates_on_care_home_id", using: :btree
   end
 
@@ -255,6 +267,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.datetime "deleted_at"
     t.integer  "rated_entity_id"
     t.string   "rated_entity_type", limit: 20
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_ratings_on_agency_id", using: :btree
     t.index ["deleted_at"], name: "index_ratings_on_deleted_at", using: :btree
     t.index ["rated_entity_id"], name: "index_ratings_on_rated_entity_id", using: :btree
     t.index ["rated_entity_type"], name: "index_ratings_on_rated_entity_type", using: :btree
@@ -276,6 +290,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.datetime "updated_at",                         null: false
     t.date     "next_generation_date"
     t.integer  "preferred_carer_id"
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_recurring_requests_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_recurring_requests_on_care_home_id", using: :btree
     t.index ["end_on"], name: "index_recurring_requests_on_end_on", using: :btree
     t.index ["next_generation_date"], name: "index_recurring_requests_on_next_generation_date", using: :btree
@@ -332,6 +348,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.boolean  "manual_close"
     t.boolean  "preferred_care_giver_selected"
     t.integer  "notification_count"
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_shifts_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
     t.index ["staffing_request_id"], name: "index_shifts_on_staffing_request_id", using: :btree
@@ -367,6 +385,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.text     "notes",                  limit: 65535
     t.integer  "preferred_carer_id"
     t.integer  "recurring_request_id"
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_staffing_requests_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_staffing_requests_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree
     t.index ["recurring_request_id"], name: "index_staffing_requests_on_recurring_request_id", using: :btree
@@ -411,6 +431,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.date     "as_of_date"
     t.string   "date_range",  limit: 40
     t.string   "stat_type",   limit: 20
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_stats_on_agency_id", using: :btree
   end
 
   create_table "trainings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
@@ -421,6 +443,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.integer  "user_id"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_trainings_on_agency_id", using: :btree
     t.index ["profile_id"], name: "index_trainings_on_profile_id", using: :btree
     t.index ["user_id"], name: "index_trainings_on_user_id", using: :btree
   end
@@ -504,6 +528,8 @@ ActiveRecord::Schema.define(version: 20190109060459) do
     t.string   "title"
     t.boolean  "ready_for_verification"
     t.boolean  "allow_password_change",                                                 default: false,   null: false
+    t.integer  "agency_id"
+    t.index ["agency_id"], name: "index_users_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree

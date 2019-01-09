@@ -17,7 +17,7 @@ class User < ApplicationRecord
 
   SEX = ["M", "F"]
   SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]
-  ROLE = ["Care Giver", "Nurse", "Admin"]
+  ROLE = ["Care Giver", "Nurse", "Admin", "Agency"]
   TITLE = ["Mr", "Mrs", "Miss"]
 
 

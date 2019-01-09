@@ -1,4 +1,6 @@
 class RecurringRequest < ApplicationRecord
+
+	belongs_to :agency
 	belongs_to :care_home
 	belongs_to :user
 	has_many :staffing_requests

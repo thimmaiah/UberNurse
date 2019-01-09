@@ -14,6 +14,8 @@ class Ability
       when "Super User"
         can [:admin, :manage], :all
                 
+      when "Agency"
+        agency_privilages
       when "Admin"
         admin_privilages
       when "Employee"
@@ -72,5 +74,18 @@ class Ability
         end
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id
+    end
+
+    def agency_privilages
+        can :manage, User, :agency_id=>@user.agency_id
+        can :manage, Profile, :agency_id=>@user.agency_id
+        can :manage, StaffingRequest :agency_id=>@user.agency_id
+        can :manage, RecurringRequest :agency_id=>@user.agency_id
+        can :manage, Shift :agency_id=>@user.agency_id
+        can :manage, Payment, :agency_id=>@user.agency_id
+        can :manage, Rating, :agency_id=>@user.agency_id
+        can :manage, Rate, :agency_id=>@user.agency_id
+        can :manage, Stat, :agency_id=>@user.agency_id
+        can :manage, Training, :agency_id=>@user.agency_id
     end
 end

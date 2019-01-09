@@ -9,6 +9,7 @@ class Shift < ApplicationRecord
   PAYMENT_STATUS = ["UnPaid", "Pending", "Paid"]
   CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
+  belongs_to :agency
   belongs_to :user
   belongs_to :staffing_request
   belongs_to :care_home
