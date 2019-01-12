@@ -24,7 +24,7 @@ Given(/^the user has a profile$/) do
   @profile.user = @user
   @profile.role = @user.role
   @profile.known_as = @user.first_name
-        
+  @profile.agency = @agency      
   @profile.save!
   @user.profile = @profile
 end
@@ -91,6 +91,12 @@ Given("the care home has sister care homes {string}") do |sch|
     care_home.verified = true
     key_values(care_home, sch_agrs)
     care_home.save!
+
+    acm = FactoryGirl.build(:agency_care_home_mapping)
+    acm.agency = @agency
+    acm.care_home = care_home
+    acm.save!
+
   end
   @care_home.sister_care_homes = CareHome.where("id <> ?", @care_home.id).collect(&:id).join(",")
   @care_home.save!

@@ -2,6 +2,7 @@ Feature: Shift Reminder Email
   Generate a Shift Reminder Email
 
 Scenario Outline: Shift Reminder Email sent
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -23,6 +24,7 @@ Scenario Outline: Shift Reminder Email sent
 
 
 Scenario Outline: Shift Reminder Email not sent
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -42,6 +44,7 @@ Scenario Outline: Shift Reminder Email not sent
    
 
 Scenario Outline: Rejected Shift Reminder Email not sent
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
@@ -61,6 +64,7 @@ Scenario Outline: Rejected Shift Reminder Email not sent
 
 
 Scenario Outline: Started Shift Reminder Email not sent
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   And the request start_date is "<time>" from now

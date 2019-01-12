@@ -2,6 +2,7 @@ Feature: Auto Reject Shift
   Auto reject a pending shift
 
 Scenario Outline: Auto Reject Shift
+  Given there is an agency
   Given there is a shift for a user "<user>" with status "Pending"
   And the shift was created "<mins>" before
   And the shift pending job runs
@@ -16,6 +17,7 @@ Scenario Outline: Auto Reject Shift
     
 
 Scenario Outline: Auto Reject Shift
+  Given there is an agency
   Given there is a shift for a user "<user>" with status "Pending"
   And the shift was created "<mins>" before
   Given jobs are being dispatched

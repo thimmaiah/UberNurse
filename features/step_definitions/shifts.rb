@@ -185,6 +185,7 @@ Given(/^there is a shift for a user "([^"]*)" with status "([^"]*)"$/) do |arg1,
 
   @shift = Shift.new(staffing_request_id: @staffing_request.id,
                      care_home_id: @staffing_request.care_home_id,
+                     agency_id: @staffing_request.agency_id,
                      user_id: @user.id,
                      response_status: "Pending")
 

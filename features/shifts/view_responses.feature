@@ -2,6 +2,7 @@ Feature: View Shift
   View a shift for temps given a new request
 
 Scenario Outline: View My Shift
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -17,6 +18,7 @@ Scenario Outline: View My Shift
   	|role=Nurse;speciality=Mental Health | role=Nurse;speciality=Mental Health;verified=true        |
   	
 Scenario Outline: Cannot View Others Shifts
+  Given there is an agency
   Given there are "<number>" of shifts
   Given Im a logged in user "<user>"
   When I click "Pending Shifts"
@@ -29,6 +31,7 @@ Scenario Outline: Cannot View Others Shifts
 
 
 Scenario Outline: View All Shifts for care_home
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there are "<number>" of verified requests
   Given Im logged in

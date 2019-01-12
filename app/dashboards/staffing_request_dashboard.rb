@@ -9,6 +9,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     care_home: Field::BelongsTo,
+    agency: Field::BelongsTo,
     recurring_request: Field::BelongsTo,
     manual_assignment_flag: Field::Boolean,
     user: Field::BelongsTo,
@@ -52,6 +53,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :agency,
     :care_home,
     :user,
     :start_date,
@@ -67,6 +69,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :agency,
     :care_home,
     :manual_assignment_flag,
     :user,

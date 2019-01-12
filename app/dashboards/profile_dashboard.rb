@@ -9,6 +9,7 @@ class ProfileDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
+    agency: Field::BelongsTo,
     trainings: Field::HasMany,
     id: Field::Number,
     user_id: Field::Number,
@@ -43,6 +44,7 @@ class ProfileDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :agency,
     :user,
     :position,
     :date_sent,
@@ -55,6 +57,7 @@ class ProfileDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :user,
+    :agency,
     :date_of_CRB_DBS_check,
     :dob,
     :pin,

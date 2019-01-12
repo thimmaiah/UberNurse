@@ -2,6 +2,7 @@ Feature: Confirm Shift
   Accept / Decline shift by a carer
 
 Scenario Outline: Accept My Shift
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   Given the user has a profile
@@ -25,6 +26,7 @@ Scenario Outline: Accept My Shift
 
 
 Scenario Outline: Decline My Shift
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs

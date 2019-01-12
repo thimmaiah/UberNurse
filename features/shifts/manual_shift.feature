@@ -2,6 +2,7 @@ Feature: Manual Shift
   Generate a shift for temps given a new request
 
 Scenario Outline: New Shift
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And a manual shift is created

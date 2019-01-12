@@ -9,6 +9,7 @@ class ShiftDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     user: Field::BelongsTo,
+    agency: Field::BelongsTo,
     staffing_request: Field::BelongsTo.with_options(
       sort_by: 'start_date',
       direction: 'desc',
@@ -47,6 +48,7 @@ class ShiftDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :user,
+    :agency,
     :care_home,
     :start_date,
     :end_date,
@@ -63,6 +65,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :user,
     :staffing_request,
     :care_home,
+    :agency,
     :payment,
     :care_home_base,
     :vat,

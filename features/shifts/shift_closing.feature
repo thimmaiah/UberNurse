@@ -2,6 +2,7 @@ Feature: Shift Closing
   Ensure  a shift is closed properly
 
 Scenario Outline: Close Shift
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -25,6 +26,7 @@ Scenario Outline: Close Shift
 
 
 Scenario Outline: Add Start Code
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -41,6 +43,7 @@ Scenario Outline: Add Start Code
     |role=Nurse;start_code=1112       |role=Nurse;verified=true         | 1112        | 1112   |
 
 Scenario Outline: Add Start Code No Match
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -55,6 +58,7 @@ Scenario Outline: Add Start Code No Match
 
 
 Scenario Outline: QR Code entered
+  Given there is an agency
   Given there is a care_home "verified=true;qr_code=123" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given the request can be started now
@@ -75,6 +79,7 @@ Scenario Outline: QR Code entered
     |role=Care Giver;start_code=1114        |role=Care Giver;verified=true         |
 
 Scenario Outline: Wrong QR Code entered
+  Given there is an agency
   Given there is a care_home "verified=true;qr_code=123" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given the request can be started now
@@ -90,6 +95,7 @@ Scenario Outline: Wrong QR Code entered
 
 
 Scenario Outline: Add End Code
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -110,6 +116,7 @@ Scenario Outline: Add End Code
 
 
 Scenario Outline: Add End Code No Match
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -125,6 +132,7 @@ Scenario Outline: Add End Code No Match
 
 
 Scenario Outline: Cancel Accepted Shift
+  Given there is an agency
   Given there is a care_home "verified=true" with an admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"

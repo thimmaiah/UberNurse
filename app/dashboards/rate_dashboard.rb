@@ -9,6 +9,7 @@ class RateDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
+    agency: Field::BelongsTo,
     care_home_id: Field::Number,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     role: Field::Select.with_options(collection: User::ROLE),
@@ -39,6 +40,7 @@ class RateDashboard < Administrate::BaseDashboard
     :zone,
     :role,
     :care_home,
+    :agency,
     :speciality,
     :carer_weekday,
     :care_home_weekday,
@@ -57,6 +59,7 @@ class RateDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :care_home,
+    :agency,
     :zone,
     :role,
     :speciality,
