@@ -23,7 +23,7 @@ class StaffingRequest < ApplicationRecord
 
   belongs_to :recurring_request
 
-  validates_presence_of :user_id, :care_home_id, :start_date, :end_date, :role
+  validates_presence_of :user_id, :care_home_id, :agency_id, :start_date, :end_date, :role
 
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash
@@ -119,6 +119,15 @@ class StaffingRequest < ApplicationRecord
 
   def preferred_carer
     User.find(preferred_carer_id) if preferred_carer_id
+  end
+
+  # Need to find the preferred care givers for this care home for this agency
+  def preferred_care_givers
+    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
+    if acm.preferred_care_giver_ids
+      pref_care_giver_ids = acm.preferred_care_giver_ids.split(",").map{|id| id.strip.to_i}
+      User.order("auto_selected_date ASC").find(pref_care_giver_ids)
+    end
   end
   
 end

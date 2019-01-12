@@ -1,9 +1,22 @@
+Given("there is an agency") do 
+  @agency = FactoryGirl.create(:agency)
+  Rate.update_all(agency_id: @agency.id)
+end
+
 Given(/^there is a user "([^"]*)"$/) do |arg1|
   @user = FactoryGirl.build(:user)
   key_values(@user, arg1)
   @user.save!
   puts "\n####User####\n"
   puts @user.to_json
+
+  if @user.is_temp?
+    aum = FactoryGirl.build(:agency_user_mapping)
+    aum.agency = @agency
+    aum.user = @user
+    aum.save!
+
+  end
 end
 
 Given(/^the user has a profile$/) do
@@ -90,6 +103,11 @@ Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_
   @care_home = FactoryGirl.build(:care_home)
   key_values(@care_home, care_home_args)
   @care_home.save!
+
+  acm = FactoryGirl.build(:agency_care_home_mapping)
+  acm.agency = @agency
+  acm.care_home = @care_home
+  acm.save!
 
   @admin = FactoryGirl.build(:user)
   key_values(@admin, admin_args)

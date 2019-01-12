@@ -7,6 +7,9 @@ namespace :uber_nurse do
 
   desc "Cleans p DB - DELETES everything -  watch out"
   task :emptyDB => :environment do
+    Agency.delete_all
+    AgencyUserMapping.delete_all
+    AgencyCareHomeMapping.delete_all
     User.delete_all
     CareHome.delete_all
     Delayed::Job.delete_all
@@ -20,6 +23,22 @@ namespace :uber_nurse do
 
 
 
+  desc "generates fake Agencies for testing"
+  task :generateFakeAgencies => :environment do
+
+    begin
+      (1..1).each do | i |
+        h = FactoryGirl.build(:agency)
+        h.save
+        puts "Agency #{h.id}"
+      end
+    rescue Exception => exception
+      puts exception.backtrace.join("\n")
+      raise exception
+    end
+
+  end
+
   desc "generates fake CareHomes for testing"
   task :generateFakeCareHomes => :environment do
 
@@ -27,13 +46,18 @@ namespace :uber_nurse do
     begin
 
       User::SPECIALITY.each do |sp|
-      (1..4).each do | i |
+      (1..2).each do | i |
           h = FactoryGirl.build(:care_home)
           h.created_at = Date.today - rand(4).weeks - rand(7).days
           h.speciality = sp
           h.save
           #puts u.to_xml(:include => :care_home_industry_mappings)
           puts "CareHome #{h.id}"
+          a = Agency.all.sample
+          acm = FactoryGirl.build(:agency_care_home_mapping)
+          acm.care_home = h
+          acm.agency = a
+          acm.save!
         end
       end
     rescue Exception => exception
@@ -80,7 +104,7 @@ namespace :uber_nurse do
       i = 1
       # Now generate some consumers
       User::SPECIALITY.each do |sp|
-        (1..4).each do |j|
+        (1..2).each do |j|
           u = FactoryGirl.build(:user)        
           u.verified = true
           u.email = "user#{i}@gmail.com"
@@ -90,6 +114,11 @@ namespace :uber_nurse do
           u.image_url = images[rand(images.length)]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
+
+          aum = FactoryGirl.build(:agency_user_mapping)
+          aum.user = u
+          aum.agency = Agency.all.sample
+          aum.save!
 
           p = FactoryGirl.build(:profile)
           p.user = u
@@ -119,6 +148,13 @@ namespace :uber_nurse do
           u.image_url = images[rand(images.length)]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
+
+
+          aum = FactoryGirl.build(:agency_user_mapping)
+          aum.user = u
+          aum.agency = Agency.all.sample
+          aum.save!
+
           #puts u.to_xml
           p = FactoryGirl.build(:profile)
           p.user = u
@@ -213,6 +249,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:staffing_request)
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.care_home = c
+          u.agency = c.agencies.sample
           u.request_status = rand(10) > 2 ? "Approved" : "Rejected"
           u.user = c.users[0]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
@@ -243,6 +280,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:shift)
           u.staffing_request = req
           u.care_home_id = req.care_home_id
+          u.agency_id = req.agency_id
           u.user = care_givers[rand(care_givers.length)]
           u.save
 
@@ -282,6 +320,7 @@ namespace :uber_nurse do
         u.shift = resp
         u.staffing_request_id = resp.staffing_request_id
         u.care_home_id = resp.care_home_id
+        u.agency_id = resp.agency_id
         u.user_id = resp.user_id
         u.paid_by_id = resp.care_home.users.first
         if rand(2) > 0
@@ -312,6 +351,7 @@ namespace :uber_nurse do
         u.rated_entity = resp.user
         u.created_by_id = resp.staffing_request.user_id
         u.care_home_id = resp.staffing_request.care_home_id
+        u.agency_id = resp.staffing_request.agency_id
         u.save # Generate payments only for some accepted responses
         #puts u.to_xml
         puts "Rating #{u.id}"
@@ -321,6 +361,7 @@ namespace :uber_nurse do
         u.rated_entity = resp.care_home
         u.created_by_id = resp.user_id
         u.care_home_id = resp.staffing_request.care_home_id
+        u.agency_id = resp.staffing_request.agency_id
         u.save # Generate payments only for some accepted responses
         #puts u.to_xml
         puts "Rating #{u.id}"
@@ -338,17 +379,20 @@ namespace :uber_nurse do
 
     begin
 
-      ["North", "South"].each do |zone|
-        ["Nurse", "Care Giver"].each do |role|
-          User::SPECIALITY.each do |sp|
-            u = FactoryGirl.build(:rate)
-            #u.speciality = spec
-            u.role = role
-            u.zone = zone
-            u.speciality = sp
-            u.save 
-            #puts u.to_xml
-            puts "Rate #{u.id}"
+      Agency.all.each do |agency|
+        ["North", "South"].each do |zone|
+          ["Nurse", "Care Giver"].each do |role|
+            User::SPECIALITY.each do |sp|
+              u = FactoryGirl.build(:rate)
+              #u.speciality = spec
+              u.role = role
+              u.zone = zone
+              u.speciality = sp
+              u.save 
+              u.agency_id = agency.id
+              #puts u.to_xml
+              puts "Rate #{u.id}"
+            end
           end
         end
       end
@@ -366,13 +410,13 @@ namespace :uber_nurse do
   end
 
   desc "Generating all Fake Data"
-  task :generateFakeAll => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers,
+  task :generateFakeAll => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers,
   :generateFakeAdmin, :generateFakeReq, :generateFakeResp, 
   :generateFakeRatings, :finalize] do
     puts "Generating all Fake Data"
   end
 
-  task :generateLoadTestData => [:emptyDB, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
+  task :generateLoadTestData => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
     puts "Generating all Fake Data"
   end
 

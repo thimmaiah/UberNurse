@@ -1,5 +1,6 @@
 class RecurringRequest < ApplicationRecord
 
+	validates_presence_of :agency_id, :user_id, :care_home_id
 	belongs_to :agency
 	belongs_to :care_home
 	belongs_to :user
@@ -69,7 +70,8 @@ class RecurringRequest < ApplicationRecord
         if(sd >= self.start_on && sd <= self.end_on)
 
 	        req = StaffingRequest.new(care_home_id: self.care_home_id, user_id: self.user_id, 
-	                                  role: self.role, speciality: self.speciality, 
+	                                  role: self.role, speciality: self.speciality,
+	                                  agency_id: self.agency_id, 
 	                                  start_date: start_date, end_date: end_date,
 	                                  preferred_carer_id: self.preferred_carer_id,
 	                                  recurring_request_id: self.id,

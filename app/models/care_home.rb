@@ -4,6 +4,8 @@ class CareHome < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:care_home)
 
   has_many :users
+  has_many :agency_care_home_mappings
+  has_many :agencies, :through => :agency_care_home_mappings
   has_many :staffing_requests
   validates_presence_of :name, :postcode
   has_many :ratings, as: :rated_entity
@@ -87,5 +89,9 @@ class CareHome < ApplicationRecord
     self.qr_code = rand(7 ** 7)
     self.save
     UserNotifierMailer.care_home_qr_code(self).deliver_later
+  end
+
+  def has_agency(agency_id)
+    self.agency_care_home_mappings.collect(&:agency_id).include?(agency_id)
   end
 end

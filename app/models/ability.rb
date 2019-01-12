@@ -79,9 +79,9 @@ class Ability
     def agency_privilages
         can :manage, User, :agency_id=>@user.agency_id
         can :manage, Profile, :agency_id=>@user.agency_id
-        can :manage, StaffingRequest :agency_id=>@user.agency_id
-        can :manage, RecurringRequest :agency_id=>@user.agency_id
-        can :manage, Shift :agency_id=>@user.agency_id
+        can :manage, StaffingRequest, :agency_id=>@user.agency_id
+        can :manage, RecurringRequest, :agency_id=>@user.agency_id
+        can :manage, Shift, :agency_id=>@user.agency_id
         can :manage, Payment, :agency_id=>@user.agency_id
         can :manage, Rating, :agency_id=>@user.agency_id
         can :manage, Rate, :agency_id=>@user.agency_id

@@ -2,6 +2,7 @@ Feature: Cancel Requests
   Close a request put in by a care home
 
 Scenario Outline: Cancel Request for care_home
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there are "<number>" of verified requests
   Given Im logged in

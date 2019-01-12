@@ -9,6 +9,8 @@ class User < ApplicationRecord
   belongs_to :care_home, optional: true
   has_one :profile
   has_many :staffing_requests
+  has_many :agency_user_mappings
+  has_many :agencies, :through => :agency_user_mappings
   has_many :shifts
   has_many :payments
   has_many :user_docs, -> { order(:verified=>:desc) }
@@ -211,5 +213,9 @@ class User < ApplicationRecord
 
   def belongs_to_care_home(care_home_id)
     self.care_home_ids.include?(care_home_id)
+  end
+
+  def belongs_to_agency(acgency_id)
+    self.agency_user_mappings.collect(&:agency_id).include?(acgency_id)
   end
 end

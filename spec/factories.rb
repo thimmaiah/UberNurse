@@ -1,14 +1,18 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  
   factory :agency_user_mapping do
-    agency Agency.all.sample
-    user User.temps.all.sample
+    verified {true}
   end
+
   factory :agency_care_home_mapping do
-    agency Agency.all.sample
-    care_home CareHome.all.sample
+    verified {true}
+    manual_assignment_flag {false}
+    limit_shift_to_pref_carer {true }
+    care_home_broadcast_group { [Faker::Internet.email, Faker::Internet.email, Faker::Internet.email].join(",") }
   end
+  
   factory :agency do
     name {Faker::Company.name}
     address {Faker::Address.street_address}

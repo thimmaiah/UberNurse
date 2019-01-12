@@ -2,6 +2,7 @@ Feature: New Requests
   New a request put in by a care home
 
 Scenario Outline: New Request
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given Im logged in 
   When I click "View Staffing Requests"
@@ -17,6 +18,7 @@ Scenario Outline: New Request
 
 
 Scenario Outline: New Request for sister care home
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given the care home has sister care homes "<sister_care_home>"
   Given Im logged in 

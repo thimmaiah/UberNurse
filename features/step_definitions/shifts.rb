@@ -5,12 +5,14 @@ Given(/^the shift creator job runs$/) do
 end
 
 Given("the care home has a preferred care giver") do
-  @care_home.preferred_care_giver_ids = @user.id.to_s
-  @care_home.save!
+  acm = AgencyCareHomeMapping.where(care_home_id: @care_home.id, agency_id: @agency.id).first
+  acm.preferred_care_giver_ids = @user.id.to_s
+  acm.save!
 end
 
 Then("A shift must be created for the preferred care giver for the request") do
-  @shift.user_id.should == @care_home.preferred_care_givers.first.id
+  acm = AgencyCareHomeMapping.where(care_home_id: @care_home.id, agency_id: @agency.id).first
+  @shift.user_id.should == acm.preferred_care_giver_ids.split(",")[0].to_i
 end
 
 
@@ -18,6 +20,8 @@ Then(/^A shift must be created for the user for the request$/) do
   @shift = Shift.last
   @shift.user_id.should == @user.id
   @shift.staffing_request_id.should == @staffing_request.id
+  @shift.agency_id.should == @staffing_request.agency_id
+  @shift.care_home_id.should == @staffing_request.care_home_id
 end
 
 Given(/^the user has already accepted this request$/) do
@@ -26,6 +30,7 @@ Given(/^the user has already accepted this request$/) do
   @shift.user = @user
   @shift.staffing_request = @staffing_request
   @shift.care_home_id = @staffing_request.care_home_id
+  @shift.agency_id = @staffing_request.agency_id
   @shift.save
 
   @shift.response_status = "Accepted"
@@ -41,6 +46,7 @@ Given(/^the user has already rejected this request$/) do
   @shift.user = @user
   @shift.staffing_request = @staffing_request
   @shift.care_home_id = @staffing_request.care_home_id
+  @shift.agency_id = @staffing_request.agency_id
   @shift.save
 
   @shift.response_status = "Rejected"
@@ -55,6 +61,7 @@ Given(/^the user has already auto rejected this request$/) do
   @shift.user = @user
   @shift.staffing_request = @staffing_request
   @shift.care_home_id = @staffing_request.care_home_id
+  @shift.agency_id = @staffing_request.agency_id
   @shift.save
 
   @shift.response_status = "Auto Rejected"
@@ -239,6 +246,7 @@ Then(/^the payment for the shift is generated$/) do
   @payment.amount.should == @shift.care_home_total_amount
   @payment.care_home_id.should == @staffing_request.care_home_id
   @payment.user_id.should == @shift.user_id
+  @payment.agency_id.should == @shift.agency_id
 end
 
 Then(/^the shift is marked as closed$/) do

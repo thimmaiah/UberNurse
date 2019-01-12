@@ -13,7 +13,7 @@ class ShiftConfirmJob < ApplicationJob
       	if(shift.send_confirm?)
       		Rails.logger.info "ShiftConfirmJob: sending confirm for #{shift.id}"
       		# Send a mail asking the user to confirm
-      		UserNotifierMailer.shift_confirmation(shift).deliver        
+      		ShiftMailer.shift_confirmation(shift).deliver        
       		shift.confirmation_sent()
       	end
       	

@@ -2,6 +2,7 @@ Feature: New Shift
   Generate a shift for temps given a new request
 
 Scenario Outline: New Shift
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -21,6 +22,7 @@ Scenario Outline: New Shift
 
 
 Scenario Outline: New Shift for preferred care givers
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   Given there is a user "<user>"
@@ -41,6 +43,7 @@ Scenario Outline: New Shift for preferred care givers
 
 
 Scenario Outline: New Shift for specialist users with no match
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -55,6 +58,7 @@ Scenario Outline: New Shift for specialist users with no match
     |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
     
 Scenario Outline: New Shift for manual assignment care homes
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -72,6 +76,7 @@ Scenario Outline: New Shift for manual assignment care homes
 
 
 Scenario Outline: New Shift for unverified users
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the shift creator job runs
@@ -84,6 +89,7 @@ Scenario Outline: New Shift for unverified users
 
 
 Scenario Outline: New Shift without care givers
+  Given there is an agency
   Given there is a request "<request>"
   And the shift creator job runs
   Then the admin user receives an email with "No shift found for request" in the subject
@@ -95,6 +101,7 @@ Scenario Outline: New Shift without care givers
 
 
 Scenario Outline: New Shift when already rejected
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already rejected this request
@@ -108,6 +115,7 @@ Scenario Outline: New Shift when already rejected
     |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 Scenario Outline: New Shift when already auto rejected
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already auto rejected this request
@@ -121,6 +129,7 @@ Scenario Outline: New Shift when already auto rejected
     |start_code=1111;end_code=0000 | role=Nurse;verified=true        |
 
 Scenario Outline: New Shift to different user when already rejected
+  Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
   And the user has already rejected this request
@@ -137,6 +146,7 @@ Scenario Outline: New Shift to different user when already rejected
 
 
 Scenario Outline: New Shift when already booked in the same time shift
+  Given there is an agency
   Given there is a user "<user>"
   And the user has already accepted a request "<other_request>"
   And give the request has a start_time "8:00" and end time of "16:00"
@@ -153,6 +163,7 @@ Scenario Outline: New Shift when already booked in the same time shift
     |role=Care Giver  | role=Care Giver;verified=true   | role=Care Giver   |
   
 Scenario Outline: New Shift for Sister Care Home
+  Given there is an agency
   Given there is a request "<request>" for a sister care home
   Given there is a user "<user>"
   And the shift creator job runs

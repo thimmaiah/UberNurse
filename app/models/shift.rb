@@ -9,6 +9,8 @@ class Shift < ApplicationRecord
   PAYMENT_STATUS = ["UnPaid", "Pending", "Paid"]
   CONFIRMATION_STATUS = ["Pending", "Confirmed"]
 
+  validates_presence_of :agency_id, :care_home_id, :user_id, :staffing_request_id
+
   belongs_to :agency
   belongs_to :user
   belongs_to :staffing_request
@@ -33,6 +35,7 @@ class Shift < ApplicationRecord
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
 
   validate :check_codes
+  validates_presence_of :agency_id
   before_save :shift_cancelled, :shift_accepted, :update_dates
   before_create :set_defaults
   after_save :close_shift
@@ -67,6 +70,7 @@ class Shift < ApplicationRecord
       shift = Shift.new(staffing_request_id: staffing_request.id,
                         user_id: selected_user.id,
                         care_home_id:staffing_request.care_home_id,
+                        agency_id:staffing_request.agency_id,
                         response_status: "Pending",
                         preferred_care_giver_selected: preferred_care_giver_selected)
       # Update the request
@@ -108,17 +112,17 @@ class Shift < ApplicationRecord
         self.staffing_request.shift_status = nil
         self.staffing_request.save
       end
-      UserNotifierMailer.shift_cancelled(self).deliver_later
+      ShiftMailer.shift_cancelled(self).deliver_later
       self.send_shift_cancelled_sms(self)
     end
   end
 
   def shift_accepted
     if(self.response_status_changed? && self.response_status == "Accepted")
-      UserNotifierMailer.shift_accepted(self).deliver_later
+      ShiftMailer.shift_accepted(self).deliver_later
       self.send_shift_accepted_sms(self)
       # Send a mail to the broacast group with the start / end codes
-      UserNotifierMailer.send_codes_to_broadcast_group(self).deliver
+      ShiftMailer.send_codes_to_broadcast_group(self).deliver
     end
   end
 
@@ -129,14 +133,14 @@ class Shift < ApplicationRecord
       if(self.start_code_changed?)
         self.start_date = Time.now
         self.start_date = self.start_date.change({sec: 0}) if self.start_date
-        UserNotifierMailer.shift_started(self).deliver_later
+        ShiftMailer.shift_started(self).deliver_later
         self.send_shift_started_sms(self)
       end
       if(self.end_code_changed?)
         # End Time cannot be < 4 hours from start time
         self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
         self.end_date = self.end_date.change({sec: 0}) if self.end_date
-        UserNotifierMailer.shift_ended(self).deliver_later
+        ShiftMailer.shift_ended(self).deliver_later
         self.send_shift_ended_sms(self)
       end
     end
@@ -146,7 +150,7 @@ class Shift < ApplicationRecord
     if(self.response_status != 'Rejected')
       logger.debug "Broadcasting shift #{self.id}"
       PushNotificationJob.new.perform(self)
-      UserNotifierMailer.shift_notification(self).deliver_later
+      ShiftMailer.shift_notification(self).deliver_later
       self.send_shift_sms_notification(self)
     end
   end
@@ -306,6 +310,7 @@ class Shift < ApplicationRecord
   def create_payment
     Payment.new(shift_id: self.id, user_id: self.user_id, 
       care_home_id: self.care_home_id, paid_by_id: self.staffing_request.user_id,
+      agency_id: self.agency_id,
       billing: self.care_home_base, amount: self.care_home_total_amount, 
       vat: self.vat, markup: self.markup, care_giver_amount: self.carer_base,
       notes: "Thank you for your service.",
@@ -338,6 +343,11 @@ class Shift < ApplicationRecord
       errors.add(:qr_code, "Invalid QR Code")
       return false
     end
+  end
+
+  def broadcast_group
+    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first
+    acm.care_home_broadcast_group
   end
 
 end

@@ -2,6 +2,7 @@ Feature: Pricing Requests
   Pricing request put in by a care home
 
 Scenario Outline: Pricing Request
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekday
@@ -24,6 +25,7 @@ Scenario Outline: Pricing Request
     |verified=true|role=Admin |role=Nurse;speciality=Mental Health  |{hour:0 }  |{hour:8}    |{carer_weekday:9, carer_weeknight:10, care_home_weekday:10, care_home_weeknight:15}  |{care_home_base:120, care_home_total_amount:144}    | 80 |
     
 Scenario Outline: Pricing Request - Custom Rates
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekday
@@ -45,6 +47,7 @@ Scenario Outline: Pricing Request - Custom Rates
     
 
 Scenario Outline: Pricing Request on Weekend
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekend  
@@ -66,6 +69,7 @@ Scenario Outline: Pricing Request on Weekend
 
 @wip
 Scenario Outline: Pricing Request last minute
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>" "<hours>" from now
   Given the rate is "<rate>"
@@ -80,6 +84,7 @@ Scenario Outline: Pricing Request last minute
 
 
 Scenario Outline: Pricing Request on bank holiday
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>" on a bank holiday
   Given the rate is "<rate>"
@@ -94,6 +99,7 @@ Scenario Outline: Pricing Request on bank holiday
 
 
 Scenario Outline: Overtime Mins
+  Given there is an agency
   Given there is a request "<request>"
   Then the request overtime mins must be "<overtime>"
   

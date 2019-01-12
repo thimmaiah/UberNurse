@@ -1,5 +1,6 @@
 class Stat < ApplicationRecord
 
+  validates_presence_of :agency_id
   belongs_to :agency
   
   after_save ThinkingSphinx::RealTime.callback_for(:stat)

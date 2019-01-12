@@ -2,6 +2,7 @@ Feature: Recurring Requests
   Put a recurring request by a care home
 
 Scenario Outline: Recurring Request Generates the right requests
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a recurring request "<recurring_request>"
   When requests are generated for the first time the count should be "<count>" 
@@ -13,6 +14,7 @@ Scenario Outline: Recurring Request Generates the right requests
     |verified=true|role=Admin;verified=true |5      | role=Care Giver;on=1,2,3,4,5  	|
 
 Scenario Outline: Recurring Request does not generate requests when already generated
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a recurring request "<recurring_request>"
   When requests are generated for the first time the count should be "<count>"
@@ -27,6 +29,7 @@ Scenario Outline: Recurring Request does not generate requests when already gene
     |verified=true|role=Admin;verified=true |5      | role=Care Giver;on=1,2,3,4,5  	|
 
 Scenario Outline: Recurring Request does not generate requests outside start on & end on
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a recurring request "<recurring_request>"
   When a requests is generated outside the start on and end on
@@ -39,6 +42,7 @@ Scenario Outline: Recurring Request does not generate requests outside start on 
     |verified=true|role=Admin;verified=true |0      | role=Care Giver;on=1,2,3,4,5  	|
 
 Scenario Outline: Total number of requests generated
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a recurring request "<recurring_request>"
   When all recurring requests are generated 

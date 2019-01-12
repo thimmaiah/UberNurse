@@ -24,7 +24,7 @@ class ShiftCreatorJob < ApplicationJob
             else
               logger.error "ShiftCreatorJob: No user found for Staffing Request #{staffing_request.id}"
               if(staffing_request.shift_status != "Not Found")
-                UserNotifierMailer.no_shift_found(staffing_request).deliver
+                ShiftMailer.no_shift_found(staffing_request).deliver
               end
               staffing_request.shift_status = "Not Found"
               staffing_request.broadcast_status = "Sent"
@@ -156,7 +156,7 @@ class ShiftCreatorJob < ApplicationJob
 	    # Sometimes we need to route the request to a specific carer first
 	    pref_care_givers = [staffing_request.preferred_carer]   
     else
-    	pref_care_givers = staffing_request.care_home.preferred_care_givers
+    	pref_care_givers = staffing_request.preferred_care_givers
 	end
     
     if(pref_care_givers)      

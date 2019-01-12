@@ -1,5 +1,7 @@
 class Payment < ApplicationRecord
 
+	validates_presence_of :agency_id
+
 	acts_as_paranoid
 	after_save ThinkingSphinx::RealTime.callback_for(:payment)
 	

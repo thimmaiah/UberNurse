@@ -7,7 +7,7 @@ class StaffingRequestsController < ApplicationController
     @per_page = 100
     @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids) if !@staffing_requests
     @staffing_requests = @staffing_requests.open.order("start_date asc").page(@page).per(@per_page)
-    render json: @staffing_requests.includes(:user, :care_home, :shifts), include: "user,care_home"
+    render json: @staffing_requests.includes(:user, :care_home, :shifts, :agency), include: "user,care_home"
   end
 
   def price
@@ -38,6 +38,14 @@ class StaffingRequestsController < ApplicationController
     else
       @staffing_request.care_home_id = current_user.care_home_id
     end
+
+    if(@staffing_request.agency_id)
+      # Make sure we can book a req for this care homes agency - if not deny access
+      raise CanCan::AccessDenied unless current_user.care_home.has_agency(@staffing_request.agency_id)
+    else
+      raise CanCan::AccessDenied
+    end
+
 
     if @staffing_request.save
       render json: @staffing_request, status: :created, location: @staffing_request
@@ -76,7 +84,7 @@ class StaffingRequestsController < ApplicationController
     params[:staffing_request][:start_date] = start_date
     params[:staffing_request][:end_date] = end_date
 
-    params.require(:staffing_request).permit(:care_home_id, :user_id, :start_date, :manual_assignment_flag, :notes,
+    params.require(:staffing_request).permit(:care_home_id, :agency_id, :user_id, :start_date, :manual_assignment_flag, :notes,
                                              :end_date, :rate_per_hour, :request_status, :auto_deny_in, :response_count,
                                              :payment_status, :start_code, :end_code, :price, :role, :speciality,
                                              :pricing_audit=>[:hours_worked, :base_rate, :base_price, :factor_value, :factor_name, :price]

@@ -8,7 +8,7 @@ Scenario Outline: Login Successfully
   Then I should see the "<msg>"
 
   Examples:
-  	|user								                |msg	|
+  	|user							|msg	|
   	|role=Care Giver	|Welcome|
     |role=Nurse       |Welcome|
   	|role=Admin		    |Register Care Home|
@@ -22,7 +22,7 @@ Scenario Outline: Login Incorrectly
   Then I should see the "<msg>"
 
   Examples:
-  	|user								                |msg	|
+  	|user							|msg	|
   	|role=Care Giver	|Invalid login credentials|
     |role=Nurse       |Invalid login credentials|
   	|role=Admin		    |Invalid login credentials|

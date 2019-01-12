@@ -17,8 +17,11 @@ Given(/^a unsaved request "([^"]*)"$/) do |args|
   key_values(@staffing_request, args)
   
   @staffing_request.care_home = @care_home if @staffing_request.care_home_id == nil
+  @staffing_request.agency = @agency if @staffing_request.agency_id == nil
   @staffing_request.user = @care_home.users.admins.first
 end
+
+
 
 Given(/^there is a request "([^"]*)"$/) do |args|
   if(!@care_home)
@@ -143,6 +146,7 @@ Given(/^there are "(\d+)" of verified requests$/) do |count|
     puts "\nCreating request #{i}\n" 
     @staffing_request = FactoryGirl.build(:staffing_request)
     @staffing_request.care_home = @care_home
+    @staffing_request.agency = @agency
     @staffing_request.user = @care_home.users.admins.first
     @staffing_request.save!
   end
@@ -261,6 +265,7 @@ Given(/^the custom rate is "([^"]*)"$/) do |arg1|
 
     params = eval(arg1)
     params["care_home_id"] = @staffing_request.care_home_id
+    params["agency_id"] = @staffing_request.agency_id
     params["zone"] = @staffing_request.care_home.zone
     params["role"] = @staffing_request.role
     params["speciality"] = @staffing_request.speciality
@@ -270,9 +275,13 @@ end
 
 
 Given(/^the rate is "([^"]*)"$/) do |arg1|
+
+  params = eval(arg1)
+  params[:agency_id] = @agency.id
+
   Rate.where(zone:@staffing_request.care_home.zone,
              role:@staffing_request.role,
-             speciality: @staffing_request.speciality).update_all(eval(arg1))
+             speciality: @staffing_request.speciality).update_all(params)
 end
 
 
@@ -315,6 +324,8 @@ Given("there is a recurring request {string}") do |args|
   key_values(@recurring_request, args)
   @recurring_request.care_home = @care_home
   @recurring_request.user = @user
+  @recurring_request.agency = @agency if @recurring_request.agency_id == nil
+  
   @recurring_request.save!
   # puts "\n #####RecurringRequest#### \n "
   # puts @recurring_request.to_json

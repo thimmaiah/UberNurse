@@ -4,4 +4,5 @@ class ProfileSerializer < ActiveModel::Serializer
   :confirmation_of_identity, :references_received, :dl_passport, 
   :all_required_paperwork_checked, :registered_under_disability_act, 
   :connuct_policies, :form_completed_by, :position, :date_sent, :date_received, :known_as, :role
+
 end

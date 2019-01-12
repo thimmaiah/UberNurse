@@ -6,4 +6,6 @@ class CareHomeSerializer < ActiveModel::Serializer
   def can_manage
     Ability.new(scope).can?(:manage, object)
   end
+
+  has_many :agencies, serializer: AgencySerializer
 end

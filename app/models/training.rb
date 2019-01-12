@@ -4,5 +4,5 @@ class Training < ApplicationRecord
 	belongs_to :user
 	belongs_to :profile
 
-	validates_presence_of :user_id, :profile, :name, :date_completed
+	validates_presence_of :user_id, :profile, :name, :date_completed, :agency_id
 end
