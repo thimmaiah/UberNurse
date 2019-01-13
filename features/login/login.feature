@@ -31,6 +31,7 @@ Scenario Outline: Login Incorrectly
 
 Scenario Outline: Home page menus Care Giver
   Given there is a user "<user>"
+  Given the user is verified "false"
   And the user has no bank account
   And I am at the login page
   When I fill and submit the login page
@@ -46,6 +47,7 @@ Scenario Outline: Home page menus Care Giver
 
 Scenario Outline: Home page menus Admin
   Given there is a care_home "<care_home>" with me as admin "<user>"
+  Given the care home is verified "false"
   And the care home has no bank account
   And I am at the login page
   When I fill and submit the login page

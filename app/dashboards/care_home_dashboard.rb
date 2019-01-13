@@ -9,7 +9,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    verified: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     users: Field::HasMany,
     staffing_requests: Field::HasMany.with_options(limit: 10, sort_by: :start_date),
@@ -39,7 +38,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :speciality,
     :sister_care_homes,
     :town,
-    :verified,
     :zone
   ].freeze
 
@@ -51,7 +49,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :qr_code,
     :speciality,
     :phone,
-    :verified,
     :zone,
     :sister_care_homes,
     :address,
@@ -79,7 +76,6 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :town,
     :postcode,
     :image_url,
-    :verified,
     :zone,
     :qr_code,
   ].freeze

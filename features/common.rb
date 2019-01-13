@@ -256,3 +256,11 @@ When(/^I click "([^"]*)" in the side panel$/) do |arg1|
   sleep(1)
 end
 
+
+Given("the user is verified {string}") do |arg|
+  @user.verified = arg == "true"
+end
+
+Given("the care home is verified {string}") do |arg|
+  @care_home.verified = arg == "true"
+end

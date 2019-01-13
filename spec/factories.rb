@@ -150,7 +150,7 @@ FactoryGirl.define do
     zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
-    verified {true}
+    verified {false}
     #manual_assignment_flag {false}
   end
 
@@ -175,7 +175,7 @@ FactoryGirl.define do
     sex { User::SEX[rand(2)]}
     accept_terms {true}
     pref_commute_distance {100000}
-    verified {rand(2) > 0 ? true : false}
+    verified {false}
     phone_verified {true}
 
     bank_account {rand.to_s[2..9] if(role != "Admin")}

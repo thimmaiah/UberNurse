@@ -33,7 +33,6 @@ class UserDashboard < Administrate::BaseDashboard
     image_url: Field::Text,
     sort_code: Field::String,
     bank_account: Field::String,
-    verified: Field::Boolean,
     ready_for_verification: Field::Boolean,
     phone_verified: Field::Boolean,
     postcode: Field::String,
@@ -52,7 +51,6 @@ class UserDashboard < Administrate::BaseDashboard
     :first_name,
     :last_name,
     :email,
-    :verified,
     :ready_for_verification,
     :phone_verified,
     :role,
@@ -66,7 +64,6 @@ class UserDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :profile,
     :user_docs,    
-    :verified,
     :ready_for_verification,
     :phone_verified,
     :id,
@@ -91,7 +88,6 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :verified,
     :phone_verified,
     :first_name,
     :last_name,
