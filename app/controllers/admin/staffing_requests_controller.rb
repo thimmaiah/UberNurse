@@ -9,7 +9,6 @@ module Admin
         search(StaffingRequest)
       else
         super
-        @resources = StaffingRequest.page(params[:page]).per(20)
       end
     end
 

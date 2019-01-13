@@ -76,6 +76,13 @@ class Ability
     end
 
     def agency_privilages
+        can :read, User do |u|
+            u.belongs_to_agency(@user.agency_id)
+        end
+
+        can :read, CareHome do |c|
+            c.has_agency(@user.agency_id)
+        end
         can :manage, User, :agency_id=>@user.agency_id
         can :manage, Profile, :agency_id=>@user.agency_id
         can :manage, StaffingRequest, :agency_id=>@user.agency_id

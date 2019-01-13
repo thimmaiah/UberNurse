@@ -24,12 +24,18 @@ module Admin
     end
 
     def scoped_resource
-      super.accessible_by(current_ability) if current_user.role == "Agency"
+      logger.debug "#{dashboard.class.to_s}"
+      if current_user.role == "Agency" && ["UserDashboard", "CareHomeDashboard"].exclude?(dashboard.class.to_s) 
+        super.accessible_by(current_ability)
+      else
+        super
+      end 
     end
 
     # Hide links to actions if the user is not allowed to do them      
     def show_action?(action, resource)
-      Ability.new(current_user).can? action, resource
+      logger.debug "action = #{action}, resource = #{resource}"
+      Ability.new(current_user).can? action.to_sym, resource
     end
 
     # Raise an exception if the user is not permitted to access this resource
@@ -83,6 +89,7 @@ module Admin
 
 
     rescue_from CanCan::AccessDenied do |exception|
+      logger.info "Access Denied"
       flash[:notice] = "Access Denied"
       redirect_to admin_root_path
     end

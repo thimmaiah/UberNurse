@@ -9,7 +9,6 @@ module Admin
         search(Shift)
       else
         super
-        @resources = Shift.page(params[:page]).per(10)
       end
     end
 

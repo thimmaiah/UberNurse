@@ -6,7 +6,6 @@ module Admin
         search(Stat)
       else
         super
-        @resources = Stat.page(params[:page]).per(10)
       end
     end
 

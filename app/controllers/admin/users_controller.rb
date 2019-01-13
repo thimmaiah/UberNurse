@@ -8,10 +8,6 @@ module Admin
         search(User)
       else
         super  
-        @resources = User.page(params[:page]).per(10)
-        if(params[:created_at] == 'today')
-          @resources = @resources.where("created_at >= ?", Date.today)
-        end
       end
     end
 

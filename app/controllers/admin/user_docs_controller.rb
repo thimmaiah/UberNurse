@@ -5,13 +5,9 @@ module Admin
     #
     def index
       if params[:search].present?
-        
-        @resources = UserDoc.search(params[:search]).page(params[:page]).per(10)
-        setup_search
-
+        search(UserDoc)        
       else
         super
-        @resources = UserDoc.page(params[:page]).per(10)
       end
     end
 

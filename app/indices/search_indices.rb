@@ -23,6 +23,14 @@ ThinkingSphinx::Index.define :stat, :with => :real_time do
 
 end
 
+ThinkingSphinx::Index.define :agency_care_home_mapping, :with => :real_time do
+  # fields
+  indexes agency.name, :as => :agency_name, :sortable => true
+  indexes care_home.name, :as => :care_home_name, :sortable => true
+  has care_home.zone, :type=>:string
+  has verified, :type=>:boolean
+end
+
 
 ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
@@ -83,6 +91,25 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   has active, :type=>:boolean
   has role, :type=>:string
   has auto_selected_date, :type => :timestamp
+end
+
+ThinkingSphinx::Index.define :agency_user_mapping, :with => :real_time do
+  
+  indexes agency.name, :as => :agency_name, :sortable => true
+  indexes user.first_name
+  indexes user.email
+  indexes user.last_name
+  indexes user.postcode
+  indexes user.speciality
+
+  # attributes
+  has latitude_in_radians, as: :latitude, type: :float
+  has longitude_in_radians, as: :longitude, type: :float
+  has verified, :type=>:boolean
+  has phone_verified, :type=>:boolean
+  has user.active, :type=>:boolean
+  has user.role, :type=>:string
+  has user.auto_selected_date, :type => :timestamp
 end
 
 

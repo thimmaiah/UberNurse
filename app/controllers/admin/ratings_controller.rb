@@ -8,7 +8,6 @@ module Admin
         search(Rating)
       else
         super
-        @resources = Rating.page(params[:page]).per(10)
       end
     end
 
