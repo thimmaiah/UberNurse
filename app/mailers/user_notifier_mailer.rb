@@ -105,10 +105,6 @@ class UserNotifierMailer < ApplicationMailer
     
     emails = @care_home.users.collect(&:email).join(",")
 
-    if(@care_home.care_home_broadcast_group)
-      emails += ",#{@care_home.care_home_broadcast_group}"  
-    end
-
     logger.debug("Sending mail to #{emails} from #{ENV['NOREPLY']}")
     mail( :to => emails,
           :subject => "Care Home QR Code: #{Date.today}" )

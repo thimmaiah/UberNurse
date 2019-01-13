@@ -9,9 +9,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    limit_shift_to_pref_carer: Field::Boolean,
     verified: Field::Boolean,
-    manual_assignment_flag: Field::Boolean,
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     users: Field::HasMany,
     staffing_requests: Field::HasMany.with_options(limit: 10, sort_by: :start_date),
@@ -24,10 +22,8 @@ class CareHomeDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     image_url: Field::Text,
-    care_home_broadcast_group: Field::String,
     sister_care_homes: Field::String,
     qr_code: QrCodeField,
-    preferred_care_giver_ids: Field::String,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
   }.freeze
@@ -42,10 +38,8 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :name,
     :speciality,
     :sister_care_homes,
-    :care_home_broadcast_group,
     :town,
     :verified,
-    :manual_assignment_flag,
     :zone
   ].freeze
 
@@ -58,12 +52,8 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :speciality,
     :phone,
     :verified,
-    :manual_assignment_flag,
     :zone,
-    :limit_shift_to_pref_carer,
     :sister_care_homes,
-    :care_home_broadcast_group,
-    :preferred_care_giver_ids,
     :address,
     :town,
     :postcode,
@@ -85,17 +75,13 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :speciality,
     :phone,
     :sister_care_homes,
-    :care_home_broadcast_group,
-    :preferred_care_giver_ids,
     :address,
     :town,
     :postcode,
     :image_url,
     :verified,
-    :manual_assignment_flag,
     :zone,
     :qr_code,
-    :limit_shift_to_pref_carer
   ].freeze
 
   # Overwrite this method to customize how care_homes are displayed

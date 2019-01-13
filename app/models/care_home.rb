@@ -78,12 +78,12 @@ class CareHome < ApplicationRecord
     self.lng = postcodelatlng.longitude
   end
 
-  def preferred_care_givers
-    if(self.preferred_care_giver_ids)
-      pref_care_giver_ids = self.preferred_care_giver_ids.split(",").map{|id| id.strip.to_i}
-      User.order("auto_selected_date ASC").find(pref_care_giver_ids)
-    end
-  end
+  # def preferred_care_givers
+  #   if(self.preferred_care_giver_ids)
+  #     pref_care_giver_ids = self.preferred_care_giver_ids.split(",").map{|id| id.strip.to_i}
+  #     User.order("auto_selected_date ASC").find(pref_care_giver_ids)
+  #   end
+  # end
 
   def new_qr_code
     self.qr_code = rand(7 ** 7)

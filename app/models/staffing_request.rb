@@ -129,5 +129,10 @@ class StaffingRequest < ApplicationRecord
       User.order("auto_selected_date ASC").find(pref_care_giver_ids)
     end
   end
+
+  def limit_shift_to_pref_carer
+    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
+    acm.limit_shift_to_pref_carer
+  end
   
 end
