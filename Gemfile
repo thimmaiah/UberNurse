@@ -72,7 +72,7 @@ gem 'factory_girl_rails'
 gem 'exception_notification'
 
 gem 'rest-client'
-gem "administrate", "0.7.0"
+gem "administrate", "0.11.0"
 gem 'ransack'
 gem "paranoia", "~> 2.2"
 gem "geocoder"

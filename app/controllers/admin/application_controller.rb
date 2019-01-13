@@ -7,15 +7,34 @@
 module Admin
   class ApplicationController < Administrate::ApplicationController
     before_action :authenticate_user!
-
     before_action :check_admin
 
     def check_admin
-      if current_user && current_user.role == "Super User"
+      ok = current_user && (current_user.role == "Super User" || current_user.role == "Agency")
+      if ok
+        logger.debug "check_admin called with #{current_user.id}"      
         return true
       else
-        return false
+        if current_user 
+          raise CanCan::AccessDenied 
+        else
+          return false
+        end
       end
+    end
+
+    def scoped_resource
+      super.accessible_by(current_ability) if current_user.role == "Agency"
+    end
+
+    # Hide links to actions if the user is not allowed to do them      
+    def show_action?(action, resource)
+      Ability.new(current_user).can? action, resource
+    end
+
+    # Raise an exception if the user is not permitted to access this resource
+    def authorize_resource(resource)
+      raise CanCan::AccessDenied unless show_action?(params[:action], resource)
     end
 
     before_action :default_params
@@ -60,6 +79,12 @@ module Admin
         @resources = entity.search( params[:search], with: with ).page(params[:page]).per(10)
       end
       setup_search
+    end
+
+
+    rescue_from CanCan::AccessDenied do |exception|
+      flash[:notice] = "Access Denied"
+      redirect_to admin_root_path
     end
   end
 end

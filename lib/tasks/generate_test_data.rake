@@ -17,6 +17,7 @@ namespace :uber_nurse do
     Shift.delete_all
     Payment.delete_all
     Rating.delete_all
+    Rate.delete_all
     PaperTrail::Version.delete_all
     Stat.delete_all
   end
@@ -27,10 +28,21 @@ namespace :uber_nurse do
   task :generateFakeAgencies => :environment do
 
     begin
-      (1..1).each do | i |
+      (1..2).each do | i |
         h = FactoryGirl.build(:agency)
         h.save
         puts "Agency #{h.id}"
+        (1..2).each do | j |
+          u = FactoryGirl.build(:user)
+          u.email = "agency#{j}@gmail.com"
+          u.password = "agency#{j}@gmail.com"
+          u.role = "Agency"
+          u.agency_id = h.id
+          u.created_at = Date.today - rand(4).weeks - rand(7).days
+          u.save
+          #puts u.to_xml
+          puts "Agency User #{u.id}"     
+        end
       end
     rescue Exception => exception
       puts exception.backtrace.join("\n")
@@ -96,7 +108,7 @@ namespace :uber_nurse do
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
           #puts u.to_xml
-          puts "User #{u.id}"
+          puts "Care Home Admin #{u.id}"
           i = i + 1
         end
       end
@@ -132,13 +144,13 @@ namespace :uber_nurse do
             t.save
           end
           #puts u.to_xml
-          puts "User #{u.id}"
+          puts "#{u.role} #{u.id}"
           i = i + 1
         end
       end
 
       User::SPECIALITY.each do |sp|
-        (1..4).each do |j|
+        (1..2).each do |j|
           u = FactoryGirl.build(:user)
           u.verified = true
           u.email = "user#{i}@gmail.com"
@@ -169,7 +181,7 @@ namespace :uber_nurse do
             t.save
           end
           
-          puts "User #{u.id}"
+          puts "#{u.role} #{u.id}"
           i = i + 1
         end
       end
@@ -184,7 +196,7 @@ namespace :uber_nurse do
       u.role = "Care Giver"
       u.save
       #puts u.to_xml
-      puts "User #{u.id}"
+      puts "#{u.role} #{u.id}"
 
       u = FactoryGirl.build(:user)
       u.email = "employee@ubernurse.com"
@@ -193,7 +205,7 @@ namespace :uber_nurse do
       u.care_home = CareHome.first
       u.save
       #puts u.to_xml
-      puts "User #{u.id}"
+      puts "#{u.role} #{u.id}"
 
       u = FactoryGirl.build(:user)
       u.email = "admin@ubernurse.com"
@@ -202,7 +214,7 @@ namespace :uber_nurse do
       u.care_home = CareHome.first
       u.save
       #puts u.to_xml
-      puts "User #{u.id}"
+      puts "#{u.role} #{u.id}"
 
       u = FactoryGirl.build(:user)
       u.email = "root@ubernurse.com"
@@ -210,7 +222,7 @@ namespace :uber_nurse do
       u.role = "Super User"
       u.save
       #puts u.to_xml
-      puts "User #{u.id}"
+      puts "#{u.role} #{u.id}"
 
 
     rescue Exception => exception
@@ -388,10 +400,10 @@ namespace :uber_nurse do
               u.role = role
               u.zone = zone
               u.speciality = sp
-              u.save 
               u.agency_id = agency.id
+              u.save 
               #puts u.to_xml
-              puts "Rate #{u.id}"
+              puts "Rate #{u.id} for Agency #{agency.id}"
             end
           end
         end
@@ -410,13 +422,13 @@ namespace :uber_nurse do
   end
 
   desc "Generating all Fake Data"
-  task :generateFakeAll => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers,
+  task :generateFakeAll => [:emptyDB, :generateFakeAgencies, :generateFakeRates, :generateFakeCareHomes, :generateFakeUsers,
   :generateFakeAdmin, :generateFakeReq, :generateFakeResp, 
   :generateFakeRatings, :finalize] do
     puts "Generating all Fake Data"
   end
 
-  task :generateLoadTestData => [:emptyDB, :generateFakeAgencies, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
+  task :generateLoadTestData => [:emptyDB, :generateFakeAgencies, :generateFakeRates, :generateFakeCareHomes, :generateFakeUsers, :finalize] do
     puts "Generating all Fake Data"
   end
 

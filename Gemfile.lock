@@ -56,16 +56,15 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
-    administrate (0.7.0)
-      actionpack (>= 4.2, < 5.1)
-      actionview (>= 4.2, < 5.1)
-      activerecord (>= 4.2, < 5.1)
-      autoprefixer-rails (~> 6.0)
+    administrate (0.11.0)
+      actionpack (>= 4.2, < 6.0)
+      actionview (>= 4.2, < 6.0)
+      activerecord (>= 4.2, < 6.0)
+      autoprefixer-rails (>= 6.0)
       datetime_picker_rails (~> 0.0.7)
       jquery-rails (>= 4.0)
       kaminari (>= 1.0)
       momentjs-rails (~> 2.8)
-      normalize-rails (>= 3.0)
       sass-rails (~> 5.0)
       selectize-rails (~> 0.6)
     airbrussh (1.3.0)
@@ -73,7 +72,7 @@ GEM
     archive-zip (0.11.0)
       io-like (~> 0.3.0)
     arel (7.1.4)
-    autoprefixer-rails (6.7.7.2)
+    autoprefixer-rails (9.2.1)
       execjs
     awesome_print (1.8.0)
     aws-eventstream (1.0.1)
@@ -862,7 +861,6 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
-    normalize-rails (4.1.1)
     oauth (0.5.4)
     omniauth (1.8.1)
       hashie (>= 3.4.6, < 3.6.0)
@@ -955,7 +953,7 @@ GEM
     rspec-support (3.8.0)
     rubyzip (1.2.2)
     sanitize_email (2.0.3)
-    sass (3.6.0)
+    sass (3.7.2)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -967,7 +965,7 @@ GEM
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
     scout_apm (2.4.19)
-    selectize-rails (0.12.5)
+    selectize-rails (0.12.6)
     selenium-webdriver (3.14.1)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
@@ -1020,7 +1018,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers
-  administrate (= 0.7.0)
+  administrate (= 0.11.0)
   awesome_print
   aws-sdk
   axlsx!

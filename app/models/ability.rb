@@ -12,8 +12,7 @@ class Ability
     case @user.role
     
       when "Super User"
-        can [:admin, :manage], :all
-                
+        can [:admin, :manage], :all                
       when "Agency"
         agency_privilages
       when "Admin"
@@ -87,5 +86,8 @@ class Ability
         can :manage, Rate, :agency_id=>@user.agency_id
         can :manage, Stat, :agency_id=>@user.agency_id
         can :manage, Training, :agency_id=>@user.agency_id
+        can :manage, Agency, :id=>@user.agency_id
+        can :manage, AgencyUserMapping, :agency_id=>@user.agency_id
+        can :manage, AgencyCareHomeMapping, :agency_id=>@user.agency_id
     end
 end

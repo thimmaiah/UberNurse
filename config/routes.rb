@@ -12,6 +12,11 @@ Rails.application.routes.draw do
   resources :profiles
   resources :referrals
   namespace :admin do
+
+    resources :agency_user_mappings
+    resources :agency_care_home_mappings
+    resources :agencies
+
     resources :users do
       collection do
         get :export
