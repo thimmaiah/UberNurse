@@ -10,12 +10,13 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   puts "\n####User####\n"
   puts @user.to_json
 
-  if @user.is_temp?
+  @agency = FactoryGirl.create(:agency) if !@agency
+
+  if @user.is_temp?    
     aum = FactoryGirl.build(:agency_user_mapping)
     aum.agency = @agency
     aum.user = @user
     aum.save!
-
   end
 end
 
@@ -41,6 +42,8 @@ Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|
   key_values(@user, arg1)
   puts "\n####Unsaved User####\n"
   puts @user.to_json
+
+  @agency = FactoryGirl.create(:agency) if !@agency
 end
 
 Given(/^the user has no bank account$/) do
@@ -105,6 +108,8 @@ end
 
 
 Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|
+
+  @agency = FactoryGirl.create(:agency) if !@agency
 
   @care_home = FactoryGirl.build(:care_home)
   key_values(@care_home, care_home_args)

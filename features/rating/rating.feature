@@ -2,6 +2,7 @@ Feature: Rating
   Ensure ratings work properly
 
 Scenario Outline: Care Home Rating
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
@@ -22,6 +23,7 @@ Scenario Outline: Care Home Rating
 
 
 Scenario Outline: Care Giver Rating
+  Given there is an agency
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given Im logged in

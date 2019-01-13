@@ -48,8 +48,8 @@ class Payment < ApplicationRecord
 			key = ">72"
 		end
 
-
-		if( INCENTIVE[user.role] && INCENTIVE[user.role][key] )
+		# Incentives are not enabled in a multi agency world
+		if( false && INCENTIVE[user.role] && INCENTIVE[user.role][key] )
 
 			# Compute the hours worked
 			incentive_amount = hours_worked * INCENTIVE[user.role][key]

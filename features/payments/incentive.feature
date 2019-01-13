@@ -2,7 +2,7 @@ Feature: Incentive for Carers
   Ensure Care Givers get the incentive they deserve
 
 
-
+@ignore
 Scenario Outline: Compute incentive
  Given there is a user "<user>"
  Given that the user has completed "<number>" of shifts 
@@ -19,7 +19,7 @@ Examples:
   	| role=Nurse;verified=true   	  |	5		| 125				|
   	| role=Nurse;verified=true   	  |	8		| 400				|
   
-
+@ignore
 Scenario Outline: Compute no incentive
  Given there is a user "<user>"
  Given that the user has completed "<number>" of shifts 
