@@ -10,9 +10,7 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   puts "\n####User####\n"
   puts @user.to_json
 
-  @agency = FactoryGirl.create(:agency) if !@agency
-
-  if @user.is_temp?    
+  if @agency && @user.is_temp?    
     aum = FactoryGirl.build(:agency_user_mapping)
     aum.agency = @agency
     aum.user = @user
@@ -43,7 +41,6 @@ Given(/^there is an unsaved user "([^"]*)"$/) do |arg1|
   puts "\n####Unsaved User####\n"
   puts @user.to_json
 
-  @agency = FactoryGirl.create(:agency) if !@agency
 end
 
 Given(/^the user has no bank account$/) do
@@ -95,10 +92,12 @@ Given("the care home has sister care homes {string}") do |sch|
     key_values(care_home, sch_agrs)
     care_home.save!
 
-    acm = FactoryGirl.build(:agency_care_home_mapping)
-    acm.agency = @agency
-    acm.care_home = care_home
-    acm.save!
+    if @agency
+      acm = FactoryGirl.build(:agency_care_home_mapping)
+      acm.agency = @agency
+      acm.care_home = care_home
+      acm.save!
+    end
 
   end
   @care_home.sister_care_homes = CareHome.where("id <> ?", @care_home.id).collect(&:id).join(",")
@@ -109,16 +108,16 @@ end
 
 Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_args, admin_args|
 
-  @agency = FactoryGirl.create(:agency) if !@agency
-
   @care_home = FactoryGirl.build(:care_home)
   key_values(@care_home, care_home_args)
   @care_home.save!
 
-  acm = FactoryGirl.build(:agency_care_home_mapping)
-  acm.agency = @agency
-  acm.care_home = @care_home
-  acm.save!
+  if @agency
+    acm = FactoryGirl.build(:agency_care_home_mapping)
+    acm.agency = @agency
+    acm.care_home = @care_home
+    acm.save!
+  end
 
   @admin = FactoryGirl.build(:user)
   key_values(@admin, admin_args)
@@ -256,11 +255,3 @@ When(/^I click "([^"]*)" in the side panel$/) do |arg1|
   sleep(1)
 end
 
-
-Given("the user is verified {string}") do |arg|
-  @user.verified = arg == "true"
-end
-
-Given("the care home is verified {string}") do |arg|
-  @care_home.verified = arg == "true"
-end
