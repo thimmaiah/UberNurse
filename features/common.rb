@@ -255,3 +255,7 @@ When(/^I click "([^"]*)" in the side panel$/) do |arg1|
   sleep(1)
 end
 
+Given("the user is verified {string}") do |arg|
+  @user.verified = (arg == "true")
+  @user.save
+end

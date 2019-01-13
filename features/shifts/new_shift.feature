@@ -79,6 +79,7 @@ Scenario Outline: New Shift for unverified users
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the user is verified "false"
   And the shift creator job runs
   Then A shift must not be created for the user for the request
 
