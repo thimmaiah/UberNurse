@@ -10,9 +10,14 @@ class UserDocDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     user_id: Field::Number,
+    created_by_id: Field::Number,
+    created_by: Field::BelongsTo,
+    training_id: Field::Number,
+    training: Field::BelongsTo,
     name: Field::String,
     doc_type: Field::Select.with_options(collection: UserDoc::DOC_TYPES),
     user: Field::BelongsTo,
+    expiry_date: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     doc_file_name: Field::String,
@@ -35,6 +40,7 @@ class UserDocDashboard < Administrate::BaseDashboard
     :name,
     :doc_type,
     :user,
+    :expiry_date,
     :verified,
     :not_available
   ].freeze
@@ -45,6 +51,8 @@ class UserDocDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :doc_type,
+    :expiry_date,
+    :training,
     :user,
     :created_at,
     :updated_at,
@@ -61,7 +69,9 @@ class UserDocDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :user_id,
+    :training_id,
     :doc_type,
+    :expiry_date,
     :verified,
     :not_available,
     :doc

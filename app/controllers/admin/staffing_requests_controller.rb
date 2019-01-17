@@ -58,6 +58,24 @@ module Admin
       end
     end
 
+    def create
+      resource = resource_class.new(resource_params)
+      # Ensure agency_id is set
+      resource.agency_id = current_user.agency_id
+      authorize_resource(resource)
+
+      if resource.save
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
+
     # Define a custom finder by overriding the `find_resource` method:
     # def find_resource(param)
     #   StaffingRequest.find_by!(slug: param)

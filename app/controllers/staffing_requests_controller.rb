@@ -31,6 +31,11 @@ class StaffingRequestsController < ApplicationController
   def create
     @staffing_request = StaffingRequest.new(staffing_request_params)
     @staffing_request.user_id = current_user.id
+
+    if(@staffing_request.agency_id == nil)
+      # We need to ensure an agency - specifically when the UI is not sending any
+      @staffing_request.agency = current_user.care_home.agencies.first
+    end
     # Sometimes we get requests with care home - where 1 person manages multiple care homes
     if(@staffing_request.care_home_id)
       # Make sure we can book a req for this care home, if its not a sister care home - deny access

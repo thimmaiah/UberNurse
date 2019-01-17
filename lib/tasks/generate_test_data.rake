@@ -11,6 +11,8 @@ namespace :uber_nurse do
     AgencyUserMapping.delete_all
     AgencyCareHomeMapping.delete_all
     User.delete_all
+    Profile.delete_all
+    Training.delete_all
     CareHome.delete_all
     Delayed::Job.delete_all
     StaffingRequest.delete_all
@@ -171,14 +173,16 @@ namespace :uber_nurse do
           p = FactoryGirl.build(:profile)
           p.user = u
           p.role = u.role
+          p.agency = u.agencies.sample
           p.known_as = u.first_name
-          p.save
+          p.save!
           
           (1..3).each do |ti|
             t = FactoryGirl.build(:training)
             t.profile = p
+            t.agency = u.agencies.sample
             t.user = u
-            t.save
+            t.save!
           end
           
           puts "#{u.role} #{u.id}"

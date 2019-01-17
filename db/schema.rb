@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190109083035) do
+ActiveRecord::Schema.define(version: 20190117161050) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20190109083035) do
     t.boolean  "manual_assignment_flag"
     t.string   "preferred_care_giver_ids"
     t.boolean  "limit_shift_to_pref_carer"
+    t.boolean  "enabled"
     t.index ["agency_id"], name: "index_agency_care_home_mappings_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 20190109083035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "verified"
+    t.boolean  "enabled"
     t.index ["agency_id"], name: "index_agency_user_mappings_on_agency_id", using: :btree
     t.index ["user_id"], name: "index_agency_user_mappings_on_user_id", using: :btree
   end
@@ -444,6 +446,8 @@ ActiveRecord::Schema.define(version: 20190109083035) do
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.integer  "agency_id"
+    t.date     "expiry_date"
+    t.string   "vendor"
     t.index ["agency_id"], name: "index_trainings_on_agency_id", using: :btree
     t.index ["profile_id"], name: "index_trainings_on_profile_id", using: :btree
     t.index ["user_id"], name: "index_trainings_on_user_id", using: :btree
@@ -465,6 +469,9 @@ ActiveRecord::Schema.define(version: 20190109083035) do
     t.boolean  "expired"
     t.integer  "created_by_user_id"
     t.boolean  "not_available"
+    t.date     "expiry_date"
+    t.integer  "uploaded_by_id"
+    t.integer  "training_id"
     t.index ["deleted_at"], name: "index_user_docs_on_deleted_at", using: :btree
   end
 

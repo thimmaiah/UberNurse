@@ -16,6 +16,8 @@ class TrainingDashboard < Administrate::BaseDashboard
     date_completed: Field::DateTime,
     profile_id: Field::Number,
     user_id: Field::Number,
+    expiry_date: Field::DateTime,
+    vendor: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -27,8 +29,10 @@ class TrainingDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :name,
+    :vendor,
     :undertaken,
     :date_completed,
+    :expiry_date
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,8 +41,10 @@ class TrainingDashboard < Administrate::BaseDashboard
     :id,
     :user,
     :name,
+    :vendor,
     :undertaken,
     :date_completed,
+    :expiry_date,
     :profile,
     :user,
     :created_at,
@@ -52,14 +58,16 @@ class TrainingDashboard < Administrate::BaseDashboard
     :profile_id,
     :user_id,
     :name,
+    :vendor,
     :undertaken,
     :date_completed,
+    :expiry_date
   ].freeze
 
   # Overwrite this method to customize how trainings are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(training)
-  #   "Training ##{training.id}"
-  # end
+  def display_resource(training)
+    "{training.name}"
+  end
 end

@@ -24,7 +24,6 @@ module Admin
     end
 
     def scoped_resource
-      logger.debug "#{dashboard.class.to_s}"
       if current_user.role == "Agency" && ["UserDashboard", "CareHomeDashboard"].exclude?(dashboard.class.to_s) 
         super.accessible_by(current_ability)
       else
@@ -34,7 +33,6 @@ module Admin
 
     # Hide links to actions if the user is not allowed to do them      
     def show_action?(action, resource)
-      logger.debug "action = #{action}, resource = #{resource}"
       Ability.new(current_user).can? action.to_sym, resource
     end
 

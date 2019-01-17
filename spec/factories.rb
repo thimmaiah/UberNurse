@@ -38,7 +38,9 @@ FactoryGirl.define do
   factory :training do
     name {Faker::Company.bs}
     undertaken true
-    date_completed {Date.today - rand(5).years}
+    date_completed {Date.today - rand(5).months}
+    expiry_date {Date.today + rand(12).months}
+    vendor {Faker::Company.name}
   end
 
   factory :profile do
