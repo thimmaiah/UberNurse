@@ -177,7 +177,6 @@ FactoryGirl.define do
     sex { User::SEX[rand(2)]}
     accept_terms {true}
     pref_commute_distance {100000}
-    verified {false}
     phone_verified {true}
 
     bank_account {rand.to_s[2..9] if(role != "Admin")}

@@ -1,7 +1,8 @@
 class ShiftMailer < ApplicationMailer
 
-	  def shift_notification(shift)
+	def shift_notification(shift)
     @shift = shift
+    @agency = shift.agency
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
@@ -12,6 +13,7 @@ class ShiftMailer < ApplicationMailer
 
   def shift_started(shift)
     @shift = shift
+    @agency = shift.agency    
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
@@ -22,6 +24,7 @@ class ShiftMailer < ApplicationMailer
 
   def shift_ended(shift)
     @shift = shift
+    @agency = shift.agency
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
@@ -33,6 +36,7 @@ class ShiftMailer < ApplicationMailer
 
   def shift_cancelled(shift)
     @shift = shift
+    @agency = shift.agency
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
 
@@ -52,6 +56,7 @@ class ShiftMailer < ApplicationMailer
 
   def shift_accepted(shift)
     @shift = shift
+    @agency = shift.agency
     @user = shift.user
 
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
@@ -60,8 +65,9 @@ class ShiftMailer < ApplicationMailer
           :subject => "Shift Confirmed: #{shift.staffing_request.start_date.to_s(:custom_datetime)}" )
   end
 
-    def no_shift_found(staffing_request)
+  def no_shift_found(staffing_request)
     @staffing_request = staffing_request
+    @agency = staffing_request.agency
     email = ENV["ADMIN_EMAIL"]
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
     mail( :to => email,
@@ -71,6 +77,7 @@ class ShiftMailer < ApplicationMailer
 
   def shift_confirmation(shift)
     @shift = shift
+    @agency = shift.agency
     @user = shift.user
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
@@ -79,6 +86,7 @@ class ShiftMailer < ApplicationMailer
 
   def send_codes_to_broadcast_group(shift)
     @shift = shift
+    @agency = shift.agency
     @user  = shift.user
     emails = @shift.staffing_request.user.email
 

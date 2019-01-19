@@ -18,6 +18,7 @@ class AgencyDashboard < Administrate::BaseDashboard
     address: Field::String,
     postcode: Field::String,
     phone: Field::String,
+    icon_url: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -29,7 +30,9 @@ class AgencyDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :name
+    :name,
+    :phone,
+    :broadcast_group
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -44,6 +47,7 @@ class AgencyDashboard < Administrate::BaseDashboard
     :address,
     :postcode,
     :phone,
+    :icon_url,
     :created_at,
     :updated_at,
   ].freeze
@@ -59,6 +63,7 @@ class AgencyDashboard < Administrate::BaseDashboard
     :address,
     :postcode,
     :phone,
+    :icon_url,
   ].freeze
 
   # Overwrite this method to customize how agencies are displayed

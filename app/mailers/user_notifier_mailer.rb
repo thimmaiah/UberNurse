@@ -1,14 +1,5 @@
 class UserNotifierMailer < ApplicationMailer
 
-  # send a signup email to the user, pass in the user object that   contains the user's email address
-  def user_notification_email(user)
-    @user = user
-    @care_home = care_home
-    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
-          :subject => 'You have a new shift' )
-  end
-
   def request_verification(user_doc_id)
     @user_doc = UserDoc.find(user_doc_id)
     logger.debug("Sending mail to #{ENV['ADMIN_EMAIL']} from #{ENV['NOREPLY']}")
@@ -16,8 +7,10 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Document Verification Required.' )
   end
 
-  def verification_complete(user_id)
-    @user = User.find(user_id)
+  def verification_complete(agency_user_mapping_id)
+    @acm = AgencyUserMapping.find(user_id)
+    @user = @acm.user
+    @agency = @acm.agency
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
           :subject => 'Verification Completed.' )
@@ -40,29 +33,25 @@ class UserNotifierMailer < ApplicationMailer
 
   def user_docs_uploaded(user)
     @user = user
+
+    # Send this to all the agencies who have this user as a carer
+    agency_emails = []
+    @user.agency.each do |a|
+      agency_emails += a.users.collect(&:email)
+    end
+
+    bcc = agency_emails.join(",")
+
     logger.debug("Sending mail to #{ENV['NOREPLY']}")
     mail( :to => ENV['ADMIN_EMAIL'],
+          :bcc => agency_emails,
           :subject => "#{@user.first_name} #{@user.last_name} has uploaded all docs" )
   end
 
-  def verification_reminder(user)
-    @user = user
-    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
-          :subject => 'Please verify your account on Care Connect' )
-  end
-
-
-  def verify_care_home(care_home, user)
-    @care_home = care_home
-    @user = user
-    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-    mail( :to => @user.email,
-          :subject => 'Please verify your Care Home' )
-  end
 
   def staffing_request_created(staffing_request)
     @staffing_request = staffing_request
+    @agency = staffing_request.agency
     email = ENV["ADMIN_EMAIL"]
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
 
@@ -73,8 +62,10 @@ class UserNotifierMailer < ApplicationMailer
   end
 
 
-  def care_home_verified(care_home)
-    @care_home = care_home
+  def care_home_verified(acm_id)
+    @acm = AgencyCareHomeMapping.find(acm_id)
+    @care_home = @acm.care_home
+    @agency = @acm.agency
     @user = care_home.users.first
     if(@user)
       logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
@@ -114,6 +105,7 @@ class UserNotifierMailer < ApplicationMailer
 
   def request_cancelled(staffing_request)
     @staffing_request = staffing_request
+    @agency = staffing_request.agency
     email = @staffing_request.user.email
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
     mail( :to => email, :bcc => ENV['ADMIN_EMAIL'],

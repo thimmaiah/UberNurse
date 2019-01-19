@@ -36,18 +36,7 @@ class CareHome < ApplicationRecord
     self.image_url = "assets/icon/homecare.png"
     self.total_rating = 0
     self.rating_count = 0
-    self.manual_assignment_flag = false if self.manual_assignment_flag == nil
   end
-
-  after_create :send_verification_mail
-  def send_verification_mail
-    if(!self.verified && self.users.admins.active.length > 0)
-      self.users.admins.active.each do |admin|
-        UserNotifierMailer.verify_care_home(self, admin).deliver_later
-      end
-    end
-  end
-
 
   after_save :update_coordinates
   def update_coordinates
@@ -56,12 +45,6 @@ class CareHome < ApplicationRecord
     end
   end
 
-  after_save :care_home_verified
-  def care_home_verified
-    if(self.verified_changed? && self.verified)
-      UserNotifierMailer.care_home_verified(self).deliver_later
-    end
-  end
 
   before_save :check_accept_bank_transactions
   def check_accept_bank_transactions
@@ -77,13 +60,6 @@ class CareHome < ApplicationRecord
     self.lat = postcodelatlng.latitude
     self.lng = postcodelatlng.longitude
   end
-
-  # def preferred_care_givers
-  #   if(self.preferred_care_giver_ids)
-  #     pref_care_giver_ids = self.preferred_care_giver_ids.split(",").map{|id| id.strip.to_i}
-  #     User.order("auto_selected_date ASC").find(pref_care_giver_ids)
-  #   end
-  # end
 
   def new_qr_code
     self.qr_code = rand(7 ** 7)

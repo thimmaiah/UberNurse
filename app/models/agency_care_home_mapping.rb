@@ -9,6 +9,7 @@ class AgencyCareHomeMapping < ApplicationRecord
   	if self.verified
   		self.care_home.verified = true
   		self.care_home.save
+      UserNotifierMailer.care_home_verified(self.id).deliver_later
   	end
   end
 end

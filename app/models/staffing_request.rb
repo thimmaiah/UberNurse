@@ -55,7 +55,7 @@ class StaffingRequest < ApplicationRecord
     self.end_date = self.end_date.change({sec: 0})
 
     # Copy over the manual_assignment_flag from the care_home
-    self.manual_assignment_flag = self.care_home.manual_assignment_flag if self.manual_assignment_flag == nil 
+    self.manual_assignment_flag = self.agency_care_home_mapping.manual_assignment_flag if self.manual_assignment_flag == nil 
     self.manual_assignment_flag = false if self.manual_assignment_flag == nil
 
     
@@ -121,9 +121,13 @@ class StaffingRequest < ApplicationRecord
     User.find(preferred_carer_id) if preferred_carer_id
   end
 
+  def agency_care_home_mapping
+    AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
+  end
+
   # Need to find the preferred care givers for this care home for this agency
   def preferred_care_givers
-    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
+    acm = agency_care_home_mapping
     if acm.preferred_care_giver_ids
       pref_care_giver_ids = acm.preferred_care_giver_ids.split(",").map{|id| id.strip.to_i}
       User.order("auto_selected_date ASC").find(pref_care_giver_ids)
@@ -131,7 +135,7 @@ class StaffingRequest < ApplicationRecord
   end
 
   def limit_shift_to_pref_carer
-    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
+    acm = agency_care_home_mapping
     acm.limit_shift_to_pref_carer
   end
   

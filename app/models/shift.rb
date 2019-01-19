@@ -346,8 +346,12 @@ class Shift < ApplicationRecord
   end
 
   def broadcast_group
-    acm = AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first
+    acm = agency_care_home_mapping
     acm.care_home_broadcast_group
+  end
+
+  def agency_care_home_mapping
+    AgencyCareHomeMapping.where(agency_id: self.agency_id, care_home_id: self.care_home_id).first    
   end
 
 end

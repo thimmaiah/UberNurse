@@ -256,6 +256,9 @@ When(/^I click "([^"]*)" in the side panel$/) do |arg1|
 end
 
 Given("the user is verified {string}") do |arg|
-  @user.verified = (arg == "true")
+  @user.verified = (arg == "true")  
   @user.save
+  if @user.agency_user_mappings
+    @user.agency_user_mappings.update_all(verified: false)
+  end
 end
