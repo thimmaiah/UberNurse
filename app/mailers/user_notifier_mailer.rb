@@ -13,6 +13,7 @@ class UserNotifierMailer < ApplicationMailer
     @agency = @acm.agency
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
+          :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
           :subject => 'Verification Completed.' )
   end
 
@@ -52,7 +53,7 @@ class UserNotifierMailer < ApplicationMailer
   def staffing_request_created(staffing_request)
     @staffing_request = staffing_request
     @agency = staffing_request.agency
-    email = ENV["ADMIN_EMAIL"]
+    email = ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
 
     subject = staffing_request.manual_assignment_flag ? "Manual assignment required: New request from #{staffing_request.care_home.name}" : "New request from #{staffing_request.care_home.name}"
@@ -70,6 +71,7 @@ class UserNotifierMailer < ApplicationMailer
     if(@user)
       logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
       mail( :to => @user.email,
+            :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
             :subject => 'Care Home Verified' )
     end
   end
@@ -108,7 +110,7 @@ class UserNotifierMailer < ApplicationMailer
     @agency = staffing_request.agency
     email = @staffing_request.user.email
     logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
-    mail( :to => email, :bcc => ENV['ADMIN_EMAIL'],
+    mail( :to => email, :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
           :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}" )
 
   end

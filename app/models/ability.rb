@@ -32,6 +32,7 @@ class Ability
         can :read, CareHome
         can :read, PostCode
         can :read, StaffingRequest
+        can :read, Agency
         can :create, User
     end
 

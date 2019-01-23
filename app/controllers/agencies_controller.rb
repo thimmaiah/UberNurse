@@ -1,7 +1,9 @@
 class AgenciesController < ApplicationController
-  before_action :set_agency, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :agency_params, except: [:create]
 
-  respond_to :html
+
+  respond_to :html, :json
 
   def index
     @agencies = Agency.all

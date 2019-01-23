@@ -14,7 +14,6 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     verified: Field::Boolean,
-    care_home_broadcast_group: Field::Text,
     manual_assignment_flag: Field::Boolean,
     preferred_care_giver_ids: Field::String,
     limit_shift_to_pref_carer: Field::Boolean,
@@ -30,7 +29,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :agency,
     :care_home,
     :verified,
-    :care_home_broadcast_group,
+    :preferred_care_giver_ids,
     :manual_assignment_flag,
   ].freeze
 
@@ -43,7 +42,6 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :verified,
-    :care_home_broadcast_group,
     :manual_assignment_flag,
     :preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
@@ -54,7 +52,6 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :verified,
-    :care_home_broadcast_group,
     :manual_assignment_flag,
     :preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
