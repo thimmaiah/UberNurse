@@ -25,7 +25,8 @@ Given(/^the user has a profile$/) do
   @profile.known_as = @user.first_name
   @profile.agency = @agency      
   @profile.save!
-  @user.profile = @profile
+  @profile.user_id = @user.id
+  @profile.save
 end
 
 Then(/^the email has the profile in the body$/) do
