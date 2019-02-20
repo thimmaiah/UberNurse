@@ -26,7 +26,7 @@ services:
       - "3000:3000"
 
   elk:
-    image: qnib/elk
+    image: qnib/elk:diamondfree
     ports:
      - "9200:9200"
      - "5514:5514"

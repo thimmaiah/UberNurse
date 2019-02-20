@@ -22,7 +22,7 @@
       Date Of Crb Dbs Check
     </td>
     <td>
-      <%= @user.profile.date_of_CRB_DBS_check %>
+      <%= @profile.date_of_CRB_DBS_check %>
     </td>
   </tr>
   
@@ -31,7 +31,7 @@
       Date of birth
     </td>
     <td>
-      <%=  @user.profile.dob %>
+      <%=  @profile.dob %>
     </td>
   </tr>
   
@@ -40,7 +40,7 @@
       Pin
     </td>
     <td>
-      <%= @user.profile.pin %>
+      <%= @profile.pin %>
     </td>
   </tr>
   
@@ -49,7 +49,7 @@
       Enhanced CRB
     </td>
     <td>
-      <%= @user.profile.enhanced_crb ? "Yes" : "No" %>
+      <%= @profile.enhanced_crb ? "Yes" : "No" %>
     </td>
   </tr>
   
@@ -58,7 +58,7 @@
       CRB DBS Returned
     </td>
     <td>
-      <%= @user.profile.crd_dbs_returned ? "Yes" : "No" %>
+      <%= @profile.crd_dbs_returned ? "Yes" : "No" %>
     </td>
   </tr>
   
@@ -67,7 +67,7 @@
       ISA Returned
     </td>
     <td>
-      <%= @user.profile.isa_returned ? "Yes" : "No" %>
+      <%= @profile.isa_returned ? "Yes" : "No" %>
     </td>
   </tr>
   
@@ -76,7 +76,7 @@
       CRB DBS Number
     </td>
     <td>
-      <%= @user.profile.crd_dbs_number %>
+      <%= @profile.crd_dbs_number %>
     </td>
   </tr>
   
@@ -85,7 +85,7 @@
       Eligible To Work in the UK
     </td>
     <td>
-      <%= @user.profile.eligible_to_work_UK ? "Yes" : "No" %>
+      <%= @profile.eligible_to_work_UK ? "Yes" : "No" %>
     </td>
   </tr>
   
@@ -94,7 +94,7 @@
       Confirmation Of Identity
     </td>
     <td>
-      <%= @user.profile.confirmation_of_identity ? "Yes" : "No" %>
+      <%= @profile.confirmation_of_identity ? "Yes" : "No" %>
     </td>
   </tr>
 
@@ -103,7 +103,7 @@
       References Received
     </td>
     <td>
-      <%= @user.profile.references_received %>
+      <%= @profile.references_received %>
     </td>
   </tr>
 
@@ -112,7 +112,7 @@
       Driving License / Passport
     </td>
     <td>
-      <%= @user.profile.dl_passport ? "Yes" : "No" %>
+      <%= @profile.dl_passport ? "Yes" : "No" %>
     </td>
   </tr>
 
@@ -121,7 +121,7 @@
       All Required Paperwork Checked
     </td>
     <td>
-      <%= @user.profile.all_required_paperwork_checked ? "Yes" : "No" %>
+      <%= @profile.all_required_paperwork_checked ? "Yes" : "No" %>
     </td>
   </tr>
 
@@ -130,7 +130,7 @@
       Registered Under Disability Act
     </td>
     <td>
-      <%= @user.profile.registered_under_disability_act ? "Yes" : "No" %>
+      <%= @profile.registered_under_disability_act ? "Yes" : "No" %>
     </td>
   </tr>
   
@@ -140,7 +140,7 @@
       Staff Happy to work under Connuct Policies and Procedures
     </td>
     <td>
-      <%= @user.profile.connuct_policies ? "Yes" : "No" %>
+      <%= @profile.connuct_policies ? "Yes" : "No" %>
     </td>
   </tr>
 
@@ -150,7 +150,7 @@
       Form Completed By
     </td>
     <td>
-      <%= @user.profile.form_completed_by %>
+      <%= @profile.form_completed_by %>
     </td>
   </tr>
 
@@ -160,7 +160,7 @@
       Position
     </td>
     <td>
-      <%= @user.profile.position %>
+      <%= @profile.position %>
     </td>
   </tr>
 
@@ -170,7 +170,7 @@
       Date Sent
     </td>
     <td>
-      <%= @user.profile.date_sent %>
+      <%= @profile.date_sent %>
     </td>
   </tr>
 
@@ -180,7 +180,7 @@
       Date Received
     </td>
     <td>
-      <%= @user.profile.date_received %>
+      <%= @profile.date_received %>
     </td>
   </tr>
 
@@ -190,7 +190,7 @@
       Known As
     </td>
     <td>
-      <%= @user.profile.known_as %>
+      <%= @profile.known_as %>
     </td>
   </tr>
 
@@ -200,7 +200,7 @@
       Role
     </td>
     <td>
-      <%= @user.profile.role %>
+      <%= @profile.role %>
     </td>
   </tr>
 
@@ -216,7 +216,7 @@
     <th>Undertaken</th>
     <th>Date of Completion</th>
   </tr>
-  <% @user.profile.trainings.each do |t| %>
+  <% @profile.trainings.each do |t| %>
   <tr>
     <td><%= t.name %></td>
     <td><%= t.undertaken ? "Yes" : "No" %></td>

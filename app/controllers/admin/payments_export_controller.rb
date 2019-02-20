@@ -5,7 +5,7 @@ module Admin
     before_action :authenticate_user!
 
     def index
-      @payments = Payment.all.includes(:user, :care_home, :staffing_request)
+      @payments = Payment.all.includes(:user, :care_home, :staffing_request, :agency)
 
       if(params[:care_home_id].present?)
         @payments = @payments.where(care_home_id: params[:care_home_id])
@@ -23,6 +23,9 @@ module Admin
         @payments = @payments.where("created_at <= ?", params[:created_at_end])
       end
 
+      if(current_user.agency_id.present?)
+        @payments = @payments.where(agency_id: current_user.agency_id)
+      end
 
       case params[:report_format]
       when "Carer"

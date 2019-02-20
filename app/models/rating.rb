@@ -15,6 +15,12 @@ class Rating < ApplicationRecord
   before_destroy :delete_entity_ratings
   before_destroy :response_unrated
 
+  before_save :set_agency
+
+  def set_agency
+    self.agency = self.shift.agency
+  end
+
   def add_entity_ratings
     self.rated_entity.total_rating = 0 if self.rated_entity.total_rating == nil
     self.rated_entity.rating_count = 0 if self.rated_entity.rating_count == nil
@@ -35,7 +41,7 @@ class Rating < ApplicationRecord
   end
 
   def delete_entity_ratings
-    self.rated_entity.total_rating =  self.rated_entity.total_rating + self.stars
+    self.rated_entity.total_rating =  self.rated_entity.total_rating - self.stars
     self.rated_entity.rating_count =  self.rated_entity.rating_count - 1
     self.rated_entity.save
   end

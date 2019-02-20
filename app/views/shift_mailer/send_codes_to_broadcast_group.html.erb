@@ -79,7 +79,10 @@
   <h2>Shift Details</h2>  
 	<%= render partial: "shift" %>
 
-  <% if @user.profile.present? %>
+  <% 
+    @profile = @user.profiles.by_agency(@shift.agency_id).first
+    if @profile.present? 
+  %>
     </br>
     </br>
     <h2>Care Giver Profile</h2>

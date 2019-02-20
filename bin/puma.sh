@@ -7,7 +7,7 @@
 RAILS_ENV=production
 USER=ubuntu
 APP_DIR=/home/ubuntu/UberNurse/current
-PUMA_CONFIG_FILE=$APP_DIR/config/puma.rb
+PUMA_CONFIG_FILE=$APP_DIR/shared/puma.rb
 PUMA_PID_FILE=$APP_DIR/tmp/pids/puma.pid
 PUMA_SOCKET=$APP_DIR/tmp/sockets/puma.sock
 
@@ -36,8 +36,8 @@ case "$1" in
     rm -f $PUMA_SOCKET
 
     if [ -e $PUMA_CONFIG_FILE ] ; then
-      echo "cd $APP_DIR && RAILS_ENV=$RAILS_ENV bundle exec puma -C $PUMA_CONFIG_FILE" >> /tmp/puma.log
-      /bin/su - $USER -c "cd $APP_DIR && RAILS_ENV=$RAILS_ENV bundle exec puma -C $PUMA_CONFIG_FILE" >> /tmp/puma.log
+      echo "cd $APP_DIR && RAILS_ENV=$RAILS_ENV bundle exec pumactl -P /home/ubuntu/UberNurse/shared/tmp/pids/puma.pid -F /home/ubuntu/UberNurse/shared/puma.rb" >> /tmp/puma.log
+      /bin/su - $USER -c "cd $APP_DIR && RAILS_ENV=$RAILS_ENV bundle exec pumactl -P /home/ubuntu/UberNurse/shared/tmp/pids/puma.pid -F /home/ubuntu/UberNurse/shared/puma.rb" >> /tmp/puma.log
     else
       echo "No config file found" >> /tmp/puma.log
       /bin/su - $USER -c "cd $APP_DIR && RAILS_ENV=$RAILS_ENV bundle exec puma --daemon --bind unix://$PUMA_SOCKET --pidfile $PUMA_PID_FILE" >> /tmp/puma.log

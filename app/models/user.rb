@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates_presence_of :first_name, :last_name, :email, :role, :phone
 
   belongs_to :care_home, optional: true
-  has_one :profile
+  has_many :profiles
   has_many :staffing_requests
   has_many :agency_user_mappings
   has_many :agencies, :through => :agency_user_mappings
@@ -216,4 +216,5 @@ class User < ApplicationRecord
   def belongs_to_agency(acgency_id)
     self.agency_user_mappings.collect(&:agency_id).include?(acgency_id)
   end
+
 end
