@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190119051533) do
+ActiveRecord::Schema.define(version: 20190222132205) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20190119051533) do
     t.string   "preferred_care_giver_ids"
     t.boolean  "limit_shift_to_pref_carer"
     t.boolean  "enabled"
+    t.boolean  "accepted"
+    t.text     "notes",                     limit: 65535
     t.index ["agency_id"], name: "index_agency_care_home_mappings_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
@@ -40,10 +42,12 @@ ActiveRecord::Schema.define(version: 20190119051533) do
   create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.integer  "agency_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
     t.boolean  "verified"
     t.boolean  "enabled"
+    t.boolean  "accepted"
+    t.text     "notes",      limit: 65535
     t.index ["agency_id"], name: "index_agency_user_mappings_on_agency_id", using: :btree
     t.index ["user_id"], name: "index_agency_user_mappings_on_user_id", using: :btree
   end
@@ -60,7 +64,6 @@ ActiveRecord::Schema.define(version: 20190119051533) do
     t.decimal  "lat",                                         precision: 18, scale: 15
     t.decimal  "lng",                                         precision: 18, scale: 15
     t.datetime "deleted_at"
-    t.boolean  "verified"
     t.string   "zone",                          limit: 10
     t.string   "cqc_location",                  limit: 50
     t.integer  "total_rating"
@@ -75,6 +78,7 @@ ActiveRecord::Schema.define(version: 20190119051533) do
     t.string   "sister_care_homes",             limit: 30
     t.string   "qr_code",                       limit: 10
     t.string   "icon_url"
+    t.boolean  "verified"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end

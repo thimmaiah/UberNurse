@@ -36,6 +36,8 @@ class CareHome < ApplicationRecord
     self.image_url = "assets/icon/homecare.png"
     self.total_rating = 0
     self.rating_count = 0
+    # Remove all whitespace from the phone
+    self.phone = self.phone.gsub(/\s+/, "") 
   end
 
   after_save :update_coordinates

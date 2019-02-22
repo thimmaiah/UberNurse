@@ -28,7 +28,7 @@ module Admin
       else
         flash[:alert] = "Email not specified"
       end
-      redirect_to admin_users_path    	
+      redirect_to admin_agency_user_mappings_path    	
     end
 
   end

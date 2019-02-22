@@ -5,10 +5,19 @@ class AgencyUserMapping < ApplicationRecord
 
   scope :verified, -> { where(verified: true) }
 
-  after_save :update_user
+  before_save :update_user
+  validate :check_accepted
+
+  def check_accepted
+    if self.verified && self.verified_changed? && !self.accepted
+      errors.add(:verified, "Cannot be verified till Care Home accepts. Please get the care home to accept you as the Agency")
+      puts errors
+    end
+  end
+
 
   def update_user
-  	if self.verified
+  	if self.verified && !errors
   		self.user.verified = true
       self.user.verified_on = Date.today
   		self.user.save

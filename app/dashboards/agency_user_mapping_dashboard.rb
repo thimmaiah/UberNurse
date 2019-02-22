@@ -14,6 +14,8 @@ class AgencyUserMappingDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     verified: Field::Boolean,
+    accepted: Field::Boolean,
+    notes: Field::Text,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -26,6 +28,7 @@ class AgencyUserMappingDashboard < Administrate::BaseDashboard
     :agency,
     :user,
     :verified,
+    :accepted,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -37,6 +40,9 @@ class AgencyUserMappingDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :verified,
+    :accepted,
+    :notes,
+
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -44,6 +50,7 @@ class AgencyUserMappingDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :verified,
+    :notes,
   ].freeze
 
   # Overwrite this method to customize how agency user mappings are displayed

@@ -14,6 +14,8 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     verified: Field::Boolean,
+    accepted: Field::Boolean,
+    notes: Field::Text,
     manual_assignment_flag: Field::Boolean,
     preferred_care_giver_ids: Field::String,
     limit_shift_to_pref_carer: Field::Boolean,
@@ -29,6 +31,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :agency,
     :care_home,
     :verified,
+    :accepted,
     :preferred_care_giver_ids,
     :manual_assignment_flag,
   ].freeze
@@ -42,9 +45,11 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :verified,
+    :accepted,
     :manual_assignment_flag,
     :preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
+    :notes,
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -55,6 +60,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
+    :notes,
   ].freeze
 
   # Overwrite this method to customize how agency care home mappings are displayed

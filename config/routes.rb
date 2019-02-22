@@ -18,7 +18,12 @@ Rails.application.routes.draw do
         post :create_from_user
       end
     end
-    resources :agency_care_home_mappings
+    resources :agency_care_home_mappings  do
+      collection do
+        post :create_from_care_home
+      end
+    end
+
     resources :agencies
 
     resources :users do
