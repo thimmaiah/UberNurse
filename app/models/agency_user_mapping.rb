@@ -7,6 +7,7 @@ class AgencyUserMapping < ApplicationRecord
 
   before_save :update_user
   validate :check_accepted
+  after_create :send_user_accept_notification
 
   def check_accepted
     if self.verified && self.verified_changed? && !self.accepted
@@ -23,6 +24,10 @@ class AgencyUserMapping < ApplicationRecord
   		self.user.save
       UserNotifierMailer.verification_complete(self.id).deliver_later if self.id
   	end
+  end
+
+  def send_user_accept_notification
+    UserNotifierMailer.user_accept_agency_notification(self).deliver_later
   end
 
 end

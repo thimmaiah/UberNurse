@@ -18,4 +18,11 @@ class Agency < ApplicationRecord
           :source => :care_home 
     
 
+    def emails
+    	list = User.where(agency_id:self.id).collect(&:email).join(",")
+    	if(self.broadcast_group)
+    		list += "," + self.broadcast_group
+    	end
+    	list
+    end
 end

@@ -1,7 +1,8 @@
 class AgencyUserMappingsController < ApplicationController
-  before_action :set_agency_user_mapping, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :agency_user_mapping_params, except: [:create]
 
-  respond_to :html
+  respond_to :html, :json
 
   def index
     @agency_user_mappings = AgencyUserMapping.all

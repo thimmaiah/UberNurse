@@ -68,15 +68,47 @@ class UserNotifierMailer < ApplicationMailer
     @care_home = @acm.care_home
     @agency = @acm.agency
     @user = care_home.users.first
-    if(@user)
-      logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
-      mail( :to => @user.email,
+    if(@care_home)
+      logger.debug("Sending mail to #{@care_home.emails} from #{ENV['NOREPLY']}")
+      mail( :to => @care_home.emails,
             :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
             :subject => 'Care Home Verified' )
     end
   end
 
-  layout false, :only => 'care_home_qr_code'
+
+  def request_cancelled(staffing_request)
+    @staffing_request = staffing_request
+    @agency = staffing_request.agency
+    email = @staffing_request.user.email
+    logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
+    mail( :to => email, :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
+          :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}" )
+
+  end
+
+  def user_accept_agency_notification(aum)
+    @user = aum.user
+    @agency = aum.agency
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email, :bcc => ENV['ADMIN_EMAIL'],
+          :subject => "Accept Agency: #{@agency.name}" )
+
+  end
+
+  def care_home_accept_agency_notification(acm)
+    @care_home = acm.care_home
+    @agency = acm.agency
+
+    logger.debug("Sending mail to #{emails} from #{ENV['NOREPLY']}")
+    mail( :to => @care_home.emails, :bcc => ENV['ADMIN_EMAIL'],
+          :subject => "Accept Agency: #{@agency.name}" )
+
+  end
+
+  layout :select_layout
+
+
   def care_home_qr_code(care_home)
 
     require 'rqrcode'
@@ -96,7 +128,7 @@ class UserNotifierMailer < ApplicationMailer
           )
     File.open("#{Rails.root}/public/system/#{@care_home.qr_code.to_s}.png", 'wb') {|file| file.write(png.to_s) }
     
-    emails = @care_home.users.collect(&:email).join(",")
+    emails = @care_home.emails
 
     logger.debug("Sending mail to #{emails} from #{ENV['NOREPLY']}")
     mail( :to => emails,
@@ -105,15 +137,12 @@ class UserNotifierMailer < ApplicationMailer
   end
 
 
-  def request_cancelled(staffing_request)
-    @staffing_request = staffing_request
-    @agency = staffing_request.agency
-    email = @staffing_request.user.email
-    logger.debug("Sending mail to #{email} from #{ENV['NOREPLY']}")
-    mail( :to => email, :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
-          :subject => "Request Cancelled: #{@staffing_request.start_date.to_s(:custom_datetime)}" )
-
+  private
+  def select_layout
+    if action_name == 'care_home_qr_code'
+      false
+    else
+      'mailer'
+    end
   end
-
-
 end

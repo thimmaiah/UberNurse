@@ -41,6 +41,7 @@ class Ability
         can :manage, Shift, :user_id=>@user.id
         can :manage, User, :id=>@user.id
         can :manage, UserDoc, :user_id =>@user.id
+        can :manage, AgencyUserMapping, :user_id =>@user.id
         can :read, Payment, :user_id =>@user.id
         can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
         can :create, Rating, :rated_entity_type=>"CareHome"
@@ -74,6 +75,8 @@ class Ability
         end
         can :manage, Payment, :care_home_id =>@user.care_home_id
         can :manage, Rating, :care_home_id =>@user.care_home_id
+        can :manage, AgencyCareHomeMapping, :care_home_id =>@user.care_home_id
+
     end
 
     def agency_privilages

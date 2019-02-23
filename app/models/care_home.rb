@@ -72,4 +72,13 @@ class CareHome < ApplicationRecord
   def has_agency(agency_id)
     self.agency_care_home_mappings.collect(&:agency_id).include?(agency_id)
   end
+
+  def emails
+    list = self.users.collect(&:email).join(",")
+    if(self.care_home_broadcast_group)
+      list += "," + self.care_home_broadcast_group
+    end
+    list
+  end
+
 end

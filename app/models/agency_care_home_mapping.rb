@@ -5,6 +5,7 @@ class AgencyCareHomeMapping < ApplicationRecord
 
   before_save :update_care_home
   validate :check_accepted
+  after_create :send_care_home_accept_notification
 
   def check_accepted
     if self.verified && self.verified_changed? && !self.accepted
@@ -20,5 +21,9 @@ class AgencyCareHomeMapping < ApplicationRecord
   		self.care_home.save
       UserNotifierMailer.care_home_verified(self.id).deliver_later
   	end
+  end
+
+  def send_care_home_accept_notification
+    UserNotifierMailer.care_home_accept_agency_notification(self).deliver_later
   end
 end
