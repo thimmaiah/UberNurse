@@ -92,6 +92,7 @@ Rails.application.routes.draw do
       post :send_sms_verification      
       post :verify_sms_verification
       post :resend_confirmation
+      get :get_initial_data
     end
   end
   resources :post_codes

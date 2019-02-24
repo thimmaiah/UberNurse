@@ -7,7 +7,7 @@ class StaffingRequestSerializer < ActiveModel::Serializer
   :broadcast_status, :can_manage, :start_code, :end_code, :carer_base, :care_home_base, 
   :care_home_total_amount, :vat, :pricing_audit, :created_at, :updated_at, :notes, :agency
 
-  attribute :shifts
+  attribute :accepted_shift
 
   belongs_to :user, serializer: UserMiniSerializer
   belongs_to :agency, serializer: AgencySerializer

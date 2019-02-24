@@ -1,9 +1,11 @@
+
 class AgencyUserMapping < ApplicationRecord
   validates_presence_of :agency_id, :user_id
   belongs_to :agency
   belongs_to :user
 
   scope :verified, -> { where(verified: true) }
+  scope :not_accepted, -> { where(accepted: false) }
 
   before_save :update_user
   validate :check_accepted
@@ -18,7 +20,10 @@ class AgencyUserMapping < ApplicationRecord
 
 
   def update_user
-  	if self.verified && !errors
+    self.verified = false if self.verified == nil
+    self.accepted = false if self.accepted == nil
+    
+  	if self.verified
   		self.user.verified = true
       self.user.verified_on = Date.today
   		self.user.save

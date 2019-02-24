@@ -95,6 +95,10 @@ class User < ApplicationRecord
     self.role == "Care Giver" || self.role == "Nurse"
   end
 
+  def is_admin?
+    self.role == "Admin"
+  end
+
   def set_defaults
     self.total_rating = 0
     self.rating_count = 0

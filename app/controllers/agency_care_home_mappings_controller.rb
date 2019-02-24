@@ -5,7 +5,7 @@ class AgencyCareHomeMappingsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @agency_care_home_mappings = AgencyCareHomeMapping.all
+    @agency_care_home_mappings = @agency_care_home_mappings.joins(:agency, :care_home)
     respond_with(@agency_care_home_mappings)
   end
 

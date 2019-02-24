@@ -15,6 +15,19 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  def get_initial_data
+    resp = {}
+    if current_user.is_temp?
+      resp["pending"] = current_user.shifts.pending.count
+      resp["accepted"] = current_user.shifts.accepted.count
+      resp["agencies_pending_accept"] = current_user.agency_user_mappings.not_accepted.count
+    elsif current_user.is_admin?
+      resp["agencies_pending_accept"] = current_user.care_home.agency_care_home_mappings.not_accepted.count
+    end
+
+    render json: resp
+  end
+
   # POST /users
   def create
     @user = User.new(user_params)
