@@ -100,7 +100,7 @@ class UserNotifierMailer < ApplicationMailer
     @care_home = acm.care_home
     @agency = acm.agency
 
-    logger.debug("Sending mail to #{emails} from #{ENV['NOREPLY']}")
+    logger.debug("Sending mail to #{@care_home. emails} from #{ENV['NOREPLY']}")
     mail( :to => @care_home.emails, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Accept Agency: #{@agency.name}" )
 

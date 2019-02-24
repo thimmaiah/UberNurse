@@ -5,7 +5,7 @@ class AgencyUserMappingsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @agency_user_mappings = AgencyUserMapping.all
+    @agency_user_mappings = @agency_user_mappings.joins(:agency, :user)
     respond_with(@agency_user_mappings)
   end
 
@@ -43,6 +43,6 @@ class AgencyUserMappingsController < ApplicationController
     end
 
     def agency_user_mapping_params
-      params.require(:agency_user_mapping).permit(:agency_id, :user_id)
+      params.require(:agency_user_mapping).permit(:agency_id, :user_id, :accepted)
     end
 end

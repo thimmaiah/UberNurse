@@ -43,6 +43,6 @@ class AgencyCareHomeMappingsController < ApplicationController
     end
 
     def agency_care_home_mapping_params
-      params.require(:agency_care_home_mapping).permit(:agency_id, :care_home_id)
+      params.require(:agency_care_home_mapping).permit(:agency_id, :care_home_id, :accepted)
     end
 end

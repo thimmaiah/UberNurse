@@ -4,10 +4,12 @@ FactoryGirl.define do
   
   factory :agency_user_mapping do
     verified {true}
+    accepted {true}
   end
 
   factory :agency_care_home_mapping do
     verified {true}
+    accepted {true}
     manual_assignment_flag {false}
     limit_shift_to_pref_carer {true }
     care_home_broadcast_group { [Faker::Internet.email, Faker::Internet.email, Faker::Internet.email].join(",") }
