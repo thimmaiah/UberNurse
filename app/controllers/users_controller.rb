@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       resp["pending"] = current_user.shifts.pending.count
       resp["accepted"] = current_user.shifts.accepted.count
       resp["agencies_pending_accept"] = current_user.agency_user_mappings.not_accepted.count
-    elsif current_user.is_admin?
+    elsif current_user.is_admin? && current_user.care_home
       resp["agencies_pending_accept"] = current_user.care_home.agency_care_home_mappings.not_accepted.count
     end
 

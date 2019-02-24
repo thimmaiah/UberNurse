@@ -103,6 +103,7 @@ class User < ApplicationRecord
     self.total_rating = 0
     self.rating_count = 0
     self.active = true
+    self.phone = self.phone.gsub(/\s+/, "") 
 
     if(self.is_temp? && self.verified == nil)
       self.verified = false

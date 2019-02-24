@@ -24,7 +24,7 @@ Scenario Outline: Register a care home with cqc
   And I am at the care homes registration page
   When I search for the care home "<care home>"
   And I click on the search result care home
-  And When and submit the care homes registration page with "<care_home>"
+  And When I submit the care homes registration page with "<care_home>"
   Then I should see the "<msg1>"
   And the care home should be unverified
   And I should be associated with the care home

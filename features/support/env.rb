@@ -70,7 +70,7 @@ Capybara.app_host = 'http://localhost:8100'
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: {
                                    "chromeOptions" => {
-                                     "args" => %w{ window-size=400,650 }
+                                     "args" => %w{ window-size=400,750 }
                                    }
   })
 end

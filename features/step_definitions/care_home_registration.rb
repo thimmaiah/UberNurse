@@ -46,6 +46,7 @@ When(/^I click on the search result care home$/) do
   sleep(1)
 end
 
-When(/^When and submit the care homes registration page with "([^"]*)"$/) do |arg1|
+When(/^When I submit the care homes registration page with "([^"]*)"$/) do |arg1|
+  sleep(2)
   click_on("Save")
 end
