@@ -157,7 +157,7 @@ class ShiftCreatorJob < ApplicationJob
 	    pref_care_givers = [staffing_request.preferred_carer]   
     else
     	pref_care_givers = staffing_request.preferred_care_givers
-	end
+	  end
     
     if(pref_care_givers)      
       # Check if any of the pref_care_givers can be assigned to the shift

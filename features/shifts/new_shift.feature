@@ -56,6 +56,21 @@ Scenario Outline: New Shift for specialist users with no match
     |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
     |role=Nurse;speciality=Generalist     |role=Care Giver;speciality=Mental Health;verified=true  |
     |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
+
+Scenario Outline: New Shift for users not mapped to agency
+  Given there is an agency
+  Given there is a request "<request>"
+  Given there is a user "<user>"
+  And the user has no mapping to the agency
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
+
+  Examples:
+    |request          | user                            |
+    |role=Care Giver  |role=Care Giver;verified=true    |    
+    |role=Nurse       |role=Nurse;verified=true         |    
+    
     
 Scenario Outline: New Shift for manual assignment care homes
   Given there is an agency

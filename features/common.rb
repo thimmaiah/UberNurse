@@ -18,6 +18,11 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   end
 end
 
+Given("the user has no mapping to the agency") do
+  @user.agency_user_mappings.delete_all
+end
+
+
 Given(/^the user has a profile$/) do
   @profile = FactoryGirl.build(:profile)
   @profile.user = @user

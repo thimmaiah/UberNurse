@@ -33,9 +33,9 @@ class PaymentDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :user,
-    :care_home,
     :agency,
+    :user,
+    :care_home,    
     :staffing_request,
     :billing,
     :vat,

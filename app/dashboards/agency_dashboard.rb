@@ -56,8 +56,6 @@ class AgencyDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :agency_user_mappings,
-    :agency_care_home_mappings,
     :name,
     :broadcast_group,
     :address,

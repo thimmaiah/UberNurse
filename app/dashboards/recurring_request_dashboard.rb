@@ -11,6 +11,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     care_home: BelongsToOrderedField,
     staffing_requests: Field::HasMany,
     user: Field::BelongsTo,
+    agency: Field::BelongsTo,
     user_id: Field::Number,
     preferred_carer_id: Field::Number,
     id: Field::Number,
@@ -34,6 +35,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :agency,    
     :care_home,
     :user,
     :role,
@@ -47,6 +49,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
+    :agency,    
     :care_home,
     :user,
     :id,

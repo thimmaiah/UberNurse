@@ -47,8 +47,8 @@ class ShiftDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :user,
     :agency,
+    :user,
     :care_home,
     :start_date,
     :end_date,

@@ -37,10 +37,10 @@ class RateDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
+    :agency,
     :zone,
     :role,
     :care_home,
-    :agency,
     :speciality,
     :carer_weekday,
     :care_home_weekday,
