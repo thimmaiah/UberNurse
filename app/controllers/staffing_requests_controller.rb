@@ -7,8 +7,8 @@ class StaffingRequestsController < ApplicationController
     @per_page = 100
     @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids) if !@staffing_requests
     @staffing_requests = @staffing_requests.open.order("staffing_requests.start_date asc").page(@page).per(@per_page)
-    @staffing_requests = @staffing_requests.joins(:user, :care_home)
-    render json: @staffing_requests.includes(:user, :care_home, :shifts, :agency), include: "user,care_home"
+    #@staffing_requests = @staffing_requests.joins(:user, :care_home)
+    render json: @staffing_requests.includes(:user, :care_home, :accepted_shift, :agency), include: "user,care_home,accepted_shift"
   end
 
   def price

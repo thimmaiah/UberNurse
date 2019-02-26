@@ -86,7 +86,7 @@ class Ability
         end
         can :read, User do |u|
             u.belongs_to_agency(@user.agency_id)  ||
-            (u.role == "Admin" && u.care_home.agencies.collect(&:id).include?(@user.agency_id))
+            (u.role == "Admin" && u.care_home && u.care_home.agencies.collect(&:id).include?(@user.agency_id))
         end
         can :manage, User, :agency_id=>@user.agency_id
         can :manage, Profile, :agency_id=>@user.agency_id

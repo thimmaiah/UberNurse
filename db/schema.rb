@@ -13,19 +13,19 @@
 ActiveRecord::Schema.define(version: 20190225145535) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.string   "broadcast_group"
+    t.string   "name",            limit: 100
     t.string   "address"
     t.string   "postcode",        limit: 10
-    t.string   "phone",           limit: 12
+    t.string   "phone",           limit: 15
+    t.string   "broadcast_group"
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.text     "icon_url",        limit: 65535
   end
 
   create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "care_home_id"
     t.integer  "agency_id"
+    t.integer  "care_home_id"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
     t.boolean  "verified"
@@ -41,8 +41,8 @@ ActiveRecord::Schema.define(version: 20190225145535) do
   end
 
   create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
     t.integer  "agency_id"
+    t.integer  "user_id"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.boolean  "verified"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.decimal  "lat",                                         precision: 18, scale: 15
     t.decimal  "lng",                                         precision: 18, scale: 15
     t.datetime "deleted_at"
+    t.boolean  "verified"
     t.string   "zone",                          limit: 10
     t.string   "cqc_location",                  limit: 50
     t.integer  "total_rating"
@@ -74,12 +75,14 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.boolean  "accept_bank_transactions"
     t.datetime "accept_bank_transactions_date"
     t.string   "phone",                         limit: 12
+    t.boolean  "manual_assignment_flag"
     t.string   "speciality",                    limit: 100
     t.string   "care_home_broadcast_group"
+    t.string   "preferred_care_giver_ids"
     t.string   "sister_care_homes",             limit: 30
+    t.boolean  "limit_shift_to_pref_carer"
     t.string   "qr_code",                       limit: 10
     t.string   "icon_url"
-    t.boolean  "verified"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
@@ -517,6 +520,7 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.text     "image_url",                     limit: 65535
     t.string   "sort_code",                     limit: 6
     t.string   "bank_account",                  limit: 8
+    t.boolean  "verified"
     t.datetime "auto_selected_date"
     t.decimal  "lat",                                         precision: 18, scale: 15
     t.decimal  "lng",                                         precision: 18, scale: 15
@@ -538,7 +542,6 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.boolean  "ready_for_verification"
     t.boolean  "allow_password_change",                                                 default: false,   null: false
     t.integer  "agency_id"
-    t.boolean  "verified"
     t.index ["agency_id"], name: "index_users_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
@@ -559,4 +562,8 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
   end
 
+  add_foreign_key "agency_care_home_mappings", "agencies"
+  add_foreign_key "agency_care_home_mappings", "care_homes"
+  add_foreign_key "agency_user_mappings", "agencies"
+  add_foreign_key "agency_user_mappings", "users"
 end
