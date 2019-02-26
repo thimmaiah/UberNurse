@@ -4,6 +4,7 @@ class AgencyCareHomeMapping < ApplicationRecord
   belongs_to :care_home
 
   before_save :update_care_home
+  before_create :set_defaults
   validate :check_accepted
   after_create :send_care_home_accept_notification
 
@@ -17,11 +18,14 @@ class AgencyCareHomeMapping < ApplicationRecord
     end
   end
 
-  def update_care_home
-  
+  def set_defaults
     self.verified = false if self.verified == nil
     self.accepted = false if self.accepted == nil
-    
+    self.accepted = true  if self.accepted == nil  
+  end
+
+  def update_care_home
+  
   	if self.verified && !errors
   		self.care_home.verified = true
   		self.care_home.save

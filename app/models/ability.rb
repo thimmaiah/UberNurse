@@ -81,7 +81,8 @@ class Ability
 
     def agency_privilages
         
-        can :read, CareHome do |c|
+        can :create, CareHome
+        can :manage, CareHome do |c|
             c.has_agency(@user.agency_id)
         end
         can :read, User do |u|

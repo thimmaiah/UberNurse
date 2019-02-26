@@ -7,6 +7,7 @@ class AgencyUserMapping < ApplicationRecord
   scope :verified, -> { where(verified: true) }
   scope :not_accepted, -> { where(accepted: false) }
 
+  before_create :set_defaults
   before_save :update_user
   validate :check_accepted
   after_create :send_user_accept_notification
@@ -18,10 +19,13 @@ class AgencyUserMapping < ApplicationRecord
     end
   end
 
-
-  def update_user
+  def set_defaults
     self.verified = false if self.verified == nil
     self.accepted = false if self.accepted == nil
+    self.accepted = true  if self.accepted == nil      
+  end
+
+  def update_user
     
   	if self.verified
   		self.user.verified = true
