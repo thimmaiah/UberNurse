@@ -106,6 +106,7 @@ class Ability
         can :manage, Shift, :agency_id=>@user.agency_id
         can :manage, Payment, :agency_id=>@user.agency_id
         can :manage, Rating, :agency_id=>@user.agency_id
+        can :create, Rate
         can :manage, Rate, :agency_id=>@user.agency_id
         can :manage, Stat, :agency_id=>@user.agency_id
 
