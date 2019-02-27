@@ -16,7 +16,7 @@ as well as a link to its edit page.
 [1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Show
 %>
 
-<% content_for(:title) { "#{t("administrate.actions.show")} #{page.page_title}" } %>
+<% content_for(:title) { t("administrate.actions.show_resource", name: page.page_title) } %>
 
 <header class="main-content__header" role="banner">
   <h1 class="main-content__page-title">
@@ -25,28 +25,29 @@ as well as a link to its edit page.
 
   <div>
     <%= link_to(
-      "#{t("administrate.actions.edit")} #{page.page_title}",
+      t("administrate.actions.edit_resource", name: page.page_title),
       [:edit, namespace, page.resource],
       class: "button",
-    ) if valid_action? :edit %>
+    ) if valid_action?(:edit) && show_action?(:edit, page.resource) %>
 
     <%= link_to("Send Start / End Codes", resend_start_end_codes_admin_shift_path(id: page.resource.id), class: "button") if page.resource.response_status == "Accepted" %>
-
+    
   </div>
 </header>
 
 <section class="main-content__body">
   <dl>
     <% page.attributes.each do |attribute| %>
-      <dt class="attribute-label">
+      <dt class="attribute-label" id="<%= attribute.name %>">
       <%= t(
         "helpers.label.#{resource_name}.#{attribute.name}",
         default: attribute.name.titleize,
       ) %>
       </dt>
 
-      <dd class="attribute-data attribute-data--<%=attribute.html_class%>"
-          ><%= render_field attribute %></dd>
+      <dd class="attribute-data attribute-data--<%=attribute.html_class%>">
+        <%= render_field attribute, page: page %>          
+      </dd>
     <% end %>
   </dl>
 </section>
