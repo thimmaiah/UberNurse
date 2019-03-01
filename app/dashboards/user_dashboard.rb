@@ -18,6 +18,7 @@ class UserDashboard < Administrate::BaseDashboard
     last_name: Field::String,
     email: Field::String,
     password: Field::String,
+    password_confirmation: Field::String,
     role: Field::Select.with_options(collection: User::ROLE),
     nurse_type: Field::String,
     sex: Field::Select.with_options(collection: User::SEX),
@@ -111,4 +112,9 @@ class UserDashboard < Administrate::BaseDashboard
   def display_resource(user)
     "#{user.first_name} #{user.last_name} #{user.id}"
   end
+
+  def permitted_attributes
+    super + [:password, :password_confirmation]
+  end
+
 end

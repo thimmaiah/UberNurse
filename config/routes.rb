@@ -30,7 +30,10 @@ Rails.application.routes.draw do
       collection do
         get :export
         get :export_form        
-        get :profile  
+        get :profile          
+      end
+      member do
+        get :reset_password
       end
     end
     resources :profiles

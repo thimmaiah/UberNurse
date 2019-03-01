@@ -27,8 +27,18 @@ module Admin
       if params[:user][:password].blank?
         params[:user].delete(:password)
         params[:user].delete(:password_confirmation)
+
+        super
+        
+      else
+        if(params[:user][:password] != params[:user][:password_confirmation])
+          flash[:error] = "Passwords dont match"
+          redirect_to reset_password_admin_user_path(id: params[:id])
+        else
+          super
+        end
       end
-      super
+      
     end
     
     def destroy
@@ -42,6 +52,11 @@ module Admin
       render "profile", locals: {
         page: Administrate::Page::Form.new(dashboard, @resource)
       }
+    end
+
+
+    def reset_password
+        @user = User.find(params[:id])
     end
 
   end
