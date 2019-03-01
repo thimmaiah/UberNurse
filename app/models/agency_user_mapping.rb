@@ -22,11 +22,10 @@ class AgencyUserMapping < ApplicationRecord
   def set_defaults
     self.verified = false if self.verified == nil
     self.accepted = false if self.accepted == nil
-    self.accepted = true  if self.accepted == nil      
+    self.accepted = true  
   end
 
-  def update_user
-    
+  def update_user    
   	if self.verified
   		self.user.verified = true
       self.user.verified_on = Date.today

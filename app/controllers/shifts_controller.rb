@@ -21,7 +21,7 @@ class ShiftsController < ApplicationController
 
     @per_page = 100
     @shifts = @shifts.joins(:staffing_request).order("staffing_requests.start_date asc").page(@page).per(@per_page)
-    render json: @shifts.includes(:staffing_request, :care_home, :user=>:profile_pic), include: "user,care_home", each_serializer: ShiftMiniSerializer
+    render json: @shifts.includes(:staffing_request, :care_home, :agency, :user=>:profile_pic), include: "user,care_home", each_serializer: ShiftMiniSerializer
 
   end
 

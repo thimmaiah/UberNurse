@@ -21,12 +21,11 @@ class AgencyCareHomeMapping < ApplicationRecord
   def set_defaults
     self.verified = false if self.verified == nil
     self.accepted = false if self.accepted == nil
-    self.accepted = true  if self.accepted == nil  
+    self.accepted = true  
   end
 
-  def update_care_home
-  
-  	if self.verified && !errors
+  def update_care_home  
+  	if self.verified
   		self.care_home.verified = true
   		self.care_home.save
       UserNotifierMailer.care_home_verified(self.id).deliver_later
