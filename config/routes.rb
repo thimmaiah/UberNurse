@@ -93,6 +93,7 @@ Rails.application.routes.draw do
       post :verify_sms_verification
       post :resend_confirmation
       get :get_initial_data
+      post :reset_password
     end
   end
   resources :post_codes

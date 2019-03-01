@@ -22,7 +22,7 @@ set :ssh_options, {
 set :application, "UberNurse"
 set :user, "ubuntu"
 set :repo_url, "git@github.com:thimmaiah/UberNurse.git"
-set :branch, 'master'
+set :branch, 'agency'
 
 set :linked_dirs, fetch(:linked_dirs, []).push('log', 'volumes', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system', 'public/uploads')
 #set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
@@ -74,7 +74,7 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      unless `git rev-parse HEAD` == `git rev-parse origin/master`
+      unless `git rev-parse HEAD` == `git rev-parse origin/#{fetch(:branch)}`
         puts "WARNING: HEAD is not the same as origin/master"
         puts "Run `git push` to sync changes."
         exit

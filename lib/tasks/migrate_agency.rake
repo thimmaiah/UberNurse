@@ -15,6 +15,11 @@ namespace :uber_nurse do
   	sex: "M", accept_terms: true, phone_verified: true, agency_id: a.id )
   	puts "Create user #{u.email}"
 
+
+    u = User.create(title: "Miss", first_name: "Sree", last_name: "Bhimavarapu", email: "S.Bhimavarapu@connuct.co.uk", password: "S.Bhimavarapu@connuct.co.uk",
+    role: "Agency", phone: "999999999", postcode: PostCode.first.postcode, confirmation_sent_at: Time.now, confirmed_at: Time.now,
+    sex: "F", accept_terms: true, phone_verified: true, agency_id: a.id )
+    puts "Create user #{u.email}"
   end
 
 

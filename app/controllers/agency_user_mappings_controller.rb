@@ -5,6 +5,10 @@ class AgencyUserMappingsController < ApplicationController
   respond_to :html, :json
 
   def index
+
+    if(params[:search].present?)
+      @agency_user_mappings = AgencyUserMapping.search(params[:search]+"*")
+    end
     @agency_user_mappings = @agency_user_mappings.joins(:agency, :user)
     respond_with(@agency_user_mappings)
   end

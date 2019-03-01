@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:unsubscribe, :resend_confirmation]
+  before_action :authenticate_user!, except: [:unsubscribe, :resend_confirmation, :reset_password]
   load_and_authorize_resource param_method: :user_params,
-    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification, :resend_confirmation]
+    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification, :resend_confirmation, :reset_password]
 
   # GET /users
   def index
@@ -79,6 +79,17 @@ class UsersController < ApplicationController
       render json: {sent: true}
     else
       render json: {sent: false, user_not_found: true}
+    end
+  end
+
+  def reset_password
+    user = User.find_by_reset_password_token(params[:token])
+    if(user)
+      user.password = params[:password]
+      user.save
+      render json: {reset: true}
+    else
+      render json: {reset: false}
     end
   end
 

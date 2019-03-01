@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190225145535) do
+ActiveRecord::Schema.define(version: 20190301080545) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
@@ -75,12 +75,9 @@ ActiveRecord::Schema.define(version: 20190225145535) do
     t.boolean  "accept_bank_transactions"
     t.datetime "accept_bank_transactions_date"
     t.string   "phone",                         limit: 12
-    t.boolean  "manual_assignment_flag"
     t.string   "speciality",                    limit: 100
     t.string   "care_home_broadcast_group"
-    t.string   "preferred_care_giver_ids"
     t.string   "sister_care_homes",             limit: 30
-    t.boolean  "limit_shift_to_pref_carer"
     t.string   "qr_code",                       limit: 10
     t.string   "icon_url"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree

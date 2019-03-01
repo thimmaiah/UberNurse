@@ -93,9 +93,7 @@ class Ability
         can :manage, Profile, :agency_id=>@user.agency_id
         can :manage, Training, :agency_id=>@user.agency_id
 
-        can [:create, :read], UserDoc do |doc|
-            doc.user.belongs_to_agency(@user.agency_id)
-        end
+        can [:create, :read], UserDoc 
 
         can :manage, StaffingRequest, :agency_id=>@user.agency_id
         can :create, StaffingRequest

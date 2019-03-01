@@ -1,21 +1,21 @@
 module Admin
   class RecurringRequestsController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = RecurringRequest.
-    #     page(params[:page]).
-    #     per(10)
-    # end
+    def create
+      resource = resource_class.new(resource_params)
+      # Ensure agency_id is set
+      resource.agency_id = current_user.agency_id
+      authorize_resource(resource)
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   RecurringRequest.find_by!(slug: param)
-    # end
-
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+      if resource.save
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
   end
 end
