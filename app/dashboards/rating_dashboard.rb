@@ -31,6 +31,7 @@ class RatingDashboard < Administrate::BaseDashboard
     :rated_entity,
     :care_home,
     :stars,
+    :comments
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES

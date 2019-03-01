@@ -44,8 +44,10 @@ module Admin
     before_action :default_params
 
     def default_params
-      params[:order] ||= 'id'
-      params[:direction] ||= 'desc'
+      resource_params = params.fetch(resource_name, {})
+      order = resource_params.fetch(:order, "id")
+      direction = resource_params.fetch(:direction, "desc")
+      params[resource_name] = resource_params.merge(order: order, direction: direction)
     end
     
     before_action :set_paper_trail_whodunnit
