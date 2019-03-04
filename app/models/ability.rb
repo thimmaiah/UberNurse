@@ -91,6 +91,8 @@ class Ability
         end
         can :manage, User, :agency_id=>@user.agency_id
         can :manage, Profile, :agency_id=>@user.agency_id
+
+        can :create, Training
         can :manage, Training, :agency_id=>@user.agency_id
 
         can [:create, :read], UserDoc 
