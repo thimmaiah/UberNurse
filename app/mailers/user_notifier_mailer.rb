@@ -8,7 +8,7 @@ class UserNotifierMailer < ApplicationMailer
   end
 
   def verification_complete(agency_user_mapping_id)
-    @acm = AgencyUserMapping.find(user_id)
+    @acm = AgencyUserMapping.find(agency_user_mapping_id)
     @user = @acm.user
     @agency = @acm.agency
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
@@ -67,7 +67,7 @@ class UserNotifierMailer < ApplicationMailer
     @acm = AgencyCareHomeMapping.find(acm_id)
     @care_home = @acm.care_home
     @agency = @acm.agency
-    @user = care_home.users.first
+    @user = @care_home.users.first
     if(@care_home)
       logger.debug("Sending mail to #{@care_home.emails} from #{ENV['NOREPLY']}")
       mail( :to => @care_home.emails,
