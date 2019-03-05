@@ -7,6 +7,7 @@ class AgencyUserMapping < ApplicationRecord
   scope :verified, -> { where(verified: true) }
   scope :not_accepted, -> { where(accepted: false) }
 
+  after_save ThinkingSphinx::RealTime.callback_for(:agency_user_mapping)
   before_create :set_defaults
   before_save :update_user
   validate :check_accepted

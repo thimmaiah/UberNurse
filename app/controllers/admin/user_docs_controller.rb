@@ -21,7 +21,7 @@ module Admin
     def create
       resource = resource_class.new(resource_params)
       # Ensure agency_id is set
-      resource.created_by_id = current_user.id
+      resource.created_by_user_id = current_user.id
       authorize_resource(resource)
 
       if resource.save

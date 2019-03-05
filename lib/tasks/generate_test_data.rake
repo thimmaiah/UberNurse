@@ -7,9 +7,9 @@ namespace :uber_nurse do
 
   desc "Cleans p DB - DELETES everything -  watch out"
   task :emptyDB => :environment do
-    Agency.delete_all
     AgencyUserMapping.delete_all
     AgencyCareHomeMapping.delete_all
+    Agency.delete_all
     User.delete_all
     Profile.delete_all
     Training.delete_all

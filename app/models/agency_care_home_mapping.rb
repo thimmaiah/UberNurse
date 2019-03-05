@@ -3,6 +3,7 @@ class AgencyCareHomeMapping < ApplicationRecord
   belongs_to :agency
   belongs_to :care_home
 
+  after_save ThinkingSphinx::RealTime.callback_for(:agency_care_home_mapping)
   before_save :update_care_home
   before_create :set_defaults
   validate :check_accepted
