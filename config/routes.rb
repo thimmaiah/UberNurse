@@ -30,7 +30,8 @@ Rails.application.routes.draw do
       collection do
         get :export
         get :export_form        
-        get :profile          
+        get :profile
+        post :perform_password_reset          
       end
       member do
         get :reset_password

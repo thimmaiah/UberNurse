@@ -40,7 +40,8 @@ module Admin
       end
       
     end
-    
+
+
     def destroy
       @resource = User.find(params[:id])
       @resource.really_destroy!
@@ -57,6 +58,25 @@ module Admin
 
     def reset_password
         @user = User.find(params[:id])
+    end
+
+    def perform_password_reset
+      if(params[:user][:password] != params[:user][:password_confirmation])
+        flash[:error] = "Passwords dont match"
+        redirect_to reset_password_admin_user_path(id: params[:id])
+      else
+        requested_resource = User.find(params[:user][:id])
+        if requested_resource.update(password: params[:user][:password])
+          redirect_to(
+            [namespace, requested_resource],
+            notice: translate_with_resource("update.success"),
+          )
+        else
+          render :edit, locals: {
+            page: Administrate::Page::Form.new(dashboard, requested_resource),
+          }
+        end
+      end      
     end
 
   end

@@ -85,7 +85,7 @@ class Ability
         can :manage, CareHome do |c|
             c.has_agency(@user.agency_id)
         end
-        can :read, User do |u|
+        can [:read, :reset_password], User do |u|
             u.belongs_to_agency(@user.agency_id)  ||
             (u.role == "Admin" && u.care_home && u.care_home.agencies.collect(&:id).include?(@user.agency_id))
         end
