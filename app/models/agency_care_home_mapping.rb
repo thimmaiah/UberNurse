@@ -34,6 +34,6 @@ class AgencyCareHomeMapping < ApplicationRecord
   end
 
   def send_care_home_accept_notification
-    UserNotifierMailer.care_home_accept_agency_notification(self).deliver_later
+    UserNotifierMailer.care_home_accept_agency_notification(self).deliver_later unless self.accepted
   end
 end

@@ -36,7 +36,7 @@ class AgencyUserMapping < ApplicationRecord
   end
 
   def send_user_accept_notification
-    UserNotifierMailer.user_accept_agency_notification(self).deliver_later
+    UserNotifierMailer.user_accept_agency_notification(self).deliver_later unless self.accepted
   end
 
 end

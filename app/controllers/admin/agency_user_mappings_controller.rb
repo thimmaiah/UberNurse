@@ -13,18 +13,24 @@ module Admin
       if params[:email].present?
         u = User.find_by_email(params[:email])
 
-        aum = AgencyUserMapping.where(user_id: u.id, agency_id: current_user.agency_id).first
+        if(u)
+          aum = AgencyUserMapping.where(user_id: u.id, agency_id: current_user.agency_id).first
 
-        if aum
-          flash[:success] = "User already mapped to this agency"
-        else
-          aum = AgencyUserMapping.new(user_id: u.id, agency_id: current_user.agency_id, verified:false)
-          if aum.save
-            flash[:success] = "Saved user mapping successfully"
+          if aum
+            flash[:success] = "User already mapped to this agency"
           else
-            flash[:alert] = "Could not save user mapping. #{aum.errors}"
+            
+            aum = AgencyUserMapping.new(user_id: u.id, agency_id: current_user.agency_id, verified:false)
+            if aum.save
+              flash[:success] = "Saved user mapping successfully"
+            else
+              flash[:alert] = "Could not save user mapping. #{aum.errors}"
+            end
           end
+        else
+          flash[:alert] = "Could not save user mapping. User with #{params[:email]} not found"
         end
+
       else
         flash[:alert] = "Email not specified"
       end
