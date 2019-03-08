@@ -44,7 +44,13 @@ Rails.application.routes.draw do
     resources :payments
     resources :post_codes
     resources :ratings
-    resources :recurring_requests
+    
+    resources :recurring_requests do
+      member do
+        get :create_for_week 
+      end
+    end
+
     resources :staffing_requests do
       collection do
         get :manual_shift_search_user
