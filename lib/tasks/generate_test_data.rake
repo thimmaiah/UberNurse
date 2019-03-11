@@ -65,13 +65,16 @@ namespace :uber_nurse do
           h.created_at = Date.today - rand(4).weeks - rand(7).days
           h.speciality = sp
           h.save
+          h.reload
           #puts u.to_xml(:include => :care_home_industry_mappings)
           puts "CareHome #{h.id}"
-          a = Agency.all.sample
-          acm = FactoryGirl.build(:agency_care_home_mapping)
-          acm.care_home = h
-          acm.agency = a
-          acm.save!
+          if(h.agency_care_home_mappings == nil)
+            a = Agency.all.sample
+            acm = FactoryGirl.build(:agency_care_home_mapping)
+            acm.care_home = h
+            acm.agency = a
+            acm.save!
+          end
         end
       end
     rescue Exception => exception
@@ -128,11 +131,14 @@ namespace :uber_nurse do
           u.image_url = images[rand(images.length)]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
+          u.reload
 
-          aum = FactoryGirl.build(:agency_user_mapping)
-          aum.user = u
-          aum.agency = Agency.all.sample
-          aum.save!
+          if(u.agency_user_mappings == nil)
+            aum = FactoryGirl.build(:agency_user_mapping)
+            aum.user = u
+            aum.agency = Agency.all.sample
+            aum.save!
+          end
 
           p = FactoryGirl.build(:profile)
           p.user = u
@@ -162,12 +168,14 @@ namespace :uber_nurse do
           u.image_url = images[rand(images.length)]
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.save
-
-
-          aum = FactoryGirl.build(:agency_user_mapping)
-          aum.user = u
-          aum.agency = Agency.all.sample
-          aum.save!
+          u.reload
+          
+          if(u.agency_user_mappings == nil)
+            aum = FactoryGirl.build(:agency_user_mapping)
+            aum.user = u
+            aum.agency = Agency.all.sample
+            aum.save!
+          end
 
           #puts u.to_xml
           p = FactoryGirl.build(:profile)

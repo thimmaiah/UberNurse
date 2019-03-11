@@ -44,6 +44,11 @@ class User < ApplicationRecord
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
 
+  after_create :create_default_mapping
+  def create_default_mapping
+    AgencyUserMapping.create(agency_id: Agency.first.id, user_id: self.id, verified: true, accepted: true) if self.is_temp?
+  end
+
   def index_user
     # This is to avoid the user being indexed with every request
     # as with this API app the user tokens get updated with every request due to device
