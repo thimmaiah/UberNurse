@@ -141,7 +141,6 @@ Scenario Outline: Cancel Accepted Shift
   Given Im logged in 
   And I cancel the shift
   Then the shift must be cancelled
-  And I must see the message "No Shifts Available"
   Given jobs are being dispatched
   Then the care giver receives an email with "Shift Cancelled" in the subject
   Then the requestor receives an email with "Shift Cancelled" in the subject

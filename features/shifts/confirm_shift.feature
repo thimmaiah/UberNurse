@@ -35,7 +35,7 @@ Scenario Outline: Decline My Shift
   Then I must see the shift 
   Given jobs are cleared
   When I click the shift for details
-  When I click "Decline"
+  When I Decline the shift
   Then the shift is "Rejected"
   Given jobs are being dispatched
   Then the care giver receives an email with "Shift Rejected" in the subject

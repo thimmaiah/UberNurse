@@ -97,7 +97,7 @@ class ShiftsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def shift_params
-      params.require(:shift).permit(:staffing_request_id, :user_id, :start_code, 
+      params.require(:shift).permit(:staffing_request_id, :user_id, :start_code, :reason,
         :end_code, :response_status, :accepted, :rated, :care_home_id, :payment_status)
     end
 end

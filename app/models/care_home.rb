@@ -57,7 +57,7 @@ class CareHome < ApplicationRecord
 
   after_create :create_default_mapping
   def create_default_mapping
-    AgencyCareHomeMapping.create(agency_id: Agency.first.id, care_home_id: self.id, verified: true, accepted: true)
+    AgencyCareHomeMapping.create(agency_id: Agency.first.id, care_home_id: self.id, verified: true, accepted: true) if Agency.first 
   end
 
 

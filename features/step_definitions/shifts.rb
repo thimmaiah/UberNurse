@@ -314,9 +314,25 @@ Given(/^I cancel the shift$/) do
 
   click_on "Cancel Shift"
   sleep(1)
-  click_on "Yes"
+  find(".alert-radio-button", :text => "Other").click
+  find(".button-inner", :text => "Other").click
+  click_on("OK")
+  sleep(1)
+  click_on "Cancel Shift"
   sleep(1)
 end
+
+When("I Decline the shift") do
+  click_on "Decline"
+  sleep(1)
+  find(".alert-radio-button", :text => "Other").click
+  find(".button-inner", :text => "Other").click
+  click_on("OK")
+  sleep(1)
+  click_on "Reject Shift"
+  sleep(1)
+end
+
 
 Then(/^the shift must be cancelled$/) do
   @shift.reload

@@ -1,6 +1,7 @@
 Feature: Agency
   Agency adds users and care homes to its network
 
+@wip
 Scenario Outline: Carer Added
   Given there is a user "<user>"
   Given there is an agency "<agency>"  
@@ -15,7 +16,7 @@ Scenario Outline: Carer Added
     |role=Nurse       |name=Agency2|
 
 
-
+@wip
 Scenario Outline: Care Home Added
   Given there is a care_home "name=Test Care Home" with an admin "role=Admin"
   Given there is an agency "<agency>"  

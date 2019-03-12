@@ -42,6 +42,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     start_code: Field::String,
     end_code: Field::String,
     notes: Field::String,
+    reason: Field::String,
     broadcast_status: Field::Select.with_options(collection: StaffingRequest::BROADCAST_STATUS),
     versions: VersionField
   }.freeze
@@ -82,6 +83,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :start_date,
     :end_date,
     :notes,
+    :reason,
     :care_home_total_amount,
     :care_home_base,
     :vat,

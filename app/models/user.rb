@@ -46,7 +46,7 @@ class User < ApplicationRecord
 
   after_create :create_default_mapping
   def create_default_mapping
-    AgencyUserMapping.create(agency_id: Agency.first.id, user_id: self.id, verified: true, accepted: true) if self.is_temp?
+    AgencyUserMapping.create(agency_id: Agency.first.id, user_id: self.id, verified: true, accepted: true) if Agency.first && self.is_temp?
   end
 
   def index_user

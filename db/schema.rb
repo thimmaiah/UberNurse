@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190301080545) do
+ActiveRecord::Schema.define(version: 20190311155829) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
@@ -354,6 +354,7 @@ ActiveRecord::Schema.define(version: 20190301080545) do
     t.boolean  "preferred_care_giver_selected"
     t.integer  "notification_count"
     t.integer  "agency_id"
+    t.string   "reason"
     t.index ["agency_id"], name: "index_shifts_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_shifts_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_shifts_on_deleted_at", using: :btree
@@ -391,6 +392,7 @@ ActiveRecord::Schema.define(version: 20190301080545) do
     t.integer  "preferred_carer_id"
     t.integer  "recurring_request_id"
     t.integer  "agency_id"
+    t.string   "reason"
     t.index ["agency_id"], name: "index_staffing_requests_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_staffing_requests_on_care_home_id", using: :btree
     t.index ["deleted_at"], name: "index_staffing_requests_on_deleted_at", using: :btree

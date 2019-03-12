@@ -37,7 +37,8 @@ class ShiftDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
     care_home_payment_status: Field::Select.with_options(collection: Shift::PAYMENT_STATUS),
-    versions: VersionField
+    versions: VersionField,
+    reason: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -81,6 +82,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :start_date,
     :end_date,
     :response_status,
+    :reason,
     :pricing_audit,
     :accepted,
     :rated,
