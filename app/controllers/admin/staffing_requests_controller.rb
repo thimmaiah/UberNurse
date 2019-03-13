@@ -76,12 +76,12 @@ module Admin
       end
     end
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   StaffingRequest.find_by!(slug: param)
-    # end
+    def default_params
+      resource_params = params.fetch(resource_name, {})
+      order = resource_params.fetch(:order, "start_date")
+      direction = resource_params.fetch(:direction, "desc")
+      params[resource_name] = resource_params.merge(order: order, direction: direction)
+    end
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
   end
 end
