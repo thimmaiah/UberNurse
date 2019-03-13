@@ -10,12 +10,15 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   puts "\n####User####\n"
   puts @user.to_json
 
-  if @agency && @user.is_temp?    
+  if @agency && @user.is_temp? && @user.agency_user_mappings.length == 0  
     aum = FactoryGirl.build(:agency_user_mapping)
     aum.agency = @agency
     aum.user = @user
     aum.save!
   end
+
+  @user.agency_user_mappings.first.update(verified: true)
+
 end
 
 Given("the user has no mapping to the agency") do
@@ -98,12 +101,15 @@ Given("the care home has sister care homes {string}") do |sch|
     key_values(care_home, sch_agrs)
     care_home.save!
 
-    if @agency
+    if @agency && care_home.agency_care_home_mappings.length == 0
       acm = FactoryGirl.build(:agency_care_home_mapping)
       acm.agency = @agency
       acm.care_home = care_home
       acm.save!
     end
+
+    care_home.agency_care_home_mappings.first.update(verified: true)
+
 
   end
   @care_home.sister_care_homes = CareHome.where("id <> ?", @care_home.id).collect(&:id).join(",")
@@ -118,12 +124,14 @@ Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_
   key_values(@care_home, care_home_args)
   @care_home.save!
 
-  if @agency
+  if @agency && @care_home.agency_care_home_mappings.length == 0
     acm = FactoryGirl.build(:agency_care_home_mapping)
     acm.agency = @agency
     acm.care_home = @care_home
     acm.save!
   end
+
+  @care_home.agency_care_home_mappings.first.update(verified: true)
 
   @admin = FactoryGirl.build(:user)
   key_values(@admin, admin_args)
