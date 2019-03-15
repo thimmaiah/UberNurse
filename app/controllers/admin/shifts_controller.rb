@@ -38,7 +38,7 @@ module Admin
     end
 
     def resend_start_end_codes
-      UserNotifierMailer.send_codes_to_broadcast_group(requested_resource).deliver_later
+      ShiftMailer.send_codes_to_broadcast_group(requested_resource).deliver_later
       redirect_to(
           [namespace, requested_resource],
           notice: "Start / End Codes Resent.",

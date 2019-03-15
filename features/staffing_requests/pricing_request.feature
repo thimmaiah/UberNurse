@@ -6,8 +6,8 @@ Scenario Outline: Pricing Request
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekday
-  Given the request start time is "<start_time>"
   Given the request end time is "<end_time>"
+  Given the request start time is "<start_time>"  
   Given the rate is "<rate>"
   Given there are no bank holidays
   Then the price for the Staffing Request must be "<price>"
@@ -29,8 +29,8 @@ Scenario Outline: Pricing Request - Custom Rates
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekday
-  Given the request start time is "<start_time>"
   Given the request end time is "<end_time>"
+  Given the request start time is "<start_time>"  
   Given the rate is "<rate>"
   Given the custom rate is "<custom_rate>"
   Given there are no bank holidays
@@ -51,8 +51,8 @@ Scenario Outline: Pricing Request on Weekend
   Given there is a care_home "<care_home>" with me as admin "<admin>"
   Given there is a request "<request>"
   Given the request is on a weekend  
-  Given the request start time is "<start_time>"
   Given the request end time is "<end_time>"
+  Given the request start time is "<start_time>"  
   Given the rate is "<rate>"
   Given there are no bank holidays
   Then the price for the Staffing Request must be "<price>"

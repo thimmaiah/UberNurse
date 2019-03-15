@@ -24,6 +24,7 @@ class StaffingRequest < ApplicationRecord
   belongs_to :recurring_request
 
   validates_presence_of :user_id, :care_home_id, :agency_id, :start_date, :end_date, :role
+  validate :start_end_date_valid
 
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash
@@ -70,7 +71,11 @@ class StaffingRequest < ApplicationRecord
     end
   end
 
-
+  def start_end_date_valid
+    if(self.start_date > self.end_date)
+      errors.add(:start_date, "Start date cannot be after end date #{self.start_date} > #{self.end_date}")
+    end
+  end
 
 
   def price_estimate
