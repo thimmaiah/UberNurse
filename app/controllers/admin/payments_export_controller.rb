@@ -16,11 +16,11 @@ module Admin
       end
 
       if(params[:created_at_start].present?)
-        @payments = @payments.where("created_at >= ?", params[:created_at_start])
+        @payments = @payments.where("payments.created_at >= ?", params[:created_at_start])
       end
 
       if(params[:created_at_end].present?)
-        @payments = @payments.where("created_at <= ?", params[:created_at_end])
+        @payments = @payments.where("payments.created_at <= ?", params[:created_at_end])
       end
 
       if(current_user.agency_id.present?)
@@ -30,9 +30,10 @@ module Admin
       case params[:report_format]
       when "Carer"
         template ="carer"
+        @payments = @payments.order("users.first_name, staffing_requests.start_date")
       when "Care Home"
         template = "care_home"
-        @payments = @payments.where("care_home_id is not null")
+        @payments = @payments.where("payments.care_home_id is not null").order("care_homes.name, staffing_requests.start_date")
       when "Both"
         template = "both"
       end
