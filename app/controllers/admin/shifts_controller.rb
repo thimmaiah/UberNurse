@@ -22,7 +22,14 @@ module Admin
         regenerate_payment = true
       end
 
-      if requested_resource.update(resource_params)
+      updated = false
+      if(resource_params["manual_close"] == "1")
+        updated = requested_resource.close_manually
+      else
+        updated = requested_resource.update(resource_params)
+      end
+
+      if updated
         # regenrate the payment if required
         requested_resource.close_shift(true) if regenerate_payment
 

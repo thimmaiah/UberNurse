@@ -146,6 +146,15 @@ class Shift < ApplicationRecord
     end
   end
 
+  def close_manually
+    self.start_code = self.staffing_request.start_code
+    self.end_code = self.staffing_request.end_code
+    self.start_date = self.staffing_request.start_date
+    self.end_date = self.staffing_request.end_date
+    self.manual_close = true
+    self.save
+  end
+
   def broadcast_shift
     if(self.response_status != 'Rejected')
       logger.debug "Broadcasting shift #{self.id}"
