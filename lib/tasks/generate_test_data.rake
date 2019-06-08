@@ -273,6 +273,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:staffing_request)
           u.created_at = Date.today - rand(4).weeks - rand(7).days
           u.care_home = c
+          u.carer_break_mins = c.carer_break_mins
           u.agency = c.agencies.sample
           u.request_status = rand(10) > 2 ? "Approved" : "Rejected"
           u.user = c.users[0]
@@ -304,6 +305,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:shift)
           u.staffing_request = req
           u.care_home_id = req.care_home_id
+          u.carer_break_mins = req.carer_break_mins
           u.agency_id = req.agency_id
           u.user = care_givers[rand(care_givers.length)]
           u.save

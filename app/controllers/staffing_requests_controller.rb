@@ -32,6 +32,7 @@ class StaffingRequestsController < ApplicationController
   def create
     @staffing_request = StaffingRequest.new(staffing_request_params)
     @staffing_request.user_id = current_user.id
+    @staffing_request.carer_break_mins = current_user.care_home.carer_break_mins if staffing_request_params["carer_break_mins"] == nil
 
     if(@staffing_request.agency_id == nil)
       # We need to ensure an agency - specifically when the UI is not sending any

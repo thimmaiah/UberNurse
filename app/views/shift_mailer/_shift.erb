@@ -63,6 +63,13 @@
 	</tr>
 	<% end %>
 
+	<% if @shift.carer_break_mins > 0 %>
+	<tr>
+		<td>Break</td>
+		<td><%= @shift.carer_break_mins %> Minutes </td>
+	</tr>
+	<% end %>
+
 	<tr>
 		<td>Shift Id</td>
 		<td><%= @shift.id %></td>

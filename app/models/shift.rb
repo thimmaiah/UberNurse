@@ -69,8 +69,9 @@ class Shift < ApplicationRecord
       # Create the shift
       shift = Shift.new(staffing_request_id: staffing_request.id,
                         user_id: selected_user.id,
-                        care_home_id:staffing_request.care_home_id,
-                        agency_id:staffing_request.agency_id,
+                        care_home_id: staffing_request.care_home_id,
+                        carer_break_mins: staffing_request.carer_break_mins,
+                        agency_id: staffing_request.agency_id,
                         response_status: "Pending",
                         preferred_care_giver_selected: preferred_care_giver_selected)
       # Update the request
@@ -146,11 +147,11 @@ class Shift < ApplicationRecord
     end
   end
 
-  def close_manually
+  def close_manually(start_date=nil, end_date=nil)
     self.start_code = self.staffing_request.start_code
     self.end_code = self.staffing_request.end_code
-    self.start_date = self.staffing_request.start_date
-    self.end_date = self.staffing_request.end_date
+    self.start_date = start_date ? start_date : self.staffing_request.start_date
+    self.end_date = end_Date ? end_date : self.staffing_request.end_date
     self.manual_close = true
     self.save
   end

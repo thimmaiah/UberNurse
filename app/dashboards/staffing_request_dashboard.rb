@@ -21,6 +21,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     assigned_shift: Field::HasOne.with_options(class_name: "Shift"),
     payment: Field::HasOne,
     id: Field::Number,
+    carer_break_mins: Field::Number,
     care_home_id: Field::Number,
     user_id: Field::Number,
     preferred_carer_id: Field::Number,
@@ -72,6 +73,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :agency,
     :care_home,
+    :carer_break_mins,
     :manual_assignment_flag,
     :user,
     :preferred_carer_id,
@@ -110,6 +112,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :manual_assignment_flag,
     :role,
     :speciality,
+    :carer_break_mins,
     :request_status,
     :care_home_id,
     :user_id,

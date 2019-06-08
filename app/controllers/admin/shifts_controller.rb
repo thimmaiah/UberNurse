@@ -24,7 +24,7 @@ module Admin
 
       updated = false
       if(resource_params["manual_close"] == "1")
-        updated = requested_resource.close_manually
+        updated = requested_resource.close_manually(params[:start_date], params[:end_date])
       else
         updated = requested_resource.update(resource_params)
       end

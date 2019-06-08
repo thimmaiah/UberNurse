@@ -190,11 +190,7 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
 
   fields = ["start_code", "end_code"]
   fields.each do |k|
-    fill_in(k, with: '')
-    sleep(1)    
-    fill_in(k, with: '')
-    sleep(1)
-    fill_in(k, with: @staffing_request[k])
+    fill_in(k, with: @staffing_request[k], fill_options: { clear: :backspace })
   end
 
   ionic_select(@staffing_request.role, "role", true)

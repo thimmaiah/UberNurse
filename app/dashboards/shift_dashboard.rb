@@ -29,6 +29,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     end_code: Field::String,
     start_date: Field::DateTime,
     end_date: Field::DateTime,
+    carer_break_mins: Field::Number,
     response_status: Field::Select.with_options(collection: Shift::RESPONSE_STATUS),
     accepted: Field::Boolean,
     rated: Field::Boolean,
@@ -66,6 +67,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :user,
     :staffing_request,
     :care_home,
+    :carer_break_mins,
     :agency,
     :payment,
     :care_home_base,
@@ -101,6 +103,7 @@ class ShiftDashboard < Administrate::BaseDashboard
     :end_date,
     :start_code,
     :end_code,
+    :carer_break_mins,
     :manual_close,
   ].freeze
 

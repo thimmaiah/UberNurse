@@ -23,6 +23,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     image_url: Field::Text,
     sister_care_homes: Field::String,
     care_home_broadcast_group: Field::String,
+    carer_break_mins: Field::Number,
     qr_code: QrCodeField,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
@@ -47,6 +48,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :carer_break_mins,
     :qr_code,
     :speciality,
     :phone,
@@ -71,6 +73,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :carer_break_mins,
     :speciality,
     :phone,
     :care_home_broadcast_group,

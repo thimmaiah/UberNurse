@@ -5,10 +5,21 @@ module RatesHelper
     night_mins = entity.night_shift_minutes
     day_mins = total_mins - night_mins
 
+    # Adjust the minutes worked by the unpaid break taken by the carer 
+    if(entity.carer_break_mins > 0)
+        if(entity.break_time.hour <= 8 || entity.break_time.hour >= 20) 
+            # Break is in night time hours
+            night_mins = night_mins - entity.carer_break_mins
+        else
+            # Break is in day time hours
+            day_mins = day_mins - entity.carer_break_mins
+        end 
+    end
+
     day_time_hours_worked = entity.human_readable_time(day_mins.to_i)
     night_time_hours_worked = entity.human_readable_time(night_mins.to_i)
 
-    logger.debug("total_mins = #{total_mins}, night_mins = #{night_mins}, day_mins = #{day_mins}, day_time_hours_worked = #{day_time_hours_worked}, night_time_hours_worked = #{night_time_hours_worked}")
+    logger.debug("total_mins = #{total_mins}, carer_break_mins=#{entity.carer_break_mins}, night_mins = #{night_mins}, day_mins = #{day_mins}, day_time_hours_worked = #{day_time_hours_worked}, night_time_hours_worked = #{night_time_hours_worked}")
     
     case factor_name
       when "DEFAULT_FACTOR"
@@ -31,9 +42,22 @@ module RatesHelper
     night_mins = entity.night_shift_minutes
     day_mins = total_mins - night_mins
 
+    # Adjust the minutes worked by the unpaid break taken by the carer 
+    if(entity.carer_break_mins > 0)
+        if(entity.break_time.hour <= 8 || entity.break_time.hour >= 20) 
+            # Break is in night time hours
+            night_mins = night_mins - entity.carer_break_mins
+        else
+            # Break is in day time hours
+            day_mins = day_mins - entity.carer_break_mins
+        end 
+    end
+
     day_time_hours_worked = entity.human_readable_time(day_mins.to_i)
     night_time_hours_worked = entity.human_readable_time(night_mins.to_i)
 
+    logger.debug("total_mins = #{total_mins}, carer_break_mins=#{entity.carer_break_mins}, night_mins = #{night_mins}, day_mins = #{day_mins}, day_time_hours_worked = #{day_time_hours_worked}, night_time_hours_worked = #{night_time_hours_worked}")
+    
     case factor_name
       when "DEFAULT_FACTOR"
         base = (day_mins * rate.care_home_weekday + night_mins * rate.care_home_weeknight) / 60
@@ -78,6 +102,7 @@ module RatesHelper
     staffing_request.pricing_audit["calc_care_home_base"] = calc_care_home_base   
     staffing_request.pricing_audit["day_time_hours_worked"] = day_time_hours_worked
     staffing_request.pricing_audit["night_time_hours_worked"] = night_time_hours_worked
+    staffing_request.pricing_audit["carer_break_mins"] = staffing_request.carer_break_mins
     staffing_request.pricing_audit["rate"] = rate.serializable_hash
     staffing_request.pricing_audit["carer_base"] = carer_base
     staffing_request.pricing_audit["care_home_base"] = care_home_base
@@ -118,6 +143,7 @@ module RatesHelper
     
     shift.pricing_audit["day_time_hours_worked"] = day_time_hours_worked
     shift.pricing_audit["night_time_hours_worked"] = night_time_hours_worked
+    shift.pricing_audit["carer_break_mins"] = shift.carer_break_mins
     shift.pricing_audit["rate"] = rate.serializable_hash
     shift.pricing_audit["carer_base"] = carer_base
     shift.pricing_audit["care_home_base"] = care_home_base

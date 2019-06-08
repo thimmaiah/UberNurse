@@ -1,5 +1,11 @@
 module StartEndTimeHelper
 
+  # Break is usually midway in the shift
+  def break_time
+    seconds_to_mid = (self.end_date - self.start_date).to_i / 2
+    mid = self.start_date + seconds_to_mid.seconds
+    mid
+  end
 
   def minutes_worked
     if(self.start_date && self.end_date)

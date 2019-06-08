@@ -116,7 +116,7 @@ FactoryGirl.define do
   end
 
   factory :staffing_request do
-    start_date {Date.today + 1.day + 2.hours}
+    start_date {Date.today + 1.day + rand(6).hours}
     end_date {start_date + 8.hours}
     rate_per_hour 15
     request_status {"Open"}
@@ -155,6 +155,7 @@ FactoryGirl.define do
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
     verified {false}
+    carer_break_mins {[15,30,45,60][rand(4)]}
     #manual_assignment_flag {false}
   end
 
