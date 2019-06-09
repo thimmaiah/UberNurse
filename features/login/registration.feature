@@ -2,6 +2,7 @@ Feature: Registration
   Registration should work properly
 
 Scenario Outline: User Registration Successfully
+  Given there is an agency
   Given there is an unsaved user "<user>"
   And I am at the registration page
   When I fill and submit the registration page
@@ -20,6 +21,7 @@ Scenario Outline: User Registration Successfully
 
 
 Scenario Outline: Register a care home with cqc
+  Given there is an agency
   Given Im a logged in user "<user>"  
   And I am at the care homes registration page
   When I search for the care home "<care home>"
@@ -29,12 +31,13 @@ Scenario Outline: Register a care home with cqc
   And the care home should be unverified
   And I should be associated with the care home
   Examples:
-    |user        |care home                         |msg1                                |
-    |role=Admin  |name=Kingswood House Nursing Home |As part of our verification process, we will call your care home to verify your details|
-    |role=Admin  |name=Little Haven                 |As part of our verification process, we will call your care home to verify your details|
+    |user        |care home                             |msg1                                |
+    |role=Admin  |name=Kingswood House Nursing Home     |As part of our verification process, we will call your care home to verify your details|
+    |role=Admin  |name=Little Haven;carer_break_mins=30 |As part of our verification process, we will call your care home to verify your details|
 
 
 Scenario Outline: Register a care home without cqc
+  Given there is an agency
   Given Im a logged in user "<user>"  
   And I am at the care homes registration page
   When I search for the care home "<care_home>"
@@ -44,12 +47,13 @@ Scenario Outline: Register a care home without cqc
   And the care home should be unverified
   And I should be associated with the care home
   Examples:
-    |user        | care_home                       |msg1                                |
-    |role=Admin  |name=Kingswood House Nursing Home|As part of our verification process, we will call your care home to verify your details|
-    |role=Admin  |name=Little Haven                |As part of our verification process, we will call your care home to verify your details|
+    |user        | care_home                              |msg1                                |
+    |role=Admin  |name=Kingswood House Nursing Home       |As part of our verification process, we will call your care home to verify your details|
+    |role=Admin  |name=Little Haven;carer_break_mins=30   |As part of our verification process, we will call your care home to verify your details|
 
 
 Scenario Outline: User Phone Verification
+  Given there is an agency
   Given Im a logged in user "<user>"  
   And I am at the phone verification page
   When I request a sms verification code

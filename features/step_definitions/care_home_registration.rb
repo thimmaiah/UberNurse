@@ -4,9 +4,9 @@ end
 
 When(/^I fill and submit the care homes registration page with  "([^"]*)"$/) do |arg1|
   @care_home = FactoryGirl.build(:care_home)
-  fields = ["name", "address", "postcode", "phone", "image_url"]
+  fields = ["name", "address", "postcode", "phone", "image_url", "carer_break_mins"]
   fields.each do |k|
-    fill_in(k, with: @care_home[k])
+    fill_in(k, with: @care_home[k], fill_options: { clear: :backspace })
     sleep(1)
   end
   click_on("Save")

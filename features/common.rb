@@ -10,14 +10,17 @@ Given(/^there is a user "([^"]*)"$/) do |arg1|
   puts "\n####User####\n"
   puts @user.to_json
 
-  if @agency && @user.is_temp? && @user.agency_user_mappings.length == 0  
+  if @agency && @user.agency_user_mappings.length == 0  
     aum = FactoryGirl.build(:agency_user_mapping)
     aum.agency = @agency
     aum.user = @user
+    aum.verified = @user.verified
     aum.save!
+
+    @user.reload
   end
 
-  @user.agency_user_mappings.first.update(verified: true)
+  @user.agency_user_mappings.first.update(verified: @user.verified)
 
 end
 

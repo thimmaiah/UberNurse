@@ -2,6 +2,7 @@ Feature: Login
   Login should be allowed only if there are valid credentials
 
 Scenario Outline: Login Successfully
+  Given there is an agency
   Given there is a user "<user>"
   And I am at the login page
   When I fill and submit the login page
@@ -16,6 +17,7 @@ Scenario Outline: Login Successfully
 
 
 Scenario Outline: Login Incorrectly
+  Given there is an agency
   Given there is a user "<user>"
   And I am at the login page
   When I fill the password incorrectly and submit the login page
@@ -30,6 +32,7 @@ Scenario Outline: Login Incorrectly
 
 
 Scenario Outline: Home page menus Care Giver
+  Given there is an agency
   Given there is a user "<user>"
   And the user has no bank account
   And I am at the login page
@@ -45,6 +48,7 @@ Scenario Outline: Home page menus Care Giver
 
 
 Scenario Outline: Home page menus Admin
+  Given there is an agency
   Given there is a care_home "<care_home>" with me as admin "<user>"
   And the care home has no bank account
   And I am at the login page
@@ -53,7 +57,7 @@ Scenario Outline: Home page menus Admin
 
   Examples:
     |care_home     |user                               |menus                |
-    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;|
-    |verified=false|role=Admin;phone_verified=false    |Verify Mobile Number;|
+    |verified=false|role=Admin;verified=false;phone_verified=false    |Verify Mobile Number;|
+    |verified=false|role=Admin;verified=false;phone_verified=false    |Verify Mobile Number;|
 
 
