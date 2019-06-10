@@ -124,9 +124,9 @@ module RatesHelper
     # Ensure we get the factor for weekend, bank holiday or surge pricing
     factor_name = factor(staffing_request)
     
-    # Basic rate multiplication
-    carer_base, day_mins, night_mins, calc_carer_base = carer_amount(shift, rate, factor_name)
-    care_home_base, day_mins, night_mins, calc_care_home_base = care_home_amount(shift, rate, factor_name)
+    # Basic rate multiplication - note we calculate not on actual time in the shift but on the time in the request 
+    carer_base, day_mins, night_mins, calc_carer_base = carer_amount(shift.staffing_request, rate, factor_name)
+    care_home_base, day_mins, night_mins, calc_care_home_base = care_home_amount(shift.staffing_request, rate, factor_name)
     carer_base = carer_base.round(2)
     care_home_base = care_home_base.round(2)
 
@@ -134,8 +134,8 @@ module RatesHelper
     markup = (care_home_base - carer_base).round(2)
 
     # Audit trail
-    day_time_hours_worked = shift.human_readable_time(day_mins.to_i)
-    night_time_hours_worked = shift.human_readable_time(night_mins.to_i)
+    day_time_hours_worked = staffing_request.human_readable_time(day_mins.to_i)
+    night_time_hours_worked = staffing_request.human_readable_time(night_mins.to_i)
 
     shift.pricing_audit["calc"] = "day_time_hours_worked x rate + night_time_hours_worked x rate"   
     shift.pricing_audit["calc_carer_base"] = calc_carer_base   
