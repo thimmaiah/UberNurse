@@ -151,7 +151,7 @@ class Shift < ApplicationRecord
     self.start_code = self.staffing_request.start_code
     self.end_code = self.staffing_request.end_code
     self.start_date = start_date ? start_date : self.staffing_request.start_date
-    self.end_date = end_Date ? end_date : self.staffing_request.end_date
+    self.end_date = end_date ? end_date : self.staffing_request.end_date
     self.manual_close = true
     self.save
   end

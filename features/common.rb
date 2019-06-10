@@ -111,7 +111,7 @@ Given("the care home has sister care homes {string}") do |sch|
       acm.save!
     end
 
-    care_home.agency_care_home_mappings.first.update(verified: true)
+    care_home.agency_care_home_mappings.first.update(verified: @care_home.verified)
 
 
   end
@@ -134,7 +134,7 @@ Given(/^there is a care_home "([^"]*)" with an admin "([^"]*)"$/) do |care_home_
     acm.save!
   end
 
-  @care_home.agency_care_home_mappings.first.update(verified: true)
+  @care_home.agency_care_home_mappings.first.update(verified: @care_home.verified)
 
   @admin = FactoryGirl.build(:user)
   key_values(@admin, admin_args)
