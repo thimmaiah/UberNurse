@@ -54,4 +54,8 @@ class UserDoc < ApplicationRecord
   def doc_url
     self.doc.url
   end
+
+  def belongs_to_agency(agency)
+    self.user.belongs_to_agency(agency)
+  end
 end

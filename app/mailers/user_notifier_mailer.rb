@@ -37,7 +37,7 @@ class UserNotifierMailer < ApplicationMailer
 
     # Send this to all the agencies who have this user as a carer
     agency_emails = []
-    @user.agency.each do |a|
+    @user.agencies.each do |a|
       agency_emails += a.users.collect(&:email)
     end
 

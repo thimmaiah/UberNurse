@@ -95,7 +95,7 @@ class Ability
         can :create, Training
         can :manage, Training, :agency_id=>@user.agency_id
 
-        can [:create, :read], UserDoc 
+        can [:create, :read, :manage], UserDoc 
 
         can :manage, StaffingRequest, :agency_id=>@user.agency_id
         can :create, StaffingRequest
