@@ -2,8 +2,9 @@ class DocRefreshNotificationJob < ApplicationJob
   queue_as :default
 
   def perform
-    User.temps.where("verified_on <= ?", Date.today - 1.year).each do |user|
-    	UserNotifierMailer.doc_refresh_notification(user).deliver_now
+    UserDoc.where("expiry_date = ? or expiry_date = ? or expiry_date = ? or expiry_date = ?", 
+    	Date.today + 3.months, Date.today + 2.months, Date.today + 1.month, Date.today + 2.weeks).each do |user_doc|
+    	UserNotifierMailer.doc_refresh_notification(user_doc).deliver_now
     end
   end
 end

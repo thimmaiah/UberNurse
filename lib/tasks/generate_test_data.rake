@@ -107,7 +107,7 @@ namespace :uber_nurse do
         (0..1).each do |j|
           u = FactoryGirl.build(:user)
           u.email = "admin#{i}@gmail.com"
-          u.password = "admin#{i}@gmail.com"
+          u.password = "admin#{i}@gmail.com".camelize + "1$"
           u.role = "Admin"
           u.care_home_id = c.id
           u.created_at = Date.today - rand(4).weeks - rand(7).days
@@ -125,7 +125,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:user)        
           u.verified = true
           u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com"
+          u.password = "user#{i}@gmail.com".camelize + "1$"
           u.role = "Care Giver"
           u.speciality = sp
           u.image_url = images[rand(images.length)]
@@ -162,7 +162,7 @@ namespace :uber_nurse do
           u = FactoryGirl.build(:user)
           u.verified = true
           u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com"          
+          u.password = "user#{i}@gmail.com".camelize + "1$"          
           u.role = "Nurse"
           u.speciality = sp
           u.image_url = images[rand(images.length)]
@@ -201,7 +201,7 @@ namespace :uber_nurse do
       u = FactoryGirl.build(:user)
       u.verified = true
       u.email = "thimmaiah@gmail.com"
-      u.password = u.email
+      u.password = u.email.camelize + "1$"
       u.first_name="Mohith"
       u.last_name="Thimmaiah"
       # Ensure User role is USER_ROLE_ID
@@ -212,7 +212,7 @@ namespace :uber_nurse do
 
       u = FactoryGirl.build(:user)
       u.email = "employee@ubernurse.com"
-      u.password = u.email
+      u.password = u.email.camelize + "1$"
       u.role = "Employee"
       u.care_home = CareHome.first
       u.save
@@ -221,7 +221,7 @@ namespace :uber_nurse do
 
       u = FactoryGirl.build(:user)
       u.email = "admin@ubernurse.com"
-      u.password = u.email
+      u.password = u.email.camelize + "1$"
       u.role = "Admin"
       u.care_home = CareHome.first
       u.save
@@ -230,7 +230,7 @@ namespace :uber_nurse do
 
       u = FactoryGirl.build(:user)
       u.email = "root@ubernurse.com"
-      u.password = u.email
+      u.password = u.email.camelize + "1$"
       u.role = "Super User"
       u.save
       #puts u.to_xml

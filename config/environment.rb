@@ -5,6 +5,8 @@ require_relative 'application'
 Rails.application.initialize!
 
 Time::DATE_FORMATS[:custom_datetime] = "%d/%m/%Y  %H:%M"
+Time::DATE_FORMATS[:custom_date] = "%d/%m/%Y"
+
 
 ActionMailer::Base.register_interceptor(UnsubscribedInterceptor)
 

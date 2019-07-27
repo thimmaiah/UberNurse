@@ -4,9 +4,12 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h2>Please upload your latest documents.</h2>
+    <h2>Please upload your latest <%= @user_doc.doc_type %> which will expire on <%= @user_doc.expiry_date.strftime("%d/%m/%Y") %> .</h2>
     <p>
-    	Its been a year since you have uploaded your documents for verification. Please upload the latest documents, so we can verify them. Thank you.
+
+    </p>
+    <p>
+    	We will not be able to send you out to any shifts post <%= @user_doc.expiry_date.strftime("%d/%m/%Y") %>  due to legal compliance regulations, please upload new information to bring your record up to date. Thank you in advance. If you require support please message us via the smart app for training / DBS, Passport expiring etc 
 	</p>
   </body>
 </html>

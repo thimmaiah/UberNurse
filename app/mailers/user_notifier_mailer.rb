@@ -17,11 +17,12 @@ class UserNotifierMailer < ApplicationMailer
           :subject => 'Verification Completed.' )
   end
 
-  def doc_refresh_notification(user)
-    @user = user
+  def doc_refresh_notification(user_doc)
+    @user = user_doc.user
+    @user_doc = user_doc
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :subject => 'Please upload latest documents' )
+          :subject => "Please upload latest document: #{user_doc.doc_type}" )
   end
 
   def doc_not_available(user_doc_id)
