@@ -44,6 +44,15 @@ class User < ApplicationRecord
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
 
+  validate :password_complexity
+  
+  def password_complexity
+    # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
+    return if password.blank? || password =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/
+
+    errors.add :password, 'Complexity requirement not met. Length should be 8-70 characters and include: 1 uppercase, 1 lowercase, 1 digit and 1 special character'
+  end
+  
   after_create :create_default_mapping
   def create_default_mapping
     AgencyUserMapping.create(agency_id: Agency.first.id, user_id: self.id, verified: false, accepted: true) if Agency.first && self.is_temp?
