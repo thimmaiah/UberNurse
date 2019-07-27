@@ -33,4 +33,9 @@ en:
         connuct_policies: "Staff Happy to work under Connuct Policies and Procedures"
       payment:
         amount: "Care Home Billing (Amount + VAT)"
-        billing: "Care Home Amount"   
+        billing: "Care Home Amount"
+      profile:
+        date_of_CRB_DBS_check: "Date of DBS check"
+        crd_dbs_number: "DBS number"
+        crd_dbs_returned: "DBS returned"
+        enhanced_crb: "Enhanced DBS"
