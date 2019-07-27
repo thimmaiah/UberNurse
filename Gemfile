@@ -101,3 +101,4 @@ end
 
 
 gem 'rounding'
+gem 'administrate-field-boolean_to_yes_no'

@@ -168,7 +168,7 @@ FactoryGirl.define do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
     email { Faker::Internet.email }
-    password {email}
+    password {email.camelize + "1$"}
     phone {"2125555" + rand(999).to_s.center(3, rand(9).to_s)}
     address { Faker::Address.street_address }
     postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }

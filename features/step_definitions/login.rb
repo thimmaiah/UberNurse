@@ -8,7 +8,7 @@ end
 
 When(/^I fill and submit the login page$/) do
   fill_in('email', with: @user.email)
-  fill_in('password', with: @user.email)
+  fill_in('password', with: @user.email.camelize + "1$")
   click_on("Login")
   sleep(1)
 end

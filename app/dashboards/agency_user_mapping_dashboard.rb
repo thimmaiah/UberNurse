@@ -13,8 +13,8 @@ class AgencyUserMappingDashboard < Administrate::BaseDashboard
     id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    verified: Field::Boolean,
-    accepted: Field::Boolean,
+    verified: Field::BooleanToYesNo,
+    accepted: Field::BooleanToYesNo,
     notes: Field::Text,
   }.freeze
 

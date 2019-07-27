@@ -13,12 +13,12 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    verified: Field::Boolean,
-    accepted: Field::Boolean,
+    verified: Field::BooleanToYesNo,
+    accepted: Field::BooleanToYesNo,
     notes: Field::Text,
-    manual_assignment_flag: Field::Boolean,
+    manual_assignment_flag: Field::BooleanToYesNo,
     preferred_care_giver_ids: Field::String,
-    limit_shift_to_pref_carer: Field::Boolean,
+    limit_shift_to_pref_carer: Field::BooleanToYesNo,
   }.freeze
 
   # COLLECTION_ATTRIBUTES

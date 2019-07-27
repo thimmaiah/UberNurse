@@ -19,8 +19,8 @@ When(/^I fill and submit the registration page$/) do
     sleep(0.5)
   end
 
-  fill_in("password", with: @user.email)
-  fill_in("confirm_password", with: @user.email)
+  fill_in("password", with: @user.email.camelize + "1$")
+  fill_in("confirm_password", with: @user.email.camelize + "1$")
 
   # select @user.role, :from => "role"
   # select @user.sex, :from => "sex"
