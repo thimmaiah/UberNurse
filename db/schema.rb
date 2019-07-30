@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190728053409) do
+ActiveRecord::Schema.define(version: 20190730131523) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",            limit: 100
@@ -317,6 +317,20 @@ ActiveRecord::Schema.define(version: 20190728053409) do
     t.index ["next_generation_date"], name: "index_recurring_requests_on_next_generation_date", using: :btree
     t.index ["start_on"], name: "index_recurring_requests_on_start_on", using: :btree
     t.index ["user_id"], name: "index_recurring_requests_on_user_id", using: :btree
+  end
+
+  create_table "references", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "first_name",         limit: 50
+    t.string   "last_name",          limit: 50
+    t.string   "title",              limit: 10
+    t.string   "email",              limit: 100
+    t.string   "ref_type",           limit: 25
+    t.integer  "user_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.text     "notes",              limit: 65535
+    t.boolean  "reference_received"
+    t.index ["user_id"], name: "index_references_on_user_id", using: :btree
   end
 
   create_table "referrals", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

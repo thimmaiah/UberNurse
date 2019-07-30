@@ -1,6 +1,14 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :reference do
+    first_name ""
+    last_name ""
+    title ""
+    email ""
+    ref_type ""
+    user_id 1
+  end
   factory :care_home_carer_mapping do
     care_home_id 1
     user_id 1

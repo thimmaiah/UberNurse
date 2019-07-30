@@ -1,7 +1,6 @@
 class CareHomeCarerMappingsController < ApplicationController
-  before_action :set_care_home_carer_mapping, only: [:show, :edit, :update, :destroy]
-
-  respond_to :html
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :care_home_carer_mapping_params
 
   def index
     @care_home_carer_mappings = CareHomeCarerMapping.all

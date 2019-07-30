@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :references
   resources :care_home_carer_mappings
   resources :agency_user_mappings
   resources :agency_care_home_mappings
@@ -14,6 +15,8 @@ Rails.application.routes.draw do
   resources :referrals
   namespace :admin do
 
+    resources :references
+    
     resources :agency_user_mappings do
       collection do
         post :create_from_user

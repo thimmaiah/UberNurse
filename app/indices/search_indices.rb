@@ -26,6 +26,7 @@ end
 ThinkingSphinx::Index.define :agency_care_home_mapping, :with => :real_time do
   # fields
   indexes agency.name, :as => :agency_name, :sortable => true
+  indexes care_home.postcode, :as => :care_home_postcode, :sortable => true
   indexes care_home.name, :as => :care_home_name, :sortable => true
   has care_home.zone, :type=>:string
   has verified, :type=>:boolean
@@ -35,6 +36,7 @@ end
 ThinkingSphinx::Index.define :care_home, :with => :real_time do
   # fields
   indexes name
+  indexes postcode
   has zone, :type=>:string
   has verified, :type=>:boolean
   has latitude_in_radians, as: :latitude, type: :float
