@@ -25,6 +25,14 @@ class UserNotifierMailer < ApplicationMailer
           :subject => "Please upload latest document: #{user_doc.doc_type}" )
   end
 
+  def training_refresh_notification(training)
+    @user = training.user
+    @training = training
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :subject => "Training will expire: #{training.name}" )
+  end
+
   def doc_not_available(user_doc_id)
     @user_doc = UserDoc.find(user_doc_id)
     @user = @user_doc.user

@@ -32,16 +32,16 @@ namespace :uber_nurse do
     begin
       (1..2).each do | i |
         h = FactoryGirl.build(:agency)
-        h.save
+        h.save!
         puts "Agency #{h.id}"
         (1..2).each do | j |
           u = FactoryGirl.build(:user)
-          u.email = "agency#{j}@gmail.com"
-          u.password = "agency#{j}@gmail.com"
+          u.email = "agency#{j}.#{h.id}@gmail.com"
+          u.password = "agency#{j}.#{h.id}@gmail.com".camelize + "1$"
           u.role = "Agency"
           u.agency_id = h.id
           u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
+          u.save!
           #puts u.to_xml
           puts "Agency User #{u.id}"     
         end

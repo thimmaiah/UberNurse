@@ -115,5 +115,7 @@ class Ability
         can :manage, AgencyUserMapping, :agency_id=>@user.agency_id
         can :create, AgencyCareHomeMapping
         can :manage, AgencyCareHomeMapping, :agency_id=>@user.agency_id
+        can :create, CareHomeCarerMapping
+        can :manage, CareHomeCarerMapping, :agency_id=>@user.agency_id
     end
 end

@@ -1,6 +1,14 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :care_home_carer_mapping do
+    care_home_id 1
+    user_id 1
+    enabled false
+    distance 1.5
+    manually_created false
+    agency_id 1
+  end
   
   factory :agency_user_mapping do
     verified {true}

@@ -82,7 +82,7 @@ module Admin
       if params[:search] == "*"
         @resources = entity.search( with: with ).page(params[:page]).per(10)
       else
-        @resources = entity.search( params[:search], with: with ).page(params[:page]).per(10)
+        @resources = entity.search( ThinkingSphinx::Query.escape(params[:search]), with: with ).page(params[:page]).per(10)
       end
       setup_search
     end

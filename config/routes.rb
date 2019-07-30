@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
 
 
+  resources :care_home_carer_mappings
   resources :agency_user_mappings
   resources :agency_care_home_mappings
   resources :agencies
@@ -25,6 +26,7 @@ Rails.application.routes.draw do
     end
 
     resources :agencies
+    resources :care_home_carer_mappings
 
     resources :users do
       collection do

@@ -82,6 +82,7 @@ ThinkingSphinx::Index.define :user, :with => :real_time do
   indexes last_name
   indexes postcode
   indexes speciality
+  indexex phone
 
   # attributes
   has latitude_in_radians, as: :latitude, type: :float
