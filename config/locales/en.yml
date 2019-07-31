@@ -20,6 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  activerecord:
+    models:
+      care_home:
+        one: Partner
+        other: Partners
+      agency_care_home_mapping:
+        one: Agency Partner Mapping
+        other: Agency Partner Mappings
   helpers:
     label:
       recurring_request:

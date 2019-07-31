@@ -101,6 +101,7 @@ ThinkingSphinx::Index.define :agency_user_mapping, :with => :real_time do
   indexes agency.name, :as => :agency_name, :sortable => true
   indexes user.first_name
   indexes user.email
+  indexes user.phone
   indexes user.last_name
   indexes user.postcode
   indexes user.speciality
