@@ -244,8 +244,27 @@ class User < ApplicationRecord
       self.errors[:base] << "Cannot delete user who has been assigned shifts in the system. Use forget to scramble this users personla data."
       throw(:abort)
     end
+  end
 
-
+  # Used for GDPR forget me
+  def scramble_personal_data
+    self.first_name = "Deleted"
+    self.last_name = "Deleted"
+    self.phone = "000000000"
+    self.email = Digest::SHA256.hexdigest(self.email)+"@deleted.com"
+    self.uid = self.email
+    self.address = "Deleted"
+    self.postcode = PostCode.first.postcode
+    self.bank_account = "00000000"
+    self.sort_code = "000000"
+    self.active = false
+    self.pref_commute_distance = 0
+    if self.save
+      DeleteDocsJob.perform_later(self)
+      return true
+    else
+      return false
+    end
   end
 
 

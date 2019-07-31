@@ -48,6 +48,15 @@ as well as a link to its edit page.
         method: :delete,
         data: { confirm: "Are you sure you want to delete this record permanently?" }
       ) if show_action? :destroy, page.resource %></td>
+
+      <td><%= link_to(
+        "Scramble User Data",
+        scramble_admin_user_path(page.resource),
+        class: "button text-color-red",
+        method: :post,
+        data: { confirm: "Are you sure? This will scramble personal data and delete all documentation uploaded by this user." }
+      ) if show_action? :destroy, page.resource %></td>
+
     <% end %>
 
   </div>

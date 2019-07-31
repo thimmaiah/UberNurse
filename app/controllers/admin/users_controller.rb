@@ -53,6 +53,18 @@ module Admin
       end
     end
 
+    def scramble
+      @resource = User.find(params[:id])
+      if @resource.scramble_personal_data
+        flash[:success] = "Scambled successfully"
+        redirect_to admin_user_path(id: @resource.id)
+      else
+        flash[:error] = @resource.errors.full_messages
+        redirect_to admin_user_path(id: @resource.id)
+      end
+    end
+
+
     def profile            
       @resource = User.find(params[:id])      
       render "profile", locals: {

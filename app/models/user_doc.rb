@@ -2,7 +2,6 @@ class UserDoc < ApplicationRecord
 
   belongs_to :user
 
-  acts_as_paranoid
   after_save ThinkingSphinx::RealTime.callback_for(:user_doc)
   validates_presence_of :doc_type, :user_id, :name
 
