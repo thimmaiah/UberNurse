@@ -44,8 +44,13 @@ module Admin
 
     def destroy
       @resource = User.find(params[:id])
-      @resource.really_destroy!
-      redirect_to action: :index
+      if @resource.destroy
+        flash[:success] = "Deleted successfully"
+        redirect_to action: :index
+      else
+        flash[:error] = @resource.errors.full_messages
+        redirect_to admin_user_path(id: @resource.id)
+      end
     end
 
     def profile            

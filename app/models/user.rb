@@ -1,6 +1,5 @@
 class User < ApplicationRecord
 
-  acts_as_paranoid
   after_save :index_user
   has_paper_trail ignore: [:sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :tokens]
 
@@ -9,11 +8,11 @@ class User < ApplicationRecord
   belongs_to :care_home, optional: true
   has_many :profiles
   has_many :staffing_requests
-  has_many :agency_user_mappings
+  has_many :agency_user_mappings, dependent: :destroy
   has_many :agencies, :through => :agency_user_mappings
   has_many :shifts
   has_many :payments
-  has_many :user_docs, -> { order(:verified=>:desc) }
+  has_many :user_docs, -> { order(:verified=>:desc) }, dependent: :destroy
   has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
   has_many :ratings, as: :rated_entity
 
@@ -43,9 +42,11 @@ class User < ApplicationRecord
   before_create :set_defaults
   before_create :add_unsubscribe_hash
   reverse_geocoded_by :lat, :lng
+  before_destroy :check_for_shifts, prepend: true
 
   validate :password_complexity
   
+
   def password_complexity
     # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
     return if password.blank? || password =~ /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,70}$/
@@ -235,5 +236,17 @@ class User < ApplicationRecord
   def belongs_to_agency(acgency_id)
     self.agency_user_mappings.collect(&:agency_id).include?(acgency_id)
   end
+
+  def check_for_shifts
+    logger.debug "check_for_shifts called"
+    if self.shifts.length > 0
+      logger.debug "check_for_shifts: Should not delete User as he has shifts"
+      self.errors[:base] << "Cannot delete user who has been assigned shifts in the system. Use forget to scramble this users personla data."
+      throw(:abort)
+    end
+
+
+  end
+
 
 end

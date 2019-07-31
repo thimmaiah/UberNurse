@@ -40,6 +40,15 @@ as well as a link to its edit page.
     <% end %>
 
     <%= link_to("Reset Password", reset_password_admin_user_path(id: page.resource.id), class: "button")  %>
+    <% if valid_action? :destroy, page.resource_name %>
+      <td><%= link_to(
+        "Delete User Permanently",
+        [namespace, page.resource],
+        class: "button text-color-red",
+        method: :delete,
+        data: { confirm: "Are you sure you want to delete this record permanently?" }
+      ) if show_action? :destroy, page.resource %></td>
+    <% end %>
 
   </div>
 </header>
