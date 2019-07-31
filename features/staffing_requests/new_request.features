@@ -14,6 +14,7 @@ Scenario Outline: New Request
   	|care_home						              |admin 						           |request	|
   	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |start_code=1111;end_code=0000 |
   	|name=My care_home;verified=true	  |first_name=Admin;role=Admin |start_code=1111;end_code=0000 |
+    |name=My care_home;verified=true;qr_code=1234    |first_name=Admin;role=Admin |  |
   	
 
 
