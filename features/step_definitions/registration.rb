@@ -6,7 +6,7 @@ end
 
 When(/^I fill and submit the registration page$/) do
 
-  role_label = @user.role == "Admin" ? "Care Home Admin" : @user.role
+  role_label = @user.role == "Admin" ? "Partner" : @user.role
   click_on(role_label)
   sleep(1)
 

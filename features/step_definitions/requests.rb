@@ -199,7 +199,8 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
 
   click_on("Save")
   sleep(1)
-
+  click_on("Yes")
+  sleep(1)
 end
 
 Then(/^the request must be saved$/) do
