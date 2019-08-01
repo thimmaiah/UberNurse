@@ -59,6 +59,39 @@ Scenario Outline: New Shift for specialist users with no match
     |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
     |role=Nurse;speciality=Generalist     |role=Care Giver;speciality=Mental Health;verified=true  |
     |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
+    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weekdays=false  |
+    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;pause_shifts=true    |
+
+
+Scenario Outline: New Shift for specialist users with no match for weekend
+  Given there is an agency
+  Given there is a request "<request>"
+  Given the request is on a weekend
+  Given there is a user "<user>"
+  Given the carer is mapped to the care home  
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
+
+  Examples:
+    |request                                   | user                            |
+    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weekends=false  |
+    
+
+Scenario Outline: New Shift for specialist users with no match for night hours
+  Given there is an agency
+  Given there is a request "<request>"
+  Given the request end time is "{hour: 22}"
+  Given there is a user "<user>"
+  Given the carer is mapped to the care home  
+  And the shift creator job runs
+  Then A shift must not be created for the user for the request
+  Then the admin user receives an email with "No shift found for request" in the subject
+
+  Examples:
+    |request                                   | user                            |
+    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weeknights=false  |
+
 
 Scenario Outline: New Shift for users not mapped to agency
   Given there is an agency

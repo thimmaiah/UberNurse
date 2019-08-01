@@ -250,7 +250,7 @@ class ShiftCreatorJob < ApplicationJob
       end
 
 
-      audit["pause_shifts"] = "Shifts paused by user" if user.pause_shifts
+      audit["pause_shifts"] = user.pause_shifts ? "Yes" : "No" 
       staffing_request.select_user_audit[user.last_name + " " + user.first_name] = audit
 
       if (!role_ok || !date_ok || user.pause_shifts)
