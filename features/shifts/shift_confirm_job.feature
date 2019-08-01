@@ -7,6 +7,7 @@ Scenario Outline: Shift Reminder Email sent
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
@@ -29,6 +30,7 @@ Scenario Outline: Shift Reminder Email not sent
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
@@ -49,6 +51,7 @@ Scenario Outline: Rejected Shift Reminder Email not sent
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already rejected this request
   And the shift has confirm_sent "<count>" times
   And the shift confirm job runs
@@ -69,6 +72,7 @@ Scenario Outline: Started Shift Reminder Email not sent
   Given there is a request "<request>"
   And the request start_date is "<time>" from now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   And the user has already started this request
   And the shift has confirm_sent "<count>" times

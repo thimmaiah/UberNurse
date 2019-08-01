@@ -5,6 +5,7 @@ Scenario Outline: New Shift
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the shift creator job runs
   Then A shift must be created for the user for the request
   And the request broadcast status must change to "Sent"
@@ -26,8 +27,9 @@ Scenario Outline: New Shift for preferred care givers
   Given there is a request "<request>"
   Given there is a user "<user>"
   Given there is a user "<user>"
-  Given the care home has a preferred care giver
   Given there is a user "<user>"
+  Given the carer is mapped to the care home  
+  Given the care home has a preferred care giver  
   And the shift creator job runs
   Then A shift must be created for the preferred care giver for the request
   And the request broadcast status must change to "Sent"
@@ -46,6 +48,7 @@ Scenario Outline: New Shift for specialist users with no match
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home  
   And the shift creator job runs
   Then A shift must not be created for the user for the request
   Then the admin user receives an email with "No shift found for request" in the subject
@@ -61,6 +64,7 @@ Scenario Outline: New Shift for users not mapped to agency
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home  
   And the user has no mapping to the agency
   And the shift creator job runs
   Then A shift must not be created for the user for the request
@@ -76,6 +80,7 @@ Scenario Outline: New Shift for manual assignment care homes
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the shift creator job runs
   Then A shift must not be created for the user for the request
   Given the request manual assignment is set to "false"
@@ -94,6 +99,7 @@ Scenario Outline: New Shift for unverified users
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   Given the user is verified "false"
   And the shift creator job runs
   Then A shift must not be created for the user for the request
@@ -120,6 +126,7 @@ Scenario Outline: New Shift when already rejected
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already rejected this request
   And the shift creator job runs
   Then A shift must not be created for the user for the request
@@ -134,6 +141,7 @@ Scenario Outline: New Shift when already auto rejected
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already auto rejected this request
   And the shift creator job runs
   Then A shift must not be created for the user for the request
@@ -148,8 +156,10 @@ Scenario Outline: New Shift to different user when already rejected
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already rejected this request
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the shift creator job runs
   Then A shift must be created for the user for the request
   And the request broadcast status must change to "Sent"
@@ -163,7 +173,9 @@ Scenario Outline: New Shift to different user when already rejected
 
 Scenario Outline: New Shift when already booked in the same time shift
   Given there is an agency
+  Given there is a care_home "verified=true" with an admin "first_name=Admin;role=Admin"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted a request "<other_request>"
   And give the request has a start_time "8:00" and end time of "16:00"
   Given there is a request "<request>"
@@ -182,6 +194,7 @@ Scenario Outline: New Shift for Sister Care Home
   Given there is an agency
   Given there is a request "<request>" for a sister care home
   Given there is a user "<user>"
+  Given the carer is mapped to the care home of the request
   And the shift creator job runs
   Then A shift must be created for the user for the request
   And the request broadcast status must change to "Sent"

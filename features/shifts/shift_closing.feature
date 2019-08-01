@@ -6,6 +6,7 @@ Scenario Outline: Close Shift
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given jobs are being dispatched
   Then the user receives an email with "Shift Confirmed" in the subject
@@ -30,6 +31,7 @@ Scenario Outline: Add Start Code
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given the user is logged in 
   And when the user enters the "start_code" "<start_code>" in the UI
@@ -47,6 +49,7 @@ Scenario Outline: Add Start Code No Match
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given the user is logged in 
   And when the user enters the "start_code" "<start_code>" in the UI
@@ -63,6 +66,7 @@ Scenario Outline: QR Code entered
   Given there is a request "<request>"
   Given the request can be started now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given the user scans the QR code 
   Then the shift is started
@@ -84,6 +88,7 @@ Scenario Outline: Wrong QR Code entered
   Given there is a request "<request>"
   Given the request can be started now
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given the user scans the wrong QR code 
   Then the shift is not started
@@ -99,6 +104,7 @@ Scenario Outline: Add End Code
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   And the shift has a valid start code
   Given the user is logged in 
@@ -120,6 +126,7 @@ Scenario Outline: Add End Code No Match
   Given there is a care_home "verified=true" with me as admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   And the shift has a valid start code
   Given the user is logged in 
@@ -136,6 +143,7 @@ Scenario Outline: Cancel Accepted Shift
   Given there is a care_home "verified=true" with an admin "role=Admin"
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the user has already accepted this request
   Given jobs are being dispatched
   Given Im logged in 

@@ -147,7 +147,7 @@ class ShiftCreatorJob < ApplicationJob
   # 4 who has not been assigned on this date else where
   # 5 who has not rejected this request - perhaps because of another external engagement
 
-  def select_user(staffing_request)
+  def select_user_old(staffing_request)
 
     staffing_request.select_user_audit = {}
     # Check if the care home has preferred care givers
@@ -185,6 +185,37 @@ class ShiftCreatorJob < ApplicationJob
 		    end
 		end
 	end
+
+    return nil, false
+  end
+
+  def select_user(staffing_request)
+
+    staffing_request.select_user_audit = {}
+    # Check if the care home has preferred care givers
+    care_home_carer_mappings = staffing_request.care_home.care_home_carer_mappings.enabled.where(agency_id: staffing_request.agency_id)
+    if staffing_request.preferred_carer_id
+      # Sometimes we need to route the request to a specific carer first
+      care_home_carer_mappings = care_home_carer_mappings.where(user_id: preferred_carer_id).first   
+    else
+      # Randomize the list so we get even distribution across carers - but first try the preferred careres
+      care_home_carer_mappings = care_home_carer_mappings.shuffle.sort_by{|ccm| ccm.preferred ? 0 : 1}
+    end
+    
+    if(care_home_carer_mappings)      
+      # Check if any of the pref_care_givers can be assigned to the shift
+      care_home_carer_mappings.each do |ccm|
+        user = ccm.user
+        if user.role == staffing_request.role && user.speciality == staffing_request.speciality && 
+          (ccm.preferred || !staffing_request.limit_shift_to_pref_carer)
+            assign = assign_user_to_shift?(staffing_request, user) 
+            if(assign)
+              Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected preferred care giver"
+              return user, true
+            end
+          end
+      end
+    end
 
     return nil, false
   end

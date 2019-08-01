@@ -1,3 +1,17 @@
+
+Given("the carer is mapped to the care home") do
+  User.temps.each do |user|
+    CareHomeCarerMapping.create(care_home_id: @care_home.id, user_id: user.id, enabled:true, preferred:false, agency_id: @agency.id)
+  end
+end
+
+Given("the carer is mapped to the care home of the request") do
+  User.temps.each do |user|
+    CareHomeCarerMapping.create(care_home_id: @staffing_request.care_home_id, user_id: user.id, enabled:true, preferred:false, agency_id: @agency.id)
+  end
+end
+
+
 Given(/^a unsaved request "([^"]*)"$/) do |args|
 
   puts "\n####creating and unsaved request from args \n#{args}\n"

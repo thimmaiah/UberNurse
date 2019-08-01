@@ -11,9 +11,10 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
     id: Field::Number,
     care_home: Field::BelongsTo,
     user: Field::BelongsTo,
-    enabled: Field::Boolean,
+    enabled: Field::BooleanToYesNo,
+    preferred: Field::BooleanToYesNo,
     distance: Field::Number.with_options(decimals: 2),
-    manually_created: Field::Boolean,
+    manually_created: Field::BooleanToYesNo,
     agency_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -30,6 +31,7 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
     :user,
     :distance,
     :enabled,
+    :preferred
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -38,6 +40,7 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
     :id,
     :care_home,
     :user,
+    :preferred,
     :enabled,
     :distance,
     :manually_created,
@@ -52,6 +55,7 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :care_home,
     :user,
+    :preferred,
     :enabled,
     :distance,
     :manually_created

@@ -5,6 +5,7 @@ Scenario Outline: Accept My Shift
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   Given the user has a profile
   And the shift creator job runs
   Given Im logged in 
@@ -29,6 +30,7 @@ Scenario Outline: Decline My Shift
   Given there is an agency
   Given there is a request "<request>"
   Given there is a user "<user>"
+  Given the carer is mapped to the care home
   And the shift creator job runs
   Given Im logged in 
   When I click "Pending Shifts"

@@ -1,3 +1,5 @@
+
+
 Given(/^the shift creator job runs$/) do
   ShiftCreatorJob.new.perform
   @shift = Shift.last
@@ -5,14 +7,11 @@ Given(/^the shift creator job runs$/) do
 end
 
 Given("the care home has a preferred care giver") do
-  acm = AgencyCareHomeMapping.where(care_home_id: @care_home.id, agency_id: @agency.id).first
-  acm.preferred_care_giver_ids = @user.id.to_s
-  acm.save!
+  CareHomeCarerMapping.where(user_id: @user.id).update_all(preferred: true)
 end
 
 Then("A shift must be created for the preferred care giver for the request") do
-  acm = AgencyCareHomeMapping.where(care_home_id: @care_home.id, agency_id: @agency.id).first
-  @shift.user_id.should == acm.preferred_care_giver_ids.split(",")[0].to_i
+  @shift.user_id.should == @user.id
 end
 
 

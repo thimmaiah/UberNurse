@@ -4,6 +4,15 @@ class CareHomeCarerMapping < ApplicationRecord
 
 
 	before_save :compute_distance
+	before_save :set_defaults
+
+	scope :enabled, -> { where enabled: true }
+	scope :preferred, -> { where preferred: true }
+
+	def set_defaults
+		self.enabled = false if self.enabled == nil
+		self.preferred = false if self.preferred == nil
+	end
 
 	def compute_distance
 		self.distance = self.user.distance_from(self.care_home)

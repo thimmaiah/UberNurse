@@ -11,7 +11,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     care_home: Field::BelongsTo,
     agency: Field::BelongsTo,
     recurring_request: Field::BelongsTo,
-    manual_assignment_flag: Field::Boolean,
+    manual_assignment_flag: Field::BooleanToYesNo,
     user: Field::BelongsTo,
     shifts: Field::HasMany.with_options(
       sort_by: 'start_date',

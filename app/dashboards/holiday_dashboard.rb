@@ -11,7 +11,7 @@ class HolidayDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     date: Field::DateTime,
-    bank_holiday: Field::Boolean,
+    bank_holiday: Field::BooleanToYesNo,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze

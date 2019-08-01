@@ -12,7 +12,7 @@ class TrainingDashboard < Administrate::BaseDashboard
     profile: Field::BelongsTo,
     id: Field::Number,
     name: Field::String,
-    undertaken: Field::Boolean,
+    undertaken: Field::BooleanToYesNo,
     date_completed: Field::DateTime,
     profile_id: Field::Number,
     user_id: Field::Number,

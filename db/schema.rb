@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190730131523) do
+ActiveRecord::Schema.define(version: 20190801114652) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20190730131523) do
     t.integer  "agency_id"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
+    t.boolean  "preferred"
     t.index ["agency_id"], name: "index_care_home_carer_mappings_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_care_home_carer_mappings_on_care_home_id", using: :btree
     t.index ["user_id"], name: "index_care_home_carer_mappings_on_user_id", using: :btree

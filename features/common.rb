@@ -26,6 +26,7 @@ end
 
 Given("the user has no mapping to the agency") do
   @user.agency_user_mappings.delete_all
+  CareHomeCarerMapping.where(user_id: @user.id).update_all(agency_id: nil)
 end
 
 
@@ -276,6 +277,9 @@ Given("the user is verified {string}") do |arg|
   @user.verified = (arg == "true")  
   @user.save
   if @user.agency_user_mappings
-    @user.agency_user_mappings.update_all(verified: false)
+    @user.agency_user_mappings.each do |aum|
+      aum.verified = false
+      aum.save
+    end
   end
 end

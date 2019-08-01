@@ -24,8 +24,8 @@ class UserDocDashboard < Administrate::BaseDashboard
     doc_content_type: Field::String,
     doc_file_size: Field::Number,
     doc_updated_at: Field::DateTime,
-    verified: Field::Boolean,
-    not_available: Field::Boolean,
+    verified: Field::BooleanToYesNo,
+    not_available: Field::BooleanToYesNo,
     notes: Field::Text,
     doc: PaperclipField
   }.freeze

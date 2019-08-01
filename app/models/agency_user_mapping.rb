@@ -30,8 +30,10 @@ class AgencyUserMapping < ApplicationRecord
   	if self.verified
   		self.user.verified = true
       self.user.verified_on = Date.today
-  		self.user.save
+  		self.user.save      
       UserNotifierMailer.verification_complete(self.id).deliver_later if self.id
+    else
+      self.user.care_home_carer_mappings.update_all(agency_id: self.agency_id, enabled: false)
   	end
   end
 
