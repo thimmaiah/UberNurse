@@ -12,6 +12,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     zone: Field::Select.with_options(collection: CareHome::ZONES),
     users: Field::HasMany,
     staffing_requests: Field::HasMany.with_options(limit: 10, sort_by: :start_date),
+    care_home_carer_mappings: Field::HasMany,
     name: Field::String,
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
     phone: Field::String,
@@ -64,6 +65,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     :lat,
     :lng,
     :users,
+    :care_home_carer_mappings,
     :staffing_requests,
 
   ].freeze

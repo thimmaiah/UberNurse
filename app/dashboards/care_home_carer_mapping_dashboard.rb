@@ -28,6 +28,7 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
     :id,
     :care_home,
     :user,
+    :distance,
     :enabled,
   ].freeze
 

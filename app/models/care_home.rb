@@ -7,6 +7,9 @@ class CareHome < ApplicationRecord
   has_many :agency_care_home_mappings
   has_many :agencies, :through => :agency_care_home_mappings
   has_many :staffing_requests
+  has_many :care_home_carer_mappings
+  has_many :carers, :through => :care_home_carer_mappings, source: :user
+
   validates_presence_of :name, :postcode
   has_many :ratings, as: :rated_entity
 
