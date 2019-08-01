@@ -8,7 +8,13 @@
     <h2>Shift Confirmation</h2>
     
     <p>
-    	This is to inform you that the shift below has been confirmed. Please provide the Start / End codes listed here to the care giver at the start and end of the shift 
+    	This is to inform you that the shift below has been confirmed. 
+    </p>
+
+    <% if @shift.care_home.qr_code == nil %>
+    
+    <p>
+      Please provide the Start / End codes listed here to the care giver at the start and end of the shift 
     </p>
     <p>  
       <table>
@@ -75,6 +81,8 @@
 
       </table>
 	  </p>
+
+    <% end %>
 
   <h2>Shift Details</h2>  
 	<%= render partial: "shift" %>

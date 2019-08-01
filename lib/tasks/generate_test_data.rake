@@ -64,7 +64,9 @@ namespace :uber_nurse do
           h = FactoryGirl.build(:care_home)
           h.created_at = Date.today - rand(4).weeks - rand(7).days
           h.speciality = sp
+          h.qr_code = rand(2**2) if rand(10) > 5
           h.save
+
           h.reload
           #puts u.to_xml(:include => :care_home_industry_mappings)
           puts "CareHome #{h.id}"
