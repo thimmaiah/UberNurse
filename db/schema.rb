@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190801114652) do
+ActiveRecord::Schema.define(version: 20190801143839) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
@@ -573,6 +573,11 @@ ActiveRecord::Schema.define(version: 20190801114652) do
     t.boolean  "ready_for_verification"
     t.boolean  "allow_password_change",                                                 default: false,   null: false
     t.integer  "agency_id"
+    t.boolean  "work_weekdays"
+    t.boolean  "work_weeknights"
+    t.boolean  "work_weekends"
+    t.boolean  "work_weekend_nights"
+    t.boolean  "pause_shifts"
     t.index ["agency_id"], name: "index_users_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

@@ -77,7 +77,6 @@ class StaffingRequest < ApplicationRecord
     end
   end
 
-
   def price_estimate
     # Ensure the request gets a price estimate before it is saved
     self.created_at = Time.now

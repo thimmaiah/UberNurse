@@ -19,6 +19,10 @@ module StartEndTimeHelper
     "#{(minutes / 60).truncate(0)} hrs, #{(minutes % 60).round(0)} mins"
   end
 
+  def day_shift_minutes
+    self.minutes_worked - self.night_shift_minutes
+  end
+
   def night_shift_minutes
     night_shift_start = 0
     night_shift_end   = 0

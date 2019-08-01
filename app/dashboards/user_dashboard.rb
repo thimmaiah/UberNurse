@@ -30,7 +30,14 @@ class UserDashboard < Administrate::BaseDashboard
     speciality: Field::Select.with_options(collection: User::SPECIALITY),
     experience: Field::Number,
     accept_terms: Field::BooleanToYesNo,
+    
     active: Field::BooleanToYesNo,
+    work_weekdays: Field::BooleanToYesNo,
+    work_weeknights: Field::BooleanToYesNo,
+    work_weekends: Field::BooleanToYesNo,
+    work_weekend_nights: Field::BooleanToYesNo,
+    pause_shifts: Field::BooleanToYesNo,
+    
     image_url: Field::Text,
     sort_code: Field::String,
     bank_account: Field::String,
@@ -79,6 +86,11 @@ class UserDashboard < Administrate::BaseDashboard
     :sort_code,
     :bank_account,
     :active,
+    :work_weekdays,
+    :work_weeknights,
+    :work_weekends,
+    :work_weekend_nights,
+    :pause_shifts,
     :postcode,
     :care_home,
     :shifts
@@ -102,6 +114,11 @@ class UserDashboard < Administrate::BaseDashboard
     :sort_code,
     :bank_account,
     :active,
+    :work_weekdays,
+    :work_weeknights,
+    :work_weekends,
+    :work_weekend_nights,
+    :pause_shifts,
     :postcode,
     :created_at
   ].freeze

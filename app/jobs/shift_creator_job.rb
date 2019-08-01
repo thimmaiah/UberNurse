@@ -206,8 +206,7 @@ class ShiftCreatorJob < ApplicationJob
       # Check if any of the pref_care_givers can be assigned to the shift
       care_home_carer_mappings.each do |ccm|
         user = ccm.user
-        if user.role == staffing_request.role && user.speciality == staffing_request.speciality && 
-          (ccm.preferred || !staffing_request.limit_shift_to_pref_carer)
+        if (ccm.preferred || !staffing_request.limit_shift_to_pref_carer)
             assign = assign_user_to_shift?(staffing_request, user) 
             if(assign)
               Rails.logger.debug "ShiftCreatorJob: #{user.email}, Request #{staffing_request.id} selected preferred care giver"
@@ -225,6 +224,39 @@ class ShiftCreatorJob < ApplicationJob
       audit = {}
 
       audit["email"] = user.email
+
+      role_ok = (user.role == staffing_request.role && user.speciality == staffing_request.speciality)
+      audit["role_ok"] = role_ok ? "Yes" : "No"
+      
+      date_ok = true
+      if staffing_request.start_date.on_weekday? 
+        if staffing_request.night_shift_minutes > 0 && !user.work_weeknights 
+          date_ok = false
+          audit["date_ok"] = "Cannot work weeknights"
+        end
+        if staffing_request.day_shift_minutes > 0 && !user.work_weekdays 
+          date_ok = false
+          audit["date_ok"] = "Cannot work weekdays"
+        end
+      elsif staffing_request.start_date.on_weekend? 
+        if staffing_request.night_shift_minutes > 0 && !user.work_weekend_nights 
+          date_ok = false
+          audit["date_ok"] = "Cannot work weekend nights"
+        end
+        if staffing_request.day_shift_minutes > 0 && !user.work_weekends 
+          date_ok = false
+          audit["date_ok"] = "Cannot work weekends"
+        end
+      end
+
+
+      audit["pause_shifts"] = "Shifts paused by user" if user.pause_shifts
+      staffing_request.select_user_audit[user.last_name + " " + user.first_name] = audit
+
+      if (!role_ok || !date_ok || user.pause_shifts)
+        return false
+      end
+      
 
       Rails.logger.debug "ShiftCreatorJob: Checking user #{user.email} with request #{staffing_request.id}"
 

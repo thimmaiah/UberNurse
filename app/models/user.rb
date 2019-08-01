@@ -125,14 +125,18 @@ class User < ApplicationRecord
     self.active = true
     self.phone = self.phone.gsub(/\s+/, "") 
 
-    if(self.is_temp? && self.verified == nil)
-      self.verified = false
+    if(self.is_temp?)
+      self.verified = false if self.verified == nil
+    
+      self.work_weekdays = true if self.work_weekdays == nil
+      self.work_weeknights = true if self.work_weeknights == nil
+      self.work_weekends = true if self.work_weekends == nil
+      self.work_weekend_nights = true if self.work_weekend_nights == nil
+    
+      self.pause_shifts = false if self.pause_shifts == nil
+      self.speciality = "Generalist" if self.speciality == nil
     end
     
-    # Default the speciality
-    if(self.is_temp? && self.speciality == nil)
-      self.speciality = "Generalist"
-    end
   end
 
   def self.guest
