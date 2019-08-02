@@ -1,7 +1,8 @@
 module Admin
   class TrainingsController < Admin::ApplicationController
     def new   
-      resource = Training.new(user_id: params[:user_id], profile_id: params[:profile_id])
+      resource = Training.new(user_id: params[:user_id], profile_id: params[:profile_id], 
+                              expiry_date: Date.today + 1.year, undertaken: true)
       render locals: {
           page: Administrate::Page::Form.new(dashboard, resource),
       }

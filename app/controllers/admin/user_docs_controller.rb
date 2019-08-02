@@ -12,7 +12,7 @@ module Admin
     end
 
     def new 
-      resource = UserDoc.new(user_id: params[:user_id])
+      resource = UserDoc.new(user_id: params[:user_id], expiry_date: Date.today + 1.year, verified: true)
       render locals: {
           page: Administrate::Page::Form.new(dashboard, resource),
       }
