@@ -8,7 +8,7 @@ class UserDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    care_home: Field::BelongsTo,
+    care_home: Field::BelongsToSearch,
     user_docs: Field::HasMany,
     profile: Field::HasOne,
     shifts: Field::HasMany,

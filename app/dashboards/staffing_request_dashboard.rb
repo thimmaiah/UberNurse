@@ -88,8 +88,7 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :reason,
     :care_home_total_amount,
     :care_home_base,
-    :vat,
-    :pricing_audit,
+    :vat,    
     :request_status,
     :auto_deny_in,
     :response_count,
@@ -100,7 +99,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :end_code,
     :broadcast_status,
     :recurring_request,
-    :select_user_audit
+    :select_user_audit,
+    :pricing_audit,
   ].freeze
 
   # FORM_ATTRIBUTES

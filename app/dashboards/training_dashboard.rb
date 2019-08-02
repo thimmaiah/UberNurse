@@ -8,7 +8,7 @@ class TrainingDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    user: Field::BelongsTo,
+    user: Field::BelongsToSearch,
     profile: Field::BelongsTo,
     id: Field::Number,
     name: Field::String,
@@ -39,7 +39,6 @@ class TrainingDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
-    :user,
     :name,
     :vendor,
     :undertaken,
@@ -56,7 +55,7 @@ class TrainingDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :profile_id,
-    :user_id,
+    :user,
     :name,
     :vendor,
     :undertaken,

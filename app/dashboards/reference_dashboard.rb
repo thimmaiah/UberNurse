@@ -15,7 +15,7 @@ class ReferenceDashboard < Administrate::BaseDashboard
     email: Field::String,
     ref_type: Field::Select.with_options(collection: Reference::TYPES),
     user_id: Field::Number,
-    user: Field::BelongsTo,
+    user: Field::BelongsToSearch,
     reference_received: Field::BooleanToYesNo,
     notes: Field::Text,
     created_at: Field::DateTime,

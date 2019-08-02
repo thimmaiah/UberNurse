@@ -19,13 +19,29 @@ class CareHomeCarerMapping < ApplicationRecord
 	end
 
 	def self.populate_carers_from_history
+
+		AgencyCareHomeMapping.all.each do |s|
+			if(s.preferred_care_giver_ids)
+				s.preferred_care_giver_ids.split(",").each do |user_id|
+					exiting = CareHomeCarerMapping.where(care_home_id: s.care_home_id, user_id: user_id).first
+					if exiting == nil
+						ccm = CareHomeCarerMapping.create(care_home_id: s.care_home_id, user_id: s.user_id, 
+														  enabled: true, agency_id: s.agency_id, preferred: true) 
+						Rails.logger.debug "Creating CareHomeCarerMapping from history #{ccm.id}"
+					end	
+				end
+			end
+		end
+
 		Shift.closed.each do |s|
 			exiting = CareHomeCarerMapping.where(care_home_id: s.care_home_id, user_id: s.user_id).first
 			if exiting == nil
-				ccm = CareHomeCarerMapping.create(care_home_id: s.care_home_id, user_id: s.user_id, enabled: true, agency_id: s.agency_id) 
+				ccm = CareHomeCarerMapping.create(care_home_id: s.care_home_id, user_id: s.user_id, 
+					                              enabled: true, agency_id: s.agency_id, preferred: false) 
 				Rails.logger.debug "Creating CareHomeCarerMapping from history #{ccm.id}"
 			end
 		end
+
 	end
 
 end

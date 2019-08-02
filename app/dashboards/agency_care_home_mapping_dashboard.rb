@@ -17,7 +17,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     accepted: Field::BooleanToYesNo,
     notes: Field::Text,
     manual_assignment_flag: Field::BooleanToYesNo,
-    preferred_care_giver_ids: Field::String,
+    #preferred_care_giver_ids: Field::String,
     limit_shift_to_pref_carer: Field::BooleanToYesNo,
   }.freeze
 
@@ -32,7 +32,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :care_home,
     :verified,
     :accepted,
-    :preferred_care_giver_ids,
+    #:preferred_care_giver_ids,
     :manual_assignment_flag,
   ].freeze
 
@@ -47,7 +47,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
     :verified,
     :accepted,
     :manual_assignment_flag,
-    :preferred_care_giver_ids,
+    #:preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
     :notes,
   ].freeze
@@ -58,7 +58,7 @@ class AgencyCareHomeMappingDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :verified,
     :manual_assignment_flag,
-    :preferred_care_giver_ids,
+    #:preferred_care_giver_ids,
     :limit_shift_to_pref_carer,
     :notes,
   ].freeze
