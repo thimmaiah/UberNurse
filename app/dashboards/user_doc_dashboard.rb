@@ -13,10 +13,10 @@ class UserDocDashboard < Administrate::BaseDashboard
     created_by_id: Field::Number,
     created_by: Field::BelongsTo,
     training_id: Field::Number,
-    training: Field::BelongsTo,
+    training: Field::BelongsToSearch,
     name: Field::String,
     doc_type: Field::Select.with_options(collection: UserDoc::DOC_TYPES),
-    user: Field::BelongsTo,
+    user: Field::BelongsToSearch,
     expiry_date: Field::DateTime,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -68,8 +68,8 @@ class UserDocDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
-    :user_id,
-    :training_id,
+    :user,
+    :training,
     :doc_type,
     :expiry_date,
     :verified,

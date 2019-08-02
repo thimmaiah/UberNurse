@@ -1,5 +1,14 @@
 module Admin
   class TrainingsController < Admin::ApplicationController
+
+    def index
+      if params[:search].present?        
+        search(User)
+      else
+        super  
+      end
+    end
+
     def new   
       resource = Training.new(user_id: params[:user_id], profile_id: params[:profile_id], 
                               expiry_date: Date.today + 1.year, undertaken: true)
