@@ -1,5 +1,12 @@
 class UserNotifierMailer < ApplicationMailer
 
+  def delete_requested(user_id)
+    @user = User.find(user_id)
+    logger.debug("Sending mail to #{ENV['NOREPLY']}")
+    mail( :to => ENV['ADMIN_EMAIL'],
+          :subject => "User requested deletion of personal data: #{@user.first_name} #{@user.last_name}" )
+  end
+
   def request_verification(user_doc_id)
     @user_doc = UserDoc.find(user_doc_id)
     logger.debug("Sending mail to #{ENV['ADMIN_EMAIL']} from #{ENV['NOREPLY']}")

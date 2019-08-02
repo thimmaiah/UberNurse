@@ -103,6 +103,11 @@ class User < ApplicationRecord
       # The user was unverified
       self.care_home_carer_mappings.update_all(enabled: false)
     end
+
+    # If user has requested a deletion of her personal data
+    if(self.delete_requested && self.delete_requested_changed?) 
+      UserNotifierMailer.delete_requested(self.id).deliver_later
+    end
   end
 
   def update_coordinates
@@ -122,6 +127,7 @@ class User < ApplicationRecord
   def set_defaults
     self.total_rating = 0
     self.rating_count = 0
+    self.delete_requested = false
     self.active = true
     self.phone = self.phone.gsub(/\s+/, "") 
 

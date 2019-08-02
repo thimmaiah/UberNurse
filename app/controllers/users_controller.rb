@@ -48,6 +48,17 @@ class UsersController < ApplicationController
     end
   end
 
+
+  def delete_requested
+    @user.active = false
+    @user.delete_requested = true
+    if @user.save
+      render json: @user
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /users/1
   def destroy
     @user.destroy

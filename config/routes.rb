@@ -111,6 +111,9 @@ Rails.application.routes.draw do
       get :get_initial_data
       post :reset_password
     end
+    member do
+      post :delete_requested
+    end
   end
   resources :post_codes
   resources :shifts do 
