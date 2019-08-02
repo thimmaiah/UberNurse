@@ -107,6 +107,6 @@ class UsersController < ApplicationController
                                  :sex, :title, :phone, :postcode, :languages, :pref_commute_distance, :speciality, :experience,
                                  :referal_code, :accept_terms, :care_home_id, :image_url, :verified,
                                  :active, :sort_code, :bank_account, :push_token, 
-                                 :accept_bank_transactions)
+                                 :accept_bank_transactions, :work_weekdays, :work_weeknights, :work_weekends, :work_weekend_nights, :pause_shifts)
   end
 end
