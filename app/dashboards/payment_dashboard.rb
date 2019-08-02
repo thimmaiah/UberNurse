@@ -9,12 +9,12 @@ class PaymentDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    user: Field::BelongsTo,
-    care_home: Field::BelongsTo,
-    agency: Field::BelongsTo,
+    user: Field::BelongsToSearch,
+    care_home: Field::BelongsToSearch,
+    agency: Field::BelongsToSearch,
     shift: Field::BelongsTo,
     staffing_request: Field::BelongsTo,
-    paid_by: Field::BelongsTo.with_options(class_name: "User"),
+    paid_by: Field::BelongsToSearch.with_options(class_name: "User"),
     paid_by_id: Field::Number,
     amount: Field::Number.with_options(decimals: 2),
     billing: Field::Number.with_options(decimals: 2),

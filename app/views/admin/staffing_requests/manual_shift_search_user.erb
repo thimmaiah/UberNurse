@@ -14,29 +14,18 @@
 <input type="hidden" name="authenticity_token" value="TU6UPPlyGNUe/yTaQ7E6GQaOeG75cFdecUwAV/ZajKcXKi6pfPNIkWURvCOIRbSpiFYDF7b84wYlm/vlnzRIGg==" />
 
 
-<div class="field-unit field-unit--string">
+  <div class="field-unit field-unit--belongs-to-search">
       
-  <div class="field-unit__label">
-    <label for="user_id">User Id</label>
+    <div class="field-unit__label">
+      <label for="staffing_request_user_id-selectized">User</label>
+    </div>
+    <div class="field-unit__field">
+      <select data-url="/admin/users.json" name="user_id" id="user_id" tabindex="-1" class="selectized" style="display: none;">
+        <option value="" selected="selected"></option>
+      </select>
+    </div>
+
   </div>
-  <div class="field-unit__field">
-    <input type="text" name="user_id" id="user_id" value='<%=params[:user_id]%>' />
-  </div>
-
-</div>
-
-
-<div class="field-unit field-unit--string">
-      
-  <div class="field-unit__label">
-    <label for="email">Email</label>
-  </div>
-  <div class="field-unit__field">
-    <input type="text" name="email" id="email" value='<%=params[:email]%>' />
-  </div>
-
-</div>
-
 
 
   <div class="form-actions">

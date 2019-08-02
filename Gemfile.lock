@@ -67,6 +67,11 @@ GEM
       momentjs-rails (~> 2.8)
       sass-rails (~> 5.0)
       selectize-rails (~> 0.6)
+    administrate-field-belongs_to_search (0.6.0)
+      administrate (>= 0.3, < 1.0)
+      jbuilder (~> 2)
+      rails (>= 4.2, < 6.0)
+      selectize-rails (~> 0.6)
     administrate-field-boolean_to_yes_no (0.1.0)
       administrate (~> 0.7)
       rails (~> 5.0)
@@ -802,6 +807,8 @@ GEM
       concurrent-ruby (~> 1.0)
     innertube (1.1.0)
     io-like (0.3.0)
+    jbuilder (2.9.1)
+      activesupport (>= 4.2.0)
     jmespath (1.4.0)
     joiner (0.3.4)
       activerecord (>= 4.1.0)
@@ -1023,6 +1030,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers
   administrate (= 0.11.0)
+  administrate-field-belongs_to_search
   administrate-field-boolean_to_yes_no
   awesome_print
   aws-sdk
@@ -1050,6 +1058,7 @@ DEPENDENCIES
   faker
   formulaic
   geocoder
+  jbuilder
   letter_opener_web
   listen (~> 3.0.5)
   logstash-logger

@@ -102,3 +102,5 @@ end
 
 gem 'rounding'
 gem 'administrate-field-boolean_to_yes_no'
+gem 'administrate-field-belongs_to_search'
+gem 'jbuilder'

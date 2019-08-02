@@ -8,11 +8,11 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    care_home: Field::BelongsTo,
-    agency: Field::BelongsTo,
+    care_home: Field::BelongsToSearch,
+    agency: Field::BelongsToSearch,
     recurring_request: Field::BelongsTo,
     manual_assignment_flag: Field::BooleanToYesNo,
-    user: Field::BelongsTo,
+    user: Field::BelongsToSearch,
     shifts: Field::HasMany.with_options(
       sort_by: 'start_date',
       direction: 'desc',
@@ -114,8 +114,8 @@ class StaffingRequestDashboard < Administrate::BaseDashboard
     :speciality,
     :carer_break_mins,
     :request_status,
-    :care_home_id,
-    :user_id,
+    :care_home,
+    :user,
     :start_code,
     :end_code,
     :notes

@@ -8,13 +8,13 @@ class ShiftDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    user: Field::BelongsTo,
-    agency: Field::BelongsTo,
+    user: Field::BelongsToSearch,
+    agency: Field::BelongsToSearch,
     staffing_request: Field::BelongsTo.with_options(
       sort_by: 'start_date',
       direction: 'desc',
     ),
-    care_home: Field::BelongsTo,
+    care_home: Field::BelongsToSearch,
     payment: Field::HasOne,
     carer_base: Field::Number.with_options(decimals: 2),
     care_home_total_amount: Field::Number.with_options(decimals: 2),

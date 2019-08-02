@@ -9,8 +9,8 @@ class CareHomeCarerMappingDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    care_home: Field::BelongsTo,
-    user: Field::BelongsTo,
+    care_home: Field::BelongsToSearch,
+    user: Field::BelongsToSearch,
     enabled: Field::BooleanToYesNo,
     preferred: Field::BooleanToYesNo,
     distance: Field::Number.with_options(decimals: 2),

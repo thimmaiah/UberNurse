@@ -8,8 +8,8 @@ class ProfileDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    user: Field::BelongsTo,
-    agency: Field::BelongsTo,
+    user: Field::BelongsToSearch,
+    agency: Field::BelongsToSearch,
     trainings: Field::HasMany,
     id: Field::Number,
     user_id: Field::Number,
@@ -85,7 +85,7 @@ class ProfileDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :user_id,
+    :user,
     :date_of_CRB_DBS_check,
     :dob,
     :pin,
