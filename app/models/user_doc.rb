@@ -2,7 +2,6 @@ class UserDoc < ApplicationRecord
 
   belongs_to :user
   has_paper_trail
-  before_save :set_paper_trail_whodunnit
 
   after_save ThinkingSphinx::RealTime.callback_for(:user_doc)
   validates_presence_of :doc_type, :user_id, :name

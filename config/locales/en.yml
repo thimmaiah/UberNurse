@@ -47,3 +47,6 @@ en:
         crd_dbs_number: "DBS number"
         crd_dbs_returned: "DBS returned"
         enhanced_crb: "Enhanced DBS"
+      reference:
+        user: "Health Care Professional"
+        user_id: "Health Care Professional"

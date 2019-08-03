@@ -5,7 +5,7 @@ class UserNotifierMailer < ApplicationMailer
     attachments["Reference Request"] = File.read("#{Rails.root}/public/system/Reference_Request_to_employer_V3.doc")
     @user = reference.user
     @reference = reference
-    mail( :to => reference.email,
+    mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
           :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}" )
   
   end

@@ -266,7 +266,7 @@ class User < ApplicationRecord
     self.first_name = "Deleted"
     self.last_name = "Deleted"
     self.phone = "000000000"
-    self.email = Digest::SHA256.hexdigest(self.email)+"@deleted.com"
+    self.email = "deleted#{self.id}@deleted.com"
     self.uid = self.email
     self.address = "Deleted"
     self.postcode = PostCode.first.postcode
