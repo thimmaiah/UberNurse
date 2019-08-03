@@ -1,5 +1,15 @@
 class UserNotifierMailer < ApplicationMailer
 
+  def reference_notification(reference)
+    logger.debug("Sending mail to #{reference.email}")
+    attachments["Reference Request"] = File.read("#{Rails.root}/public/system/Reference_Request_to_employer_V3.doc")
+    @user = reference.user
+    @reference = reference
+    mail( :to => reference.email,
+          :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}" )
+  
+  end
+
   def delete_requested(user_id)
     @user = User.find(user_id)
     logger.debug("Sending mail to #{ENV['NOREPLY']}")

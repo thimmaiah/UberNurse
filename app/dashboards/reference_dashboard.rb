@@ -13,10 +13,14 @@ class ReferenceDashboard < Administrate::BaseDashboard
     last_name: Field::String,
     title: Field::String,
     email: Field::String,
+    address: Field::Text,
+    
     ref_type: Field::Select.with_options(collection: Reference::TYPES),
     user_id: Field::Number,
     user: Field::BelongsToSearch,
     reference_received: Field::BooleanToYesNo,
+    received_on: Field::DateTime,
+
     notes: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -45,9 +49,11 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :last_name,
     :title,
     :email,
+    :address,
     :ref_type,
     :user,
     :reference_received,
+    :received_on,
     :notes,
     :created_at,
     :updated_at,
@@ -61,9 +67,11 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :last_name,
     :title,
     :email,
+    :address,
     :ref_type,
     :user,
     :reference_received,
+    :received_on,
     :notes,
     
   ].freeze

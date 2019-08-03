@@ -4,10 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
+    
     <h2>Shift Cancelled</h2>
+    
     <p>
-    	This is to confirm that the shift that was assigned to you has been cancelled.
+    	This is to confirm that the shift below has been cancelled.
     </p>
+    
     <p>
       <% if @shift.response_status == "Auto Rejected" %>
         Note that shift which are <b>not confirmed within 30 mins</b> are <b>automatically cancelled</b>, so in the future please try and confirm assigned shifts at the earliest.
@@ -16,7 +19,9 @@
       <% if @shift.response_status == "Rejected" %>
         The cancellation was done as you had rejected this shift.
       <% end %>
-	</p>
-	<%= render partial: "shift" %>
+	 </p>
+	
+    <%= render partial: "shift" %>
+  
   </body>
 </html>

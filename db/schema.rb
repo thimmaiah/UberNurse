@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190802121715) do
+ActiveRecord::Schema.define(version: 20190803050018) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",            limit: 100
@@ -331,6 +331,8 @@ ActiveRecord::Schema.define(version: 20190802121715) do
     t.datetime "updated_at",                       null: false
     t.text     "notes",              limit: 65535
     t.boolean  "reference_received"
+    t.text     "address",            limit: 65535
+    t.date     "received_on"
     t.index ["user_id"], name: "index_references_on_user_id", using: :btree
   end
 
