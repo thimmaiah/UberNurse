@@ -20,7 +20,7 @@ class UserNotifierMailer < ApplicationMailer
     @agency = @acm.agency
     logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
     mail( :to => @user.email,
-          :bcc => ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group,
+          :bcc => ENV['ADMIN_EMAIL'],
           :subject => 'Verification Completed.' )
   end
 

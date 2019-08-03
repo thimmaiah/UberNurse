@@ -4,10 +4,22 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h2>Dear <%=@user.first_name%>, New Shift Available: Please Accept & Confirm </h2>
+    <h2>Dear <%=@user.first_name%></h2>
+    
+    <h3>      
+    	We have a new shift available in your area!
+      Log on to the app for details and accept or decline the shift.
+    </h3>
+	  
+    <%= render partial: "shift" %>
+    
     <p>      
-    	A new shift is available. Please log into the app to <b style="color: green;"> Accept & Confirm </b> it. 
-	  </p>
-	<%= render partial: "shift" %>
+    </p>
+    
+    <p>
+      If you have any questions, please contact our team on 0333 577 8900 or email:
+      info@connuct.co.uk
+    </p>
+
   </body>
 </html>
