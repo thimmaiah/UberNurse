@@ -134,15 +134,15 @@ class Shift < ApplicationRecord
       if(self.start_code_changed?)
         self.start_date = Time.now
         self.start_date = self.start_date.change({sec: 0}) if self.start_date
-        ShiftMailer.shift_started(self).deliver_later
-        self.send_shift_started_sms(self)
+        # ShiftMailer.shift_started(self).deliver_later
+        # self.send_shift_started_sms(self)
       end
       if(self.end_code_changed?)
         # End Time cannot be < 4 hours from start time
         self.end_date = (Time.now - self.start_date)/ (60 * 60) > 4 ? Time.now : (self.start_date + 4.hours)
         self.end_date = self.end_date.change({sec: 0}) if self.end_date
-        ShiftMailer.shift_ended(self).deliver_later
-        self.send_shift_ended_sms(self)
+        # ShiftMailer.shift_ended(self).deliver_later
+        # self.send_shift_ended_sms(self)
       end
     end
   end
