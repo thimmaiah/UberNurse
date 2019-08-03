@@ -25,6 +25,7 @@ every 1.day, :at => '3:30 am' do
   runner "ShiftCreatorJob.add_to_queue"
   runner "ShiftPendingJob.add_to_queue"
   runner "DocRefreshNotificationJob.perform_now"
+  runner "ReferenceJob.perform_now"
   rake "db:backup"
 end
 
