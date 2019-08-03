@@ -17,7 +17,7 @@ Scenario Outline: User Registration Successfully
   	|user						  |msg1											                      |msg2		  |
   	|role=Care Giver;pref_commute_distance=10	 |Please check your email for verification link	|Welcome	|
     |role=Nurse;pref_commute_distance=15       |Please check your email for verification link  |Welcome  |
-    |role=Admin		                             |Please check your email for verification link	|Register Care Home	|
+    |role=Admin		                             |Please check your email for verification link	|Register as a Partner	|
 
 
 Scenario Outline: Register a care home with cqc
@@ -41,7 +41,7 @@ Scenario Outline: Register a care home without cqc
   Given Im a logged in user "<user>"  
   And I am at the care homes registration page
   When I search for the care home "<care_home>"
-  And I click "Register New Care Home"
+  And I click "Register New Partner"
   And I fill and submit the care homes registration page with  "<care_home>"
   Then I should see the "<msg1>"
   And the care home should be unverified

@@ -16,8 +16,7 @@ Scenario Outline: Close Shift
   Then the payment for the shift is generated
   Then the shift is marked as closed
   And the request is marked as closed 
-  Then the user receives an email with "Shift Ended" in the subject
-
+  
   Examples:
   	|request	                         | user                            |
   	|role=Care Giver                     |role=Care Giver;verified=true    |
@@ -37,8 +36,7 @@ Scenario Outline: Add Start Code
   And when the user enters the "start_code" "<start_code>" in the UI
   Then he must see the message "<msg>"
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Started" in the subject
-
+  
   Examples:
     |request                          | user                            | start_code  |  msg            |
     |role=Care Giver;start_code=1111  |role=Care Giver;verified=true    | 1111        | 1111   |
@@ -71,12 +69,10 @@ Scenario Outline: QR Code entered
   Given the user scans the QR code 
   Then the shift is started
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Started" in the subject
   Given the user scans the QR code 
   Then the shift is ended
   Given jobs are being dispatched
-  Then the user receives an email with "Shift Ended" in the subject
- 
+  
   Examples:
     |request                                | user                            |
     |role=Nurse;start_code=1113             |role=Nurse;verified=true         |
@@ -113,8 +109,7 @@ Scenario Outline: Add End Code
   Given jobs are being dispatched
   Then the markup should be computed
   Then the total price should be computed  
-  Then the user receives an email with "Shift Ended" in the subject
-
+  
   Examples:
     |request                        | user                            | end_code  |  msg            |
     |role=Care Giver;end_code=1111  |role=Care Giver;verified=true    | 1111      | 1111   |

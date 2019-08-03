@@ -59,7 +59,7 @@ Scenario Outline: New Shift for specialist users with no match
     |role=Care Giver;speciality=Generalist|role=Nurse;verified=true         |    
     |role=Nurse;speciality=Generalist     |role=Care Giver;speciality=Mental Health;verified=true  |
     |role=Nurse                           |role=Care Giver;speciality=Pediatric Care;verified=true |
-    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weekdays=false  |
+    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weekdays=false;work_weekends=false  |
     |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;pause_shifts=true    |
 
 
@@ -89,8 +89,8 @@ Scenario Outline: New Shift for specialist users with no match for night hours
   Then the admin user receives an email with "No shift found for request" in the subject
 
   Examples:
-    |request                                   | user                            |
-    |role=Care Giver;speciality=Generalist     |role=Care Giver;verified=true;work_weeknights=false  |
+    |request                               | user                            |
+    |role=Care Giver;speciality=Generalist |role=Care Giver;verified=true;work_weeknights=false;work_weekend_nights=false  |
 
 
 Scenario Outline: New Shift for users not mapped to agency

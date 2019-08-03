@@ -12,7 +12,7 @@ Scenario Outline: Login Successfully
   	|user							|msg	|
   	|role=Care Giver	|Welcome|
     |role=Nurse       |Welcome|
-  	|role=Admin		    |Register Care Home|
+  	|role=Admin		    |Register as a Partner|
 
 
 
