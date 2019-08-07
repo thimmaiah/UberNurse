@@ -9,6 +9,7 @@ namespace :uber_nurse do
   task :emptyDB => :environment do
     AgencyUserMapping.delete_all
     AgencyCareHomeMapping.delete_all
+    CareHomeCarerMapping.delete_all
     Agency.delete_all
     User.delete_all
     Profile.delete_all
@@ -104,6 +105,49 @@ namespace :uber_nurse do
       care_homes = CareHome.all
 
       i = 1
+      ["Care Giver", "Nurse"].each do |role|
+        
+        # Now generate some consumers
+        User::SPECIALITY.each do |sp|
+          (1..2).each do |j|
+            u = FactoryGirl.build(:user)        
+            u.verified = true
+            u.email = "user#{i}@gmail.com"
+            u.password = "user#{i}@gmail.com".camelize + "1$"
+            u.role = role
+            u.speciality = sp
+            u.image_url = images[rand(images.length)]
+            u.created_at = Date.today - rand(4).weeks - rand(7).days
+            u.save!
+            u.reload
+
+            if(u.agency_user_mappings == nil)
+              aum = FactoryGirl.build(:agency_user_mapping)
+              aum.user = u
+              aum.agency = Agency.all.sample
+              aum.save!
+            end
+
+            p = FactoryGirl.build(:profile)
+            p.user = u
+            p.role = u.role
+            p.known_as = u.first_name
+            p.save
+            (1..3).each do |ti|
+              t = FactoryGirl.build(:training)
+              t.profile = p
+              t.user = u
+              t.save
+            end
+            #puts u.to_xml
+            puts "#{u.role} #{u.id}"
+            i = i + 1
+          end
+        end
+      end
+
+      
+      i = 1
       care_homes.each do |c|
         count = 1
         (0..1).each do |j|
@@ -118,85 +162,10 @@ namespace :uber_nurse do
           puts "Care Home Admin #{u.id}"
           i = i + 1
         end
-      end
 
-      i = 1
-      # Now generate some consumers
-      User::SPECIALITY.each do |sp|
-        (1..2).each do |j|
-          u = FactoryGirl.build(:user)        
-          u.verified = true
-          u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com".camelize + "1$"
-          u.role = "Care Giver"
-          u.speciality = sp
-          u.image_url = images[rand(images.length)]
-          u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
-          u.reload
-
-          if(u.agency_user_mappings == nil)
-            aum = FactoryGirl.build(:agency_user_mapping)
-            aum.user = u
-            aum.agency = Agency.all.sample
-            aum.save!
-          end
-
-          p = FactoryGirl.build(:profile)
-          p.user = u
-          p.role = u.role
-          p.known_as = u.first_name
-          p.save
-          (1..3).each do |ti|
-            t = FactoryGirl.build(:training)
-            t.profile = p
-            t.user = u
-            t.save
-          end
-          #puts u.to_xml
-          puts "#{u.role} #{u.id}"
-          i = i + 1
-        end
-      end
-
-      User::SPECIALITY.each do |sp|
-        (1..2).each do |j|
-          u = FactoryGirl.build(:user)
-          u.verified = true
-          u.email = "user#{i}@gmail.com"
-          u.password = "user#{i}@gmail.com".camelize + "1$"          
-          u.role = "Nurse"
-          u.speciality = sp
-          u.image_url = images[rand(images.length)]
-          u.created_at = Date.today - rand(4).weeks - rand(7).days
-          u.save
-          u.reload
-          
-          if(u.agency_user_mappings == nil)
-            aum = FactoryGirl.build(:agency_user_mapping)
-            aum.user = u
-            aum.agency = Agency.all.sample
-            aum.save!
-          end
-
-          #puts u.to_xml
-          p = FactoryGirl.build(:profile)
-          p.user = u
-          p.role = u.role
-          p.agency = u.agencies.sample
-          p.known_as = u.first_name
-          p.save!
-          
-          (1..3).each do |ti|
-            t = FactoryGirl.build(:training)
-            t.profile = p
-            t.agency = u.agencies.sample
-            t.user = u
-            t.save!
-          end
-          
-          puts "#{u.role} #{u.id}"
-          i = i + 1
+        (0..3).each do |j|
+          CareHomeCarerMapping.create(care_home_id: c.id, user_id: User.temps.shuffle.first.id, 
+              enabled:true, agency_id: Agency.all.shuffle.first.id, preferred: rand(0..1))
         end
       end
 

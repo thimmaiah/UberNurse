@@ -8,6 +8,8 @@ class CareHomeCarerMapping < ApplicationRecord
 
 	scope :enabled, -> { where enabled: true }
 	scope :preferred, -> { where preferred: true }
+	scope :agency_filter, -> (agency_id) { where('care_home_carer_mappings.enabled=? and care_home_carer_mappings.agency_id = ?', true, agency_id) }
+
 
 	def set_defaults
 		self.enabled = false if self.enabled == nil

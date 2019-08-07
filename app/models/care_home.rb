@@ -17,7 +17,7 @@ class CareHome < ApplicationRecord
 
   scope :verified, -> { where verified: true }
   scope :unverified, -> { where verified: false }
-
+  
   reverse_geocoded_by :lat, :lng do |obj,results|
     if geo = results.first
       obj.address = geo.address.sub(geo.city + ", ", '').sub(geo.postal_code + ", ", '').sub("UK", '') if !obj.address

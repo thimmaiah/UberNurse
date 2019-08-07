@@ -15,6 +15,7 @@ class CareHomesController < ApplicationController
     render json: @care_home
   end
 
+  
   def new_qr_code
     current_user.care_home.new_qr_code
     render json: current_user.care_home

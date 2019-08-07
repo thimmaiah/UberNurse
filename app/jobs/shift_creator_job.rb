@@ -196,7 +196,7 @@ class ShiftCreatorJob < ApplicationJob
     care_home_carer_mappings = staffing_request.care_home.care_home_carer_mappings.enabled.where(agency_id: staffing_request.agency_id)
     if staffing_request.preferred_carer_id
       # Sometimes we need to route the request to a specific carer first
-      care_home_carer_mappings = care_home_carer_mappings.where(user_id: preferred_carer_id).first   
+      care_home_carer_mappings = care_home_carer_mappings.where(user_id: staffing_request.preferred_carer_id)   
     else
       # Randomize the list so we get even distribution across carers - but first try the preferred careres
       care_home_carer_mappings = care_home_carer_mappings.shuffle.sort_by{|ccm| ccm.preferred ? 0 : 1}

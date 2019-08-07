@@ -76,6 +76,17 @@ module Admin
       end
     end
 
+    def destroy
+      requested_resource.request_status = "Cancelled"
+      if requested_resource.save
+        flash[:notice] = "Request Cancelled"
+      else
+        flash[:error] = requested_resource.errors.full_messages.join("<br/>")
+      end
+      redirect_to action: :index
+    end
+
+
     def default_params
       resource_params = params.fetch(resource_name, {})
       order = resource_params.fetch(:order, "start_date")

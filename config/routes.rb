@@ -126,6 +126,7 @@ Rails.application.routes.draw do
   resources :staffing_requests do
     collection do
       post :price
+      post :get_carers
     end
   end
   resources :rates
