@@ -10,10 +10,11 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     care_home: BelongsToOrderedField,
     staffing_requests: Field::HasMany,
-    user: Field::BelongsTo,
+    user: Field::BelongsToSearch,
     agency: Field::BelongsTo,
     user_id: Field::Number,
     preferred_carer_id: Field::Number,
+    preferred_carer: Field::BelongsToSearch.with_options(class_name: "User"),
     id: Field::Number,
     start_date: Field::DateTime,
     end_date: Field::DateTime,
@@ -23,6 +24,8 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     start_on: Field::DateTime,
     end_on: Field::DateTime,
     audit: HashField,
+    dates: ArrayField,
+    notes: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     next_generation_date: Field::DateTime,
@@ -63,7 +66,9 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :created_at,
     :updated_at,
     :next_generation_date,
-    :staffing_requests,
+    :staffing_requests,:notes,
+    :dates,
+    :notes,
     :audit
   ].freeze
 
@@ -72,13 +77,15 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :care_home,
-    :user_id,
-    :preferred_carer_id,
+    :user,
+    :preferred_carer,
     :start_date,
     :end_date,
+    :dates,
     :role,
     :speciality,
     :on,
+    :notes,
     :end_on,
   ].freeze
 

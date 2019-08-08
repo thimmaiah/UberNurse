@@ -1,16 +1,24 @@
 class RecurringRequest < ApplicationRecord
 
+
 	validates_presence_of :agency_id, :user_id, :care_home_id
 	belongs_to :agency
 	belongs_to :care_home
 	belongs_to :user
+	belongs_to :preferred_carer, class_name: "User"
 	has_many :staffing_requests
 
 	# Audit of all requests generated from this
 	serialize :audit, Hash
+	serialize :dates, Array
 
 	# 3 days because we run the RecurringRequestJob on Friday - so it must generate the req for next Monday
 	scope :ready_for_generation, -> {where("start_on <= ?  and end_on >= ?", Date.today + 7.days, Date.today)}	
+
+	before_save :print_errors
+	def print_errors
+		logger.debug self.errors.full_messages
+	end
 
 	before_create :set_defaults
 	def set_defaults
@@ -39,7 +47,10 @@ class RecurringRequest < ApplicationRecord
 				# For each day that the request needs to be generated
 				days = self.on.split(",").map{|x| x.to_i}
 				days.each do |wday|
-					created = self.create_request(week, wday)
+					start_date = get_date(self.start_date, wday, week)
+			        end_date = get_date(self.end_date, wday, week) 
+
+					created = self.create_request(start_date, end_date)
 					req_count += 1 if created
 				end
 	      	else
@@ -57,13 +68,23 @@ class RecurringRequest < ApplicationRecord
         return req_count
 	end
 
-	def create_request(week, wday)
+	def create_for_dates
+		self.dates.each do |d|
+			logger.debug "RecurringRequest: Generating requests for #{self.id} #{d}"
+			date = Date.parse(d)
+			start_date = date + self.start_date.strftime('%H').to_i.hours + self.start_date.strftime('%M').to_i.minutes
+	        end_date = date + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
+
+			created = self.create_request(start_date, end_date)
+			req_count += 1 if created
+		end
+	end
+
+	def create_request(start_date, end_date)
 
 		created = false
 		self.audit[week] ||= []
 
-		start_date = get_date(self.start_date, wday, week)
-        end_date = get_date(self.end_date, wday, week) 
 
         sd = Date.parse(start_date)
 

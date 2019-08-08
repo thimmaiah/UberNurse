@@ -69,6 +69,11 @@ class Ability
             # We allow people to manage req for the care home they belong to or for sister care homes
             @user.belongs_to_care_home(req.care_home_id)
         end
+        can :manage, RecurringRequest  do |req| 
+        can :create, RecurringRequest
+            # We allow people to manage req for the care home they belong to or for sister care homes
+            @user.belongs_to_care_home(req.care_home_id)
+        end
         can :read, Shift do |shift| 
             # We allow people to manage req for the care home they belong to or for sister care homes
             @user.belongs_to_care_home(shift.care_home_id)

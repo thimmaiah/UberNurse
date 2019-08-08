@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   resources :agency_user_mappings
   resources :agency_care_home_mappings
   resources :agencies
-  resources :recurring_requests
   resources :stats
   resources :trainings
   resources :profiles
@@ -123,6 +122,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :recurring_requests do
+    collection do
+      post :get_carers
+    end
+  end
+  
   resources :staffing_requests do
     collection do
       post :price

@@ -33,6 +33,8 @@ en:
       recurring_request:
         start_date: "First Request Start Date"
         end_date: "First Request End Date"
+        user: "Partner User"
+        user_id: "Partner User"
       shift:
         price: "Care Giver Payout"
         total_price: "Care Home Bill Amount"
