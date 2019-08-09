@@ -12,7 +12,7 @@
 
 ActiveRecord::Schema.define(version: 20190808102801) do
 
-  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
     t.string   "address"
     t.string   "postcode",        limit: 10
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.text     "icon_url",        limit: 65535
   end
 
-  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "agency_id"
     t.integer  "care_home_id"
     t.datetime "created_at",                              null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
 
-  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
+  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "agency_id"
     t.integer  "user_id"
     t.datetime "created_at",               null: false
