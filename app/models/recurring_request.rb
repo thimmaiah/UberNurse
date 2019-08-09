@@ -12,18 +12,11 @@ class RecurringRequest < ApplicationRecord
 	serialize :audit, Hash
 	serialize :dates, Array
 
-	# 3 days because we run the RecurringRequestJob on Friday - so it must generate the req for next Monday
-	scope :ready_for_generation, -> {where("start_on <= ?  and end_on >= ?", Date.today + 7.days, Date.today)}	
-
-	before_save :print_errors
-	def print_errors
-		logger.debug self.errors.full_messages
-	end
 
 	before_create :set_defaults
 	def set_defaults
 		self.start_on = self.start_date
-		self.next_generation_date = self.start_date
+		self.audit = {}
 		self.speciality = "Generalist" if self.speciality == nil
 	end
 
@@ -36,39 +29,10 @@ class RecurringRequest < ApplicationRecord
     	d.in_time_zone("London").strftime("%d/%m/%Y %H:%M")
   	end
 	
-	def create_for_week(week=self.next_generation_date)
-
-		req_count = 0
-
-		if(week >= self.start_on && week <= self.end_on)
-			
-			if self.audit[week] == nil
-			  	logger.debug "RecurringRequest: Generating requests for #{self.id} #{week}."	
-				# For each day that the request needs to be generated
-				days = self.on.split(",").map{|x| x.to_i}
-				days.each do |wday|
-					start_date = get_date(self.start_date, wday, week)
-			        end_date = get_date(self.end_date, wday, week) 
-
-					created = self.create_request(start_date, end_date)
-					req_count += 1 if created
-				end
-	      	else
-	      		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{week}. Already generated."
-	        end
-    	else
-    		logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{week} which is outside start on #{self.start_on} and end on #{self.end_on}."
-    	end
-        
-        if(week.next_week <= self.end_on)
-	        self.next_generation_date = week.next_week  
-	        self.save
-	    end
-
-        return req_count
-	end
+	
 
 	def create_for_dates
+		req_count = 0
 		self.dates.each do |d|
 			logger.debug "RecurringRequest: Generating requests for #{self.id} #{d}"
 			date = Date.parse(d)
@@ -78,18 +42,15 @@ class RecurringRequest < ApplicationRecord
 			created = self.create_request(start_date, end_date)
 			req_count += 1 if created
 		end
+		self.save
 	end
 
 	def create_request(start_date, end_date)
 
-		created = false
-		self.audit[week] ||= []
-
-
-        sd = Date.parse(start_date)
-
-        if(sd >= self.start_on && sd <= self.end_on)
-
+		if self.audit[start_date]
+			logger.debug "RecurringRequest: Already generated request #{self.audit[start_date]} for #{start_date} and #{end_date}. Skipping"
+		else
+       
 	        req = StaffingRequest.new(care_home_id: self.care_home_id, user_id: self.user_id, 
 	                                  role: self.role, speciality: self.speciality,
 	                                  agency_id: self.agency_id, 
@@ -99,16 +60,10 @@ class RecurringRequest < ApplicationRecord
 	                                  start_code: rand.to_s[2..5], end_code: rand.to_s[2..5])
 
 	        req.save!
-	        logger.debug "RecurringRequest: Generated request #{req.to_json} for Week: #{week}, Day: #{wday}"
+	        logger.debug "RecurringRequest: Generated request #{req.to_json} for #{start_date} and #{end_date}"
 	        
-	        self.audit[week] << "#{req.id} on #{req.start_date} "
-	        self.save
-	        created = true
-	    else
-	    	logger.debug "RecurringRequest: Not generating requests for id #{self.id} #{start_date} which is outside start on #{self.start_on} and end on #{self.end_on}."
+	        self.audit[req.start_date] = "#{req.id}"
 	    end
-
-	    return created
 	end
 
 	def preferred_carer
@@ -116,12 +71,4 @@ class RecurringRequest < ApplicationRecord
 	end
 
 
-	def self.generate
-	  	Rails.logger.info "RecurringRequest: Generate Start"
-	    RecurringRequest.ready_for_generation.each do |rr|
-	        rr.create_for_week
-	    end
-	    Rails.logger.info "RecurringRequest: Generate End"
-	    nil
-	end
 end

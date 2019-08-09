@@ -20,13 +20,6 @@ class UserDoc < ApplicationRecord
   scope :dbs, -> { where doc_type: "DBS" }
 
 
-  after_save :verify_user
-  def verify_user
-    if(self.verified)
-      VerifyUserJob.perform_later(self.user_id)
-    end
-  end
-
   before_create :ensure_flags
   def ensure_flags
     self.expired = false
