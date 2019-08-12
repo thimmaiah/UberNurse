@@ -43,7 +43,11 @@ class RecurringRequest < ApplicationRecord
 			start_date = date + self.start_date.strftime('%H').to_i.hours + self.start_date.strftime('%M').to_i.minutes
 	        logger.debug "RecurringRequest: #{date} + #{self.start_date.strftime('%H').to_i} + #{self.start_date.strftime('%M').to_i} #{start_date}"
 			
-	        end_date = date + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
+			if(self.start_date < self.end_date)
+	        	end_date = date + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
+	        else
+	        	end_date = date + 1.day + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
+	        end
 
 			created = self.create_request(start_date, end_date)
 			req_count += 1 if created
