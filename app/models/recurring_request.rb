@@ -32,8 +32,7 @@ class RecurringRequest < ApplicationRecord
     	d = week.beginning_of_week + time_only.strftime('%H').to_i.hours + time_only.strftime('%M').to_i.minutes + (wday - 1).days
     	d.in_time_zone("London").strftime("%d/%m/%Y %H:%M")
   	end
-	
-	
+		
 
 	def create_for_dates
 		req_count = 0

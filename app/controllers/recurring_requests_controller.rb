@@ -5,8 +5,11 @@ class RecurringRequestsController < ApplicationController
   respond_to :json
 
   def index
-    @recurring_requests = RecurringRequest.all
-    respond_with(@recurring_requests)
+    @per_page = 10
+    @recurring_requests = RecurringRequest.where(care_home_id: current_user.care_home_ids) if !@recurring_requests
+    @recurring_requests = @recurring_requests.order("recurring_requests.start_date asc").page(@page).per(@per_page)
+    
+    render json:  @recurring_requests.includes(:agency, :care_home, :user)
   end
 
   def get_carers
