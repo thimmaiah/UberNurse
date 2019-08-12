@@ -339,21 +339,25 @@ Given("there is a recurring request {string}") do |args|
   @recurring_request.care_home = @care_home
   @recurring_request.user = @user
   @recurring_request.agency = @agency if @recurring_request.agency_id == nil
-  
+  @recurring_request.dates = []
+  @recurring_request.on.split(",").each do |day|
+    @recurring_request.dates << (@recurring_request.start_date + day.to_i.days).in_time_zone("Europe/London").strftime("%d/%m/%Y")
+  end
+
   @recurring_request.save!
   # puts "\n #####RecurringRequest#### \n "
   # puts @recurring_request.to_json
 end
 
 When("requests are generated for the first time the count should be {string}") do |count|
-  @recurring_request.create_for_week.should == count.to_i
+  @recurring_request.create_for_dates.should == count.to_i
   @recurring_request.reload
   puts "\n #####RecurringRequest#### \n "
   puts @recurring_request.to_json
 end
 
-When("requests are generated for this week the count should be {string}") do |count|
-  @recurring_request.create_for_week(Date.today.beginning_of_week).should == count.to_i
+When("requests are generated again then the count should be {string}") do |count|
+  @recurring_request.create_for_dates.should == count.to_i
   @recurring_request.reload
   puts "\n #####RecurringRequest#### \n "
   puts @recurring_request.to_json
@@ -371,34 +375,4 @@ Then("there should be {string} requests generated") do |count|
     req.care_home_id == @recurring_request.care_home_id
   end
 end
-
-When("a requests is generated outside the start on and end on") do
-  @recurring_request.create_request(@recurring_request.start_on - 1.day, 1).should == false
-  @recurring_request.create_request(@recurring_request.end_on.next_week + 1.day, 1).should == false
-end
-
-When("all recurring requests are generated") do
-  count = @recurring_request.create_for_week
-  total = count
-  while  count > 0 do
-    count = @recurring_request.create_for_week
-    total += count
-  end
-  @recurring_request.reload
-  puts "\n Created #{total} recurring requests \n"
-  puts "\n #####RecurringRequest#### \n "
-  puts @recurring_request.to_json
-
-end
-
-# Note this is a brittle check, the start_on and end_on are set in the factory and are set 2 weeks apart.
-Then("the recurring requests generated are for all the dates between start on and end on") do
-
-  working_days = StartEndTimeHelper.business_days_between(@recurring_request.start_on, @recurring_request.end_on)
-  weeks = (working_days + 1)/ 5
-  req_per_week = @recurring_request.on.split(",").length
-  puts "\n working_days = #{working_days} weeks = #{weeks} req_per_week = #{req_per_week} \n"
-  (weeks * req_per_week).should == StaffingRequest.all.count
-end
-
 

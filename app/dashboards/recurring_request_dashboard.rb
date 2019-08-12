@@ -20,15 +20,11 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     end_date: Field::DateTime,
     role: Field::Select.with_options(collection: User::ROLE), 
     speciality: Field::Select.with_options(collection: User::SPECIALITY),    
-    on: Field::String,
-    start_on: Field::DateTime,
-    end_on: Field::DateTime,
     audit: HashField,
     dates: ArrayField,
     notes: Field::Text,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
-    next_generation_date: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -43,10 +39,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :user,
     :role,
     :speciality,
-    :start_on,
-    :end_on,
-    :on,
-    :next_generation_date
+    :dates
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -60,13 +53,9 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :role,
     :speciality,
-    :on,
-    :start_on,
-    :end_on,    
     :created_at,
     :updated_at,
-    :next_generation_date,
-    :staffing_requests,:notes,
+    :staffing_requests,
     :dates,
     :notes,
     :audit
@@ -84,9 +73,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :dates,
     :role,
     :speciality,
-    :on,
     :notes,
-    :end_on,
   ].freeze
 
   # Overwrite this method to customize how recurring requests are displayed

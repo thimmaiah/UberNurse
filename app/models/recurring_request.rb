@@ -15,7 +15,6 @@ class RecurringRequest < ApplicationRecord
 
 	before_create :set_defaults
 	def set_defaults
-		self.start_on = self.start_date
 		self.audit = {}
 		self.speciality = "Generalist" if self.speciality == nil
 	end
@@ -37,18 +36,22 @@ class RecurringRequest < ApplicationRecord
 			logger.debug "RecurringRequest: Generating requests for #{self.id} #{d}"
 			date = Date.parse(d)
 			start_date = date + self.start_date.strftime('%H').to_i.hours + self.start_date.strftime('%M').to_i.minutes
+	        logger.debug "RecurringRequest: #{date} + #{self.start_date.strftime('%H').to_i} + #{self.start_date.strftime('%M').to_i} #{start_date}"
+			
 	        end_date = date + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
 
 			created = self.create_request(start_date, end_date)
 			req_count += 1 if created
 		end
 		self.save
+		return req_count
 	end
 
 	def create_request(start_date, end_date)
 
 		if self.audit[start_date]
 			logger.debug "RecurringRequest: Already generated request #{self.audit[start_date]} for #{start_date} and #{end_date}. Skipping"
+			return false
 		else
        
 	        req = StaffingRequest.new(care_home_id: self.care_home_id, user_id: self.user_id, 
@@ -63,6 +66,7 @@ class RecurringRequest < ApplicationRecord
 	        logger.debug "RecurringRequest: Generated request #{req.to_json} for #{start_date} and #{end_date}"
 	        
 	        self.audit[req.start_date] = "#{req.id}"
+	        return true
 	    end
 	end
 
