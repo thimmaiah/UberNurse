@@ -7,7 +7,7 @@ end
 
 gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.2'
+gem 'rails', '~> 5.0.7'
 # Use Puma as the app server
 gem 'puma', '3.11.3'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -39,7 +39,11 @@ gem 'cancancan'
 
 gem 'rack-attack'
 gem 'omniauth'
-gem 'devise_token_auth', "1.0.0"
+gem 'omniauth-rails_csrf_protection'
+
+gem 'devise_token_auth', "1.1.0"
+gem "devise", ">= 4.6.0"
+
 gem 'scout_apm'
 
 # for background tasks
@@ -47,8 +51,9 @@ gem 'delayed_job'
 gem 'delayed_job_active_record'
 gem 'daemons'
 
-gem "paperclip", "~> 5.0.0"
-gem 'aws-sdk'
+gem "paperclip", ">= 5.2.0"
+
+gem 'aws-sdk-s3'
 gem 'faker'
 gem "twilio-ruby"
 
@@ -104,3 +109,4 @@ gem 'rounding'
 gem 'administrate-field-boolean_to_yes_no'
 gem 'administrate-field-belongs_to_search'
 gem 'jbuilder'
+gem "actionview", ">= 5.0.7.2"
