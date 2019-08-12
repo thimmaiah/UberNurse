@@ -19,6 +19,11 @@ class RecurringRequest < ApplicationRecord
 		self.speciality = "Generalist" if self.speciality == nil
 	end
 
+	after_create :enque_rr_job
+	def enque_rr_job
+		RecurringRequestJob.new.delay.perform(self.id)
+	end
+
 	# This takes the following params
 	# time_only - this is the start_date or end_date put into the RecurringRequest, which captures the time
 	# wday - the day of the week the request is being genrated for

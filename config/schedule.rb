@@ -37,18 +37,8 @@ every :reboot do
 	command "cd /home/ubuntu/UberNurse/current && bundle exec pumactl -S /home/ubuntu/UberNurse/shared/tmp/pids/puma.state -F /home/ubuntu/UberNurse/shared/puma.rb restart"
 end
 
-every 1.month, :at => "start of the month at 11pm" do
-	runner "GenerateIncentivesJob.perform_now"
-end
-
 every 60.minutes do
 	runner "StatsMailer.request_with_no_responses.deliver_now"
-end
-
-
-every :friday, :at => "9am" do
-	#runner "Stat.generate_all"
-	runner "RecurringRequest.generate"
 end
 
 every :friday, :at => "5pm" do
