@@ -21,7 +21,7 @@ class RecurringRequest < ApplicationRecord
 
 	after_create :enque_rr_job
 	def enque_rr_job
-		RecurringRequestJob.new.delay.perform(self.id)
+		RecurringRequestJob.perform_later(self.id)
 	end
 
 	# This takes the following params
