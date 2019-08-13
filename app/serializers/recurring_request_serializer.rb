@@ -4,5 +4,4 @@ class RecurringRequestSerializer < ActiveModel::Serializer
   belongs_to :user, serializer: UserMiniSerializer
   belongs_to :agency, serializer: AgencySerializer
   belongs_to :care_home, serializer: CareHomeMiniSerializer
-
 end

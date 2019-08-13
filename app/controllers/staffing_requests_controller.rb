@@ -6,9 +6,12 @@ class StaffingRequestsController < ApplicationController
   def index
     @per_page = 100
     @staffing_requests = StaffingRequest.where(care_home_id: current_user.care_home_ids) if !@staffing_requests
+    if(params[:recurring_request_id].present?)
+      @staffing_requests = @staffing_requests.where(recurring_request_id: params[:recurring_request_id])
+    end
     @staffing_requests = @staffing_requests.open.order("staffing_requests.start_date asc").page(@page).per(@per_page)
     #@staffing_requests = @staffing_requests.joins(:user, :care_home)
-    render json: @staffing_requests.includes(:user, :care_home, :accepted_shift, :agency), include: "user,care_home,accepted_shift"
+    render json: @staffing_requests.includes(:user, :care_home), include: "user,care_home", each_serializer: StaffingRequestMiniSerializer
   end
 
   def get_carers
@@ -31,7 +34,7 @@ class StaffingRequestsController < ApplicationController
 
   # GET /staffing_requests/1
   def show
-    render json: @staffing_request, include: "shifts"
+    render json: @staffing_request, include: "user,care_home,accepted_shift"
   end
 
 

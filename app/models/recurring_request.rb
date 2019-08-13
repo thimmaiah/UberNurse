@@ -43,8 +43,10 @@ class RecurringRequest < ApplicationRecord
 	        logger.debug "RecurringRequest: #{date} + #{self.start_date.strftime('%H').to_i} + #{self.start_date.strftime('%M').to_i} #{start_date}"
 			
 			if(self.start_date < self.end_date)
+	        	# End date is the same day
 	        	end_date = date + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
 	        else
+	        	# End date is the next day - so add 1 day
 	        	end_date = date + 1.day + self.end_date.strftime('%H').to_i.hours + self.end_date.strftime('%M').to_i.minutes
 	        end
 
