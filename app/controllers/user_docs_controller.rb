@@ -1,6 +1,6 @@
 class UserDocsController < ApplicationController
   before_action :authenticate_user!, except: [:create]
-  before_filter set_paper_trail_whodunnit
+  #before_filter :set_paper_trail_whodunnit
   
   load_and_authorize_resource param_method: :user_doc_params, except: [:create]
 
