@@ -29,5 +29,6 @@ module SmsHelper
   def send_sms(msg)
     self.user.send_sms(msg)
   end
+
   
 end

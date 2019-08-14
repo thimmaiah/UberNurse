@@ -1,5 +1,6 @@
 class StaffingRequest < ApplicationRecord
-
+  
+  include Wisper.model
   include StartEndTimeHelper
 
 
@@ -24,13 +25,12 @@ class StaffingRequest < ApplicationRecord
   belongs_to :recurring_request
 
   validates_presence_of :user_id, :care_home_id, :agency_id, :start_date, :end_date, :role
-  validate :start_end_date_valid
+  validate :start_end_date_valid, :request_status_valid
 
   # The audit trail of how the price was computed
   serialize :pricing_audit, Hash
   serialize :select_user_audit, Hash
 
-  after_save ThinkingSphinx::RealTime.callback_for(:staffing_request)
 
   scope :open, -> {where(request_status:"Open")}
   scope :not_found, -> {where(shift_status:"Not Found")}
@@ -43,7 +43,6 @@ class StaffingRequest < ApplicationRecord
   scope :manual_assignment, -> {where("manual_assignment_flag = ?", true)}
 
   before_create :set_defaults, :price_estimate
-  after_create :send_admin_notification
 
   def set_defaults
     # We now have auto approval
@@ -71,11 +70,6 @@ class StaffingRequest < ApplicationRecord
     end
   end
 
-  def start_end_date_valid
-    if(self.start_date > self.end_date)
-      errors.add(:start_date, "Start date cannot be after end date #{self.start_date} > #{self.end_date}")
-    end
-  end
 
   def price_estimate
     # Ensure the request gets a price estimate before it is saved
@@ -83,24 +77,17 @@ class StaffingRequest < ApplicationRecord
     Rate.price_estimate(self)
   end
 
-  def send_admin_notification
-    UserNotifierMailer.staffing_request_created(self).deliver_later
+  def start_end_date_valid
+    if(self.start_date > self.end_date)
+      errors.add(:start_date, "Start date cannot be after end date #{self.start_date} > #{self.end_date}")
+    end
   end
 
-  before_save :update_response_status
-  def update_response_status
-    if( self.request_status_changed? &&
-        (self.request_status == 'Closed' || self.request_status == 'Cancelled') )
+  def request_status_valid
+    if( self.request_status_changed? )
       # Need to ensure that request whose shift has started cannot be cancelled.
       if(self.request_status == "Cancelled" && self.shifts.last && self.shifts.last.start_code != nil)
         errors.add(:request_status, "Cannot cancel request when the shift has started.")
-      else
-        # Ensure all responses are also closed so they dont show up on the UI
-        self.shifts.open.each do |resp|
-          resp.response_status = self.request_status
-          resp.closed_by_parent_request = true
-          resp.save
-        end
       end
     end
   end

@@ -1,6 +1,8 @@
 class Shift < ApplicationRecord
 
   include StartEndTimeHelper
+  include SmsHelper
+  include Wisper.model
 
   acts_as_paranoid
   has_paper_trail
@@ -36,10 +38,9 @@ class Shift < ApplicationRecord
 
   validate :check_codes
   validates_presence_of :agency_id
-  before_save :shift_cancelled, :shift_accepted, :update_dates
-  before_create :set_defaults
-  after_save :close_shift
-  after_create :broadcast_shift
+  
+  before_create :set_defaults  
+  before_save :update_dates  
 
   attr_accessor :closing_started
   attr_accessor :testing
@@ -101,32 +102,7 @@ class Shift < ApplicationRecord
 
   end
 
-  def shift_cancelled
-    if(self.response_status_changed? &&
-       ["Rejected", "Auto Rejected", "Cancelled"].include?(self.response_status))
-
-      if(!closed_by_parent_request)
-        # This was rejected - so ensure the request gets broadcasted again
-        # If the broadcast_status is "Pending", the Notifier will pick it
-        # up again in some time and send it out
-        self.staffing_request.broadcast_status = "Pending"
-        self.staffing_request.shift_status = nil
-        self.staffing_request.save
-      end
-      ShiftMailer.shift_cancelled(self).deliver_later
-      self.send_shift_cancelled_sms(self)
-    end
-  end
-
-  def shift_accepted
-    if(self.response_status_changed? && self.response_status == "Accepted")
-      ShiftMailer.shift_accepted(self).deliver_later
-      self.send_shift_accepted_sms(self)
-      # Send a mail to the broacast group with the start / end codes
-      ShiftMailer.send_codes_to_broadcast_group(self).deliver
-    end
-  end
-
+  
 
   def update_dates
     # Sometimes admin have to manually close a shift, so they supply the start/end codes and dates
@@ -154,15 +130,6 @@ class Shift < ApplicationRecord
     self.end_date = end_date ? end_date : self.staffing_request.end_date
     self.manual_close = true
     self.save
-  end
-
-  def broadcast_shift
-    if(self.response_status != 'Rejected')
-      logger.debug "Broadcasting shift #{self.id}"
-      PushNotificationJob.new.perform(self)
-      ShiftMailer.shift_notification(self).deliver_later
-      self.send_shift_sms_notification(self)
-    end
   end
 
   # Used to broadcast the shift n number of times on regular intervals
@@ -203,20 +170,6 @@ class Shift < ApplicationRecord
       errors.add(:end_code, "End Code does not match with the request end code")
     end
   end
-
-  def close_shift(force=false)
-    # Ensure this gets priced, if we have the right star / end codes
-    if ( (  !self.closing_started && self.carer_base == nil &&
-            self.start_code == self.staffing_request.start_code &&
-            self.end_code == self.staffing_request.end_code) || force )
-
-      ShiftCloseJob.perform_later(self.id)
-      # This callback gets called multiple times - we want to do this only once. Hence closing_started
-      self.closing_started = true
-
-    end
-  end
-
 
 
   def send_confirm?
@@ -278,37 +231,6 @@ class Shift < ApplicationRecord
     self.save!
   end
 
-
-
-  def send_shift_sms_notification(shift)
-    msg = "You have a new shift assigned at #{shift.care_home.name}. Please open the Care Connuct app and accept or reject the shift."
-    send_sms(msg)
-  end
-
-  def send_shift_accepted_sms(shift)
-    msg = "Shift assigned at #{shift.care_home.name} has been accepted."
-    send_sms(msg)
-  end
-
-  def send_shift_cancelled_sms(shift)
-    msg = "Shift assigned at #{shift.care_home.name} has been cancelled."
-    send_sms(msg)
-  end
-
-  def send_shift_started_sms(shift)
-    msg = "Shift assigned at #{shift.care_home.name} has started."
-    send_sms(msg)
-  end
-
-  def send_shift_ended_sms(shift)
-    msg = "Shift assigned at #{shift.care_home.name} has ended."
-    send_sms(msg)
-  end
-
-  def send_sms(msg)
-    self.user.send_sms(msg)
-  end
-
   def self.month_closed_shifts(date=Date.today)
     month_start = date.beginning_of_month
     month_end = date.end_of_month
@@ -344,11 +266,7 @@ class Shift < ApplicationRecord
         self.end_code = self.staffing_request.end_code
       end
         
-      if self.save
-        return true
-      else
-        return false
-      end
+      return  self.save
     else
       errors.add(:qr_code, "Invalid QR Code")
       return false

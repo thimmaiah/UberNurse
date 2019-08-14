@@ -33,7 +33,7 @@ module UberNurse
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = false
-    config.autoload_paths += %W( #{Rails.root.to_s}/app/services #{Rails.root.to_s}/app/notifiers )
+    config.autoload_paths += %W( #{Rails.root.to_s}/app/services #{Rails.root.to_s}/app/notifiers #{Rails.root.to_s}/app/subscribers )
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
@@ -56,6 +56,12 @@ module UberNurse
     config.active_job.queue_adapter = :delayed_job
     config.to_prepare do
       Devise::Mailer.layout "mailer"
+    end
+
+    config.to_prepare do
+      Wisper.clear if Rails.env.development?
+      StaffingRequest.subscribe(StaffingRequestSubscriber)
+      Shift.subscribe(ShiftSubscriber)
     end
 
 
