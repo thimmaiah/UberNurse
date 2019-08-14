@@ -110,3 +110,8 @@ gem 'administrate-field-boolean_to_yes_no'
 gem 'administrate-field-belongs_to_search'
 gem 'jbuilder'
 gem "actionview", ">= 5.0.7.2"
+
+gem 'wisper'
+gem 'wisper-activerecord'
+# at the time of publishing the version of wiper-activejob in rubygems.org as quite old
+gem 'wisper-activejob', github: 'krisleech/wisper-activejob'

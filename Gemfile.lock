@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/krisleech/wisper-activejob.git
+  revision: 415fb4d4f2bfa2a39e300510ea98c2b3753c4a07
+  specs:
+    wisper-activejob (1.0.0)
+      activejob (>= 4.0.0)
+      wisper
+
+GIT
   remote: https://github.com/randym/axlsx.git
   revision: c8ac844572b25fda358cc01d2104720c4c42f450
   ref: c8ac844
@@ -445,6 +453,10 @@ GEM
     websocket-extensions (0.1.4)
     whenever (1.0.0)
       chronic (>= 0.6.3)
+    wisper (2.0.0)
+    wisper-activerecord (1.0.0)
+      activerecord (>= 3.0.0)
+      wisper (~> 2.0)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -517,6 +529,9 @@ DEPENDENCIES
   twilio-ruby
   tzinfo-data
   whenever
+  wisper
+  wisper-activejob!
+  wisper-activerecord
 
 BUNDLED WITH
    1.17.2
