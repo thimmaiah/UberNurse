@@ -2,7 +2,13 @@ class UserNotifierMailer < ApplicationMailer
 
   def reference_notification(reference)
     logger.debug("Sending mail to #{reference.email}")
-    attachments["Reference Request"] = File.read("#{Rails.root}/public/system/Reference_Request_to_employer_V3.doc")
+
+    filename = "#{Rails.root}/public/system/Reference_Request_to_employer_V3.doc"
+    attachments["ReferenceRequest.doc"] = {
+      :encoding => 'base64',
+      :content  => Base64.encode64(File.read(filename))
+    }
+
     @user = reference.user
     @reference = reference
     mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
