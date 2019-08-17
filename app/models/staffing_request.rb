@@ -1,5 +1,6 @@
 class StaffingRequest < ApplicationRecord
   
+  # Please see StaffingRequestSubscriber class - all side effects are handled there
   include Wisper.model
   include StartEndTimeHelper
 

@@ -20,9 +20,7 @@ class ShiftSubscriber
         close_shift(shift)
       end
     end
-    
-
-	
+    	
   end
 
   def self.broadcast_shift(shift)

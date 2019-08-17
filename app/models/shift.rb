@@ -2,6 +2,7 @@ class Shift < ApplicationRecord
 
   include StartEndTimeHelper
   include SmsHelper
+  # Please see ShiftSubscriber class - all side effects are handled there
   include Wisper.model
 
   acts_as_paranoid

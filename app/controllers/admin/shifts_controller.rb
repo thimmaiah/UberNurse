@@ -31,7 +31,7 @@ module Admin
 
       if updated
         # regenrate the payment if required
-        requested_resource.close_shift(true) if regenerate_payment
+        ShiftSubscriber.close_shift(requested_resource, true) if regenerate_payment
 
         redirect_to(
           [namespace, requested_resource],
