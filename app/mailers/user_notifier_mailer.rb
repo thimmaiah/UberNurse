@@ -172,7 +172,7 @@ class UserNotifierMailer < ApplicationMailer
   private
   def select_layout
     if action_name == 'care_home_qr_code'
-      false
+      'qr_code'
     else
       'mailer'
     end

@@ -83,17 +83,15 @@ GEM
     administrate-field-boolean_to_yes_no (0.1.0)
       administrate (~> 0.7)
       rails (~> 5.0)
-    airbrussh (1.3.2)
+    airbrussh (1.3.3)
       sshkit (>= 1.6.1, != 1.7.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     arel (7.1.4)
     autoprefixer-rails (9.6.1)
       execjs
     awesome_print (1.8.0)
     aws-eventstream (1.0.3)
-    aws-partitions (1.199.0)
-    aws-sdk-core (3.62.0)
+    aws-partitions (1.203.0)
+    aws-sdk-core (3.63.0)
       aws-eventstream (~> 1.0, >= 1.0.2)
       aws-partitions (~> 1.0)
       aws-sigv4 (~> 1.1)
@@ -147,9 +145,6 @@ GEM
       activesupport
     childprocess (1.0.1)
       rake (< 13.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     chronic (0.10.2)
     chunky_png (1.3.11)
     climate_control (0.2.0)
@@ -183,8 +178,8 @@ GEM
     database_cleaner (1.7.0)
     datetime_picker_rails (0.0.7)
       momentjs-rails (>= 2.8.1)
-    delayed_job (4.1.7)
-      activesupport (>= 3.0, < 5.3)
+    delayed_job (4.1.8)
+      activesupport (>= 3.0, < 6.1)
     delayed_job_active_record (4.1.3)
       activerecord (>= 3.0, < 5.3)
       delayed_job (>= 3.0, < 5)
@@ -205,9 +200,9 @@ GEM
       dotenv (= 2.7.5)
       railties (>= 3.2, < 6.1)
     erubis (2.7.0)
-    exception_notification (4.3.0)
-      actionmailer (>= 4.0, < 6)
-      activesupport (>= 4.0, < 6)
+    exception_notification (4.4.0)
+      actionmailer (>= 4.0, < 7)
+      activesupport (>= 4.0, < 7)
     execjs (2.7.0)
     factory_girl (4.9.0)
       activesupport (>= 3.0.0)
@@ -234,7 +229,6 @@ GEM
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     innertube (1.1.0)
-    io-like (0.3.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
     jmespath (1.4.0)
@@ -318,6 +312,8 @@ GEM
       terrapin (~> 0.6.0)
     paranoia (2.4.2)
       activerecord (>= 4.0, < 6.1)
+    polyamorous (2.3.0)
+      activerecord (>= 5.0)
     public_suffix (3.1.1)
     puma (3.11.3)
     rack (2.0.7)
@@ -350,11 +346,12 @@ GEM
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
     rake (12.3.3)
-    ransack (2.1.1)
+    ransack (2.3.0)
       actionpack (>= 5.0)
       activerecord (>= 5.0)
       activesupport (>= 5.0)
       i18n
+      polyamorous (= 2.3.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -406,7 +403,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    scout_apm (2.5.1)
+    scout_apm (2.5.2)
     selectize-rails (0.12.6)
     selenium-webdriver (3.142.3)
       childprocess (>= 0.5, < 2.0)
@@ -448,6 +445,10 @@ GEM
     unf_ext (0.0.7.6)
     warden (1.2.8)
       rack (>= 2.0.6)
+    webdrivers (4.1.2)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
@@ -482,7 +483,6 @@ DEPENDENCIES
   capistrano-rvm
   capistrano3-puma
   capybara-email
-  chromedriver-helper
   cucumber-rails
   daemons
   database_cleaner
@@ -528,6 +528,7 @@ DEPENDENCIES
   thinking-sphinx
   twilio-ruby
   tzinfo-data
+  webdrivers
   whenever
   wisper
   wisper-activejob!
