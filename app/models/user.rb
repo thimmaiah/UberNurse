@@ -17,6 +17,8 @@ class User < ApplicationRecord
   has_many :ratings, as: :rated_entity
   has_many :care_home_carer_mappings
 
+  has_many :contacts
+
   SEX = ["M", "F"]
   SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]
   ROLE = ["Care Giver", "Nurse", "Admin", "Agency"]

@@ -46,7 +46,7 @@ class Ability
         can :read, Rating, :rated_entity_id =>@user.id, :rated_entity_type=>"User"
         can :create, Rating, :rated_entity_type=>"CareHome"
         can [:read, :manage], Referral, :user_id =>@user.id
-
+        can [:read, :manage], Contact, :user_id =>@user.id
     end
 
     def employee_privilages
@@ -123,6 +123,7 @@ class Ability
         can :create, CareHomeCarerMapping
         can :manage, CareHomeCarerMapping, :agency_id=>@user.agency_id
 
-        can [:manage, :create], Reference 
+        can [:manage, :create], Reference
+        can [:read, :manage], Contact 
     end
 end

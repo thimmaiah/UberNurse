@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190808102801) do
+ActiveRecord::Schema.define(version: 20190821100513) do
 
-  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",            limit: 100
     t.string   "address"
     t.string   "postcode",        limit: 10
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.text     "icon_url",        limit: 65535
   end
 
-  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "care_home_id"
     t.datetime "created_at",                              null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
 
-  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "user_id"
     t.datetime "created_at",               null: false
@@ -98,6 +98,18 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.integer  "carer_break_mins",                                                      default: 0
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
+  end
+
+  create_table "contacts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.string   "phone"
+    t.string   "email"
+    t.string   "relationship"
+    t.integer  "user_id"
+    t.string   "contact_type"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_contacts_on_user_id", using: :btree
   end
 
   create_table "cqc_records", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -583,6 +595,7 @@ ActiveRecord::Schema.define(version: 20190808102801) do
     t.boolean  "work_weekend_nights"
     t.boolean  "pause_shifts"
     t.boolean  "delete_requested"
+    t.text     "medical_info",                  limit: 65535
     t.index ["agency_id"], name: "index_users_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree

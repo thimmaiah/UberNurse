@@ -54,6 +54,15 @@ ThinkingSphinx::Index.define :referral, :with => :real_time do
   has payment_status, :type=>:string
 end
 
+ThinkingSphinx::Index.define :contact, :with => :real_time do
+  # fields
+  indexes name
+  indexes phone
+  indexes email
+  indexes user.first_name
+  indexes user.last_name
+end
+
 ThinkingSphinx::Index.define :post_code, :with => :real_time do
   # fields
   indexes postcode

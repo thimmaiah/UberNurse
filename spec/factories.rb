@@ -1,6 +1,14 @@
 include ActionDispatch::TestProcess
 
 FactoryGirl.define do
+  factory :contact do
+    name "MyString"
+    phone "MyString"
+    email "MyString"
+    relationship "MyString"
+    user_id 1
+    contact_type "MyString"
+  end
   factory :reference do
     first_name ""
     last_name ""
