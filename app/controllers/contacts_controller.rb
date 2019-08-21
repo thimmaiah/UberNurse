@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
   load_and_authorize_resource param_method: :contacts_params, except: [:create]
 
 
-  respond_to :html
+  respond_to :json
 
   def index
     respond_with(@contacts)
@@ -23,6 +23,7 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
+    @contact.user_id = current_user.id
     @contact.save
     respond_with(@contact)
   end

@@ -38,6 +38,7 @@ class UserDashboard < Administrate::BaseDashboard
     work_weekend_nights: Field::BooleanToYesNo,
     pause_shifts: Field::BooleanToYesNo,
     
+    medical_info: Field::Text,
     image_url: Field::Text,
     sort_code: Field::String,
     bank_account: Field::String,
@@ -92,6 +93,7 @@ class UserDashboard < Administrate::BaseDashboard
     :work_weekend_nights,
     :pause_shifts,
     :postcode,
+    :medical_info,
     :care_home,
     :shifts
 
@@ -120,8 +122,10 @@ class UserDashboard < Administrate::BaseDashboard
     :work_weekend_nights,
     :pause_shifts,
     :postcode,
+    :medical_info,
     :created_at
   ].freeze
+
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.

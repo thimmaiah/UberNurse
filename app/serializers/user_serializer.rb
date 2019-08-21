@@ -4,7 +4,7 @@ class UserSerializer < ActiveModel::Serializer
   :speciality, :experience, :referal_code, :accept_terms, :care_home_id, :care_home_ids, :sister_care_homes,
   :image, :can_manage, :verified, :sort_code, :bank_account, :rating, :user_docs, :push_token,
   :accept_bank_transactions, :accept_bank_transactions_date, :sms_verification_code, :care_home_agencies,
-  :work_weekdays, :work_weeknights, :work_weekends, :work_weekend_nights, :pause_shifts
+  :work_weekdays, :work_weeknights, :work_weekends, :work_weekend_nights, :pause_shifts, :medical_info
 
   has_many :user_docs, serializer: UserDocSerializer
   belongs_to :care_home, serializer: CareHomeSerializer
