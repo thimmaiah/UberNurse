@@ -179,7 +179,15 @@ FactoryGirl.define do
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
     verified {false}
-    carer_break_mins {[15,30,45,60][rand(4)]}
+    carer_break_mins {[30,60][rand(2)]}
+    vat_number {rand.to_s[2..9]}
+    company_registration_number {rand.to_s[2..7]}
+    paid_unpaid_breaks {["Paid", "Unpaid"][rand(2)]}
+    parking_available {rand(2)}
+    meals_provided_on_shift {rand(2)}
+    meals_subsidised {rand(2)}
+    po_req_for_invoice {false}
+    
     #manual_assignment_flag {false}
   end
 

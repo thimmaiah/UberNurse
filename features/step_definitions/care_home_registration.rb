@@ -4,11 +4,21 @@ end
 
 When(/^I fill and submit the care homes registration page with  "([^"]*)"$/) do |arg1|
   @care_home = FactoryGirl.build(:care_home)
-  fields = ["name", "address", "postcode", "phone", "image_url", "carer_break_mins"]
+  fields = ["name", "address", "postcode", "phone", "image_url", 
+            "vat_number", "company_registration_number"]
   fields.each do |k|
     fill_in(k, with: @care_home[k], fill_options: { clear: :backspace })
     sleep(1)
   end
+
+  ionic_select(@care_home.carer_break_mins, "carer_break_mins", true)
+  ionic_select(@care_home.paid_unpaid_breaks, "paid_unpaid_breaks", true)
+
+  find("#parking_available").click if @care_home.parking_available
+  find("#meals_provided_on_shift").click if @care_home.meals_provided_on_shift
+  find("#meals_subsidised").click if @care_home.meals_subsidised
+  find("#po_req_for_invoice").click if @care_home.po_req_for_invoice
+  
   click_on("Save")
 end
 
