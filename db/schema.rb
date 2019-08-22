@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190821100513) do
+ActiveRecord::Schema.define(version: 20190822064624) do
 
-  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",            limit: 100
     t.string   "address"
     t.string   "postcode",        limit: 10
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20190821100513) do
     t.text     "icon_url",        limit: 65535
   end
 
-  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "care_home_id"
     t.datetime "created_at",                              null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20190821100513) do
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
 
-  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "user_id"
     t.datetime "created_at",               null: false
@@ -96,6 +96,15 @@ ActiveRecord::Schema.define(version: 20190821100513) do
     t.string   "qr_code",                       limit: 10
     t.string   "icon_url"
     t.integer  "carer_break_mins",                                                      default: 0
+    t.string   "vat_number",                    limit: 50
+    t.string   "company_registration_number",   limit: 100
+    t.boolean  "parking_available"
+    t.string   "paid_unpaid_breaks",            limit: 10
+    t.integer  "break_minutes"
+    t.boolean  "meals_provided_on_shift"
+    t.string   "meals_subsidised",              limit: 10
+    t.string   "dress_code"
+    t.boolean  "po_req_for_invoice"
     t.index ["cqc_location"], name: "index_care_homes_on_cqc_location", using: :btree
     t.index ["deleted_at"], name: "index_care_homes_on_deleted_at", using: :btree
   end
