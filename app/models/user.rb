@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :care_home_carer_mappings
 
   has_many :contacts
+  has_many :references
 
   SEX = ["M", "F"]
   SPECIALITY = ["Generalist", "Geriatric Care", "Pediatric Care", "Mental Health"]

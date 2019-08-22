@@ -1,10 +1,11 @@
 class ReferencesController < ApplicationController
-  before_action :set_reference, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  load_and_authorize_resource param_method: :references_params, except: [:create]
 
-  respond_to :html
+
+  respond_to :json
 
   def index
-    @references = Reference.all
     respond_with(@references)
   end
 
@@ -22,6 +23,7 @@ class ReferencesController < ApplicationController
 
   def create
     @reference = Reference.new(reference_params)
+    @reference.user_id = current_user.id
     @reference.save
     respond_with(@reference)
   end
@@ -37,11 +39,7 @@ class ReferencesController < ApplicationController
   end
 
   private
-    def set_reference
-      @reference = Reference.find(params[:id])
-    end
-
     def reference_params
-      params.require(:reference).permit(:first_name, :last_name, :title, :email, :ref_type, :user_id)
+      params.require(:reference).permit(:first_name, :last_name, :title, :email, :ref_type, :user_id, :address)
     end
 end

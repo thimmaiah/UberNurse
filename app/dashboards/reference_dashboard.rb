@@ -35,7 +35,6 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :id,
     :first_name,
     :last_name,
-    :title,
     :ref_type,  
     :reference_received,
     :user
@@ -47,7 +46,6 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :id,
     :first_name,
     :last_name,
-    :title,
     :email,
     :address,
     :ref_type,
@@ -65,7 +63,6 @@ class ReferenceDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :first_name,
     :last_name,
-    :title,
     :email,
     :address,
     :ref_type,
