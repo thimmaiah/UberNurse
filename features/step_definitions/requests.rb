@@ -201,12 +201,19 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
   key_values(@staffing_request, args)
   page.find("#new_staffing_request_btn").click()
 
+  if(@care_home.po_req_for_invoice)
+    fill_in("po_for_invoice", with: @staffing_request.po_for_invoice, fill_options: { clear: :backspace })
+  end
+
+
   if @care_home.qr_code == nil
     fields = ["start_code", "end_code"]
     fields.each do |k|
       fill_in(k, with: @staffing_request[k], fill_options: { clear: :backspace })
     end
   end  
+
+
   ionic_select(@staffing_request.role, "role", true)
   ionic_select(@staffing_request.care_home.name, "care_home_id", true) if @staffing_request.care_home_id
   #ionic_select(@staffing_request.speciality, "speciality", false)
@@ -227,7 +234,7 @@ Then(/^the request must be saved$/) do
   end
   
   @staffing_request.role.should == last.role
-
+  @staffing_request.po_for_invoice.should == last.po_for_invoice
 
   last.start_date.hour.should == 8
   last.end_date.hour.should == 16
