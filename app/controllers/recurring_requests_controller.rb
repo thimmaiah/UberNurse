@@ -54,7 +54,7 @@ class RecurringRequestsController < ApplicationController
     end
 
     def recurring_request_params
-      params.require(:recurring_request).permit(:care_home_id, :user_id, :start_date, :end_date, :role, 
+      params.require(:recurring_request).permit(:care_home_id, :user_id, :start_date, :end_date, :role, :po_for_invoice,
         :speciality, :on, :start_on, :end_on, :audit, {dates:[]}, :notes, :agency_id, :preferred_carer_id)
     end
 end

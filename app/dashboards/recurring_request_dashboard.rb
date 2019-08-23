@@ -16,6 +16,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     preferred_carer_id: Field::Number,
     preferred_carer: Field::BelongsToSearch.with_options(class_name: "User"),
     id: Field::Number,
+    po_for_invoice: Field::String,
     start_date: Field::DateTime,
     end_date: Field::DateTime,
     role: Field::Select.with_options(collection: User::ROLE), 
@@ -53,6 +54,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :end_date,
     :role,
     :speciality,
+    :po_for_invoice,
     :created_at,
     :updated_at,
     :staffing_requests,
@@ -73,6 +75,7 @@ class RecurringRequestDashboard < Administrate::BaseDashboard
     :dates,
     :role,
     :speciality,
+    :po_for_invoice,
     :notes,
   ].freeze
 

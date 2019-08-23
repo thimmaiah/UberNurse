@@ -70,6 +70,7 @@ class RecurringRequest < ApplicationRecord
 	                                  start_date: start_date, end_date: end_date,
 	                                  preferred_carer_id: self.preferred_carer_id,
 	                                  recurring_request_id: self.id,
+	                                  po_for_invoice: self.po_for_invoice,
 	                                  start_code: rand.to_s[2..5], end_code: rand.to_s[2..5])
 
 	        req.save!
