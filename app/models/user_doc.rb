@@ -6,7 +6,7 @@ class UserDoc < ApplicationRecord
   after_save ThinkingSphinx::RealTime.callback_for(:user_doc)
   validates_presence_of :doc_type, :user_id, :name
 
-  DOC_TYPES = ["Qualification Certificate", "ID Card", "Address Proof", "DBS", "Profile Pic", "CV"]
+  DOC_TYPES = ["Qualification Certificate", "ID Card", "Proof of Address", "DBS", "Profile Pic", "CV"]
 
   has_attached_file :doc, {validate_media_type: false}
   validates_attachment_file_name :doc, matches: [/png\z/, /jpe?g\z/, /pdf\z/, /JPE?G\z/, /doc\z/, /docx\z/]
@@ -16,7 +16,7 @@ class UserDoc < ApplicationRecord
 
   scope :certificates, -> { where doc_type: "Qualification Certificate" }
   scope :id_cards, -> { where doc_type: "ID Card" }
-  scope :address_proofs, -> { where doc_type: "Address Proof" }
+  scope :address_proofs, -> { where doc_type: "Proof of Address" }
   scope :dbs, -> { where doc_type: "DBS" }
 
 
