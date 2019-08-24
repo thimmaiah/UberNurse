@@ -60,7 +60,7 @@ class Shift < ApplicationRecord
   end
 
 
-  def self.create_shift(selected_user, staffing_request, preferred_care_giver_selected=false)
+  def self.create_shift(selected_user, staffing_request, preferred_care_giver_selected=false, manual_assignment=false)
 
     if (staffing_request.shifts.open.where(user_id: selected_user.id).count > 0)
       raise "Open shift already exists for user #{selected_user.id} and staffing_request #{staffing_request.id}"
@@ -75,7 +75,8 @@ class Shift < ApplicationRecord
                         carer_break_mins: staffing_request.carer_break_mins,
                         agency_id: staffing_request.agency_id,
                         response_status: "Pending",
-                        preferred_care_giver_selected: preferred_care_giver_selected)
+                        preferred_care_giver_selected: preferred_care_giver_selected,
+                        manual_assignment: manual_assignment)
       # Update the request
       prev_shift = staffing_request.shifts.last
 

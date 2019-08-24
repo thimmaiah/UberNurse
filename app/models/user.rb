@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :shifts
   has_many :payments
   has_many :user_docs, -> { order(:verified=>:desc) }, dependent: :destroy
-  has_one :profile_pic, -> { where(doc_type: "Profile Pic") }, class_name: "UserDoc"
+  has_one :profile_pic, -> { where(doc_type: "Profile Picture") }, class_name: "UserDoc"
   has_many :ratings, as: :rated_entity
   has_many :care_home_carer_mappings
 

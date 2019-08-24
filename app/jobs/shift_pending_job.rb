@@ -7,9 +7,11 @@ class ShiftPendingJob < ApplicationJob
     begin
       # Find all the pending shifts
       Shift.pending.each do |shift|
-        # Check if the shift has exceeded MAX_PENDING_SLOT_TIME_MINS
         time_elapsed =  (Time.now - shift.created_at)/60
-        if( time_elapsed > MAX_PENDING_SLOT_TIME_MINS)
+        # For manually assigned allow 3 hrs to respond - else allow MAX_PENDING_SLOT_TIME_MINS
+        time_allowed_for_response = shift.manual_assignment ? 60*3 : MAX_PENDING_SLOT_TIME_MINS
+        # For 
+        if( time_elapsed >  time_allowed_for_response )
           # No acceptance received, Lets Auto Reject        
           Rails.logger.info("ShiftPendingJob: Shift #{shift.id} for #{shift.user.email}"\
             " has not been accepted for #{time_elapsed} minutes. Auto Rejected")

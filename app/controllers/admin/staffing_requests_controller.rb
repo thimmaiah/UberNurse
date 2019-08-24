@@ -49,7 +49,9 @@ module Admin
         else
           # Find the request
           # Manually create the shift - all notifications will go out automatically
-          @shift = Shift.create_shift(@user, @staffing_request)
+          preferred_care_giver_selected=false
+          manual_assignment=true
+          @shift = Shift.create_shift(@user, @staffing_request, preferred_care_giver_selected, manual_assignment)
 
           # Redirect to the newly created shift
           flash[:success] = "Manual shift creation successfull"
