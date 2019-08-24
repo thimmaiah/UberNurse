@@ -41,8 +41,8 @@ Scenario Outline: Home page menus Care Giver
 
   Examples:
     |user                                                   |menus                |
-    |role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Qualification Certificate;ID Card;Address Proof;DBS|
-    |role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Qualification Certificate;ID Card;Address Proof;DBS|
+    |role=Care Giver;verified=false;phone_verified=false    |Verify Mobile Number;Qualification Certificate;ID Card;Proof of Address;DBS|
+    |role=Nurse;verified=false;phone_verified=false         |Verify Mobile Number;Qualification Certificate;ID Card;Proof of Address;DBS|
 
 
 
