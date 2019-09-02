@@ -11,6 +11,8 @@ class CareHome < ApplicationRecord
   has_many :carers, :through => :care_home_carer_mappings, source: :user
 
   validates_presence_of :name, :postcode
+  validates_presence_of :zone, if: :verified
+
   has_many :ratings, as: :rated_entity
 
   ZONES = ["North", "South"]

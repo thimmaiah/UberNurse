@@ -11,7 +11,7 @@ class StaffingRequestsController < ApplicationController
     end
     @staffing_requests = @staffing_requests.open.order("staffing_requests.start_date asc").page(@page).per(@per_page)
     #@staffing_requests = @staffing_requests.joins(:user, :care_home)
-    render json: @staffing_requests.includes(:user, :care_home), include: "user,care_home", each_serializer: StaffingRequestMiniSerializer
+    render json: @staffing_requests.includes(:care_home), include: "care_home", each_serializer: StaffingRequestMiniSerializer
   end
 
   def get_carers

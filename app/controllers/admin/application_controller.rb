@@ -77,6 +77,17 @@ module Admin
     #   params[:per_page] || 20
     # end
 
+    def setup_index(params)
+      search_term = params[:search].to_s.strip
+      resources = Administrate::Search.new(scoped_resource,
+                                           dashboard_class,
+                                           search_term).run
+      resources = apply_resource_includes(resources)
+      resources = order.apply(resources)
+      resources = resources.page(params[:page]).per(records_per_page)
+      return resources, search_term
+    end
+
     def search(entity)
       with = params[:with].present? ? eval("{"+params[:with].gsub(/ ?= ?/,":")+"}") : {}
       if params[:search] == "*"
