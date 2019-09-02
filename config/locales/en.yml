@@ -30,6 +30,9 @@ en:
         other: Agency Partner Mappings
   helpers:
     label:
+      user:
+        care_home_id: "Care Home (Only for Admin role)"
+        care_home: "Care Home (Only for Admin role)"
       recurring_request:
         start_date: "First Request Start Date"
         end_date: "First Request End Date"

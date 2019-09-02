@@ -80,6 +80,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :role,
+    :care_home,
     :speciality,
     :sex,
     :phone,
@@ -93,8 +94,7 @@ class UserDashboard < Administrate::BaseDashboard
     :work_weekend_nights,
     :pause_shifts,
     :postcode,
-    :medical_info,
-    :care_home,
+    :medical_info,    
     :shifts
 
   ].freeze
@@ -108,6 +108,7 @@ class UserDashboard < Administrate::BaseDashboard
     :last_name,
     :email,
     :role,
+    :care_home,
     :speciality,
     :sex,
     :phone,
