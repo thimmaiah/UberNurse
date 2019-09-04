@@ -55,14 +55,14 @@ class UserDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :id,
-    :care_home,
+    :id,    
     :first_name,
     :last_name,
     :email,
     :ready_for_verification,
     :phone_verified,
     :role,
+    :care_home,
     :speciality,
     :pref_commute_distance,
     :created_at
