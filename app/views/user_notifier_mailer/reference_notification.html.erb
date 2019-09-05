@@ -28,7 +28,7 @@
 		</p>	
 		
 		<p>
-			<%= @user.first_name %> <%= @user.last_name %> has applied for a position as a <%= @user.role %> 
+			<%= @user.first_name %> <%= @user.last_name %> has applied for a position as a <%= @user.role == "Care Giver" ? "Healthcare Professional" : @user.role %> 
 			through Connuct Care the smart app connecting Care Professionals with one of our clients and 
 			has given your name as a reference. 
 		</p>
