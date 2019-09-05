@@ -24,6 +24,8 @@ class ShiftCloseJob < ApplicationJob
       payment.save
     end
 
+    ShiftMailer.shift_completed(shift, shift.user).deliver_now
+    ShiftMailer.shift_completed(shift, shift.staffing_request.user).deliver_now
 
     Rails.logger.info "ShiftCloseJob: Closed request #{req.id} & shift #{shift.id} with payment #{payment.id}"
     

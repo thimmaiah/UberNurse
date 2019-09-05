@@ -22,6 +22,17 @@ class ShiftMailer < ApplicationMailer
           :subject => "Shift Started: #{@shift.start_date.to_s(:custom_datetime)} ")
   end
 
+
+  def shift_completed(shift, user)
+    @shift = shift
+    @agency = shift.agency    
+    @user = user
+    logger.debug("Sending mail to #{@user.email} from #{ENV['NOREPLY']}")
+    mail( :to => @user.email,
+          :bcc => @agency.broadcast_group ? ENV['ADMIN_EMAIL'] + "," + @agency.broadcast_group : ENV['ADMIN_EMAIL'],
+          :subject => "Shift Completed: #{@shift.start_date.to_s(:custom_datetime)} - #{@shift.end_date.to_s(:custom_datetime)} ")
+  end
+
   def shift_ended(shift)
     @shift = shift
     @agency = shift.agency
