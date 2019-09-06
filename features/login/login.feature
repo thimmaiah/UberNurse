@@ -61,3 +61,21 @@ Scenario Outline: Home page menus Admin
     |verified=false|role=Admin;verified=false;phone_verified=false    |Verify Mobile Number;|
 
 
+
+
+Scenario Outline: Password reset Successfully
+  Given there is an agency
+  Given there is a user "<user>"
+  And I am at the login page
+  When I fill and submit the reset password
+  Then I should see the "Sms with password reset secret sent. Please check your phone."
+  When I fill out the password reset page with "<new_password>"
+  Then I should see the "Password reset successfully, please login with the new password."
+  When I fill and submit the login page with the password "<new_password>"
+  Then I should see the "<msg>"
+    
+
+  Examples:
+    |user             |msg    | new_password  |
+    |role=Care Giver  |Welcome| Connuct123$   |
+    |role=Nurse       |Welcome| Connuct1234$  |

@@ -111,6 +111,8 @@ Rails.application.routes.draw do
       post :resend_confirmation
       get :get_initial_data
       post :reset_password
+      post :generate_reset_password_by_sms
+      post :reset_password_by_sms      
     end
     member do
       post :delete_requested

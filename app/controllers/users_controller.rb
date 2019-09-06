@@ -1,8 +1,11 @@
 class UsersController < ApplicationController
 
-  before_action :authenticate_user!, except: [:unsubscribe, :resend_confirmation, :reset_password]
+  before_action :authenticate_user!, 
+    except: [ :unsubscribe, :resend_confirmation, :reset_password, 
+              :generate_reset_password_by_sms, :reset_password_by_sms ]
   load_and_authorize_resource param_method: :user_params,
-    except: [:unsubscribe, :send_sms_verification, :verify_sms_verification, :resend_confirmation, :reset_password]
+    except: [ :unsubscribe, :send_sms_verification, :verify_sms_verification, :resend_confirmation, 
+              :reset_password, :generate_reset_password_by_sms, :reset_password_by_sms ]
 
   # GET /users
   def index
@@ -100,6 +103,24 @@ class UsersController < ApplicationController
     if(user)
       user.password = params[:password]
       user.save
+      render json: {reset: true}
+    else
+      render json: {reset: false}
+    end
+  end
+
+  def generate_reset_password_by_sms
+    user = User.find_by_email(params[:email])
+    if(user)
+      user.generate_password_reset_code
+      render json: {reset: true}
+    else
+      render json: {reset: false, user_not_found: true}
+    end
+  end
+
+  def reset_password_by_sms        
+    if( User.try_password_reset_code(params[:email], params[:password_reset_code], params[:password]) )
       render json: {reset: true}
     else
       render json: {reset: false}

@@ -264,6 +264,27 @@ class User < ApplicationRecord
     end
   end
 
+
+  def generate_password_reset_code
+    self.password_reset_code = rand.to_s[2..5]
+    self.save
+    send_sms("Connuct password reset code: #{self.password_reset_code}")
+    return self.password_reset_code
+  end
+
+  def self.try_password_reset_code(email, password_reset_code, password)
+
+    user = User.where(email: email, password_reset_code: password_reset_code).first
+    if(user)
+      user.password = password
+      user.password_reset_code = nil
+      user.password_reset_date = Date.today
+      return user.save
+    else
+      return false
+    end
+  end
+
   # Used for GDPR forget me
   def scramble_personal_data
     self.first_name = "Deleted"
