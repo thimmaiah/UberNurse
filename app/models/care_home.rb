@@ -15,7 +15,7 @@ class CareHome < ApplicationRecord
 
   has_many :ratings, as: :rated_entity
 
-  ZONES = ["North", "South"]
+  ZONES = ["North", "South", "London", "South East", "South West", "Midlands", "North West", "North East"]
 
   scope :verified, -> { where verified: true }
   scope :unverified, -> { where verified: false }
