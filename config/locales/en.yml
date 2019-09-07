@@ -61,3 +61,21 @@ en:
       reference:
         user: "Health Care Professional"
         user_id: "Health Care Professional"
+      rating:
+        care_home: "Partner"
+      shift:
+        care_home: "Partner"
+        user: "HCP"
+      staffing_request:
+        care_home: "Partner"
+      rate:
+        care_home_weekday: "Partner weekday rate"
+        care_home_weeknight: "Partner weeknight rate"
+        care_home_weekend: "Partner weekend day rate"
+        care_home_weekend_night: "Partner weekend night rate"
+        care_home_bank_holiday: "Partner bank holiday rate"
+        carer_weekday: "HCP weekday rate"
+        carer_weeknight: "HCP weeknight rate"
+        carer_weekend: "HCP weekend day rate"
+        carer_weekend_night: "HCP weekend night rate"
+        carer_bank_holiday: "HCP bank holiday rate"

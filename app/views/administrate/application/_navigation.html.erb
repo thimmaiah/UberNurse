@@ -22,15 +22,14 @@ as defined by the routes in the `admin/` namespace
 
   <% if current_user && current_user.role == "Agency" %>
 
-    <a class="navigation__link " href="/admin/users"> My Agency Users </a>
+    <a class="navigation__link " href="/admin/users?search=*&with=role%3D'Agency'"> My Agency Users </a>
 
     <a class="navigation__link " href="/admin/agency_user_mappings"> Users </a>
 
     <a class="navigation__link  child-nav" href="/admin/agency_user_mappings?search=*&with=verified%3Dfalse"> - Unverified </a>
     <a class="navigation__link  child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Nurse'"> - Nurses </a>
     <a class="navigation__link child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Care Giver'"> - Health Care Professionals </a>
-    <a class="navigation__link child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Admin'"> - Admins </a>
-    <a class="navigation__link child-nav" href="/admin/agency_user_mappings/export_form"> - User Export </a>
+    <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Admin'"> - Admins </a>
 
     <a class="navigation__link " href="/admin/agency_care_home_mappings"> Partners </a>
     <a class="navigation__link child-nav" href="/admin/agency_care_home_mappings?search=*&with=verified%3Dfalse"> - Unverified
