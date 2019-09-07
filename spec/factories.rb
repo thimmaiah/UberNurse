@@ -175,7 +175,7 @@ FactoryGirl.define do
     image_url {logos[rand(logos.length)]}
     address {Faker::Address.street_address}
     postcodelatlng { PostCode.where("length(postcode)=6").offset(rand(PostCode.where("length(postcode)=6").count)).first }
-    zone {CareHome::ZONES[rand(CareHome::ZONES.length)]}
+    zone {["North", "South"][rand(2)]}
     bank_account {rand.to_s[2..9]} 
     sort_code {rand.to_s[2..7]} 
     verified {false}
