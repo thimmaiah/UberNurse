@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190906104000) do
+ActiveRecord::Schema.define(version: 20190907063831) do
 
-  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.string   "name",            limit: 100
     t.string   "address"
     t.string   "postcode",        limit: 10
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20190906104000) do
     t.text     "icon_url",        limit: 65535
   end
 
-  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_care_home_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "care_home_id"
     t.datetime "created_at",                              null: false
@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20190906104000) do
     t.index ["care_home_id"], name: "index_agency_care_home_mappings_on_care_home_id", using: :btree
   end
 
-  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "agency_user_mappings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=latin1" do |t|
     t.integer  "agency_id"
     t.integer  "user_id"
     t.datetime "created_at",               null: false
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20190906104000) do
     t.string   "sort_code",                     limit: 6
     t.boolean  "accept_bank_transactions"
     t.datetime "accept_bank_transactions_date"
-    t.string   "phone",                         limit: 12
+    t.string   "phone",                         limit: 15
     t.string   "speciality",                    limit: 100
     t.string   "care_home_broadcast_group"
     t.string   "sister_care_homes",             limit: 30
@@ -538,6 +538,7 @@ ActiveRecord::Schema.define(version: 20190906104000) do
     t.date     "expiry_date"
     t.integer  "uploaded_by_id"
     t.integer  "training_id"
+    t.string   "alt_doc_type",       limit: 25
     t.index ["deleted_at"], name: "index_user_docs_on_deleted_at", using: :btree
   end
 
