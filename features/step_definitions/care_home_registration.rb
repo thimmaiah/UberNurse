@@ -39,6 +39,13 @@ Then(/^the care home should be created$/) do
   
 end
 
+
+When("When I claim the care home") do
+  click_on("Claim")
+  sleep(1)
+  click_on("Yes")
+end
+
 Then(/^the care home should be unverified$/) do
   last = CareHome.last
   last.verified.should == false
