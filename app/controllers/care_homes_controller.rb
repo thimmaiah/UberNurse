@@ -1,6 +1,6 @@
 class CareHomesController < ApplicationController
   before_action :authenticate_user!
-  load_and_authorize_resource param_method: :care_home_params, except: [:create]
+  load_and_authorize_resource param_method: :care_home_params, except: [:create, :claim]
 
   # GET /care_homes
   def index
@@ -15,6 +15,10 @@ class CareHomesController < ApplicationController
     render json: @care_home
   end
 
+  def claim
+    UserNotifierMailer.claim_care_home(params[:care_home_id], current_user.id).deliver_later
+    render json: {success: true}
+  end
   
   def new_qr_code
     current_user.care_home.new_qr_code

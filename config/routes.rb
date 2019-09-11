@@ -101,6 +101,7 @@ Rails.application.routes.draw do
   resources :care_homes do
     collection do
       get :new_qr_code
+      post :claim
     end
   end
 
@@ -140,7 +141,11 @@ Rails.application.routes.draw do
   end
   resources :rates
   resources :holidays
-  resources :cqc_records
+  resources :cqc_records do 
+    collection do
+      get :search_care_homes_and_cqc
+    end
+  end
 
   get 'users/unsubscribe/:unsubscribe_hash', to: 'users#unsubscribe', :as => 'unsubscribe'
 

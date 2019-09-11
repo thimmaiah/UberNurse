@@ -94,6 +94,15 @@ class UserNotifierMailer < ApplicationMailer
 
   end
 
+  def claim_care_home(care_home_id, user_id)
+    @care_home = CareHome.find(care_home_id)
+    @user = User.find(user_id)
+    if(@care_home && @user)
+      logger.debug("Sending mail to #{ENV['ADMIN_EMAIL']} from #{ENV['NOREPLY']}")
+      mail( :to => ENV['ADMIN_EMAIL'],
+            :subject => 'Add Admin to Care Home' )
+    end
+  end
 
   def care_home_verified(acm_id)
     @acm = AgencyCareHomeMapping.find(acm_id)
