@@ -306,5 +306,9 @@ class User < ApplicationRecord
     end
   end
 
+  def rating
+    self.rating_count > 0 ? self.total_rating / self.rating_count : nil
+  end
+
 
 end

@@ -14,7 +14,7 @@ class ReferenceDashboard < Administrate::BaseDashboard
     title: Field::String,
     email: Field::String,
     address: Field::Text,
-    
+    email_sent_count: Field::Number,
     ref_type: Field::Select.with_options(collection: Reference::TYPES),
     user_id: Field::Number,
     user: Field::BelongsToSearch,
@@ -37,7 +37,8 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :last_name,
     :ref_type,  
     :reference_received,
-    :user
+    :user,
+    :email_sent_count
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -50,6 +51,7 @@ class ReferenceDashboard < Administrate::BaseDashboard
     :address,
     :ref_type,
     :user,
+    :email_sent_count,
     :reference_received,
     :received_on,
     :notes,

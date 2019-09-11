@@ -15,10 +15,6 @@ class UserSerializer < ActiveModel::Serializer
   	Ability.new(scope).can?(:manage, object)
   end
 
-  def rating
-  	(object.rating_count > 0) ? (object.total_rating/object.rating_count) : 0 
-  end
-
   def user_docs
     object.user_docs.not_expired
   end

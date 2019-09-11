@@ -14,6 +14,7 @@ class UserDashboard < Administrate::BaseDashboard
     shifts: Field::HasMany,
     versions: VersionField,
     id: Field::Number,
+    rating: Field::Number,
     first_name: Field::String,
     last_name: Field::String,
     email: Field::String,
@@ -94,6 +95,7 @@ class UserDashboard < Administrate::BaseDashboard
     :work_weekend_nights,
     :pause_shifts,
     :postcode,
+    :rating,
     :medical_info,    
     :shifts
 

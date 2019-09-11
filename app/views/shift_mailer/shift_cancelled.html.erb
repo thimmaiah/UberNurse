@@ -13,7 +13,7 @@
     
     <p>
       <% if @shift.response_status == "Auto Rejected" %>
-        Note that shift which are <b>not confirmed within 30 mins</b> are <b>automatically cancelled</b>, so in the future please try and confirm assigned shifts at the earliest.
+        Note that shift which are <b>not confirmed</b> are <b>automatically cancelled</b>, so in the future please try and confirm assigned shifts at the earliest.
       <% end %>
 
       <% if @shift.response_status == "Rejected" %>

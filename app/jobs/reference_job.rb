@@ -15,7 +15,8 @@ class ReferenceJob < ApplicationJob
     refs.each do |ref|
     	
     	UserNotifierMailer.reference_notification(ref).deliver_now
-    
+      ref.email_sent_count = ref.email_sent_count + 1 if ref.email_sent_count
+      ref.save!
     end
 
   end
