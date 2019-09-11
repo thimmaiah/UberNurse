@@ -24,12 +24,16 @@ as defined by the routes in the `admin/` namespace
 
     <a class="navigation__link " href="/admin/users?search=*&with=role%3D'Agency'"> My Agency Users </a>
 
+    <a class="navigation__link " href=""> ----------- </a>
+
     <a class="navigation__link " href="/admin/agency_user_mappings"> Users </a>
 
     <a class="navigation__link  child-nav" href="/admin/agency_user_mappings?search=*&with=verified%3Dfalse"> - Unverified </a>
-    <a class="navigation__link  child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Nurse'"> - Nurses </a>
-    <a class="navigation__link child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Care Giver'"> - Health Care Professionals </a>
+    <a class="navigation__link  child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Nurse'"> - Nurses Mappings</a>
+    <a class="navigation__link child-nav" href="/admin/agency_user_mappings?search=*&with=role%3D'Care Giver'"> - HCP Mappings </a>
     <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Admin'"> - Admins </a>
+    <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Nurse'"> - Nurses </a>
+    <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Care Giver'"> - HCPs </a>
 
     <a class="navigation__link " href="/admin/agency_care_home_mappings"> Partners </a>
     <a class="navigation__link child-nav" href="/admin/agency_care_home_mappings?search=*&with=verified%3Dfalse"> - Unverified
@@ -39,8 +43,8 @@ as defined by the routes in the `admin/` namespace
       <a class="navigation__link " href="/admin/users"> Users </a>
 
       <a class="navigation__link  child-nav" href="/admin/users?search=*&with=verified%3Dfalse"> - Unverified </a>
-      <a class="navigation__link  child-nav" href="/admin/users?search=*&with=role%3D'Nurse'"> - Nurses </a>
-      <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Care Giver'"> - Care Givers </a>
+      <a class="navigation__link  child-nav" href="/admin/users?search=*&with=role%3D'Nurse'"> - Nurses  </a>
+      <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Care Giver'"> - HCP  </a>
       <a class="navigation__link child-nav" href="/admin/users?search=*&with=role%3D'Admin'"> - Admins </a>
       <a class="navigation__link child-nav" href="/admin/users/export_form"> - User Export </a>
 
@@ -49,6 +53,8 @@ as defined by the routes in the `admin/` namespace
     </a>
   <% end %>
   
+  <a class="navigation__link " href=""> ----------- </a>
+
   <a class="navigation__link " href="/admin/staffing_requests?order=start_date"> Staffing Requests </a>
   <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=request_status%3D'Open',shift_status%3D'Not Found'"> - Without Shifts</a>
   <a class="navigation__link child-nav" href="/admin/staffing_requests?search=*&with=manual_assignment_flag%3Dtrue,request_status%3D'Open'"> - Pending Manual Assignment</a>
@@ -59,12 +65,18 @@ as defined by the routes in the `admin/` namespace
   <a class="navigation__link " href="/admin/shifts"> Shifts </a>
   <a class="navigation__link child-nav" href="/admin/shifts?search=*&with=payment_status%3D'Pending'"> - Pending Payments </a>
 
+  
   <a class="navigation__link " href="/admin/payments"> Payments </a>
   <a class="navigation__link child-nav" href="/admin/payments_export/form"> - Payment Export
   </a>
 
+  <a class="navigation__link " href=""> ----------- </a>
   <a class="navigation__link " href="/admin/ratings"> Ratings </a>
   <a class="navigation__link " href="/admin/holidays"> Holidays </a>
   <a class="navigation__link " href="/admin/rates"> Rates </a>
+  
+  <a class="navigation__link " href=""> ----------- </a>
+  <a class="navigation__link " href="http://reports.connuct.co.uk:8080/superset/dashboard/2/" target="_blank"> Dashboard </a>
 
+  
 </nav>
