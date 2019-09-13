@@ -14,6 +14,13 @@ class ApplicationController < ActionController::API
     end
   end
 
+  rescue_from Exception do |exception|
+    respond_to do |format|
+      Rails.logger.error "Caught exception #{exception}"
+      format.json { render :json => exception.message, :status => 500 }
+    end
+  end
+
   # Required to enable additional user fields in registration
   before_action :configure_permitted_parameters, if: :devise_controller?
   protected
