@@ -2,7 +2,7 @@ class Reference < ApplicationRecord
 	TYPES = ["Current Employer", "Past Employer", "Character Reference"]
 	belongs_to :user
 
-	scope :not_received, -> {where("reference_received = false")}
+	scope :not_received, -> {where("reference_received = ?", false)}
 
 	before_create :set_defaults
 
