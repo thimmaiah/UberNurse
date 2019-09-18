@@ -3,12 +3,6 @@ class UserNotifierMailer < ApplicationMailer
   def reference_notification(reference)
     logger.debug("Sending mail to #{reference.email}")
 
-    filename = "#{Rails.root}/public/Reference_Request_to_employer_V3.doc"
-    attachments["ReferenceRequest.doc"] = {
-      :encoding => 'base64',
-      :content  => Base64.encode64(File.read(filename))
-    }
-
     @user = reference.user
     
     @reference = reference
@@ -18,6 +12,13 @@ class UserNotifierMailer < ApplicationMailer
             :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}",
             :template_name => "reference_character_notification" )
     else
+
+      filename = "#{Rails.root}/public/Reference_Request_to_employer_V3.doc"
+      attachments["ReferenceRequest.doc"] = {
+        :encoding => 'base64',
+        :content  => Base64.encode64(File.read(filename))
+      }
+
       mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
             :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}", 
             :template_name => "reference_employment_notification")
