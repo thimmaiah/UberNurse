@@ -5,8 +5,8 @@ class ShiftPendingJob < ApplicationJob
   def perform()
     Rails.logger.info "ShiftPendingJob: Start"
     begin
-      # Find all the pending shifts
-      Shift.pending.each do |shift|
+      # Find all the pending shifts that have not been manually assigned
+      Shift.pending.not_manual.each do |shift|
         time_elapsed =  (Time.now - shift.created_at)/60
         # For manually assigned allow 3 hrs to respond - else allow MAX_PENDING_SLOT_TIME_MINS
         time_allowed_for_response = shift.manual_assignment ? 60*3 : MAX_PENDING_SLOT_TIME_MINS

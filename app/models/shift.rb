@@ -36,6 +36,8 @@ class Shift < ApplicationRecord
   scope :rejected_or_auto, -> {where("response_status = 'Rejected' or response_status = 'Auto Rejected'")}
   scope :cancelled, -> {where("response_status = 'Cancelled'")}
   scope :open, -> {where("response_status in ('Pending', 'Accepted')")}
+  scope :manual, -> {where("manual_assignment = ?", true)}
+  scope :not_manual, -> {where("(manual_assignment is NULL or manual_assignment = ?)", false)}
 
   validate :check_codes
   validates_presence_of :agency_id
