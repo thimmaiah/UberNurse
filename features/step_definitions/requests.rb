@@ -210,6 +210,7 @@ When(/^I create a new Staffing Request "([^"]*)"$/) do |args|
     fields = ["start_code", "end_code"]
     fields.each do |k|
       fill_in(k, with: @staffing_request[k], fill_options: { clear: :backspace })
+      sleep(1)
     end
   end  
 
