@@ -10,10 +10,18 @@ class UserNotifierMailer < ApplicationMailer
     }
 
     @user = reference.user
+    
     @reference = reference
-    mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
-          :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}" )
-  
+
+    if @reference.ref_type == "Character Reference"
+      mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
+            :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}",
+            :template_name => "reference_character_notification" )
+    else
+      mail( :to => reference.email, :bcc => ENV['ADMIN_EMAIL'],
+            :subject => "Reference Request for: #{@user.first_name} #{@user.last_name}", 
+            :template_name => "reference_employment_notification")
+    end
   end
 
   def delete_requested(user_id)
