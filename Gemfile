@@ -9,7 +9,7 @@ gem 'dotenv-rails', require: 'dotenv/rails-now'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.7'
 # Use Puma as the app server
-gem 'puma', '3.11.3'
+gem 'puma', '4.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -25,7 +25,7 @@ group :development do
     gem 'capistrano-rvm',     require: false
     gem 'capistrano-rails',   require: false
     gem 'capistrano-bundler', require: false
-    gem 'capistrano3-puma',   require: false
+    gem 'capistrano-puma',   require: false
 end
 
 gem 'mysql2'
