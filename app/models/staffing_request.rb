@@ -74,8 +74,13 @@ class StaffingRequest < ApplicationRecord
 
   def price_estimate
     # Ensure the request gets a price estimate before it is saved
-    self.created_at = Time.now
-    Rate.price_estimate(self)
+    begin
+      self.created_at = Time.now
+      Rate.price_estimate(self)
+    rescue Exception => e  
+      logger.error "Error in estimating price for request #{self.id} #{e.message}"
+      ExceptionNotifier.notify_exception(e)
+    end
   end
 
   def start_end_date_valid
