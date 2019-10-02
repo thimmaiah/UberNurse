@@ -26,7 +26,7 @@ class AgencyCareHomeMapping < ApplicationRecord
   end
 
   def update_care_home  
-  	if self.verified
+  	if self.verified && self.verified_changed?
   		self.care_home.verified = true
   		self.care_home.save
       UserNotifierMailer.care_home_verified(self.id).deliver_later

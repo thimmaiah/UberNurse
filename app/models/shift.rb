@@ -56,6 +56,7 @@ class Shift < ApplicationRecord
     self.confirm_sent_count = 0
     self.confirmed_count = 0
     self.notification_count = 0
+    self.carer_break_mins = 0 if self.carer_break_mins == nil
     # update the request
     self.staffing_request.broadcast_status = "Sent"
     self.staffing_request.shift_status = "Found"
