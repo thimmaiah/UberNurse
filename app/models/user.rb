@@ -133,6 +133,7 @@ class User < ApplicationRecord
     self.delete_requested = false
     self.active = true
     self.phone = self.phone.gsub(/\s+/, "") 
+    self.password_reset_date = Date.today
 
     if(self.is_temp?)
       self.verified = false if self.verified == nil

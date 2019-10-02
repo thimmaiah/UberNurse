@@ -27,11 +27,11 @@ class AgencyUserMapping < ApplicationRecord
   end
 
   def update_user    
-  	if self.verified
+  	if self.verified && self.verified_changed?
   		self.user.verified = true
       self.user.verified_on = Date.today
   		self.user.save      
-      UserNotifierMailer.verification_complete(self.id).deliver_later if self.id
+      UserNotifierMailer.verification_complete(self.id).deliver_later if self.id && self.user.is_temp?
     else
       self.user.care_home_carer_mappings.update_all(agency_id: self.agency_id, enabled: false)
   	end
