@@ -41,8 +41,8 @@ gem 'rack-attack'
 gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
 
-gem 'devise_token_auth', "1.1.0"
-gem "devise", ">= 4.6.0"
+gem 'devise_token_auth', "1.1.3"
+gem "devise", ">= 4.6.2"
 
 gem 'scout_apm'
 

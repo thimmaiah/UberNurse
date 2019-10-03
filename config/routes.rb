@@ -92,7 +92,8 @@ Rails.application.routes.draw do
   resources :user_docs
 
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
-    passwords: 'passwords'
+    passwords: 'passwords',
+    confirmations: 'confirmations'
   }
 
   resources :hiring_responses
