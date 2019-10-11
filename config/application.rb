@@ -74,37 +74,37 @@ module UberNurse
     config.active_record.time_zone_aware_attributes = false
 
     config.colorize_logging = false
-    config.logstash.formatter = :json_lines
+    # config.logstash.formatter = :json_lines
 
-    # Optional, the logger to log writing errors to. Defaults to logging to $stderr
-    config.logstash.error_logger = Logger.new($stderr)
+    # # Optional, the logger to log writing errors to. Defaults to logging to $stderr
+    # config.logstash.error_logger = Logger.new($stderr)
 
-    # Optional, max number of items to buffer before flushing. Defaults to 50
-    config.logstash.buffer_max_items = 50
+    # # Optional, max number of items to buffer before flushing. Defaults to 50
+    # config.logstash.buffer_max_items = 50
 
-    # Optional, max number of seconds to wait between flushes. Defaults to 5
-    config.logstash.buffer_max_interval = 5
+    # # Optional, max number of seconds to wait between flushes. Defaults to 5
+    # config.logstash.buffer_max_interval = 5
 
-    # Optional, drop message when a connection error occurs. Defaults to false
-    config.logstash.drop_messages_on_flush_error = false
+    # # Optional, drop message when a connection error occurs. Defaults to false
+    # config.logstash.drop_messages_on_flush_error = false
 
-    # Optional, drop messages when the buffer is full. Defaults to true
-    config.logstash.drop_messages_on_full_b
+    # # Optional, drop messages when the buffer is full. Defaults to true
+    # config.logstash.drop_messages_on_full_b
 
-    config.logstash.host = 'localhost'
-    config.logstash.type = :multi_logger
-    config.logstash.outputs = [
-      {
-        type: :file,
-        path: "log/#{Rails.env}.log",
-        formatter: ::Logger::Formatter
-      },
-      {
-        type: :udp,
-        port: 55514,
-        host: ENV["ELK_HOST"]
-      }
-    ]
+    # config.logstash.host = 'localhost'
+    # config.logstash.type = :multi_logger
+    # config.logstash.outputs = [
+    #   {
+    #     type: :file,
+    #     path: "log/#{Rails.env}.log",
+    #     formatter: ::Logger::Formatter
+    #   },
+    #   {
+    #     type: :udp,
+    #     port: 55514,
+    #     host: ENV["ELK_HOST"]
+    #   }
+    # ]
 
 
 

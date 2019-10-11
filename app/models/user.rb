@@ -288,6 +288,7 @@ class User < ApplicationRecord
 
   # Used for GDPR forget me
   def scramble_personal_data
+    self.scrambled = true
     self.first_name = "Deleted"
     self.last_name = "Deleted"
     self.phone = "000000000"

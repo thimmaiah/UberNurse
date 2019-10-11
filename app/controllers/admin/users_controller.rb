@@ -94,7 +94,7 @@ module Admin
         redirect_to reset_password_admin_user_path(id: params[:id])
       else
         requested_resource = User.find(params[:user][:id])
-        if requested_resource.update(password: params[:user][:password])
+        if requested_resource.update(password: params[:user][:password], password_reset_date: Date.today)
           redirect_to(
             [namespace, requested_resource],
             notice: translate_with_resource("update.success"),

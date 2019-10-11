@@ -35,7 +35,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
     meals_provided_on_shift: Field::BooleanToYesNo,
     po_req_for_invoice: Field::BooleanToYesNo,
     meals_subsidised:  Field::BooleanToYesNo,
-
+    verified: Field::BooleanToYesNo,
     lat: Field::String.with_options(searchable: false),
     lng: Field::String.with_options(searchable: false),
   }.freeze
@@ -48,6 +48,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
+    :verified,
     :speciality,
     :sister_care_homes,
     :town,
@@ -59,6 +60,7 @@ class CareHomeDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
+    :verified,
     :qr_code,
     :speciality,
     :phone,

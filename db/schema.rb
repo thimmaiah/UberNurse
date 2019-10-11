@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190910110912) do
+ActiveRecord::Schema.define(version: 20191011113134) do
 
   create_table "agencies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",            limit: 100
@@ -613,6 +613,7 @@ ActiveRecord::Schema.define(version: 20190910110912) do
     t.text     "medical_info",                  limit: 65535
     t.string   "password_reset_code",           limit: 10
     t.date     "password_reset_date"
+    t.boolean  "scrambled",                                                             default: false
     t.index ["agency_id"], name: "index_users_on_agency_id", using: :btree
     t.index ["care_home_id"], name: "index_users_on_care_home_id", using: :btree
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
