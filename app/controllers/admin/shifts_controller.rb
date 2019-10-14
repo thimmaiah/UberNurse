@@ -26,6 +26,8 @@ module Admin
     # PATCH/PUT /shifts/1
     def update
 
+      logger.debug "resource_params = #{resource_params}"
+
       regenerate_payment = false
       if(requested_resource.payment)
         # This has already been closed & payment has been generated
@@ -35,7 +37,7 @@ module Admin
 
       updated = false
       if(resource_params["manual_close"] == "1")
-        updated = requested_resource.close_manually(params[:start_date], params[:end_date])
+        updated = requested_resource.close_manually(resource_params[:start_date], resource_params[:end_date])
       else
         updated = requested_resource.update(resource_params)
       end

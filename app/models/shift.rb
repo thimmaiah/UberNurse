@@ -129,6 +129,7 @@ class Shift < ApplicationRecord
   end
 
   def close_manually(start_date=nil, end_date=nil)
+    logger.debug "close_manually #{self.id} #{start_date} #{end_date}"
     self.start_code = self.staffing_request.start_code
     self.end_code = self.staffing_request.end_code
     self.start_date = start_date ? start_date : self.staffing_request.start_date
