@@ -23,6 +23,14 @@ module Admin
       end
     end
 
+    def edit
+      requested_resource.start_code = requested_resource.staffing_request.start_code
+      requested_resource.end_code = requested_resource.staffing_request.end_code
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, requested_resource),
+      }
+    end
+
     # PATCH/PUT /shifts/1
     def update
 

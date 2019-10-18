@@ -99,4 +99,6 @@ Rails.application.configure do
       s3_region: 'eu-west-2'
     }
   }
+
+  config.action_view.logger = nil
 end

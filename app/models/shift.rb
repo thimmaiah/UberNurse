@@ -129,13 +129,26 @@ class Shift < ApplicationRecord
   end
 
   def close_manually(start_date=nil, end_date=nil)
+
     logger.debug "close_manually #{self.id} #{start_date} #{end_date}"
+    
     self.start_code = self.staffing_request.start_code
     self.end_code = self.staffing_request.end_code
-    self.start_date = start_date ? start_date : self.staffing_request.start_date
-    self.end_date = end_date ? end_date : self.staffing_request.end_date
+    self.start_date = start_date.present? ? start_date : self.staffing_request.start_date
+    self.end_date = end_date.present? ? end_date : self.staffing_request.end_date
     self.manual_close = true
+
+    if(!self.end_code_changed?)
+      # This shift is being manually closed for the 2nd time - so the close_shift has to be run manually.
+      # Normally close shift runs in the shift_subcriber as a callback when the end_code changes
+      ShiftCloseJob.perform_later(self.id)
+      # This callback gets called multiple times - we want to do this only once. Hence closing_started
+      self.closing_started = true
+    end
+
     self.save
+
+
   end
 
   # Used to broadcast the shift n number of times on regular intervals
