@@ -880,7 +880,7 @@ GEM
     paranoia (2.4.1)
       activerecord (>= 4.0, < 5.3)
     public_suffix (3.0.3)
-    puma (3.11.3)
+    puma (3.12.3)
     rack (2.0.6)
     rack-attack (5.4.1)
       rack (>= 1.0, < 3)
@@ -1056,7 +1056,7 @@ DEPENDENCIES
   paper_trail
   paperclip (~> 5.0.0)
   paranoia (~> 2.2)
-  puma (= 3.11.3)
+  puma (= 3.12.3)
   rack-attack
   rack-cors
   rails (~> 5.0.2)
